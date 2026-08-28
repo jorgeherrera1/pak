@@ -1,5 +1,5 @@
 {
-  "name": "@lights-out/tailwind-config",
+  "name": "@dark-factory/tailwind-config",
   "version": "0.0.0",
   "type": "module",
   "private": true,

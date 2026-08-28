@@ -1,5 +1,5 @@
 {
-  "extends": "@lights-out/typescript-config/react-library.json",
+  "extends": "@dark-factory/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",

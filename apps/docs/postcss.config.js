@@ -1,3 +1,3 @@
-import { postcssConfig } from "@lights-out/tailwind-config/postcss";
+import { postcssConfig } from "@dark-factory/tailwind-config/postcss";
 
 export default postcssConfig;

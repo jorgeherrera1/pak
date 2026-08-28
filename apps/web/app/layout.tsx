@@ -1,4 +1,4 @@
-import "@lights-out/ui/styles.css";
+import "@dark-factory/ui/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";

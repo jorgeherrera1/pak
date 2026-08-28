@@ -1,5 +1,5 @@
 {
-  "name": "lights-out",
+  "name": "dark-factory",
   "private": true,
   "scripts": {
     "build": "turbo run build",
