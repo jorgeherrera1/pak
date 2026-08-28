@@ -49,6 +49,15 @@ Work is not complete until all of these pass:
 
 Report results honestly: if a gate fails, say so and show the output.
 
+## Git workflow
+
+- **Never commit to `main`.** Every change starts from a fresh branch off latest `main`: `<type>/<short-slug>` (e.g. `feat/parse-tables`, `fix/span-offsets`, `chore/remove-scaffold`).
+- **Commit early, commit small.** One logical change per commit, imperative mood ("Add table parser", not "Added" / "misc fixes"). The Definition of done gates apply to the branch before it's pushed, not to every intermediate commit.
+- **Never rewrite pushed history.** No force-push, no amend/rebase of anything already on the remote. Rewriting local, unpushed commits is fine.
+- **Push only when asked, or when opening a PR that was asked for.** Pushing publishes; it's not part of "save my work."
+- **PRs are the unit of review.** Every PR: what changed, why, and the output of the Definition of done gates. Merging is a human decision — agents never merge, never enable auto-merge, never approve their own PRs.
+- **Destructive git is off-limits without explicit human instruction:** `reset --hard` on shared branches, branch deletion, `push --force`, history filtering.
+
 ## How to work
 
 - **Plan before code.** For any non-trivial change, present a short plan and get human approval before implementing.
