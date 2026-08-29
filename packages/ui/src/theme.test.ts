@@ -47,8 +47,13 @@ function block(startMarker: string): string {
 }
 
 const light = block(":root");
-const dark = block("@media (prefers-color-scheme: dark)");
+const dark = block(".dark {");
 const inline = block("@theme inline");
+
+test("dark mode uses the documented class strategy", () => {
+  expect(css).toContain("@custom-variant dark (&:is(.dark *));");
+  expect(css).not.toContain("prefers-color-scheme");
+});
 
 test("light and dark themes define the full shadcn variable set", () => {
   for (const name of SHADCN_VARS) {

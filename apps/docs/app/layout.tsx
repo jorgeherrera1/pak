@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { DM_Sans, Lato } from "next/font/google";
+import { ThemeProvider } from "@dark-factory/ui/components/theme-provider";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -24,8 +25,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={`${dmSans.variable} ${lato.variable}`} lang="en">
-      <body>{children}</body>
+    <html
+      className={`${dmSans.variable} ${lato.variable}`}
+      lang="en"
+      suppressHydrationWarning
+    >
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          disableTransitionOnChange
+          enableSystem
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

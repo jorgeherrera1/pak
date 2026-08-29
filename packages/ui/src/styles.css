@@ -2,11 +2,14 @@
 @import "@dark-factory/tailwind-config";
 @source "./";
 
+@custom-variant dark (&:is(.dark *));
+
 /*
  * shadcn/ui semantic theme, assigned from the Motivus tokens
  * (@dark-factory/tailwind-config). Light is the brand default; dark maps
- * to the deep-navy surfaces and follows the system color scheme, matching
- * how the starter apps already rendered.
+ * to the deep-navy surfaces and uses the documented .dark class strategy —
+ * apps toggle it with a next-themes ThemeProvider (defaultTheme "system",
+ * so it still follows the OS preference out of the box).
  *
  * Deliberate deviation from the stock shadcn theme: no --radius chain.
  * The Motivus radius scale from phase 1 is kept (rounded-sm = 8px buttons,
@@ -34,28 +37,26 @@
   --ring: var(--color-electric-blue);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--color-deepest);
-    --foreground: var(--color-white);
-    --card: var(--color-deep-navy);
-    --card-foreground: var(--color-white);
-    --popover: var(--color-deep-navy);
-    --popover-foreground: var(--color-white);
-    --primary: var(--color-electric-blue);
-    --primary-foreground: var(--color-white);
-    --secondary: var(--color-graphite);
-    --secondary-foreground: var(--color-white);
-    --muted: var(--color-graphite);
-    --muted-foreground: var(--color-gray-400);
-    --accent: var(--color-graphite);
-    --accent-foreground: var(--color-mint);
-    --destructive: var(--color-error);
-    --destructive-foreground: var(--color-white);
-    --border: var(--color-graphite);
-    --input: var(--color-graphite);
-    --ring: var(--color-bright-cyan);
-  }
+.dark {
+  --background: var(--color-deepest);
+  --foreground: var(--color-white);
+  --card: var(--color-deep-navy);
+  --card-foreground: var(--color-white);
+  --popover: var(--color-deep-navy);
+  --popover-foreground: var(--color-white);
+  --primary: var(--color-electric-blue);
+  --primary-foreground: var(--color-white);
+  --secondary: var(--color-graphite);
+  --secondary-foreground: var(--color-white);
+  --muted: var(--color-graphite);
+  --muted-foreground: var(--color-gray-400);
+  --accent: var(--color-graphite);
+  --accent-foreground: var(--color-mint);
+  --destructive: var(--color-error);
+  --destructive-foreground: var(--color-white);
+  --border: var(--color-graphite);
+  --input: var(--color-graphite);
+  --ring: var(--color-bright-cyan);
 }
 
 @theme inline {
