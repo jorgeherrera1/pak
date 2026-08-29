@@ -1,5 +1,0 @@
-@import "@dark-factory/ui/styles.css";
-
-body {
-  @apply bg-background font-body text-foreground antialiased;
-}

@@ -25,7 +25,7 @@ Later stations (design, implementation, …) are not yet defined. Don't build fo
 
 Turborepo monorepo, npm workspaces (`apps/*`, `packages/*`), 100% TypeScript. Node >= 24, npm as package manager.
 
-The current contents (`apps/docs`, `apps/web`, `packages/ui`, and the Tailwind/ESLint/TS config packages) are scaffold inherited from the Turborepo starter. They will be repurposed or removed as the factory takes shape — do not invest effort in them beyond keeping the build green.
+The current contents (`apps/web`, `packages/ui`, and the Tailwind/ESLint/TS config packages) are scaffold inherited from the Turborepo starter. They will be repurposed or removed as the factory takes shape — do not invest effort in them beyond keeping the build green.
 
 ## Commands
 
