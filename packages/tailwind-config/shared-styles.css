@@ -1,15 +1,2 @@
 @import "tailwindcss";
 @import "./motivus.css";
-
-/*
- * Scaffold-legacy tokens. The Motivus palette in motivus.css is strict
- * (Tailwind defaults are reset); these keep the inherited Turborepo starter
- * pages rendering unchanged. Remove together with those pages.
- */
-@theme {
-  --color-blue-1000: #2a8af6;
-  --color-purple-1000: #a853ba;
-  --color-red-1000: #e92a67;
-  --color-neutral-700: oklch(37.1% 0 0);
-  --color-neutral-800: oklch(26.9% 0 0);
-}
