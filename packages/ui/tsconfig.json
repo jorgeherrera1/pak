@@ -1,10 +1,14 @@
 {
   "extends": "@dark-factory/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-    "strictNullChecks": true
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "strictNullChecks": true,
+    "paths": {
+      "@dark-factory/ui/*": ["./src/*"]
+    }
   },
   "include": ["src"],
-  "exclude": ["dist", "build", "node_modules"]
+  "exclude": ["node_modules"]
 }

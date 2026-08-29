@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { Card } from "@dark-factory/ui/card";
+import { Button } from "@dark-factory/ui/components/button";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@dark-factory/ui/components/card";
 import { Gradient } from "@dark-factory/ui/gradient";
 import { TurborepoLogo } from "@dark-factory/ui/turborepo-logo";
 
@@ -31,27 +37,29 @@ export default function Page() {
   return (
     <main className="flex flex-col items-center justify-between min-h-screen p-24">
       <div className="z-10 items-center justify-between w-full max-w-5xl font-mono text-sm lg:flex">
-        <p className="fixed top-0 left-0 flex justify-center w-full px-4 pt-8 pb-6 border backdrop-blur-2xl border-neutral-800 from-inherit lg:static lg:w-auto lg:rounded-xl lg:p-4">
+        <p className="fixed top-0 left-0 flex justify-center w-full px-4 pt-8 pb-6 border backdrop-blur-2xl border-border from-inherit lg:static lg:w-auto lg:rounded-lg lg:p-4">
           examples/with-tailwind -&nbsp;
           <code className="font-mono font-bold">docs</code>
         </p>
         <div className="fixed bottom-0 left-0 flex items-end justify-center w-full h-48 lg:static lg:h-auto lg:w-auto">
-          <a
-            className="flex gap-2 p-8 pointer-events-none place-items-center lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            By{" "}
-            <Image
-              alt="Vercel Logo"
-              className="dark:invert"
-              height={24}
-              priority
-              src="/vercel.svg"
-              width={100}
-            />
-          </a>
+          <Button asChild variant="link">
+            <a
+              className="flex gap-2 p-8 pointer-events-none place-items-center lg:pointer-events-auto lg:p-0"
+              href="https://vercel.com?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              By{" "}
+              <Image
+                alt="Vercel Logo"
+                className="dark:invert"
+                height={24}
+                priority
+                src="/vercel.svg"
+                width={100}
+              />
+            </a>
+          </Button>
         </div>
       </div>
 
@@ -104,11 +112,29 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="grid mb-32 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+      <div className="grid gap-4 mb-32 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
         {LINKS.map(({ title, href, description }) => (
-          <Card href={href} key={title} title={title}>
-            {description}
-          </Card>
+          <a
+            className="group"
+            href={href}
+            key={title}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Card className="h-full border-transparent bg-transparent shadow-none transition-colors group-hover:border-border group-hover:bg-muted">
+              <CardHeader>
+                <CardTitle className="text-2xl">
+                  {title}{" "}
+                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                    -&gt;
+                  </span>
+                </CardTitle>
+                <CardDescription className="max-w-[30ch]">
+                  {description}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </a>
         ))}
       </div>
     </main>

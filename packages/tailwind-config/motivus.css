@@ -1,0 +1,183 @@
+/*
+ * Motivus design tokens — phase 1 of the design system (tokens only).
+ *
+ * Source of truth: motivus.com (Elementor global styles + computed styles,
+ * extracted 2026-08-28), cross-checked against the curated Motivus brand
+ * tokens. Where the live site and the curated set disagree:
+ *   - dark section background: site uses #0D1B3E, canonical is #0A1628
+ *     (deep-navy below follows the canonical value)
+ *   - the site loads Oswald for one legacy eyebrow style; it is not part
+ *     of the system — eyebrows are DM Sans, uppercase, tracked
+ *
+ * The palette is strict: Tailwind's default colors are reset so only brand
+ * colors generate utilities. Scaffold-only legacy tokens live in
+ * shared-styles.css, not here.
+ */
+@theme {
+  --color-*: initial;
+
+  /* Core brand */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-electric-blue: #1e6fd9;
+  --color-action-hover: #1859b5;
+  --color-bright-cyan: #00b4d8;
+  --color-ice-blue: #e8f2fb;
+  --color-pale-surface: #f5f8fc;
+  --color-mint: #75f0b2;
+  --color-mint-glow: #00dcd1;
+  --color-lemon: #e9fd71;
+  --color-deep-navy: #0a1628;
+  --color-deepest: #030619;
+  --color-ink: #1d1d1d;
+  --color-graphite: #383b4b;
+  --color-success: #0d9e68;
+  --color-error: #dc2626;
+
+  /* Ramps */
+  --color-blue-400: #41b8ff;
+  --color-blue-500: #159ceb;
+  --color-blue-600: #007ac2;
+  --color-blue-700: #006099;
+  --color-blue-800: #004770;
+  --color-blue-900: #002d48;
+
+  --color-indigo-400: #707fff;
+  --color-indigo-500: #5463e7;
+  --color-indigo-600: #3847c5;
+  --color-indigo-700: #2230a3;
+  --color-indigo-800: #111d81;
+  --color-indigo-900: #050f5f;
+
+  --color-moss-300: #60d399;
+  --color-moss-400: #4eb681;
+  --color-moss-500: #3d996a;
+  --color-moss-600: #2d7b54;
+  --color-moss-700: #205e3f;
+  --color-moss-800: #14412a;
+
+  --color-teal-400: #40fff5;
+  --color-teal-500: #16fff3;
+  --color-teal-600: #00dcd1;
+  --color-teal-700: #00b3aa;
+  --color-teal-800: #008a83;
+  --color-teal-900: #00625d;
+
+  --color-lime-400: #cde05d;
+  --color-lime-500: #b2c34b;
+  --color-lime-600: #96a53a;
+  --color-lime-700: #7b882c;
+
+  --color-gray-50: #fcfcfd;
+  --color-gray-100: #f8f8f8;
+  --color-gray-200: #eeeeee;
+  --color-gray-300: #e5e7eb;
+  --color-gray-400: #8e8e8e;
+  --color-gray-500: #696969;
+  --color-gray-600: #575757;
+  --color-gray-700: #484e59;
+  --color-gray-800: #383b4b;
+  --color-gray-900: #1d1d1d;
+
+  /* Typefaces: DM Sans for display/headings/eyebrows, Lato for body */
+  --font-display: "DM Sans", Verdana, sans-serif;
+  --font-body: Lato, Aptos, Verdana, sans-serif;
+
+  /* Type scale (weight via --font-weight, leading via --line-height) */
+  --text-display: 4rem;
+  --text-display--line-height: 1.05;
+  --text-display--font-weight: 700;
+  --text-h1: 3rem;
+  --text-h1--line-height: 1.1;
+  --text-h1--font-weight: 700;
+  --text-h2: 2.5rem;
+  --text-h2--line-height: 1.15;
+  --text-h2--font-weight: 700;
+  --text-h3: 2rem;
+  --text-h3--line-height: 1.2;
+  --text-h3--font-weight: 700;
+  --text-h4: 1.5rem;
+  --text-h4--line-height: 1.3;
+  --text-h4--font-weight: 700;
+  --text-h5: 1.25rem;
+  --text-h5--line-height: 1.4;
+  --text-h5--font-weight: 700;
+  --text-h6: 1rem;
+  --text-h6--line-height: 1.5;
+  --text-h6--font-weight: 700;
+  --text-body-xl: 1.3125rem;
+  --text-body-xl--line-height: 1.55;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.55;
+  --text-body: 1rem;
+  --text-body--line-height: 1.55;
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+  --text-body-xs: 0.75rem;
+  --text-body-xs--line-height: 1.5;
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--font-weight: 600;
+  --text-eyebrow--letter-spacing: 0.14em;
+  --text-chip: 0.6875rem;
+  --text-chip--line-height: 1.5;
+  --text-chip--font-weight: 700;
+  --text-chip--letter-spacing: 0.1em;
+
+  --tracking-eyebrow: 0.14em;
+  --tracking-chip: 0.1em;
+
+  /* Shape (spacing keeps Tailwind's default 4px grid) */
+  --radius-*: initial;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-blob: 2.75rem;
+
+  /* Depth */
+  --shadow-*: initial;
+  --shadow-card: 0 20px 28px 0 rgb(0 0 0 / 0.28);
+  --shadow-card-soft: 0 12px 24px 0 rgb(13 27 62 / 0.2);
+
+  /* Layout */
+  --container-content: 70rem;
+}
+
+/* Semantic roles and chart palettes — aliases over the palette above */
+@theme inline {
+  --color-fg-1: var(--color-ink);
+  --color-fg-2: var(--color-gray-700);
+  --color-fg-3: var(--color-gray-500);
+  --color-fg-inverse: var(--color-white);
+  --color-bg-page: var(--color-white);
+  --color-bg-soft: var(--color-pale-surface);
+  --color-bg-tint: var(--color-ice-blue);
+  --color-bg-dark: var(--color-deep-navy);
+  --color-bg-darker: var(--color-deepest);
+  --color-border-subtle: var(--color-gray-300);
+  --color-action: var(--color-electric-blue);
+  --color-accent: var(--color-bright-cyan);
+  --color-accent-mint: var(--color-mint);
+  --color-accent-lemon: var(--color-lemon);
+
+  /* Categorical series on light backgrounds */
+  --color-chart-1: var(--color-blue-600);
+  --color-chart-2: var(--color-indigo-500);
+  --color-chart-3: var(--color-moss-500);
+  --color-chart-4: var(--color-teal-600);
+  --color-chart-5: var(--color-lime-600);
+  --color-chart-6: var(--color-blue-800);
+  --color-chart-axis: var(--color-gray-500);
+  --color-chart-grid: var(--color-gray-300);
+
+  /* Categorical series on dark backgrounds */
+  --color-chart-dark-1: var(--color-bright-cyan);
+  --color-chart-dark-2: var(--color-mint);
+  --color-chart-dark-3: var(--color-blue-400);
+  --color-chart-dark-4: var(--color-indigo-400);
+  --color-chart-dark-5: var(--color-teal-500);
+  --color-chart-dark-6: var(--color-lime-400);
+}
