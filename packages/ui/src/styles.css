@@ -1,3 +1,81 @@
-/* Component-level styles for the UI package */
-@import "tailwindcss" prefix(ui);
+@import "tailwindcss";
 @import "@dark-factory/tailwind-config";
+@source "./";
+
+/*
+ * shadcn/ui semantic theme, assigned from the Motivus tokens
+ * (@dark-factory/tailwind-config). Light is the brand default; dark maps
+ * to the deep-navy surfaces and follows the system color scheme, matching
+ * how the starter apps already rendered.
+ *
+ * Deliberate deviation from the stock shadcn theme: no --radius chain.
+ * The Motivus radius scale from phase 1 is kept (rounded-sm = 8px buttons,
+ * rounded-lg = 16px cards) and components reference it directly.
+ */
+:root {
+  --background: var(--color-white);
+  --foreground: var(--color-ink);
+  --card: var(--color-white);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-white);
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-electric-blue);
+  --primary-foreground: var(--color-white);
+  --secondary: var(--color-ice-blue);
+  --secondary-foreground: var(--color-electric-blue);
+  --muted: var(--color-pale-surface);
+  --muted-foreground: var(--color-gray-500);
+  --accent: var(--color-ice-blue);
+  --accent-foreground: var(--color-electric-blue);
+  --destructive: var(--color-error);
+  --destructive-foreground: var(--color-white);
+  --border: var(--color-gray-300);
+  --input: var(--color-gray-300);
+  --ring: var(--color-electric-blue);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-deepest);
+    --foreground: var(--color-white);
+    --card: var(--color-deep-navy);
+    --card-foreground: var(--color-white);
+    --popover: var(--color-deep-navy);
+    --popover-foreground: var(--color-white);
+    --primary: var(--color-electric-blue);
+    --primary-foreground: var(--color-white);
+    --secondary: var(--color-graphite);
+    --secondary-foreground: var(--color-white);
+    --muted: var(--color-graphite);
+    --muted-foreground: var(--color-gray-400);
+    --accent: var(--color-graphite);
+    --accent-foreground: var(--color-mint);
+    --destructive: var(--color-error);
+    --destructive-foreground: var(--color-white);
+    --border: var(--color-graphite);
+    --input: var(--color-graphite);
+    --ring: var(--color-bright-cyan);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
