@@ -1,7 +1,17 @@
-import "@dark-factory/ui/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
+import { DM_Sans, Lato } from "next/font/google";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-display",
+});
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-body",
+});
 
 export const metadata: Metadata = {
   title: "Create Turborepo",
@@ -14,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={GeistSans.className}>{children}</body>
+    <html className={`${dmSans.variable} ${lato.variable}`} lang="en">
+      <body>{children}</body>
     </html>
   );
 }
