@@ -6,8 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@dark-factory/ui/components/card";
-import { Gradient } from "@dark-factory/ui/gradient";
-import { TurborepoLogo } from "@dark-factory/ui/turborepo-logo";
 
 const LINKS = [
   {
@@ -74,22 +72,7 @@ export default function Page() {
                 width={614}
               />
             </div>
-            <div className="absolute z-50 flex items-center justify-center w-64 h-64">
-              <Gradient
-                className="opacity-90 w-[120px] h-[120px]"
-                conic
-                small
-              />
-            </div>
-
-            <div className="flex justify-center items-center z-50">
-              <TurborepoLogo />
-            </div>
           </div>
-          <Gradient
-            className="top-[-500px] opacity-[0.15] w-[1000px] h-[1000px]"
-            conic
-          />
           <div className="z-50 flex flex-col items-center justify-center gap-5 px-6 text-center lg:gap-6">
             <svg
               className="w-[160px] md:w-[200px] fill-black dark:fill-white"
