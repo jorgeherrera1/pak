@@ -10,8 +10,6 @@ const regions = (r: BoundingRegionOutput[] = []): Region[] =>
 const spans = (s: DocumentSpanOutput[]): Span[] =>
   s.map(({ offset, length }) => ({ offset, length }));
 const PAGE_FURNITURE = new Set(["pageHeader", "pageFooter", "pageNumber"]);
-/** "/paragraphs/12" -> "paragraphs/12" */
-const idOf = (path: string) => path.slice(1);
 
 /** Pure: raw analysis in, ParsedDocument out. Every value is copied or mechanically derived. */
 export function toParsedDocument(
@@ -137,7 +135,7 @@ export function toParsedDocument(
   const orphan = (path: string, role?: string) => {
     if (emitted.has(path) || inCells.has(path) || inFigure.has(path)) return;
     if (!PAGE_FURNITURE.has(role ?? ""))
-      warnings.push(`${idOf(path)} is not inside any section`);
+      warnings.push(`${path.slice(1)} is not inside any section`);
     walk(path, null);
   };
   (a.paragraphs ?? []).forEach((p, i) => orphan(`/paragraphs/${i}`, p.role));
