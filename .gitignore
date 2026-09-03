@@ -37,3 +37,6 @@ dist/
 
 # secrets
 .env
+
+# parse fixtures: figure PNGs are re-downloaded by the integration test
+packages/parse/test/fixtures/figures/

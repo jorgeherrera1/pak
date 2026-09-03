@@ -67,6 +67,6 @@ export async function analyze(
     );
   }
 
-  await writeFile(join(dir, "analysis.json"), JSON.stringify(result));
+  await writeFile(join(dir, "analysis.json"), JSON.stringify(result, null, 2));
   return result;
 }
