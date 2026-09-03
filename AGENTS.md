@@ -25,7 +25,9 @@ Later stations (design, implementation, …) are not yet defined. Don't build fo
 
 Turborepo monorepo, npm workspaces (`apps/*`, `packages/*`), 100% TypeScript. Node >= 24, npm as package manager.
 
-The current contents (`apps/web`, `packages/ui`, and the Tailwind/ESLint/TS config packages) are scaffold inherited from the Turborepo starter. They will be repurposed or removed as the factory takes shape — do not invest effort in them beyond keeping the build green.
+`packages/parse` is station 1, step 1 (Parse): PDF in, `ParsedDocument` out, via Azure Document Intelligence. It is real code, not scaffold.
+
+`apps/web`, `packages/ui`, and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter. They will be repurposed or removed as the factory takes shape — do not invest effort in them beyond keeping the build green.
 
 ## Commands
 
@@ -37,6 +39,14 @@ Run from the repo root:
 - `npm run lint` — lint all workspaces
 - `npm run check-types` — typecheck all workspaces
 - `npm run format` — format with Prettier
+- `npm test` — unit tests, no network
+- `npm run test:integration` — parse the fixture PDF against live Azure and compare with the recording
+- `npm run parse <file.pdf> <outDir>` — run the parse step on a PDF
+- `npm run test:record -w @dark-factory/parse` — re-record the parse fixtures from live Azure
+
+Anything that touches Azure needs `AZURE_DI_ENDPOINT` and `AZURE_DI_KEY`, read from a gitignored `.env` at the repo root. Never commit credentials.
+
+`packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording, never by hand, and the diff is reviewed like code.
 
 ## Definition of done
 
@@ -45,7 +55,8 @@ Work is not complete until all of these pass:
 1. `npm run check-types`
 2. `npm run lint`
 3. `npm run build`
-4. Tests for the behavior you added or changed. If the package you touched has no test setup yet, standing one up is part of your task — not a reason to skip tests.
+4. `npm test`, including tests for the behavior you added or changed. If the package you touched has no test setup yet, standing one up is part of your task — not a reason to skip tests.
+5. `npm run test:integration` when you changed `packages/parse` or its fixtures. It needs credentials, so it is not a CI gate; run it locally and report the result.
 
 Report results honestly: if a gate fails, say so and show the output.
 
