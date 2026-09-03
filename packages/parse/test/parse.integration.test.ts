@@ -1,7 +1,6 @@
 import type { AnalyzeResultOutput } from "@azure-rest/ai-document-intelligence";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { mkdtemp } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { rm } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vitest";
@@ -12,6 +11,9 @@ const env = fileURLToPath(new URL("../../../.env", import.meta.url));
 if (existsSync(env)) process.loadEnvFile(env);
 
 const fixtures = fileURLToPath(new URL("./fixtures/", import.meta.url));
+// Live output lands here (gitignored) so it can be inspected and diffed against fixtures/.
+// Wiped first: parse() would otherwise reuse the previous run's analysis.json and skip Azure.
+const out = fileURLToPath(new URL("./out/", import.meta.url));
 const recorded: AnalyzeResultOutput = JSON.parse(
   readFileSync(join(fixtures, "analysis.json"), "utf8"),
 );
@@ -27,7 +29,7 @@ test(
   "live Azure still returns what the recording says",
   { timeout: 120_000 },
   async () => {
-    const out = await mkdtemp(join(tmpdir(), "parse-"));
+    await rm(out, { recursive: true, force: true });
     const doc = await parse(
       join(fixtures, "Competency-Self-Assessment-PRD.pdf"),
       out,
