@@ -14,7 +14,7 @@ const PAGE_FURNITURE = new Set(["pageHeader", "pageFooter", "pageNumber"]);
 const idOf = (path: string) => path.slice(1);
 
 /** Pure: raw analysis in, ParsedDocument out. Every value is copied or mechanically derived. */
-export function normalize(
+export function toParsedDocument(
   a: AnalyzeResultOutput,
   sha256: string,
 ): ParsedDocument {

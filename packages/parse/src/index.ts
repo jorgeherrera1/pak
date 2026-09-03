@@ -4,11 +4,11 @@ import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { analyze } from "./analyze.ts";
-import { normalize } from "./normalize.ts";
+import { toParsedDocument } from "./toParsedDocument.ts";
 import type { ParsedDocument } from "./types.ts";
 
 export type * from "./types.ts";
-export { normalize } from "./normalize.ts";
+export { toParsedDocument } from "./toParsedDocument.ts";
 
 /**
  * PDF in, ParsedDocument out. Everything lands in `<outDir>/<sha256 of the pdf>/`:
@@ -26,7 +26,7 @@ export async function parse(
   const analysis: AnalyzeResultOutput = existsSync(cached)
     ? JSON.parse(await readFile(cached, "utf8"))
     : await analyze(pdf, dir);
-  const doc = normalize(analysis, sha256);
+  const doc = toParsedDocument(analysis, sha256);
   await writeFile(join(dir, "parsed.json"), JSON.stringify(doc, null, 2));
   return doc;
 }
