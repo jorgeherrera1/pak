@@ -4,7 +4,7 @@ import { normalize } from "../src/normalize.ts";
 
 // ponytail: hand-built fixture typed against the SDK; swap for a trimmed real analysis.json once an RFP has been analyzed.
 const content =
-  "1 Scope\nThe system shall log in.\n1.1 Detail\nID\tPrio\nR-1\tMust\nLogin\nStray footer";
+  "1 Scope\nThe system shall log in.\n1.1 Detail\nID\tPrio\nR-1\tMust\nLogin\nStray footer\nPage 1\nOK";
 const at = (text: string) => [
   { offset: content.indexOf(text), length: text.length },
 ];
@@ -43,6 +43,13 @@ const analysis: AnalyzeResultOutput = {
       boundingRegions: on(2),
     },
     { content: "R-1", spans: at("R-1"), boundingRegions: on(1) },
+    {
+      role: "pageFooter",
+      content: "Page 1",
+      spans: at("Page 1"),
+      boundingRegions: on(1),
+    },
+    { content: "OK", spans: at("OK"), boundingRegions: on(2) },
   ],
   tables: [
     {
@@ -83,6 +90,13 @@ const analysis: AnalyzeResultOutput = {
       boundingRegions: on(2),
       elements: ["/paragraphs/3"],
       caption: { content: "Figure 1", spans: [] },
+    },
+    // Not in any section, but a section lists the text inside it. Seen in the real RFP.
+    {
+      id: "2.2",
+      spans: at("OK"),
+      boundingRegions: on(2),
+      elements: ["/paragraphs/7"],
     },
   ],
   sections: [
@@ -134,6 +148,9 @@ test("reading order is a depth-first walk", () => {
     "figures/0",
     "paragraphs/3",
     "paragraphs/4",
+    "paragraphs/6",
+    "figures/1",
+    "paragraphs/7",
   ]);
 });
 
@@ -168,8 +185,23 @@ test("figures keep caption, image path, and the text inside them", () => {
   expect(byId["paragraphs/3"]!.parent).toBe("figures/0");
 });
 
+test("text inside a figure belongs to the figure even when a section lists it too", () => {
+  expect(byId["figures/1"]).toMatchObject({
+    parent: null,
+    image: "figures/2.2.png",
+  });
+  expect(byId["paragraphs/7"]!.parent).toBe("figures/1");
+});
+
 test("elements outside any section are kept and flagged", () => {
   expect(byId["paragraphs/4"]!.parent).toBeNull();
-  expect(doc.warnings).toEqual(["paragraphs/4 is not inside any section"]);
+  expect(byId["paragraphs/6"]).toMatchObject({
+    parent: null,
+    role: "pageFooter",
+  });
+  expect(doc.warnings).toEqual([
+    "paragraphs/4 is not inside any section",
+    "figures/1 is not inside any section",
+  ]);
   expect(doc.source).toEqual({ sha256: "abc", pages: 2 });
 });

@@ -9,6 +9,7 @@ const regions = (r: BoundingRegionOutput[] = []): Region[] =>
   r.map(({ pageNumber, polygon }) => ({ page: pageNumber, polygon }));
 const spans = (s: DocumentSpanOutput[]): Span[] =>
   s.map(({ offset, length }) => ({ offset, length }));
+const PAGE_FURNITURE = new Set(["pageHeader", "pageFooter", "pageNumber"]);
 /** "/paragraphs/12" -> "paragraphs/12" */
 const idOf = (path: string) => path.slice(1);
 
@@ -87,10 +88,14 @@ export function normalize(
     };
   };
 
+  const inFigure = new Set((a.figures ?? []).flatMap((f) => f.elements ?? []));
+
   // Depth-first walk in the vendor's reading order. Each element is emitted once,
-  // under the first container that references it.
+  // under the first container that references it, except that text inside a
+  // figure always belongs to the figure even when a section also lists it.
   const walk = (path: string, parent: string | null) => {
     if (emitted.has(path)) return;
+    if (inFigure.has(path) && !parent?.startsWith("figures/")) return;
     emitted.add(path);
     const m = path.match(/^\/(\w+)\/(\d+)$/);
     const [, kind, index] = m ?? [];
@@ -125,15 +130,17 @@ export function normalize(
   });
 
   // Whatever no section reached. Cell text is already on the table, so it is not a node.
+  // Page furniture is never inside a section by design, so it is not a warning either.
   const inCells = new Set(
     (a.tables ?? []).flatMap((t) => t.cells.flatMap((c) => c.elements ?? [])),
   );
-  const orphan = (path: string) => {
-    if (emitted.has(path) || inCells.has(path)) return;
-    warnings.push(`${idOf(path)} is not inside any section`);
+  const orphan = (path: string, role?: string) => {
+    if (emitted.has(path) || inCells.has(path) || inFigure.has(path)) return;
+    if (!PAGE_FURNITURE.has(role ?? ""))
+      warnings.push(`${idOf(path)} is not inside any section`);
     walk(path, null);
   };
-  (a.paragraphs ?? []).forEach((_, i) => orphan(`/paragraphs/${i}`));
+  (a.paragraphs ?? []).forEach((p, i) => orphan(`/paragraphs/${i}`, p.role));
   (a.tables ?? []).forEach((_, i) => orphan(`/tables/${i}`));
   (a.figures ?? []).forEach((_, i) => orphan(`/figures/${i}`));
 
