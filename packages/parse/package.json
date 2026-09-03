@@ -11,8 +11,7 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint src test --max-warnings 0",
     "test": "vitest run --exclude \"**/*.integration.test.ts\"",
-    "test:integration": "vitest run test/parse.integration.test.ts",
-    "test:record": "node --env-file-if-exists=../../.env test/record.ts"
+    "test:integration": "vitest run test/parse.integration.test.ts"
   },
   "dependencies": {
     "@azure-rest/ai-document-intelligence": "^1.0.0"

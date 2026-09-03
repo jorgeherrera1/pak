@@ -42,11 +42,10 @@ Run from the repo root:
 - `npm test` — unit tests, no network
 - `npm run test:integration` — parse the fixture PDF against live Azure and compare with the recording
 - `npm run parse <file.pdf> <outDir>` — run the parse step on a PDF
-- `npm run test:record -w @dark-factory/parse` — re-record the parse fixtures from live Azure
 
 Anything that touches Azure needs `AZURE_DI_ENDPOINT` and `AZURE_DI_KEY`, read from a gitignored `.env` at the repo root. Never commit credentials.
 
-`packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording, never by hand, and the diff is reviewed like code.
+`packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording (run `test:integration`, copy `test/out/<sha256>/{analysis,parsed}.json` into `fixtures/`), never by hand, and the diff is reviewed like code.
 
 ## Definition of done
 

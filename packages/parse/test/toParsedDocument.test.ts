@@ -5,7 +5,8 @@ import { expect, test } from "vitest";
 import { toParsedDocument } from "../src/toParsedDocument.ts";
 import type { ParsedDocument, Span } from "../src/types.ts";
 
-// Inputs are a real Azure response recorded by test/record.ts, never hand-written.
+// Inputs are a real Azure response, never hand-written. To re-record: run test:integration, then
+// copy test/out/<sha256>/{analysis,parsed}.json into fixtures/ and review the diff.
 const fixture = (name: string) =>
   readFileSync(new URL(`./fixtures/${name}`, import.meta.url));
 const analysis: AnalyzeResultOutput = JSON.parse(
