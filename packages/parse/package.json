@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "check-types": "tsc --noEmit",
+    "check-types": "tsc -p tsconfig.test.json",
     "lint": "eslint src test --max-warnings 0",
     "test": "vitest run --exclude \"**/*.integration.test.ts\"",
     "test:integration": "vitest run test/parse.integration.test.ts"

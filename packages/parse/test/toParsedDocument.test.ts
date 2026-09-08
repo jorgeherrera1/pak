@@ -24,8 +24,9 @@ test("provenance: every span points at exactly its own text", () => {
     spans
       .map(({ offset, length }) => doc.content.slice(offset, offset + length))
       .join("\n");
-  const withText = doc.elements.flatMap((e) =>
-    e.kind === "paragraph" ? [e] : e.kind === "table" ? e.cells : [],
+  const withText = doc.elements.flatMap(
+    (e): { id: string; text: string; span: Span[] }[] =>
+      e.kind === "paragraph" ? [e] : e.kind === "table" ? e.cells : [],
   );
   expect(withText.length).toBeGreaterThan(0);
   for (const e of withText) expect(textOf(e.span), e.id).toBe(e.text);
