@@ -14,7 +14,7 @@ export const rowSchema = z.object({
   elementId: z.string(),
   quote: z.string(),
   type: z.enum(TYPES),
-  category: z.enum(CATEGORIES).optional(),
+  category: z.enum(CATEGORIES).nullable(),
 });
 export type Row = z.infer<typeof rowSchema>;
 
@@ -51,6 +51,7 @@ export async function annotate(
         model: azure(MODEL),
         output: "array",
         schema: rowSchema,
+        temperature: 0,
         system: PROMPT,
         prompt: text,
       });

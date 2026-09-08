@@ -7,7 +7,7 @@ For every span of text that is evidence for one of the types below, return one r
 - `elementId`: the anchor of the line the text is on, without the brackets.
 - `quote`: the exact text, copied verbatim from that line. Never paraphrase, never merge text from two lines, never fix typos.
 - `type`: one of the types below.
-- `category`: only for `non-functional-requirement`.
+- `category`: for `non-functional-requirement` only; `null` for every other type.
 
 Types:
 

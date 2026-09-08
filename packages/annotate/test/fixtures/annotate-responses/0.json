@@ -1,0 +1,80 @@
+[
+  {
+    "elementId": "paragraphs/3",
+    "quote": "Competencies and Industry Experience - the two screens where a team member says what they know and which industries they have worked in.",
+    "type": "feature",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/6",
+    "quote": "Competencies shows the company's full list of skills as one big table.",
+    "type": "feature",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/6",
+    "quote": "For each skill the member can tick a level: Learner, Practitioner, or Expert.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/7",
+    "quote": "Industry Experience does the same thing for industries instead of skills: which sectors the member has worked in.",
+    "type": "feature",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/8",
+    "quote": "A member only ever edits their own record.",
+    "type": "non-functional-requirement",
+    "category": "SEC"
+  },
+  {
+    "elementId": "paragraphs/11",
+    "quote": "Competencies - browse, filter, and rate skills",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/12",
+    "quote": "Industry Experience - record industries worked in",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/15",
+    "quote": "About Me",
+    "type": "out-of-scope",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/16",
+    "quote": "Endorsements",
+    "type": "out-of-scope",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/17",
+    "quote": "Adding or editing the skill and industry lists themselves",
+    "type": "out-of-scope",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/18",
+    "quote": "Anything that reads this data later, such as search or reports",
+    "type": "out-of-scope",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/143",
+    "quote": "Show all skills in a table.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/146",
+    "quote": "Filter by Type.",
+    "type": "functional-requirement",
+    "category": null
+  }
+]

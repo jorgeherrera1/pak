@@ -11,7 +11,7 @@
     "parse": "node --env-file-if-exists=.env packages/parse/src/index.ts",
     "test:integration": "turbo run test:integration",
     "annotate": "node --env-file-if-exists=.env packages/annotate/src/index.ts",
-    "pipeline": "node --env-file-if-exists=.env scripts/pipeline.ts"
+    "pipeline": "node --env-file-if-exists=.env scripts/pipeline.mts"
   },
   "devDependencies": {
     "prettier": "3.9.6",

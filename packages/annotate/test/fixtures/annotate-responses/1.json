@@ -1,0 +1,158 @@
+[
+  {
+    "elementId": "paragraphs/147",
+    "quote": "A dropdown lists every Type. Picking one shows only that Type's rows. It starts empty, which means no filter.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/149",
+    "quote": "Filter by Area, based on the Type picked.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/150",
+    "quote": "The Area dropdown only lists Areas that belong to the Type currently picked, so the member can never choose a pair that returns no rows.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/152",
+    "quote": "Search by skill name.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/153",
+    "quote": "A text box matches on the skill name. It works together with the Type and Area filters, not instead of them.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/155",
+    "quote": "\"Mine\" switch - show only skills the member has rated.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/156",
+    "quote": "Off by default. When on, the table shows only rows where the member has ticked at least one level, so they can review their own profile without scrolling the whole list.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/158",
+    "quote": "\"New\" switch - show only recently added skills.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/159",
+    "quote": "Off by default. When on, the table shows only skills added since the member last used the screen, so they can rate what is new without reading everything again.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/2/cells/1",
+    "quote": "Type, Area, the search box, Mine, and New all apply at the same time. The table updates as soon as any of them changes - there is no Apply button.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/2/cells/3",
+    "quote": "Rate a skill at one of three levels.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/2/cells/4",
+    "quote": "Each row has a Learner, a Practitioner, and an Expert tick box. Rated and unrated skills appear in the same table, so the member can see what they have not filled in yet.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/2/cells/5",
+    "quote": "Higher levels tick the lower ones automatically.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/2/cells/7",
+    "quote": "Ticking a level also ticks every level below it. Those boxes are shown greyed out and cannot be unticked on their own - a member can never be a Practitioner without also being a Learner. Unticking the level the member chose clears the ones it filled in.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/2/cells/9",
+    "quote": "Save as soon as a box is ticked. There is no Save button. Ticking or unticking a box saves straight away, and unticking removes the rating completely.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/2/cells/11",
+    "quote": "A member only sees their own ratings. The table has no column for who rated what, and there is no way to look at or change someone else's ratings.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/2/cells/13",
+    "quote": "Explain the three levels. The info button in the header opens a short description of what Learner, Practitioner, and Expert mean, so everyone rates themselves the same way.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/2/cells/15",
+    "quote": "Go back to the home screen. The home button in the header returns to the four tiles. Ratings already saved stay saved.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/3/cells/1",
+    "quote": "Open from the home screen. The \"Industry Experience\" tile is third on the home screen, between Competencies and Endorsements.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/3/cells/3",
+    "quote": "Show the list of industries. Industries come from a list the company maintains. The member picks from it and cannot type in their own, so the values stay the same for everyone.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/3/cells/5",
+    "quote": "Tick each industry the member has worked in. Ticked and unticked industries appear in the same list.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/3/cells/7",
+    "quote": "Save on tick, and show only the member's own record. Same as Competencies: no Save button, saves straight away, and a member only sees their own answers.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/3/cells/9",
+    "quote": "Go back to the home screen. A home button in the header, the same as on Competencies.",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/209",
+    "quote": "Store one level per skill, not three tick boxes. Because a higher level always fills in the lower ones, a single row holding the highest level the member picked says everything. The screen works out which lower boxes to grey out. Storing three separate true/false fields would let bad combinations exist in the database, such as Expert without Learner.",
+    "type": "data-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/210",
+    "quote": "Type and Area are separate tables, not text fields. They are picked from dropdowns, and the Area dropdown depends on the Type. Keeping them as their own tables is what makes that possible.",
+    "type": "data-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/211",
+    "quote": "Email identifies the member. It comes from the signed-in user and is what links their ratings and industries back to them.",
+    "type": "data-requirement",
+    "category": null
+  }
+]

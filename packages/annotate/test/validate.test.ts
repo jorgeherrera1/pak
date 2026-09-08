@@ -11,6 +11,7 @@ test("a verbatim quote becomes an annotation with a content span", () => {
         elementId: "paragraphs/1",
         quote: "shall log in users",
         type: "functional-requirement",
+        category: null,
       },
     ],
     anchors,
@@ -31,11 +32,17 @@ test("a verbatim quote becomes an annotation with a content span", () => {
 test("unknown element and non-verbatim quote become warnings", () => {
   const { annotations, warnings } = validate(
     [
-      { elementId: "paragraphs/9", quote: "shall", type: "feature" },
+      {
+        elementId: "paragraphs/9",
+        quote: "shall",
+        type: "feature",
+        category: null,
+      },
       {
         elementId: "paragraphs/1",
         quote: "shall login users",
         type: "feature",
+        category: null,
       },
     ],
     anchors,
