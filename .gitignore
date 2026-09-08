@@ -34,3 +34,9 @@ yarn-error.log*
 
 # ui
 dist/
+
+# secrets
+.env
+
+# parse: live output of the integration test
+packages/parse/test/out/

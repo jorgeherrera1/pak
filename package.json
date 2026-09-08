@@ -7,7 +7,9 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "check-types": "turbo run check-types",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "parse": "node --env-file-if-exists=.env packages/parse/src/index.ts",
+    "test:integration": "turbo run test:integration"
   },
   "devDependencies": {
     "prettier": "3.9.6",

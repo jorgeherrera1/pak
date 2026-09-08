@@ -1,0 +1,7731 @@
+{
+  "source": {
+    "sha256": "a931c5643d3b4d0c261896d331480c55c4f7e84f6aebff7e7c138a350413bbf9",
+    "pages": 7
+  },
+  "content": "MOTIVUS .\nPRODUCT REQUIREMENTS\nTeam Member Competency Self-Assessment\nCompetencies and Industry Experience - the two screens where a team member says what they know and which industries they have worked in.\n01 Overview\nA team member signs in and lands on a home screen that shows their name and email and offers four tiles. Two of those tiles are covered here.\nCompetencies shows the company's full list of skills as one big table. For each skill the member can tick a level: Learner, Practitioner, or Expert. The list holds several hundred skills, so the screen is built around filtering. The member narrows the table down to the few rows that apply to them, ticks a level, and moves on.\nIndustry Experience does the same thing for industries instead of skills: which sectors the member has worked in.\nA member only ever edits their own record. There is no way to pick another person, and there is no approval step - ticking a box saves it.\n02 Scope\nIN SCOPE\n· Competencies - browse, filter, and rate skills\n· Industry Experience - record industries worked in\n· What both screens share: the home screen, the header with the home and info buttons, and the small-screen block\nOUT OF SCOPE\n· About Me\n· Endorsements\n· Adding or editing the skill and industry lists themselves\n· Anything that reads this data later, such as search or reports\n03 Competencies\nOne table: the skill list on the left, three tick boxes on the right, and a filter row above them.\nCompetencies\ni\nType\nArea\nCompetency\nLearner\nPractitioner\nExpert\nV V\nCompetency Filter ...\nMine :unselected:\nNew :unselected:\nSets (0)\nAgility\nAgile and DevOps Coaching\nAtlassian / Bamboo :unselected: :unselected: :unselected:\nAgility\nAgile and DevOps Coaching\nAtlassian / Bitbucket :unselected: :unselected: :unselected:\nAgility\nAgile and DevOps Coaching\nAtlassian / Confluence :unselected: :unselected: :unselected:\nAgility\nAgile and DevOps Coaching\nAtlassian / Jira :unselected: :unselected: :unselected:\nAgility\nAgile and DevOps Coaching\nAtlassian / Jira Align :unselected: :unselected: :unselected:\nAgility\nAgile and DevOps Coaching\nAtlassian / Trello :unselected: :unselected: :unselected:\nAgility\nAgile and DevOps Coaching\nAzure DevOps / Artifacts :unselected: :unselected: :unselected:\nAgility\nAgile and DevOps Coaching\nAzure DevOps / Pipelines :unselected: :unselected: :unselected:\nAgility\nAgile and DevOps Coaching\nAzure DevOps / Repos :unselected: :unselected: :unselected:\nAgility\nAgile and DevOps Coaching\nAzure DevOps / Test Plans :unselected: :unselected: :unselected:\nCompetencies, no filters applied. The header has a home button, the screen title, and an info button. The filter row has the Type and Area dropdowns, a search box for the skill name, and the Mine and New switches. Every row has Learner, Practitioner, and Expert tick boxes.\nHow skills are organised\nEvery skill sits in three levels: a Type, an Area inside that Type, and the skill itself inside that Area. Types include Agility, Backend, and Data Analytics. Areas include Agile and DevOps Coaching, API Paradigms & Communication Protocols, and Search & Indexing Platforms. Skill names are written as Vendor / Product when one vendor makes several tools - Atlassian / Jira, Azure DevOps / Pipelines - and as just the product name otherwise - GraphQL, Elasticsearch, SOAP. :selected:\nCompetencies i\nType\nArea\nCompetency\nLearner\nPractitioner\nExpert\nBackend\nV\nAPI Paradigms & Commu\nCompetency Filter ...\nMine :unselected:\nNew :unselected:\nSets (0)\nBackend\nAPI Paradigms & Communication Protocols GraphQL :selected: :unselected: :unselected:\nBackend\nAPI Paradigms & Communication Protocols\ngRPC :unselected: :unselected: :unselected:\nBackend\nAPI Paradigms & Communication Protocols\nREST :selected: :selected: :unselected:\nBackend\nAPI Paradigms & Communication Protocols\nSOAP :unselected: :unselected: :unselected:\nFiltered, with two skills rated. Picking Type Backend and Area API Paradigms & Communication Protocols cuts the table down to four rows. GraphQL is set to Learner. REST is set to Practitioner, and its Learner box is ticked and greyed out - the app ticked it automatically and the member cannot untick it on its own.\nRequirements\nFR-C-01\nShow all skills in a table.\nColumns, left to right: Type, Area, Competency, Learner, Practitioner, Expert. The table opens with no filters, sorted by Type, then Area, then skill name.\nFR-C-02\nFilter by Type.\nA dropdown lists every Type. Picking one shows only that Type's rows. It starts empty, which means no filter.\nFR-C-03\nFilter by Area, based on the Type picked.\nThe Area dropdown only lists Areas that belong to the Type currently picked, so the member can never choose a pair that returns no rows.\nFR-C-04\nSearch by skill name.\nA text box matches on the skill name. It works together with the Type and Area filters, not instead of them.\nFR-C-05\n\"Mine\" switch - show only skills the member has rated.\nOff by default. When on, the table shows only rows where the member has ticked at least one level, so they can review their own profile without scrolling the whole list.\nFR-C-06\n\"New\" switch - show only recently added skills.\nOff by default. When on, the table shows only skills added since the member last used the screen, so they can rate what is new without reading everything again. :selected:\nFR-C-07\nFilters work together.\nType, Area, the search box, Mine, and New all apply at the same time. The table updates as soon as any of them changes - there is no Apply button.\nFR-C-08\nRate a skill at one of three levels.\nEach row has a Learner, a Practitioner, and an Expert tick box. Rated and unrated skills appear in the same table, so the member can see what they have not filled in yet.\nFR-C-09\nHigher levels tick the lower ones automatically.\nTicking a level also ticks every level below it. Those boxes are shown greyed out and cannot be unticked on their own - a member can never be a Practitioner without also being a Learner. Unticking the level the member chose clears the ones it filled in.\nFR-C-10\nSave as soon as a box is ticked. There is no Save button. Ticking or unticking a box saves straight away, and unticking removes the rating completely.\nFR-C-11\nA member only sees their own ratings. The table has no column for who rated what, and there is no way to look at or change someone else's ratings.\nFR-C-12\nExplain the three levels. The info button in the header opens a short description of what Learner, Practitioner, and Expert mean, so everyone rates themselves the same way.\nFR-C-13\nGo back to the home screen. The home button in the header returns to the four tiles. Ratings already saved stay saved.\n04 Industry Experience\nThe same idea as Competencies, but for industries: a list the company maintains, and the member ticks the ones they have worked in.\nFR-I-01\nOpen from the home screen. The \"Industry Experience\" tile is third on the home screen, between Competencies and Endorsements.\nFR-I-02\nShow the list of industries. Industries come from a list the company maintains. The member picks from it and cannot type in their own, so the values stay the same for everyone.\nFR-I-03\nTick each industry the member has worked in. Ticked and unticked industries appear in the same list.\nFR-I-04\nSave on tick, and show only the member's own record. Same as Competencies: no Save button, saves straight away, and a member only sees their own answers.\nFR-I-05\nGo back to the home screen. A home button in the header, the same as on Competencies.\n05 Data model\nThe tables behind the two screens and how they connect.\nCompetencyType\nTeamMember displayName email - identifies the member\nhas many\nname - Agility, Backend, Data Analytics\nhas many\nCompetencyArea name - Search & Indexing Platforms\nIndustry\nhas many\nname - the list the company maintains\nhas many\nis ticked in\nCompetency\nis rated in\nCompetencyAssessment\nname - \"Atlassian / Jira\" addedOn - used by the New switch\nlevel - Learner | Practitioner | Expert one row per member and skill\nIndustryExperience one row per member and industry\nNotes\nStore one level per skill, not three tick boxes. Because a higher level always fills in the lower ones, a single row holding the highest level the member picked says everything. The screen works out which lower boxes to grey out. Storing three separate true/false fields would let bad combinations exist in the database, such as Expert without Learner.\nType and Area are separate tables, not text fields. They are picked from dropdowns, and the Area dropdown depends on the Type. Keeping them as their own tables is what makes that possible.\nEmail identifies the member. It comes from the signed-in user and is what links their ratings and industries back to them.\n06 General requirements\nThings that apply to both screens.\nFR-G-01\nShow who is signed in. The home screen shows the member's name and email, taken from the sign-in. There is no way to switch to another user.\nFR-G-02\nShow four tiles on the home screen. About Me, Competencies, Industry Experience, and Endorsements, each an icon with a label underneath.\nFR-G-03\nBlock screens that are too narrow. If the window is narrower than the supported width, the app hides its content and shows: \"Sorry, this app is not formatted for mobile devices. Please use a desktop or tablet to do your self-assessment.\" This is based on window width, so a small desktop window triggers it too.\nFR-G-04\nFiltering must stay fast. Filtering is how the member gets through several hundred rows, so the table has to redraw quickly every time a filter changes.\nFR-G-05\nRecord who saved what and when. Because one click saves straight away, every rating stores the member and the date it was saved. Unticking removes the rating and anything it filled in automatically.\nMOTIVUS .\nTeam Member Competency Self-Assessment · PRD v0.3 . Competencies & Industry Experience :unselected:",
+  "elements": [
+    {
+      "id": "sections/0",
+      "parent": null,
+      "kind": "section",
+      "region": [],
+      "span": [
+        {
+          "offset": 10,
+          "length": 1511
+        },
+        {
+          "offset": 3309,
+          "length": 10
+        },
+        {
+          "offset": 1522,
+          "length": 1786
+        },
+        {
+          "offset": 3320,
+          "length": 95
+        },
+        {
+          "offset": 5278,
+          "length": 10
+        },
+        {
+          "offset": 3416,
+          "length": 1861
+        },
+        {
+          "offset": 5297,
+          "length": 4513
+        }
+      ]
+    },
+    {
+      "id": "sections/1",
+      "parent": "sections/0",
+      "kind": "section",
+      "heading": "PRODUCT REQUIREMENTS",
+      "region": [],
+      "span": [
+        {
+          "offset": 10,
+          "length": 20
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/1",
+      "parent": "sections/1",
+      "kind": "paragraph",
+      "role": "title",
+      "text": "PRODUCT REQUIREMENTS",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.8046,
+            1.2865,
+            2.9881,
+            1.2851,
+            2.9882,
+            1.4517,
+            0.8047,
+            1.4532
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 10,
+          "length": 20
+        }
+      ]
+    },
+    {
+      "id": "sections/2",
+      "parent": "sections/0",
+      "kind": "section",
+      "heading": "Team Member Competency Self-Assessment",
+      "region": [],
+      "span": [
+        {
+          "offset": 31,
+          "length": 1490
+        },
+        {
+          "offset": 3309,
+          "length": 10
+        },
+        {
+          "offset": 1522,
+          "length": 1786
+        },
+        {
+          "offset": 3320,
+          "length": 95
+        },
+        {
+          "offset": 5278,
+          "length": 10
+        },
+        {
+          "offset": 3416,
+          "length": 1861
+        },
+        {
+          "offset": 5297,
+          "length": 4513
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/2",
+      "parent": "sections/2",
+      "kind": "paragraph",
+      "role": "title",
+      "text": "Team Member Competency Self-Assessment",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.8069,
+            1.6708,
+            7.6799,
+            1.6672,
+            7.6801,
+            2.0239,
+            0.8071,
+            2.0274
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 31,
+          "length": 38
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/3",
+      "parent": "sections/2",
+      "kind": "paragraph",
+      "text": "Competencies and Industry Experience - the two screens where a team member says what they know and which industries they have worked in.",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.8104,
+            2.239,
+            6.0477,
+            2.2371,
+            6.0479,
+            2.6817,
+            0.8105,
+            2.6836
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 70,
+          "length": 136
+        }
+      ]
+    },
+    {
+      "id": "sections/3",
+      "parent": "sections/2",
+      "kind": "section",
+      "heading": "01 Overview",
+      "region": [],
+      "span": [
+        {
+          "offset": 207,
+          "length": 734
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/4",
+      "parent": "sections/3",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "01 Overview",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.5859,
+            3.3362,
+            2.0196,
+            3.3301,
+            2.0206,
+            3.5624,
+            0.5869,
+            3.5685
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 207,
+          "length": 11
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/5",
+      "parent": "sections/3",
+      "kind": "paragraph",
+      "text": "A team member signs in and lands on a home screen that shows their name and email and offers four tiles. Two of those tiles are covered here.",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.5758,
+            3.7909,
+            7.7141,
+            3.788,
+            7.7143,
+            4.1765,
+            0.576,
+            4.1794
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 219,
+          "length": 141
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/6",
+      "parent": "sections/3",
+      "kind": "paragraph",
+      "text": "Competencies shows the company's full list of skills as one big table. For each skill the member can tick a level: Learner, Practitioner, or Expert. The list holds several hundred skills, so the screen is built around filtering. The member narrows the table down to the few rows that apply to them, ticks a level, and moves on.",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.5781,
+            4.3673,
+            7.5882,
+            4.3622,
+            7.5887,
+            4.9782,
+            0.5786,
+            4.9834
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 361,
+          "length": 327
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/7",
+      "parent": "sections/3",
+      "kind": "paragraph",
+      "text": "Industry Experience does the same thing for industries instead of skills: which sectors the member has worked in.",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.5756,
+            5.1671,
+            7.74,
+            5.1647,
+            7.7401,
+            5.3446,
+            0.5756,
+            5.347
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 689,
+          "length": 113
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/8",
+      "parent": "sections/3",
+      "kind": "paragraph",
+      "text": "A member only ever edits their own record. There is no way to pick another person, and there is no approval step - ticking a box saves it.",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.5747,
+            5.5208,
+            7.8022,
+            5.5269,
+            7.8019,
+            5.923,
+            0.5743,
+            5.9168
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 803,
+          "length": 138
+        }
+      ]
+    },
+    {
+      "id": "sections/4",
+      "parent": "sections/2",
+      "kind": "section",
+      "heading": "02 Scope",
+      "region": [],
+      "span": [
+        {
+          "offset": 942,
+          "length": 396
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/9",
+      "parent": "sections/4",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "02 Scope",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.5842,
+            6.6358,
+            1.6642,
+            6.6367,
+            1.664,
+            6.8944,
+            0.5839,
+            6.8934
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 942,
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "sections/5",
+      "parent": "sections/4",
+      "kind": "section",
+      "heading": "IN SCOPE",
+      "region": [],
+      "span": [
+        {
+          "offset": 951,
+          "length": 387
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/10",
+      "parent": "sections/5",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "IN SCOPE",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.8361,
+            7.4443,
+            1.5475,
+            7.4436,
+            1.5476,
+            7.5844,
+            0.8362,
+            7.5851
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 951,
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/11",
+      "parent": "sections/5",
+      "kind": "paragraph",
+      "text": "· Competencies - browse, filter, and rate skills",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.8747,
+            7.7735,
+            3.8909,
+            7.7656,
+            3.8914,
+            7.9243,
+            0.8751,
+            7.9322
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 960,
+          "length": 48
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/12",
+      "parent": "sections/5",
+      "kind": "paragraph",
+      "text": "· Industry Experience - record industries worked in",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.8771,
+            8.0663,
+            3.5465,
+            8.0611,
+            3.5472,
+            8.4239,
+            0.8778,
+            8.4291
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1009,
+          "length": 51
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/13",
+      "parent": "sections/5",
+      "kind": "paragraph",
+      "text": "· What both screens share: the home screen, the header with the home and info buttons, and the small-screen block",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.8741,
+            8.5759,
+            4.0072,
+            8.5718,
+            4.0079,
+            9.1581,
+            0.8748,
+            9.1623
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1061,
+          "length": 113
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/14",
+      "parent": "sections/5",
+      "kind": "paragraph",
+      "text": "OUT OF SCOPE",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            4.5012,
+            7.4418,
+            5.6058,
+            7.442,
+            5.6058,
+            7.5848,
+            4.5012,
+            7.5846
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1175,
+          "length": 12
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/15",
+      "parent": "sections/5",
+      "kind": "paragraph",
+      "text": "· About Me",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            4.5423,
+            7.7755,
+            5.3071,
+            7.7754,
+            5.3071,
+            7.9158,
+            4.5423,
+            7.9159
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1188,
+          "length": 10
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/16",
+      "parent": "sections/5",
+      "kind": "paragraph",
+      "text": "· Endorsements",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            4.5448,
+            8.0711,
+            5.6138,
+            8.0724,
+            5.6136,
+            8.2099,
+            4.5446,
+            8.2086
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1199,
+          "length": 14
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/17",
+      "parent": "sections/5",
+      "kind": "paragraph",
+      "text": "· Adding or editing the skill and industry lists themselves",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            4.5401,
+            8.3588,
+            7.354,
+            8.3539,
+            7.3547,
+            8.718,
+            4.5408,
+            8.723
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1214,
+          "length": 59
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/18",
+      "parent": "sections/5",
+      "kind": "paragraph",
+      "text": "· Anything that reads this data later, such as search or reports",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            4.5401,
+            8.8682,
+            7.3547,
+            8.8631,
+            7.3553,
+            9.237,
+            4.5408,
+            9.2421
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1274,
+          "length": 64
+        }
+      ]
+    },
+    {
+      "id": "sections/6",
+      "parent": "sections/2",
+      "kind": "section",
+      "heading": "03 Competencies",
+      "region": [],
+      "span": [
+        {
+          "offset": 1339,
+          "length": 182
+        },
+        {
+          "offset": 3309,
+          "length": 10
+        },
+        {
+          "offset": 1522,
+          "length": 1289
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/19",
+      "parent": "sections/6",
+      "kind": "paragraph",
+      "role": "title",
+      "text": "03 Competencies",
+      "region": [
+        {
+          "page": 2,
+          "polygon": [
+            0.5889,
+            0.7203,
+            2.6024,
+            0.7162,
+            2.6029,
+            0.9737,
+            0.5894,
+            0.9778
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1339,
+          "length": 15
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/20",
+      "parent": "sections/6",
+      "kind": "paragraph",
+      "text": "One table: the skill list on the left, three tick boxes on the right, and a filter row above them.",
+      "region": [
+        {
+          "page": 2,
+          "polygon": [
+            0.5805,
+            1.0923,
+            6.2267,
+            1.0955,
+            6.2266,
+            1.2666,
+            0.5804,
+            1.2633
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1355,
+          "length": 98
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/21",
+      "parent": "sections/6",
+      "kind": "paragraph",
+      "text": "Competencies",
+      "region": [
+        {
+          "page": 2,
+          "polygon": [
+            3.5795,
+            1.6555,
+            4.8868,
+            1.6585,
+            4.8863,
+            1.8816,
+            3.579,
+            1.8786
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1454,
+          "length": 12
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/22",
+      "parent": "sections/6",
+      "kind": "paragraph",
+      "text": "i",
+      "region": [
+        {
+          "page": 2,
+          "polygon": [
+            7.6873,
+            1.6783,
+            7.7426,
+            1.6784,
+            7.7422,
+            1.8235,
+            7.6869,
+            1.8233
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1467,
+          "length": 1
+        }
+      ]
+    },
+    {
+      "id": "tables/0",
+      "parent": "sections/6",
+      "kind": "table",
+      "rows": 12,
+      "cols": 8,
+      "cells": [
+        {
+          "id": "tables/0/cells/0",
+          "parent": "tables/0",
+          "row": 0,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 2,
+          "kind": "columnHeader",
+          "text": "Type",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                1.9256,
+                1.9795,
+                1.9256,
+                1.9795,
+                2.2114,
+                0.5953,
+                2.2114
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1469,
+              "length": 4
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/1",
+          "parent": "tables/0",
+          "row": 0,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 2,
+          "kind": "columnHeader",
+          "text": "Area",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.9795,
+                1.9256,
+                3.0025,
+                1.9256,
+                3.0025,
+                2.2114,
+                1.9795,
+                2.2114
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1474,
+              "length": 4
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/2",
+          "parent": "tables/0",
+          "row": 0,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Competency",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                1.9256,
+                5.2894,
+                1.9181,
+                5.2894,
+                2.2038,
+                3.0025,
+                2.2114
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1479,
+              "length": 10
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/3",
+          "parent": "tables/0",
+          "row": 0,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Learner",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2894,
+                1.9181,
+                6.4328,
+                1.9181,
+                6.4253,
+                2.2038,
+                5.2894,
+                2.2038
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1490,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/4",
+          "parent": "tables/0",
+          "row": 0,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Practitioner",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4328,
+                1.9181,
+                7.313,
+                1.9181,
+                7.313,
+                2.2038,
+                6.4253,
+                2.2038
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1498,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/5",
+          "parent": "tables/0",
+          "row": 0,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Expert",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.313,
+                1.9181,
+                7.9073,
+                1.9181,
+                7.9073,
+                2.2038,
+                7.313,
+                2.2038
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1511,
+              "length": 6
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/6",
+          "parent": "tables/0",
+          "row": 1,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                2.2114,
+                1.5056,
+                2.2114,
+                1.5056,
+                2.4069,
+                0.5953,
+                2.4069
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/7",
+          "parent": "tables/0",
+          "row": 1,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 3,
+          "kind": "content",
+          "text": "V V\n:selected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                2.2114,
+                3.0025,
+                2.2114,
+                3.0025,
+                2.4069,
+                1.5056,
+                2.4069
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1518,
+              "length": 3
+            },
+            {
+              "offset": 3309,
+              "length": 10
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/8",
+          "parent": "tables/0",
+          "row": 1,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Competency Filter ...",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                2.2114,
+                5.2894,
+                2.2038,
+                5.2894,
+                2.4069,
+                3.0025,
+                2.4069
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1522,
+              "length": 21
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/9",
+          "parent": "tables/0",
+          "row": 1,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Mine :unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2894,
+                2.2038,
+                6.4253,
+                2.2038,
+                6.4253,
+                2.4069,
+                5.2894,
+                2.4069
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1544,
+              "length": 17
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/10",
+          "parent": "tables/0",
+          "row": 1,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "New :unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4253,
+                2.2038,
+                7.313,
+                2.2038,
+                7.313,
+                2.3994,
+                6.4253,
+                2.4069
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1562,
+              "length": 16
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/11",
+          "parent": "tables/0",
+          "row": 1,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Sets (0)",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.313,
+                2.2038,
+                7.9073,
+                2.2038,
+                7.9073,
+                2.3994,
+                7.313,
+                2.3994
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1579,
+              "length": 8
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/12",
+          "parent": "tables/0",
+          "row": 2,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                2.4069,
+                1.5056,
+                2.4069,
+                1.5056,
+                2.6927,
+                0.5953,
+                2.6927
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1588,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/13",
+          "parent": "tables/0",
+          "row": 2,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 2,
+          "kind": "content",
+          "text": "Agile and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                2.4069,
+                2.7693,
+                2.4069,
+                2.7693,
+                2.6852,
+                1.5056,
+                2.6927
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1596,
+              "length": 25
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/14",
+          "parent": "tables/0",
+          "row": 2,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7693,
+                2.4069,
+                3.0025,
+                2.4069,
+                3.0025,
+                2.6852,
+                2.7693,
+                2.6852
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/15",
+          "parent": "tables/0",
+          "row": 2,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Atlassian / Bamboo",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                2.4069,
+                5.2894,
+                2.4069,
+                5.2894,
+                2.6852,
+                3.0025,
+                2.6852
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1622,
+              "length": 18
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/16",
+          "parent": "tables/0",
+          "row": 2,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2894,
+                2.4069,
+                6.4253,
+                2.4069,
+                6.4253,
+                2.6852,
+                5.2894,
+                2.6852
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1641,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/17",
+          "parent": "tables/0",
+          "row": 2,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4253,
+                2.4069,
+                7.313,
+                2.3994,
+                7.313,
+                2.6852,
+                6.4253,
+                2.6852
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1654,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/18",
+          "parent": "tables/0",
+          "row": 2,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.313,
+                2.3994,
+                7.9073,
+                2.3994,
+                7.9073,
+                2.6852,
+                7.313,
+                2.6852
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1667,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/19",
+          "parent": "tables/0",
+          "row": 3,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                2.6927,
+                1.5056,
+                2.6927,
+                1.5056,
+                2.9559,
+                0.5953,
+                2.9634
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1680,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/20",
+          "parent": "tables/0",
+          "row": 3,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 2,
+          "kind": "content",
+          "text": "Agile and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                2.6927,
+                2.7693,
+                2.6852,
+                2.7693,
+                2.9559,
+                1.5056,
+                2.9559
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1688,
+              "length": 25
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/21",
+          "parent": "tables/0",
+          "row": 3,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7693,
+                2.6852,
+                3.0025,
+                2.6852,
+                3.0025,
+                2.9559,
+                2.7693,
+                2.9559
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/22",
+          "parent": "tables/0",
+          "row": 3,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Atlassian / Bitbucket",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                2.6852,
+                5.2894,
+                2.6852,
+                5.2894,
+                2.9559,
+                3.0025,
+                2.9559
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1714,
+              "length": 21
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/23",
+          "parent": "tables/0",
+          "row": 3,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2894,
+                2.6852,
+                6.4253,
+                2.6852,
+                6.4253,
+                2.9559,
+                5.2894,
+                2.9559
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1736,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/24",
+          "parent": "tables/0",
+          "row": 3,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4253,
+                2.6852,
+                7.313,
+                2.6852,
+                7.313,
+                2.9559,
+                6.4253,
+                2.9559
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1749,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/25",
+          "parent": "tables/0",
+          "row": 3,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.313,
+                2.6852,
+                7.9073,
+                2.6852,
+                7.8997,
+                2.9559,
+                7.313,
+                2.9559
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1762,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/26",
+          "parent": "tables/0",
+          "row": 4,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                2.9634,
+                1.5056,
+                2.9559,
+                1.5056,
+                3.2342,
+                0.5953,
+                3.2342
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1775,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/27",
+          "parent": "tables/0",
+          "row": 4,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agile",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                2.9559,
+                1.9795,
+                2.9559,
+                1.9795,
+                3.2342,
+                1.5056,
+                3.2342
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1783,
+              "length": 5
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/28",
+          "parent": "tables/0",
+          "row": 4,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.9795,
+                2.9559,
+                2.7693,
+                2.9559,
+                2.7693,
+                3.2342,
+                1.9795,
+                3.2342
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1789,
+              "length": 19
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/29",
+          "parent": "tables/0",
+          "row": 4,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7693,
+                2.9559,
+                3.0025,
+                2.9559,
+                3.0025,
+                3.2342,
+                2.7693,
+                3.2342
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/30",
+          "parent": "tables/0",
+          "row": 4,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Atlassian / Confluence",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                2.9559,
+                5.2894,
+                2.9559,
+                5.2894,
+                3.2342,
+                3.0025,
+                3.2342
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1809,
+              "length": 22
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/31",
+          "parent": "tables/0",
+          "row": 4,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2894,
+                2.9559,
+                6.4253,
+                2.9559,
+                6.4253,
+                3.2342,
+                5.2894,
+                3.2342
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1832,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/32",
+          "parent": "tables/0",
+          "row": 4,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4253,
+                2.9559,
+                7.313,
+                2.9559,
+                7.313,
+                3.2342,
+                6.4253,
+                3.2342
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1845,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/33",
+          "parent": "tables/0",
+          "row": 4,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.313,
+                2.9559,
+                7.8997,
+                2.9559,
+                7.8997,
+                3.2266,
+                7.313,
+                3.2342
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1858,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/34",
+          "parent": "tables/0",
+          "row": 5,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                3.2342,
+                1.5056,
+                3.2342,
+                1.5056,
+                3.4974,
+                0.5953,
+                3.5049
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1871,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/35",
+          "parent": "tables/0",
+          "row": 5,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 2,
+          "kind": "content",
+          "text": "Agile and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                3.2342,
+                2.7693,
+                3.2342,
+                2.7693,
+                3.4974,
+                1.5056,
+                3.4974
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1879,
+              "length": 25
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/36",
+          "parent": "tables/0",
+          "row": 5,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7693,
+                3.2342,
+                3.0025,
+                3.2342,
+                3.0025,
+                3.4974,
+                2.7693,
+                3.4974
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/37",
+          "parent": "tables/0",
+          "row": 5,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Atlassian / Jira",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                3.2342,
+                5.2894,
+                3.2342,
+                5.2819,
+                3.4974,
+                3.0025,
+                3.4974
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1905,
+              "length": 16
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/38",
+          "parent": "tables/0",
+          "row": 5,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2894,
+                3.2342,
+                6.4253,
+                3.2342,
+                6.4253,
+                3.4974,
+                5.2819,
+                3.4974
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1922,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/39",
+          "parent": "tables/0",
+          "row": 5,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4253,
+                3.2342,
+                7.313,
+                3.2342,
+                7.3055,
+                3.4974,
+                6.4253,
+                3.4974
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1935,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/40",
+          "parent": "tables/0",
+          "row": 5,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.313,
+                3.2342,
+                7.8997,
+                3.2266,
+                7.8997,
+                3.4974,
+                7.3055,
+                3.4974
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1948,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/41",
+          "parent": "tables/0",
+          "row": 6,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                3.5049,
+                1.5056,
+                3.4974,
+                1.5056,
+                3.7832,
+                0.5953,
+                3.7832
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1961,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/42",
+          "parent": "tables/0",
+          "row": 6,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agile",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                3.4974,
+                1.9795,
+                3.4974,
+                1.9795,
+                3.7756,
+                1.5056,
+                3.7832
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1969,
+              "length": 5
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/43",
+          "parent": "tables/0",
+          "row": 6,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.9795,
+                3.4974,
+                2.7693,
+                3.4974,
+                2.7693,
+                3.7756,
+                1.9795,
+                3.7756
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1975,
+              "length": 19
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/44",
+          "parent": "tables/0",
+          "row": 6,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7693,
+                3.4974,
+                3.0025,
+                3.4974,
+                3.0025,
+                3.7756,
+                2.7693,
+                3.7756
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/45",
+          "parent": "tables/0",
+          "row": 6,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Atlassian / Jira Align",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                3.4974,
+                5.2819,
+                3.4974,
+                5.2819,
+                3.7756,
+                3.0025,
+                3.7756
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 1995,
+              "length": 22
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/46",
+          "parent": "tables/0",
+          "row": 6,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2819,
+                3.4974,
+                6.4253,
+                3.4974,
+                6.4178,
+                3.7756,
+                5.2819,
+                3.7756
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2018,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/47",
+          "parent": "tables/0",
+          "row": 6,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4253,
+                3.4974,
+                7.3055,
+                3.4974,
+                7.3055,
+                3.7756,
+                6.4178,
+                3.7756
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2031,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/48",
+          "parent": "tables/0",
+          "row": 6,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.3055,
+                3.4974,
+                7.8997,
+                3.4974,
+                7.8997,
+                3.7756,
+                7.3055,
+                3.7756
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2044,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/49",
+          "parent": "tables/0",
+          "row": 7,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                3.7832,
+                1.5056,
+                3.7832,
+                1.5056,
+                4.0539,
+                0.5953,
+                4.0539
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2057,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/50",
+          "parent": "tables/0",
+          "row": 7,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agile",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                3.7832,
+                1.9795,
+                3.7756,
+                1.9795,
+                4.0539,
+                1.5056,
+                4.0539
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2065,
+              "length": 5
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/51",
+          "parent": "tables/0",
+          "row": 7,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.9795,
+                3.7756,
+                2.7693,
+                3.7756,
+                2.7693,
+                4.0464,
+                1.9795,
+                4.0539
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2071,
+              "length": 19
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/52",
+          "parent": "tables/0",
+          "row": 7,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7693,
+                3.7756,
+                3.0025,
+                3.7756,
+                3.0025,
+                4.0464,
+                2.7693,
+                4.0464
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/53",
+          "parent": "tables/0",
+          "row": 7,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Atlassian / Trello",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                3.7756,
+                5.2819,
+                3.7756,
+                5.2819,
+                4.0464,
+                3.0025,
+                4.0464
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2091,
+              "length": 18
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/54",
+          "parent": "tables/0",
+          "row": 7,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2819,
+                3.7756,
+                6.4178,
+                3.7756,
+                6.4178,
+                4.0539,
+                5.2819,
+                4.0464
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2110,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/55",
+          "parent": "tables/0",
+          "row": 7,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4178,
+                3.7756,
+                7.3055,
+                3.7756,
+                7.3055,
+                4.0539,
+                6.4178,
+                4.0539
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2123,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/56",
+          "parent": "tables/0",
+          "row": 7,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.3055,
+                3.7756,
+                7.8997,
+                3.7756,
+                7.8997,
+                4.0539,
+                7.3055,
+                4.0539
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2136,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/57",
+          "parent": "tables/0",
+          "row": 8,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                4.0539,
+                1.5056,
+                4.0539,
+                1.5056,
+                4.3246,
+                0.5953,
+                4.3246
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2149,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/58",
+          "parent": "tables/0",
+          "row": 8,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agile",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                4.0539,
+                1.9795,
+                4.0539,
+                1.9795,
+                4.3246,
+                1.5056,
+                4.3246
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2157,
+              "length": 5
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/59",
+          "parent": "tables/0",
+          "row": 8,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.9795,
+                4.0539,
+                2.7693,
+                4.0464,
+                2.7769,
+                4.3246,
+                1.9795,
+                4.3246
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2163,
+              "length": 19
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/60",
+          "parent": "tables/0",
+          "row": 8,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7693,
+                4.0464,
+                3.0025,
+                4.0464,
+                3.0025,
+                4.3246,
+                2.7769,
+                4.3246
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/61",
+          "parent": "tables/0",
+          "row": 8,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Azure DevOps / Artifacts",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                4.0464,
+                5.2819,
+                4.0464,
+                5.2819,
+                4.3246,
+                3.0025,
+                4.3246
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2183,
+              "length": 24
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/62",
+          "parent": "tables/0",
+          "row": 8,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2819,
+                4.0464,
+                6.4178,
+                4.0539,
+                6.4178,
+                4.3246,
+                5.2819,
+                4.3246
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2208,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/63",
+          "parent": "tables/0",
+          "row": 8,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4178,
+                4.0539,
+                7.3055,
+                4.0539,
+                7.3055,
+                4.3322,
+                6.4178,
+                4.3246
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2221,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/64",
+          "parent": "tables/0",
+          "row": 8,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.3055,
+                4.0539,
+                7.8997,
+                4.0539,
+                7.8997,
+                4.3322,
+                7.3055,
+                4.3322
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2234,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/65",
+          "parent": "tables/0",
+          "row": 9,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                4.3246,
+                1.5056,
+                4.3246,
+                1.5056,
+                4.5954,
+                0.5953,
+                4.6029
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2247,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/66",
+          "parent": "tables/0",
+          "row": 9,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agile",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                4.3246,
+                1.9795,
+                4.3246,
+                1.9795,
+                4.5954,
+                1.5056,
+                4.5954
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2255,
+              "length": 5
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/67",
+          "parent": "tables/0",
+          "row": 9,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.9795,
+                4.3246,
+                2.7769,
+                4.3246,
+                2.7769,
+                4.5954,
+                1.9795,
+                4.5954
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2261,
+              "length": 19
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/68",
+          "parent": "tables/0",
+          "row": 9,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7769,
+                4.3246,
+                3.0025,
+                4.3246,
+                3.0025,
+                4.5954,
+                2.7769,
+                4.5954
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/69",
+          "parent": "tables/0",
+          "row": 9,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Azure DevOps / Pipelines",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                4.3246,
+                5.2819,
+                4.3246,
+                5.2819,
+                4.6029,
+                3.0025,
+                4.5954
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2281,
+              "length": 24
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/70",
+          "parent": "tables/0",
+          "row": 9,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2819,
+                4.3246,
+                6.4178,
+                4.3246,
+                6.4178,
+                4.6029,
+                5.2819,
+                4.6029
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2306,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/71",
+          "parent": "tables/0",
+          "row": 9,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4178,
+                4.3246,
+                7.3055,
+                4.3322,
+                7.3055,
+                4.6029,
+                6.4178,
+                4.6029
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2319,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/72",
+          "parent": "tables/0",
+          "row": 9,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.3055,
+                4.3322,
+                7.8997,
+                4.3322,
+                7.8997,
+                4.6029,
+                7.3055,
+                4.6029
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2332,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/73",
+          "parent": "tables/0",
+          "row": 10,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                4.6029,
+                1.5056,
+                4.5954,
+                1.5131,
+                4.8737,
+                0.5953,
+                4.8737
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2345,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/74",
+          "parent": "tables/0",
+          "row": 10,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agile",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5056,
+                4.5954,
+                1.9795,
+                4.5954,
+                1.9795,
+                4.8737,
+                1.5131,
+                4.8737
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2353,
+              "length": 5
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/75",
+          "parent": "tables/0",
+          "row": 10,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.9795,
+                4.5954,
+                2.7769,
+                4.5954,
+                2.7769,
+                4.8737,
+                1.9795,
+                4.8737
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2359,
+              "length": 19
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/76",
+          "parent": "tables/0",
+          "row": 10,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7769,
+                4.5954,
+                3.0025,
+                4.5954,
+                3.0025,
+                4.8661,
+                2.7769,
+                4.8737
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/77",
+          "parent": "tables/0",
+          "row": 10,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Azure DevOps / Repos",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                4.5954,
+                5.2819,
+                4.6029,
+                5.2819,
+                4.8737,
+                3.0025,
+                4.8661
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2379,
+              "length": 20
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/78",
+          "parent": "tables/0",
+          "row": 10,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2819,
+                4.6029,
+                6.4178,
+                4.6029,
+                6.4178,
+                4.8737,
+                5.2819,
+                4.8737
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2400,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/79",
+          "parent": "tables/0",
+          "row": 10,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4178,
+                4.6029,
+                7.3055,
+                4.6029,
+                7.2979,
+                4.8737,
+                6.4178,
+                4.8737
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2413,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/80",
+          "parent": "tables/0",
+          "row": 10,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.3055,
+                4.6029,
+                7.8997,
+                4.6029,
+                7.8997,
+                4.8737,
+                7.2979,
+                4.8737
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2426,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/81",
+          "parent": "tables/0",
+          "row": 11,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Agility",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                0.5953,
+                4.8737,
+                1.5131,
+                4.8737,
+                1.5131,
+                5.1294,
+                0.5953,
+                5.1369
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2439,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/82",
+          "parent": "tables/0",
+          "row": 11,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 2,
+          "kind": "content",
+          "text": "Agile and DevOps Coaching",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                1.5131,
+                4.8737,
+                2.7769,
+                4.8737,
+                2.7769,
+                5.1294,
+                1.5131,
+                5.1294
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2447,
+              "length": 25
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/83",
+          "parent": "tables/0",
+          "row": 11,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                2.7769,
+                4.8737,
+                3.0025,
+                4.8661,
+                3.0025,
+                5.1294,
+                2.7769,
+                5.1294
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/0/cells/84",
+          "parent": "tables/0",
+          "row": 11,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Azure DevOps / Test Plans",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                3.0025,
+                4.8661,
+                5.2819,
+                4.8737,
+                5.2744,
+                5.1294,
+                3.0025,
+                5.1294
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2473,
+              "length": 25
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/85",
+          "parent": "tables/0",
+          "row": 11,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                5.2819,
+                4.8737,
+                6.4178,
+                4.8737,
+                6.4103,
+                5.1369,
+                5.2744,
+                5.1294
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2499,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/86",
+          "parent": "tables/0",
+          "row": 11,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                6.4178,
+                4.8737,
+                7.2979,
+                4.8737,
+                7.2979,
+                5.1369,
+                6.4103,
+                5.1369
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2512,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/0/cells/87",
+          "parent": "tables/0",
+          "row": 11,
+          "col": 7,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 2,
+              "polygon": [
+                7.2979,
+                4.8737,
+                7.8997,
+                4.8737,
+                7.8997,
+                5.1369,
+                7.2979,
+                5.1369
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 2525,
+              "length": 12
+            }
+          ]
+        }
+      ],
+      "region": [
+        {
+          "page": 2,
+          "polygon": [
+            0.574,
+            1.9147,
+            7.9055,
+            1.9149,
+            7.9074,
+            5.1459,
+            0.5756,
+            5.1453
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 1469,
+          "length": 52
+        },
+        {
+          "offset": 3309,
+          "length": 10
+        },
+        {
+          "offset": 1522,
+          "length": 1015
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/100",
+      "parent": "sections/6",
+      "kind": "paragraph",
+      "text": "Competencies, no filters applied. The header has a home button, the screen title, and an info button. The filter row has the Type and Area dropdowns, a search box for the skill name, and the Mine and New switches. Every row has Learner, Practitioner, and Expert tick boxes.",
+      "region": [
+        {
+          "page": 2,
+          "polygon": [
+            0.7804,
+            5.3011,
+            7.5068,
+            5.2984,
+            7.5071,
+            5.8589,
+            0.7806,
+            5.8615
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 2538,
+          "length": 273
+        }
+      ]
+    },
+    {
+      "id": "sections/7",
+      "parent": "sections/2",
+      "kind": "section",
+      "heading": "How skills are organised",
+      "region": [],
+      "span": [
+        {
+          "offset": 2812,
+          "length": 496
+        },
+        {
+          "offset": 3320,
+          "length": 95
+        },
+        {
+          "offset": 5278,
+          "length": 10
+        },
+        {
+          "offset": 3416,
+          "length": 746
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/101",
+      "parent": "sections/7",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "How skills are organised",
+      "region": [
+        {
+          "page": 2,
+          "polygon": [
+            0.5821,
+            6.2829,
+            2.6128,
+            6.2865,
+            2.6125,
+            6.4817,
+            0.5818,
+            6.4782
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 2812,
+          "length": 24
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/102",
+      "parent": "sections/7",
+      "kind": "paragraph",
+      "text": "Every skill sits in three levels: a Type, an Area inside that Type, and the skill itself inside that Area. Types include Agility, Backend, and Data Analytics. Areas include Agile and DevOps Coaching, API Paradigms & Communication Protocols, and Search & Indexing Platforms. Skill names are written as Vendor / Product when one vendor makes several tools - Atlassian / Jira, Azure DevOps / Pipelines - and as just the product name otherwise - GraphQL, Elasticsearch, SOAP.",
+      "region": [
+        {
+          "page": 2,
+          "polygon": [
+            0.5797,
+            6.6744,
+            7.904,
+            6.6715,
+            7.9044,
+            7.7057,
+            0.5801,
+            7.7086
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 2837,
+          "length": 471
+        }
+      ]
+    },
+    {
+      "id": "tables/1",
+      "parent": "sections/7",
+      "kind": "table",
+      "rows": 7,
+      "cols": 7,
+      "cells": [
+        {
+          "id": "tables/1/cells/0",
+          "parent": "tables/1",
+          "row": 0,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                0.6082,
+                0.6268,
+                1.5102,
+                0.6268,
+                1.5102,
+                0.9654,
+                0.6082,
+                0.9654
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/1/cells/1",
+          "parent": "tables/1",
+          "row": 0,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 6,
+          "kind": "columnHeader",
+          "text": "Competencies i",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.5102,
+                0.6268,
+                7.8998,
+                0.6268,
+                7.8998,
+                0.9578,
+                1.5102,
+                0.9654
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3320,
+              "length": 14
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/2",
+          "parent": "tables/1",
+          "row": 1,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Type",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                0.6082,
+                0.9654,
+                1.5102,
+                0.9654,
+                1.5102,
+                1.2512,
+                0.6007,
+                1.2512
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3335,
+              "length": 4
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/3",
+          "parent": "tables/1",
+          "row": 1,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.5102,
+                0.9654,
+                1.8034,
+                0.9654,
+                1.8034,
+                1.2512,
+                1.5102,
+                1.2512
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/1/cells/4",
+          "parent": "tables/1",
+          "row": 1,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Area",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.8034,
+                0.9654,
+                3.0437,
+                0.9654,
+                3.0513,
+                1.2512,
+                1.8034,
+                1.2512
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3340,
+              "length": 4
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/5",
+          "parent": "tables/1",
+          "row": 1,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Competency",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                3.0437,
+                0.9654,
+                5.3064,
+                0.9654,
+                5.3064,
+                1.2512,
+                3.0513,
+                1.2512
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3345,
+              "length": 10
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/6",
+          "parent": "tables/1",
+          "row": 1,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Learner",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                5.3064,
+                0.9654,
+                6.4415,
+                0.9578,
+                6.4415,
+                1.2512,
+                5.3064,
+                1.2512
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3356,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/7",
+          "parent": "tables/1",
+          "row": 1,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Practitioner",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                6.4415,
+                0.9578,
+                7.3361,
+                0.9578,
+                7.3361,
+                1.2512,
+                6.4415,
+                1.2512
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3364,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/8",
+          "parent": "tables/1",
+          "row": 1,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Expert",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                7.3361,
+                0.9578,
+                7.8998,
+                0.9578,
+                7.8998,
+                1.2512,
+                7.3361,
+                1.2512
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3377,
+              "length": 6
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/9",
+          "parent": "tables/1",
+          "row": 2,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Backend",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                0.6007,
+                1.2512,
+                1.5102,
+                1.2512,
+                1.5102,
+                1.4468,
+                0.6007,
+                1.4468
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3384,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/10",
+          "parent": "tables/1",
+          "row": 2,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "V",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.5102,
+                1.2512,
+                1.8034,
+                1.2512,
+                1.8034,
+                1.4468,
+                1.5102,
+                1.4468
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3392,
+              "length": 1
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/11",
+          "parent": "tables/1",
+          "row": 2,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "API Paradigms & Commu\n:selected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.8034,
+                1.2512,
+                3.0513,
+                1.2512,
+                3.0513,
+                1.4468,
+                1.8034,
+                1.4468
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3394,
+              "length": 21
+            },
+            {
+              "offset": 5278,
+              "length": 10
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/12",
+          "parent": "tables/1",
+          "row": 2,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Competency Filter ...",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                3.0513,
+                1.2512,
+                5.3064,
+                1.2512,
+                5.3064,
+                1.4468,
+                3.0513,
+                1.4468
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3416,
+              "length": 21
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/13",
+          "parent": "tables/1",
+          "row": 2,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Mine :unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                5.3064,
+                1.2512,
+                6.4415,
+                1.2512,
+                6.4415,
+                1.4393,
+                5.3064,
+                1.4468
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3438,
+              "length": 17
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/14",
+          "parent": "tables/1",
+          "row": 2,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "New :unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                6.4415,
+                1.2512,
+                7.3361,
+                1.2512,
+                7.3361,
+                1.4393,
+                6.4415,
+                1.4393
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3456,
+              "length": 16
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/15",
+          "parent": "tables/1",
+          "row": 2,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Sets (0)",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                7.3361,
+                1.2512,
+                7.8998,
+                1.2512,
+                7.8998,
+                1.4393,
+                7.3361,
+                1.4393
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3473,
+              "length": 8
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/16",
+          "parent": "tables/1",
+          "row": 3,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Backend",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                0.6007,
+                1.4468,
+                1.5102,
+                1.4468,
+                1.5102,
+                1.7252,
+                0.6007,
+                1.7252
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3482,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/17",
+          "parent": "tables/1",
+          "row": 3,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 3,
+          "kind": "content",
+          "text": "API Paradigms & Communication Protocols GraphQL",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.5102,
+                1.4468,
+                5.3064,
+                1.4468,
+                5.2989,
+                1.7176,
+                1.5102,
+                1.7252
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3490,
+              "length": 47
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/18",
+          "parent": "tables/1",
+          "row": 3,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":selected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                5.3064,
+                1.4468,
+                6.4415,
+                1.4393,
+                6.4415,
+                1.7176,
+                5.2989,
+                1.7176
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3538,
+              "length": 10
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/19",
+          "parent": "tables/1",
+          "row": 3,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                6.4415,
+                1.4393,
+                7.3361,
+                1.4393,
+                7.3285,
+                1.7176,
+                6.4415,
+                1.7176
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3549,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/20",
+          "parent": "tables/1",
+          "row": 3,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                7.3361,
+                1.4393,
+                7.8998,
+                1.4393,
+                7.8998,
+                1.7176,
+                7.3285,
+                1.7176
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3562,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/21",
+          "parent": "tables/1",
+          "row": 4,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Backend",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                0.6007,
+                1.7252,
+                1.5102,
+                1.7252,
+                1.5102,
+                1.996,
+                0.6007,
+                1.996
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3575,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/22",
+          "parent": "tables/1",
+          "row": 4,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.5102,
+                1.7252,
+                1.8034,
+                1.7252,
+                1.8034,
+                1.996,
+                1.5102,
+                1.996
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/1/cells/23",
+          "parent": "tables/1",
+          "row": 4,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "API Paradigms & Communication Protocols",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.8034,
+                1.7252,
+                3.0513,
+                1.7176,
+                3.0513,
+                1.996,
+                1.8034,
+                1.996
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3583,
+              "length": 39
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/24",
+          "parent": "tables/1",
+          "row": 4,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "gRPC",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                3.0513,
+                1.7176,
+                5.2989,
+                1.7176,
+                5.2989,
+                1.996,
+                3.0513,
+                1.996
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3623,
+              "length": 4
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/25",
+          "parent": "tables/1",
+          "row": 4,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                5.2989,
+                1.7176,
+                6.4415,
+                1.7176,
+                6.4415,
+                1.996,
+                5.2989,
+                1.996
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3628,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/26",
+          "parent": "tables/1",
+          "row": 4,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                6.4415,
+                1.7176,
+                7.3285,
+                1.7176,
+                7.3285,
+                1.996,
+                6.4415,
+                1.996
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3641,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/27",
+          "parent": "tables/1",
+          "row": 4,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                7.3285,
+                1.7176,
+                7.8998,
+                1.7176,
+                7.8998,
+                1.996,
+                7.3285,
+                1.996
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3654,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/28",
+          "parent": "tables/1",
+          "row": 5,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Backend",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                0.6007,
+                1.996,
+                1.5102,
+                1.996,
+                1.5102,
+                2.2743,
+                0.5931,
+                2.2743
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3667,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/29",
+          "parent": "tables/1",
+          "row": 5,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.5102,
+                1.996,
+                1.8034,
+                1.996,
+                1.8034,
+                2.2743,
+                1.5102,
+                2.2743
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/1/cells/30",
+          "parent": "tables/1",
+          "row": 5,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "API Paradigms & Communication Protocols",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.8034,
+                1.996,
+                3.0513,
+                1.996,
+                3.0513,
+                2.2743,
+                1.8034,
+                2.2743
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3675,
+              "length": 39
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/31",
+          "parent": "tables/1",
+          "row": 5,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "REST",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                3.0513,
+                1.996,
+                5.2989,
+                1.996,
+                5.2989,
+                2.2743,
+                3.0513,
+                2.2743
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3715,
+              "length": 4
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/32",
+          "parent": "tables/1",
+          "row": 5,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":selected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                5.2989,
+                1.996,
+                6.4415,
+                1.996,
+                6.4415,
+                2.2743,
+                5.2989,
+                2.2743
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3720,
+              "length": 10
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/33",
+          "parent": "tables/1",
+          "row": 5,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":selected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                6.4415,
+                1.996,
+                7.3285,
+                1.996,
+                7.3285,
+                2.2743,
+                6.4415,
+                2.2743
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3731,
+              "length": 10
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/34",
+          "parent": "tables/1",
+          "row": 5,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                7.3285,
+                1.996,
+                7.8998,
+                1.996,
+                7.8998,
+                2.2743,
+                7.3285,
+                2.2743
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3742,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/35",
+          "parent": "tables/1",
+          "row": 6,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Backend",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                0.5931,
+                2.2743,
+                1.5102,
+                2.2743,
+                1.5027,
+                2.5451,
+                0.5931,
+                2.5451
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3755,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/36",
+          "parent": "tables/1",
+          "row": 6,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.5102,
+                2.2743,
+                1.8034,
+                2.2743,
+                1.8034,
+                2.5451,
+                1.5027,
+                2.5451
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/1/cells/37",
+          "parent": "tables/1",
+          "row": 6,
+          "col": 2,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "API Paradigms & Communication Protocols",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                1.8034,
+                2.2743,
+                3.0513,
+                2.2743,
+                3.0513,
+                2.5451,
+                1.8034,
+                2.5451
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3763,
+              "length": 39
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/38",
+          "parent": "tables/1",
+          "row": 6,
+          "col": 3,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "SOAP",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                3.0513,
+                2.2743,
+                5.2989,
+                2.2743,
+                5.2989,
+                2.5451,
+                3.0513,
+                2.5451
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3803,
+              "length": 4
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/39",
+          "parent": "tables/1",
+          "row": 6,
+          "col": 4,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                5.2989,
+                2.2743,
+                6.4415,
+                2.2743,
+                6.4415,
+                2.5451,
+                5.2989,
+                2.5451
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3808,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/40",
+          "parent": "tables/1",
+          "row": 6,
+          "col": 5,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                6.4415,
+                2.2743,
+                7.3285,
+                2.2743,
+                7.321,
+                2.5527,
+                6.4415,
+                2.5451
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3821,
+              "length": 12
+            }
+          ]
+        },
+        {
+          "id": "tables/1/cells/41",
+          "parent": "tables/1",
+          "row": 6,
+          "col": 6,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": ":unselected:",
+          "region": [
+            {
+              "page": 3,
+              "polygon": [
+                7.3285,
+                2.2743,
+                7.8998,
+                2.2743,
+                7.8998,
+                2.5527,
+                7.321,
+                2.5527
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 3834,
+              "length": 12
+            }
+          ]
+        }
+      ],
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            0.5766,
+            0.8041,
+            7.9062,
+            0.7965,
+            7.9124,
+            2.5916,
+            0.5823,
+            2.5988
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 3320,
+          "length": 95
+        },
+        {
+          "offset": 5278,
+          "length": 10
+        },
+        {
+          "offset": 3416,
+          "length": 430
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/140",
+      "parent": "sections/7",
+      "kind": "paragraph",
+      "text": "Filtered, with two skills rated. Picking Type Backend and Area API Paradigms & Communication Protocols cuts the table down to four rows. GraphQL is set to Learner. REST is set to Practitioner, and its Learner box is ticked and greyed out - the app ticked it automatically and the member cannot untick it on its own.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            0.7747,
+            2.9543,
+            7.6791,
+            2.9538,
+            7.6791,
+            3.5292,
+            0.7747,
+            3.5297
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 3847,
+          "length": 315
+        }
+      ]
+    },
+    {
+      "id": "sections/8",
+      "parent": "sections/2",
+      "kind": "section",
+      "heading": "Requirements",
+      "region": [],
+      "span": [
+        {
+          "offset": 4163,
+          "length": 1114
+        },
+        {
+          "offset": 5297,
+          "length": 1318
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/141",
+      "parent": "sections/8",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "Requirements",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            0.581,
+            3.9493,
+            1.7418,
+            3.9489,
+            1.7418,
+            4.1452,
+            0.581,
+            4.1456
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4163,
+          "length": 12
+        }
+      ]
+    },
+    {
+      "id": "sections/9",
+      "parent": "sections/8",
+      "kind": "section",
+      "heading": "FR-C-01",
+      "region": [],
+      "span": [
+        {
+          "offset": 4176,
+          "length": 191
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/142",
+      "parent": "sections/9",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "FR-C-01",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            0.6244,
+            4.4781,
+            1.1861,
+            4.4788,
+            1.1859,
+            4.6274,
+            0.6242,
+            4.6267
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4176,
+          "length": 7
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/143",
+      "parent": "sections/9",
+      "kind": "paragraph",
+      "text": "Show all skills in a table.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.849,
+            4.4501,
+            3.5094,
+            4.4522,
+            3.5092,
+            4.6136,
+            1.8488,
+            4.6116
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4184,
+          "length": 27
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/144",
+      "parent": "sections/9",
+      "kind": "paragraph",
+      "text": "Columns, left to right: Type, Area, Competency, Learner, Practitioner, Expert. The table opens with no filters, sorted by Type, then Area, then skill name.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.8466,
+            4.7173,
+            7.6876,
+            4.7132,
+            7.6878,
+            5.0819,
+            1.8469,
+            5.086
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4212,
+          "length": 155
+        }
+      ]
+    },
+    {
+      "id": "sections/10",
+      "parent": "sections/8",
+      "kind": "section",
+      "heading": "FR-C-02",
+      "region": [],
+      "span": [
+        {
+          "offset": 4368,
+          "length": 133
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/145",
+      "parent": "sections/10",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "FR-C-02",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            0.6236,
+            5.4748,
+            1.1852,
+            5.4754,
+            1.1851,
+            5.6251,
+            0.6235,
+            5.6246
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4368,
+          "length": 7
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/146",
+      "parent": "sections/10",
+      "kind": "paragraph",
+      "text": "Filter by Type.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.849,
+            5.4529,
+            2.8056,
+            5.4574,
+            2.8048,
+            5.6325,
+            1.8482,
+            5.628
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4376,
+          "length": 15
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/147",
+      "parent": "sections/10",
+      "kind": "paragraph",
+      "text": "A dropdown lists every Type. Picking one shows only that Type's rows. It starts empty, which means no filter.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.8456,
+            5.7187,
+            7.7779,
+            5.7167,
+            7.778,
+            6.0598,
+            1.8457,
+            6.0619
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4392,
+          "length": 109
+        }
+      ]
+    },
+    {
+      "id": "sections/11",
+      "parent": "sections/8",
+      "kind": "section",
+      "heading": "FR-C-03",
+      "region": [],
+      "span": [
+        {
+          "offset": 4502,
+          "length": 186
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/148",
+      "parent": "sections/11",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "FR-C-03",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            0.6245,
+            6.4641,
+            1.1856,
+            6.4645,
+            1.1855,
+            6.6168,
+            0.6244,
+            6.6164
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4502,
+          "length": 7
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/149",
+      "parent": "sections/11",
+      "kind": "paragraph",
+      "text": "Filter by Area, based on the Type picked.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.848,
+            6.4364,
+            4.582,
+            6.4352,
+            4.5821,
+            6.6138,
+            1.8481,
+            6.615
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4510,
+          "length": 41
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/150",
+      "parent": "sections/11",
+      "kind": "paragraph",
+      "text": "The Area dropdown only lists Areas that belong to the Type currently picked, so the member can never choose a pair that returns no rows.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.8478,
+            6.7012,
+            7.7693,
+            6.7005,
+            7.7693,
+            7.0801,
+            1.8478,
+            7.0808
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4552,
+          "length": 136
+        }
+      ]
+    },
+    {
+      "id": "sections/12",
+      "parent": "sections/8",
+      "kind": "section",
+      "heading": "FR-C-04",
+      "region": [],
+      "span": [
+        {
+          "offset": 4689,
+          "length": 138
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/151",
+      "parent": "sections/12",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "FR-C-04",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            0.6231,
+            7.4677,
+            1.1856,
+            7.4682,
+            1.1855,
+            7.6156,
+            0.6229,
+            7.6151
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4689,
+          "length": 7
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/152",
+      "parent": "sections/12",
+      "kind": "paragraph",
+      "text": "Search by skill name.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.8481,
+            7.4402,
+            3.292,
+            7.4413,
+            3.2919,
+            7.6087,
+            1.848,
+            7.6076
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4697,
+          "length": 21
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/153",
+      "parent": "sections/12",
+      "kind": "paragraph",
+      "text": "A text box matches on the skill name. It works together with the Type and Area filters, not instead of them.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.845,
+            7.7057,
+            7.5854,
+            7.7017,
+            7.5856,
+            8.0477,
+            1.8453,
+            8.0518
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4719,
+          "length": 108
+        }
+      ]
+    },
+    {
+      "id": "sections/13",
+      "parent": "sections/8",
+      "kind": "section",
+      "heading": "FR-C-05",
+      "region": [],
+      "span": [
+        {
+          "offset": 4828,
+          "length": 232
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/154",
+      "parent": "sections/13",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "FR-C-05",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            0.625,
+            8.4651,
+            1.1847,
+            8.4665,
+            1.1843,
+            8.6128,
+            0.6246,
+            8.6113
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4828,
+          "length": 7
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/155",
+      "parent": "sections/13",
+      "kind": "paragraph",
+      "text": "\"Mine\" switch - show only skills the member has rated.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.8566,
+            8.4416,
+            5.6303,
+            8.4441,
+            5.6302,
+            8.6085,
+            1.8564,
+            8.606
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4836,
+          "length": 54
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/156",
+      "parent": "sections/13",
+      "kind": "paragraph",
+      "text": "Off by default. When on, the table shows only rows where the member has ticked at least one level, so they can review their own profile without scrolling the whole list.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.8469,
+            8.7086,
+            7.7612,
+            8.7077,
+            7.7612,
+            9.068,
+            1.847,
+            9.0688
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 4891,
+          "length": 169
+        }
+      ]
+    },
+    {
+      "id": "sections/14",
+      "parent": "sections/8",
+      "kind": "section",
+      "heading": "FR-C-06",
+      "region": [],
+      "span": [
+        {
+          "offset": 5061,
+          "length": 7
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/157",
+      "parent": "sections/14",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "FR-C-06",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            0.625,
+            9.4601,
+            1.1864,
+            9.4591,
+            1.1866,
+            9.5997,
+            0.6252,
+            9.6007
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 5061,
+          "length": 7
+        }
+      ]
+    },
+    {
+      "id": "sections/15",
+      "parent": "sections/8",
+      "kind": "section",
+      "heading": "\"New\" switch - show only recently added skills.",
+      "region": [],
+      "span": [
+        {
+          "offset": 5069,
+          "length": 208
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/158",
+      "parent": "sections/15",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "\"New\" switch - show only recently added skills.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.858,
+            9.4287,
+            5.1292,
+            9.4325,
+            5.129,
+            9.5951,
+            1.8578,
+            9.5913
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 5069,
+          "length": 47
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/159",
+      "parent": "sections/15",
+      "kind": "paragraph",
+      "text": "Off by default. When on, the table shows only skills added since the member last used the screen, so they can rate what is new without reading everything again.",
+      "region": [
+        {
+          "page": 3,
+          "polygon": [
+            1.8473,
+            9.6941,
+            7.6828,
+            9.697,
+            7.6826,
+            10.073,
+            1.8471,
+            10.0701
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 5117,
+          "length": 160
+        }
+      ]
+    },
+    {
+      "id": "sections/16",
+      "parent": "sections/8",
+      "kind": "section",
+      "heading": "Filters work together.",
+      "region": [],
+      "span": [
+        {
+          "offset": 5297,
+          "length": 1318
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/161",
+      "parent": "sections/16",
+      "kind": "paragraph",
+      "role": "title",
+      "text": "Filters work together.",
+      "region": [
+        {
+          "page": 4,
+          "polygon": [
+            1.8493,
+            0.7979,
+            3.2863,
+            0.8,
+            3.2861,
+            0.96,
+            1.8491,
+            0.9579
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 5297,
+          "length": 22
+        }
+      ]
+    },
+    {
+      "id": "tables/2",
+      "parent": "sections/16",
+      "kind": "table",
+      "rows": 9,
+      "cols": 2,
+      "cells": [
+        {
+          "id": "tables/2/cells/0",
+          "parent": "tables/2",
+          "row": 0,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                0.5466,
+                0.9893,
+                1.5082,
+                0.9893,
+                1.5082,
+                1.6178,
+                0.5466,
+                1.6178
+              ]
+            }
+          ],
+          "span": []
+        },
+        {
+          "id": "tables/2/cells/1",
+          "parent": "tables/2",
+          "row": 0,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Type, Area, the search box, Mine, and New all apply at the same time. The table updates as soon as any of them changes - there is no Apply button.",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                1.5082,
+                0.9893,
+                7.868,
+                0.9893,
+                7.868,
+                1.6178,
+                1.5082,
+                1.6178
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 5320,
+              "length": 146
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/2",
+          "parent": "tables/2",
+          "row": 1,
+          "col": 0,
+          "rowSpan": 2,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-C-08",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                0.5466,
+                1.6178,
+                1.5082,
+                1.6178,
+                1.5082,
+                2.6021,
+                0.5466,
+                2.6021
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 5467,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/3",
+          "parent": "tables/2",
+          "row": 1,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Rate a skill at one of three levels.",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                1.5082,
+                1.6178,
+                7.868,
+                1.6178,
+                7.8756,
+                2.0115,
+                1.5082,
+                2.0115
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 5475,
+              "length": 36
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/4",
+          "parent": "tables/2",
+          "row": 2,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Each row has a Learner, a Practitioner, and an Expert tick box. Rated and unrated skills appear in the same table, so the member can see what they have not filled in yet.",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                1.5082,
+                2.0115,
+                7.8756,
+                2.0115,
+                7.8756,
+                2.6021,
+                1.5082,
+                2.6021
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 5512,
+              "length": 170
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/5",
+          "parent": "tables/2",
+          "row": 3,
+          "col": 0,
+          "rowSpan": 2,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-C-09",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                0.5466,
+                2.6021,
+                1.5082,
+                2.6021,
+                1.5158,
+                3.8136,
+                0.5466,
+                3.806
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 5683,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/6",
+          "parent": "tables/2",
+          "row": 3,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Higher levels tick the lower ones automatically.",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                1.5082,
+                2.6021,
+                7.8756,
+                2.6021,
+                7.8756,
+                3.0034,
+                1.5158,
+                3.0034
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 5691,
+              "length": 48
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/7",
+          "parent": "tables/2",
+          "row": 4,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Ticking a level also ticks every level below it. Those boxes are shown greyed out and cannot be unticked on their own - a member can never be a Practitioner without also being a Learner. Unticking the level the member chose clears the ones it filled in.",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                1.5158,
+                3.0034,
+                7.8756,
+                3.0034,
+                7.8756,
+                3.8136,
+                1.5158,
+                3.8136
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 5740,
+              "length": 253
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/8",
+          "parent": "tables/2",
+          "row": 5,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-C-10",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                0.5466,
+                3.806,
+                1.5158,
+                3.8136,
+                1.5158,
+                4.8055,
+                0.5466,
+                4.8055
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 5994,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/9",
+          "parent": "tables/2",
+          "row": 5,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Save as soon as a box is ticked. There is no Save button. Ticking or unticking a box saves straight away, and unticking removes the rating completely.",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                1.5158,
+                3.8136,
+                7.8756,
+                3.8136,
+                7.8756,
+                4.7979,
+                1.5158,
+                4.8055
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6002,
+              "length": 150
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/10",
+          "parent": "tables/2",
+          "row": 6,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-C-11",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                0.5466,
+                4.8055,
+                1.5158,
+                4.8055,
+                1.5233,
+                5.8126,
+                0.5466,
+                5.7974
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6153,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/11",
+          "parent": "tables/2",
+          "row": 6,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "A member only sees their own ratings. The table has no column for who rated what, and there is no way to look at or change someone else's ratings.",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                1.5158,
+                4.8055,
+                7.8756,
+                4.7979,
+                7.8832,
+                5.805,
+                1.5233,
+                5.8126
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6161,
+              "length": 146
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/12",
+          "parent": "tables/2",
+          "row": 7,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-C-12",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                0.5466,
+                5.7974,
+                1.5233,
+                5.8126,
+                1.5233,
+                6.7969,
+                0.5391,
+                6.7969
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6308,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/13",
+          "parent": "tables/2",
+          "row": 7,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Explain the three levels. The info button in the header opens a short description of what Learner, Practitioner, and Expert mean, so everyone rates themselves the same way.",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                1.5233,
+                5.8126,
+                7.8832,
+                5.805,
+                7.8832,
+                6.7893,
+                1.5233,
+                6.7969
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6316,
+              "length": 172
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/14",
+          "parent": "tables/2",
+          "row": 8,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-C-13",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                0.5391,
+                6.7969,
+                1.5233,
+                6.7969,
+                1.5309,
+                7.5995,
+                0.5391,
+                7.5995
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6489,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/2/cells/15",
+          "parent": "tables/2",
+          "row": 8,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Go back to the home screen. The home button in the header returns to the four tiles. Ratings already saved stay saved.",
+          "region": [
+            {
+              "page": 4,
+              "polygon": [
+                1.5233,
+                6.7969,
+                7.8832,
+                6.7893,
+                7.8832,
+                7.5919,
+                1.5309,
+                7.5995
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6497,
+              "length": 118
+            }
+          ]
+        }
+      ],
+      "region": [
+        {
+          "page": 4,
+          "polygon": [
+            0.56,
+            0.9206,
+            7.9308,
+            0.9843,
+            7.9195,
+            7.6087,
+            0.5483,
+            7.5604
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 5320,
+          "length": 1295
+        }
+      ]
+    },
+    {
+      "id": "sections/17",
+      "parent": "sections/2",
+      "kind": "section",
+      "heading": "04 Industry Experience",
+      "region": [],
+      "span": [
+        {
+          "offset": 6616,
+          "length": 838
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/177",
+      "parent": "sections/17",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "04 Industry Experience",
+      "region": [
+        {
+          "page": 5,
+          "polygon": [
+            0.5865,
+            0.7193,
+            3.2705,
+            0.7129,
+            3.2712,
+            0.9769,
+            0.5871,
+            0.9833
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 6616,
+          "length": 22
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/178",
+      "parent": "sections/17",
+      "kind": "paragraph",
+      "text": "The same idea as Competencies, but for industries: a list the company maintains, and the member ticks the ones they have worked in.",
+      "region": [
+        {
+          "page": 5,
+          "polygon": [
+            0.5716,
+            1.0971,
+            7.6217,
+            1.0973,
+            7.6217,
+            1.4916,
+            0.5716,
+            1.4915
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 6639,
+          "length": 131
+        }
+      ]
+    },
+    {
+      "id": "tables/3",
+      "parent": "sections/17",
+      "kind": "table",
+      "rows": 5,
+      "cols": 2,
+      "cells": [
+        {
+          "id": "tables/3/cells/0",
+          "parent": "tables/3",
+          "row": 0,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-I-01",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                0.5575,
+                1.6951,
+                1.5108,
+                1.6876,
+                1.5108,
+                2.482,
+                0.55,
+                2.482
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6771,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/3/cells/1",
+          "parent": "tables/3",
+          "row": 0,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Open from the home screen. The \"Industry Experience\" tile is third on the home screen, between Competencies and Endorsements.",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                1.5108,
+                1.6876,
+                7.8737,
+                1.6951,
+                7.8737,
+                2.482,
+                1.5108,
+                2.482
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6779,
+              "length": 125
+            }
+          ]
+        },
+        {
+          "id": "tables/3/cells/2",
+          "parent": "tables/3",
+          "row": 1,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-I-02",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                0.55,
+                2.482,
+                1.5108,
+                2.482,
+                1.5108,
+                3.4882,
+                0.55,
+                3.4882
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6905,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/3/cells/3",
+          "parent": "tables/3",
+          "row": 1,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Show the list of industries. Industries come from a list the company maintains. The member picks from it and cannot type in their own, so the values stay the same for everyone.",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                1.5108,
+                2.482,
+                7.8737,
+                2.482,
+                7.8812,
+                3.4807,
+                1.5108,
+                3.4882
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 6913,
+              "length": 176
+            }
+          ]
+        },
+        {
+          "id": "tables/3/cells/4",
+          "parent": "tables/3",
+          "row": 2,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-I-03",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                0.55,
+                3.4882,
+                1.5108,
+                3.4882,
+                1.5108,
+                4.2675,
+                0.55,
+                4.2675
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 7090,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/3/cells/5",
+          "parent": "tables/3",
+          "row": 2,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Tick each industry the member has worked in. Ticked and unticked industries appear in the same list.",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                1.5108,
+                3.4882,
+                7.8812,
+                3.4807,
+                7.8812,
+                4.2599,
+                1.5108,
+                4.2675
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 7098,
+              "length": 100
+            }
+          ]
+        },
+        {
+          "id": "tables/3/cells/6",
+          "parent": "tables/3",
+          "row": 3,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-I-04",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                0.55,
+                4.2675,
+                1.5108,
+                4.2675,
+                1.5108,
+                5.2738,
+                0.55,
+                5.2738
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 7199,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/3/cells/7",
+          "parent": "tables/3",
+          "row": 3,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Save on tick, and show only the member's own record. Same as Competencies: no Save button, saves straight away, and a member only sees their own answers.",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                1.5108,
+                4.2675,
+                7.8812,
+                4.2599,
+                7.8812,
+                5.2662,
+                1.5108,
+                5.2738
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 7207,
+              "length": 153
+            }
+          ]
+        },
+        {
+          "id": "tables/3/cells/8",
+          "parent": "tables/3",
+          "row": 4,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-I-05",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                0.55,
+                5.2738,
+                1.5108,
+                5.2738,
+                1.5108,
+                6.0606,
+                0.5424,
+                6.053
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 7361,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/3/cells/9",
+          "parent": "tables/3",
+          "row": 4,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Go back to the home screen. A home button in the header, the same as on Competencies.",
+          "region": [
+            {
+              "page": 5,
+              "polygon": [
+                1.5108,
+                5.2738,
+                7.8812,
+                5.2662,
+                7.8812,
+                6.053,
+                1.5108,
+                6.0606
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 7369,
+              "length": 85
+            }
+          ]
+        }
+      ],
+      "region": [
+        {
+          "page": 5,
+          "polygon": [
+            0.5588,
+            1.6562,
+            7.936,
+            1.6594,
+            7.9334,
+            6.0707,
+            0.5569,
+            6.0678
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 6771,
+          "length": 683
+        }
+      ]
+    },
+    {
+      "id": "sections/18",
+      "parent": "sections/2",
+      "kind": "section",
+      "heading": "05 Data model",
+      "region": [],
+      "span": [
+        {
+          "offset": 7455,
+          "length": 1217
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/189",
+      "parent": "sections/18",
+      "kind": "paragraph",
+      "role": "title",
+      "text": "05 Data model",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            0.6094,
+            0.722,
+            2.2401,
+            0.7168,
+            2.2408,
+            0.9454,
+            0.6101,
+            0.9507
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7455,
+          "length": 13
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/190",
+      "parent": "sections/18",
+      "kind": "paragraph",
+      "text": "The tables behind the two screens and how they connect.",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            0.5831,
+            1.1003,
+            4.1761,
+            1.1056,
+            4.1759,
+            1.2633,
+            0.5829,
+            1.258
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7469,
+          "length": 55
+        }
+      ]
+    },
+    {
+      "id": "figures/0",
+      "parent": "sections/18",
+      "kind": "figure",
+      "image": "figures/6.1.png",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            0.9313,
+            1.9647,
+            7.5488,
+            1.9661,
+            7.5487,
+            4.1497,
+            0.9304,
+            4.1483
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7525,
+          "length": 476
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/191",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "CompetencyType",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            1.1152,
+            2.0818,
+            1.9637,
+            2.084,
+            1.9633,
+            2.2102,
+            1.1149,
+            2.2079
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7525,
+          "length": 14
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/192",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "TeamMember displayName email - identifies the member",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            3.5501,
+            2.0834,
+            4.62,
+            2.084,
+            4.6198,
+            2.4365,
+            3.5499,
+            2.436
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7540,
+          "length": 52
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/193",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "has many",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            5.665,
+            2.122,
+            6.0252,
+            2.1257,
+            6.0243,
+            2.2112,
+            5.6641,
+            2.2075
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7593,
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/194",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "name - Agility, Backend, Data Analytics",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            1.1132,
+            2.2454,
+            2.0047,
+            2.2447,
+            2.0048,
+            2.4384,
+            1.1133,
+            2.4391
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7602,
+          "length": 39
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/195",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "has many",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            1.8455,
+            2.594,
+            2.1978,
+            2.5972,
+            2.197,
+            2.6822,
+            1.8448,
+            2.679
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7642,
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/196",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "CompetencyArea name - Search & Indexing Platforms",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            1.1131,
+            2.8684,
+            2.0758,
+            2.8689,
+            2.0757,
+            3.2211,
+            1.1129,
+            3.2206
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7651,
+          "length": 49
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/197",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "Industry",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            6.2649,
+            2.8716,
+            6.6785,
+            2.876,
+            6.6773,
+            2.9861,
+            6.2638,
+            2.9817
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7701,
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/198",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "has many",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            4.3113,
+            2.9812,
+            4.6683,
+            2.9842,
+            4.6675,
+            3.0709,
+            4.3105,
+            3.0678
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7710,
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/199",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "name - the list the company maintains",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            6.2662,
+            3.0339,
+            6.9489,
+            3.0313,
+            6.9497,
+            3.2237,
+            6.2669,
+            3.2263
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7719,
+          "length": 37
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/200",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "has many",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            1.8463,
+            3.3796,
+            2.1988,
+            3.3833,
+            2.1979,
+            3.4697,
+            1.8454,
+            3.466
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7757,
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/201",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "is ticked in",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            6.8906,
+            3.4041,
+            7.2866,
+            3.4063,
+            7.2861,
+            3.4899,
+            6.8901,
+            3.4877
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7766,
+          "length": 12
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/202",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "Competency",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            1.115,
+            3.6558,
+            1.7339,
+            3.6585,
+            1.7334,
+            3.7804,
+            1.1145,
+            3.7777
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7779,
+          "length": 10
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/203",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "is rated in",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            2.668,
+            3.7213,
+            3.0365,
+            3.7227,
+            3.0362,
+            3.8054,
+            2.6676,
+            3.804
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7790,
+          "length": 11
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/204",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "CompetencyAssessment",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            3.5535,
+            3.6556,
+            4.7819,
+            3.6562,
+            4.7818,
+            3.7757,
+            3.5534,
+            3.7751
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7802,
+          "length": 20
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/205",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "name - \"Atlassian / Jira\" addedOn - used by the New switch",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            1.1074,
+            3.8158,
+            2.3846,
+            3.8133,
+            2.385,
+            4.0252,
+            1.1078,
+            4.0277
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7823,
+          "length": 58
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/206",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "level - Learner | Practitioner | Expert one row per member and skill",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            3.5472,
+            3.8116,
+            4.8657,
+            3.8142,
+            4.8653,
+            4.0273,
+            3.5468,
+            4.0246
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7882,
+          "length": 68
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/207",
+      "parent": "figures/0",
+      "kind": "paragraph",
+      "text": "IndustryExperience one row per member and industry",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            6.2642,
+            3.655,
+            7.2206,
+            3.6553,
+            7.2205,
+            4.0219,
+            6.2641,
+            4.0216
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 7951,
+          "length": 50
+        }
+      ]
+    },
+    {
+      "id": "sections/19",
+      "parent": "sections/18",
+      "kind": "section",
+      "heading": "Notes",
+      "region": [],
+      "span": [
+        {
+          "offset": 8002,
+          "length": 670
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/208",
+      "parent": "sections/19",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "Notes",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            0.5877,
+            5.0011,
+            1.071,
+            5.0015,
+            1.0709,
+            5.1575,
+            0.5876,
+            5.1571
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 8002,
+          "length": 5
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/209",
+      "parent": "sections/19",
+      "kind": "paragraph",
+      "text": "Store one level per skill, not three tick boxes. Because a higher level always fills in the lower ones, a single row holding the highest level the member picked says everything. The screen works out which lower boxes to grey out. Storing three separate true/false fields would let bad combinations exist in the database, such as Expert without Learner.",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            0.5826,
+            5.3687,
+            7.7168,
+            5.3694,
+            7.7167,
+            6.1689,
+            0.5825,
+            6.1683
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 8008,
+          "length": 352
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/210",
+      "parent": "sections/19",
+      "kind": "paragraph",
+      "text": "Type and Area are separate tables, not text fields. They are picked from dropdowns, and the Area dropdown depends on the Type. Keeping them as their own tables is what makes that possible.",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            0.5801,
+            6.3757,
+            7.5121,
+            6.3742,
+            7.5122,
+            6.7758,
+            0.5802,
+            6.7773
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 8361,
+          "length": 188
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/211",
+      "parent": "sections/19",
+      "kind": "paragraph",
+      "text": "Email identifies the member. It comes from the signed-in user and is what links their ratings and industries back to them.",
+      "region": [
+        {
+          "page": 6,
+          "polygon": [
+            0.5761,
+            6.951,
+            7.7921,
+            6.951,
+            7.7921,
+            7.3239,
+            0.5761,
+            7.3239
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 8550,
+          "length": 122
+        }
+      ]
+    },
+    {
+      "id": "sections/20",
+      "parent": "sections/2",
+      "kind": "section",
+      "heading": "06 General requirements",
+      "region": [],
+      "span": [
+        {
+          "offset": 8673,
+          "length": 1040
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/212",
+      "parent": "sections/20",
+      "kind": "paragraph",
+      "role": "title",
+      "text": "06 General requirements",
+      "region": [
+        {
+          "page": 7,
+          "polygon": [
+            0.5877,
+            0.7115,
+            3.4577,
+            0.7144,
+            3.4575,
+            0.9753,
+            0.5874,
+            0.9724
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 8673,
+          "length": 23
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/213",
+      "parent": "sections/20",
+      "kind": "paragraph",
+      "text": "Things that apply to both screens.",
+      "region": [
+        {
+          "page": 7,
+          "polygon": [
+            0.5791,
+            1.1002,
+            2.7028,
+            1.0934,
+            2.7033,
+            1.2659,
+            0.5796,
+            1.2727
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 8697,
+          "length": 34
+        }
+      ]
+    },
+    {
+      "id": "tables/4",
+      "parent": "sections/20",
+      "kind": "table",
+      "rows": 5,
+      "cols": 2,
+      "cells": [
+        {
+          "id": "tables/4/cells/0",
+          "parent": "tables/4",
+          "row": 0,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "FR-G-01",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                0.5475,
+                1.592,
+                1.5138,
+                1.592,
+                1.5138,
+                2.4759,
+                0.5475,
+                2.4759
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 8732,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/4/cells/1",
+          "parent": "tables/4",
+          "row": 0,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "columnHeader",
+          "text": "Show who is signed in. The home screen shows the member's name and email, taken from the sign-in. There is no way to switch to another user.",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                1.5138,
+                1.592,
+                7.9385,
+                1.5996,
+                7.9385,
+                2.4835,
+                1.5138,
+                2.4759
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 8740,
+              "length": 140
+            }
+          ]
+        },
+        {
+          "id": "tables/4/cells/2",
+          "parent": "tables/4",
+          "row": 1,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-G-02",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                0.5475,
+                2.4759,
+                1.5138,
+                2.4759,
+                1.5138,
+                3.458,
+                0.5475,
+                3.458
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 8881,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/4/cells/3",
+          "parent": "tables/4",
+          "row": 1,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Show four tiles on the home screen. About Me, Competencies, Industry Experience, and Endorsements, each an icon with a label underneath.",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                1.5138,
+                2.4759,
+                7.9385,
+                2.4835,
+                7.9385,
+                3.4656,
+                1.5138,
+                3.458
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 8889,
+              "length": 136
+            }
+          ]
+        },
+        {
+          "id": "tables/4/cells/4",
+          "parent": "tables/4",
+          "row": 2,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-G-03",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                0.5475,
+                3.458,
+                1.5138,
+                3.458,
+                1.5138,
+                4.6743,
+                0.5475,
+                4.6743
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 9026,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/4/cells/5",
+          "parent": "tables/4",
+          "row": 2,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Block screens that are too narrow. If the window is narrower than the supported width, the app hides its content and shows: \"Sorry, this app is not formatted for mobile devices. Please use a desktop or tablet to do your self-assessment.\" This is based on window width, so a small desktop window triggers it too.",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                1.5138,
+                3.458,
+                7.9385,
+                3.4656,
+                7.9385,
+                4.6668,
+                1.5138,
+                4.6743
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 9034,
+              "length": 311
+            }
+          ]
+        },
+        {
+          "id": "tables/4/cells/6",
+          "parent": "tables/4",
+          "row": 3,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-G-04",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                0.5475,
+                4.6743,
+                1.5138,
+                4.6743,
+                1.5214,
+                5.6716,
+                0.5475,
+                5.6716
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 9346,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/4/cells/7",
+          "parent": "tables/4",
+          "row": 3,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Filtering must stay fast. Filtering is how the member gets through several hundred rows, so the table has to redraw quickly every time a filter changes.",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                1.5138,
+                4.6743,
+                7.9385,
+                4.6668,
+                7.931,
+                5.664,
+                1.5214,
+                5.6716
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 9354,
+              "length": 152
+            }
+          ]
+        },
+        {
+          "id": "tables/4/cells/8",
+          "parent": "tables/4",
+          "row": 4,
+          "col": 0,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "FR-G-05",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                0.5475,
+                5.6716,
+                1.5214,
+                5.6716,
+                1.5214,
+                6.6612,
+                0.5475,
+                6.6612
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 9507,
+              "length": 7
+            }
+          ]
+        },
+        {
+          "id": "tables/4/cells/9",
+          "parent": "tables/4",
+          "row": 4,
+          "col": 1,
+          "rowSpan": 1,
+          "colSpan": 1,
+          "kind": "content",
+          "text": "Record who saved what and when. Because one click saves straight away, every rating stores the member and the date it was saved. Unticking removes the rating and anything it filled in automatically.",
+          "region": [
+            {
+              "page": 7,
+              "polygon": [
+                1.5214,
+                5.6716,
+                7.931,
+                5.664,
+                7.931,
+                6.6612,
+                1.5214,
+                6.6612
+              ]
+            }
+          ],
+          "span": [
+            {
+              "offset": 9515,
+              "length": 198
+            }
+          ]
+        }
+      ],
+      "region": [
+        {
+          "page": 7,
+          "polygon": [
+            0.5606,
+            1.6075,
+            7.9231,
+            1.6085,
+            7.9229,
+            6.6423,
+            0.5608,
+            6.6425
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 8732,
+          "length": 981
+        }
+      ]
+    },
+    {
+      "id": "sections/21",
+      "parent": "sections/2",
+      "kind": "section",
+      "heading": "MOTIVUS .",
+      "region": [],
+      "span": [
+        {
+          "offset": 9714,
+          "length": 96
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/224",
+      "parent": "sections/21",
+      "kind": "paragraph",
+      "role": "sectionHeading",
+      "text": "MOTIVUS .",
+      "region": [
+        {
+          "page": 7,
+          "polygon": [
+            0.7644,
+            7.145,
+            1.6756,
+            7.1444,
+            1.6757,
+            7.2917,
+            0.7645,
+            7.2923
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 9714,
+          "length": 9
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/225",
+      "parent": "sections/21",
+      "kind": "paragraph",
+      "text": "Team Member Competency Self-Assessment · PRD v0.3 . Competencies & Industry Experience",
+      "region": [
+        {
+          "page": 7,
+          "polygon": [
+            0.7648,
+            7.5271,
+            6.7681,
+            7.5321,
+            6.7679,
+            7.7116,
+            0.7647,
+            7.7066
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 9724,
+          "length": 86
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/0",
+      "parent": null,
+      "kind": "paragraph",
+      "role": "pageHeader",
+      "text": "MOTIVUS .",
+      "region": [
+        {
+          "page": 1,
+          "polygon": [
+            0.807,
+            0.8959,
+            1.7182,
+            0.8949,
+            1.7184,
+            1.0409,
+            0.8072,
+            1.042
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 0,
+          "length": 9
+        }
+      ]
+    },
+    {
+      "id": "paragraphs/160",
+      "parent": null,
+      "kind": "paragraph",
+      "role": "pageHeader",
+      "text": "FR-C-07",
+      "region": [
+        {
+          "page": 4,
+          "polygon": [
+            0.6256,
+            0.822,
+            1.1841,
+            0.8233,
+            1.1838,
+            0.9678,
+            0.6253,
+            0.9665
+          ]
+        }
+      ],
+      "span": [
+        {
+          "offset": 5289,
+          "length": 7
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}
