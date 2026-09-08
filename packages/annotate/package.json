@@ -14,7 +14,8 @@
     "test:integration": "vitest run test/annotate.integration.test.ts"
   },
   "dependencies": {
-    "@dark-factory/parse": "*"
+    "@dark-factory/parse": "*",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@dark-factory/eslint-config": "*",
