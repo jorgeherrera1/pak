@@ -12,27 +12,17 @@
     },
     {
       "id": "a2",
-      "type": "feature",
+      "type": "functional-requirement",
       "elementId": "paragraphs/6",
       "span": {
         "offset": 361,
-        "length": 70
+        "length": 148
       },
-      "text": "Competencies shows the company's full list of skills as one big table."
+      "text": "Competencies shows the company's full list of skills as one big table. For each skill the member can tick a level: Learner, Practitioner, or Expert."
     },
     {
       "id": "a3",
       "type": "functional-requirement",
-      "elementId": "paragraphs/6",
-      "span": {
-        "offset": 432,
-        "length": 77
-      },
-      "text": "For each skill the member can tick a level: Learner, Practitioner, or Expert."
-    },
-    {
-      "id": "a4",
-      "type": "feature",
       "elementId": "paragraphs/7",
       "span": {
         "offset": 689,
@@ -41,19 +31,19 @@
       "text": "Industry Experience does the same thing for industries instead of skills: which sectors the member has worked in."
     },
     {
-      "id": "a5",
+      "id": "a4",
       "type": "non-functional-requirement",
       "elementId": "paragraphs/8",
       "span": {
         "offset": 803,
-        "length": 42
+        "length": 138
       },
-      "text": "A member only ever edits their own record.",
+      "text": "A member only ever edits their own record. There is no way to pick another person, and there is no approval step - ticking a box saves it.",
       "category": "SEC"
     },
     {
-      "id": "a6",
-      "type": "functional-requirement",
+      "id": "a5",
+      "type": "feature",
       "elementId": "paragraphs/11",
       "span": {
         "offset": 962,
@@ -62,8 +52,8 @@
       "text": "Competencies - browse, filter, and rate skills"
     },
     {
-      "id": "a7",
-      "type": "functional-requirement",
+      "id": "a6",
+      "type": "feature",
       "elementId": "paragraphs/12",
       "span": {
         "offset": 1011,
@@ -72,7 +62,7 @@
       "text": "Industry Experience - record industries worked in"
     },
     {
-      "id": "a8",
+      "id": "a7",
       "type": "out-of-scope",
       "elementId": "paragraphs/15",
       "span": {
@@ -82,7 +72,7 @@
       "text": "About Me"
     },
     {
-      "id": "a9",
+      "id": "a8",
       "type": "out-of-scope",
       "elementId": "paragraphs/16",
       "span": {
@@ -92,7 +82,7 @@
       "text": "Endorsements"
     },
     {
-      "id": "a10",
+      "id": "a9",
       "type": "out-of-scope",
       "elementId": "paragraphs/17",
       "span": {
@@ -102,7 +92,7 @@
       "text": "Adding or editing the skill and industry lists themselves"
     },
     {
-      "id": "a11",
+      "id": "a10",
       "type": "out-of-scope",
       "elementId": "paragraphs/18",
       "span": {
@@ -112,7 +102,7 @@
       "text": "Anything that reads this data later, such as search or reports"
     },
     {
-      "id": "a12",
+      "id": "a11",
       "type": "functional-requirement",
       "elementId": "paragraphs/143",
       "span": {
@@ -122,7 +112,7 @@
       "text": "Show all skills in a table."
     },
     {
-      "id": "a13",
+      "id": "a12",
       "type": "functional-requirement",
       "elementId": "paragraphs/146",
       "span": {
@@ -132,7 +122,7 @@
       "text": "Filter by Type."
     },
     {
-      "id": "a14",
+      "id": "a13",
       "type": "functional-requirement",
       "elementId": "paragraphs/147",
       "span": {
@@ -142,7 +132,7 @@
       "text": "A dropdown lists every Type. Picking one shows only that Type's rows. It starts empty, which means no filter."
     },
     {
-      "id": "a15",
+      "id": "a14",
       "type": "functional-requirement",
       "elementId": "paragraphs/149",
       "span": {
@@ -152,7 +142,7 @@
       "text": "Filter by Area, based on the Type picked."
     },
     {
-      "id": "a16",
+      "id": "a15",
       "type": "functional-requirement",
       "elementId": "paragraphs/150",
       "span": {
@@ -162,7 +152,7 @@
       "text": "The Area dropdown only lists Areas that belong to the Type currently picked, so the member can never choose a pair that returns no rows."
     },
     {
-      "id": "a17",
+      "id": "a16",
       "type": "functional-requirement",
       "elementId": "paragraphs/152",
       "span": {
@@ -172,7 +162,7 @@
       "text": "Search by skill name."
     },
     {
-      "id": "a18",
+      "id": "a17",
       "type": "functional-requirement",
       "elementId": "paragraphs/153",
       "span": {
@@ -182,7 +172,7 @@
       "text": "A text box matches on the skill name. It works together with the Type and Area filters, not instead of them."
     },
     {
-      "id": "a19",
+      "id": "a18",
       "type": "functional-requirement",
       "elementId": "paragraphs/155",
       "span": {
@@ -192,7 +182,7 @@
       "text": "\"Mine\" switch - show only skills the member has rated."
     },
     {
-      "id": "a20",
+      "id": "a19",
       "type": "functional-requirement",
       "elementId": "paragraphs/156",
       "span": {
@@ -202,7 +192,7 @@
       "text": "Off by default. When on, the table shows only rows where the member has ticked at least one level, so they can review their own profile without scrolling the whole list."
     },
     {
-      "id": "a21",
+      "id": "a20",
       "type": "functional-requirement",
       "elementId": "paragraphs/158",
       "span": {
@@ -212,7 +202,7 @@
       "text": "\"New\" switch - show only recently added skills."
     },
     {
-      "id": "a22",
+      "id": "a21",
       "type": "functional-requirement",
       "elementId": "paragraphs/159",
       "span": {
@@ -222,7 +212,7 @@
       "text": "Off by default. When on, the table shows only skills added since the member last used the screen, so they can rate what is new without reading everything again."
     },
     {
-      "id": "a23",
+      "id": "a22",
       "type": "functional-requirement",
       "elementId": "tables/2/cells/1",
       "span": {
@@ -232,7 +222,7 @@
       "text": "Type, Area, the search box, Mine, and New all apply at the same time. The table updates as soon as any of them changes - there is no Apply button."
     },
     {
-      "id": "a24",
+      "id": "a23",
       "type": "functional-requirement",
       "elementId": "tables/2/cells/3",
       "span": {
@@ -242,7 +232,7 @@
       "text": "Rate a skill at one of three levels."
     },
     {
-      "id": "a25",
+      "id": "a24",
       "type": "functional-requirement",
       "elementId": "tables/2/cells/4",
       "span": {
@@ -250,6 +240,16 @@
         "length": 170
       },
       "text": "Each row has a Learner, a Practitioner, and an Expert tick box. Rated and unrated skills appear in the same table, so the member can see what they have not filled in yet."
+    },
+    {
+      "id": "a25",
+      "type": "functional-requirement",
+      "elementId": "tables/2/cells/6",
+      "span": {
+        "offset": 5691,
+        "length": 48
+      },
+      "text": "Higher levels tick the lower ones automatically."
     },
     {
       "id": "a26",
@@ -382,7 +382,5 @@
       "text": "Email identifies the member. It comes from the signed-in user and is what links their ratings and industries back to them."
     }
   ],
-  "warnings": [
-    "tables/2/cells/5: quote not found: \"Higher levels tick the lower ones automatically.\""
-  ]
+  "warnings": []
 }

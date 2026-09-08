@@ -1,6 +1,6 @@
 import { createAzure } from "@ai-sdk/azure";
 import type { ParsedDocument, Span } from "@dark-factory/parse";
-import { generateObject } from "ai";
+import { Output, generateText } from "ai";
 import { hash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -47,15 +47,14 @@ export async function annotate(
   for (const [i, text] of chunk(doc).entries()) {
     const file = join(responsesDir, `${i}.json`);
     if (!existsSync(file)) {
-      const { object } = await generateObject({
+      const { output } = await generateText({
         model: azure(MODEL),
-        output: "array",
-        schema: rowSchema,
+        output: Output.array({ element: rowSchema }),
         temperature: 0,
-        system: PROMPT,
+        instructions: PROMPT,
         prompt: text,
       });
-      await writeFile(file, JSON.stringify(object, null, 2));
+      await writeFile(file, JSON.stringify(output, null, 2));
     }
     rows.push(...JSON.parse(await readFile(file, "utf8")));
   }

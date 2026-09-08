@@ -7,38 +7,32 @@
   },
   {
     "elementId": "paragraphs/6",
-    "quote": "Competencies shows the company's full list of skills as one big table.",
-    "type": "feature",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/6",
-    "quote": "For each skill the member can tick a level: Learner, Practitioner, or Expert.",
+    "quote": "Competencies shows the company's full list of skills as one big table. For each skill the member can tick a level: Learner, Practitioner, or Expert.",
     "type": "functional-requirement",
     "category": null
   },
   {
     "elementId": "paragraphs/7",
     "quote": "Industry Experience does the same thing for industries instead of skills: which sectors the member has worked in.",
-    "type": "feature",
+    "type": "functional-requirement",
     "category": null
   },
   {
     "elementId": "paragraphs/8",
-    "quote": "A member only ever edits their own record.",
+    "quote": "A member only ever edits their own record. There is no way to pick another person, and there is no approval step - ticking a box saves it.",
     "type": "non-functional-requirement",
     "category": "SEC"
   },
   {
     "elementId": "paragraphs/11",
     "quote": "Competencies - browse, filter, and rate skills",
-    "type": "functional-requirement",
+    "type": "feature",
     "category": null
   },
   {
     "elementId": "paragraphs/12",
     "quote": "Industry Experience - record industries worked in",
-    "type": "functional-requirement",
+    "type": "feature",
     "category": null
   },
   {
