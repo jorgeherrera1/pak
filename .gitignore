@@ -40,3 +40,6 @@ dist/
 
 # parse: live output of the integration test
 packages/parse/test/out/
+
+# annotate: live output of the integration test
+packages/annotate/test/out/
