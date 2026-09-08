@@ -1,5 +1,12 @@
-import type { Span } from "@dark-factory/parse";
+import { createAzure } from "@ai-sdk/azure";
+import type { ParsedDocument, Span } from "@dark-factory/parse";
+import { generateObject } from "ai";
+import { hash } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { z } from "zod";
+import { anchors, chunk } from "./chunk.ts";
 import { CATEGORIES, TYPES, type AnnotateResult } from "./types.ts";
 
 /** What the model returns, one row per finding. Quotes, never offsets. */
@@ -9,8 +16,50 @@ export const rowSchema = z.object({
   type: z.enum(TYPES),
   category: z.enum(CATEGORIES).optional(),
 });
-export const responseSchema = z.array(rowSchema);
 export type Row = z.infer<typeof rowSchema>;
+
+export const PROMPT = readFileSync(
+  new URL("./prompt.md", import.meta.url),
+  "utf8",
+);
+/** Azure AI Foundry deployment name. */
+export const MODEL = process.env.ANNOTATE_MODEL ?? "gpt-4o";
+/** Recorded responses are only valid for the prompt and model that produced them. */
+export const cacheKey = () => hash("sha256", PROMPT + MODEL).slice(0, 12);
+
+const azure = createAzure({
+  baseURL:
+    process.env.AZURE_OPENAI_BASE_URL ??
+    "https://aif-motivus.services.ai.azure.com/openai/v1",
+});
+
+/**
+ * ParsedDocument in, grounded annotations out. One model call per chunk; the
+ * raw response is written to `<responsesDir>/<i>.json` before validation and
+ * replayed from there on later runs, so tests never touch the network.
+ */
+export async function annotate(
+  doc: ParsedDocument,
+  responsesDir: string,
+): Promise<AnnotateResult> {
+  await mkdir(responsesDir, { recursive: true });
+  const rows: Row[] = [];
+  for (const [i, text] of chunk(doc).entries()) {
+    const file = join(responsesDir, `${i}.json`);
+    if (!existsSync(file)) {
+      const { object } = await generateObject({
+        model: azure(MODEL),
+        output: "array",
+        schema: rowSchema,
+        system: PROMPT,
+        prompt: text,
+      });
+      await writeFile(file, JSON.stringify(object, null, 2));
+    }
+    rows.push(...JSON.parse(await readFile(file, "utf8")));
+  }
+  return validate(rows, anchors(doc), doc.content);
+}
 
 /**
  * Model rows in, grounded annotations out. A row survives only if its element

@@ -14,7 +14,9 @@
     "test:integration": "vitest run test/annotate.integration.test.ts"
   },
   "dependencies": {
+    "@ai-sdk/azure": "^4.0.63",
     "@dark-factory/parse": "*",
+    "ai": "^7.0.93",
     "zod": "^4.5.4"
   },
   "devDependencies": {

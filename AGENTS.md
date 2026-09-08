@@ -27,6 +27,8 @@ Turborepo monorepo, npm workspaces (`apps/*`, `packages/*`), 100% TypeScript. No
 
 `packages/parse` is station 1, step 1 (Parse): PDF in, `ParsedDocument` out, via Azure Document Intelligence. It is real code, not scaffold.
 
+`packages/annotate` is station 1, step 2 (Annotate): `ParsedDocument` in, grounded annotations out, via a `gpt-4o` deployment on Azure AI Foundry through the Vercel AI SDK. The vocabulary follows the IEEE 29148 SRS template. Every annotation is validated in code against the source text before it is emitted.
+
 `apps/web`, `packages/ui`, and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter. They will be repurposed or removed as the factory takes shape — do not invest effort in them beyond keeping the build green.
 
 ## Commands
@@ -42,10 +44,12 @@ Run from the repo root:
 - `npm test` — unit tests, no network
 - `npm run test:integration` — parse the fixture PDF against live Azure and compare with the recording
 - `npm run parse <file.pdf> <outDir>` — run the parse step on a PDF
+- `npm run annotate <parsed.json> <outDir>` — run the annotate step on a parsed document
+- `npm run pipeline <file.pdf> <outDir>` — parse then annotate
 
-Anything that touches Azure needs `AZURE_DI_ENDPOINT` and `AZURE_DI_KEY`, read from a gitignored `.env` at the repo root. Never commit credentials.
+Anything that touches Azure needs `AZURE_DI_ENDPOINT` and `AZURE_DI_KEY` (Document Intelligence) and `AZURE_API_KEY` (AI Foundry), read from a gitignored `.env` at the repo root. Never commit credentials.
 
-`packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording (run `test:integration`, copy `test/out/<sha256>/{analysis,parsed}.json` into `fixtures/`), never by hand, and the diff is reviewed like code.
+`packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording (run `test:integration`, copy `test/out/<sha256>/{analysis,parsed}.json` into `fixtures/`), never by hand, and the diff is reviewed like code. The same rule applies to `packages/annotate/test/fixtures/annotate-responses/` and `annotations.json`. `packages/annotate/test/fixtures/expected.json` is the eval ground truth and is written by a human only.
 
 ## Definition of done
 
@@ -55,7 +59,7 @@ Work is not complete until all of these pass:
 2. `npm run lint`
 3. `npm run build`
 4. `npm test`, including tests for the behavior you added or changed. If the package you touched has no test setup yet, standing one up is part of your task — not a reason to skip tests.
-5. `npm run test:integration` when you changed `packages/parse` or its fixtures. It needs credentials, so it is not a CI gate; run it locally and report the result.
+5. `npm run test:integration` when you changed `packages/parse`, `packages/annotate`, or their fixtures. It needs credentials, so it is not a CI gate; run it locally and report the result. For annotate this is also the eval: paste the precision/recall table in the PR.
 
 Report results honestly: if a gate fails, say so and show the output.
 
