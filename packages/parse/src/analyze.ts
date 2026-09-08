@@ -8,8 +8,16 @@ import DocumentIntelligence, {
 } from "@azure-rest/ai-document-intelligence";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { STRING_INDEX_TYPE } from "./toParsedDocument.ts";
 
 const MODEL = "prebuilt-layout";
+const API_VERSION = "2024-11-30";
+
+/** True when `a` came from the exact request `analyze` makes now; anything else is stale. */
+export const isCurrent = (a: AnalyzeResultOutput): boolean =>
+  a.modelId === MODEL &&
+  a.apiVersion === API_VERSION &&
+  a.stringIndexType === STRING_INDEX_TYPE;
 
 function env(name: string): string {
   const value = process.env[name];
@@ -26,16 +34,21 @@ export async function analyze(
   pdf: Buffer,
   dir: string,
 ): Promise<AnalyzeResultOutput> {
-  const client = DocumentIntelligence(env("AZURE_DI_ENDPOINT"), {
-    key: env("AZURE_DI_KEY"),
-  });
+  const client = DocumentIntelligence(
+    env("AZURE_DI_ENDPOINT"),
+    { key: env("AZURE_DI_KEY") },
+    { apiVersion: API_VERSION },
+  );
 
   const initial = await client
     .path("/documentModels/{modelId}:analyze", MODEL)
     .post({
       contentType: "application/json",
       body: { base64Source: pdf.toString("base64") },
-      queryParameters: { output: ["figures"] },
+      queryParameters: {
+        output: ["figures"],
+        stringIndexType: STRING_INDEX_TYPE,
+      },
     });
   if (isUnexpected(initial))
     throw new Error(JSON.stringify(initial.body.error));

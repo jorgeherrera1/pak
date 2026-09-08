@@ -10,12 +10,18 @@ const regions = (r: BoundingRegionOutput[] = []): Region[] =>
 const spans = (s: DocumentSpanOutput[]): Span[] =>
   s.map(({ offset, length }) => ({ offset, length }));
 const PAGE_FURNITURE = new Set(["pageHeader", "pageFooter", "pageNumber"]);
+/** Spans are sliced with JS string indexing, so Azure must count in UTF-16 code units. */
+export const STRING_INDEX_TYPE = "utf16CodeUnit";
 
 /** Pure: raw analysis in, ParsedDocument out. Every value is copied or mechanically derived. */
 export function toParsedDocument(
   a: AnalyzeResultOutput,
   sha256: string,
 ): ParsedDocument {
+  if (a.stringIndexType !== STRING_INDEX_TYPE)
+    throw new Error(
+      `spans are in ${a.stringIndexType}, expected ${STRING_INDEX_TYPE}`,
+    );
   const elements: Element[] = [];
   const warnings: string[] = [];
   const emitted = new Set<string>();
