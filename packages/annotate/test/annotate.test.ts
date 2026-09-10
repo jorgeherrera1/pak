@@ -1,6 +1,6 @@
 /**
  * Replays recorded model responses through validate; no network. To re-record:
- * run `test:integration`, copy `test/out/<sha256>/annotate/<key>/` into
+ * run `test:integration`, copy `test/out/<sha256>/annotate/` into
  * `test/fixtures/annotate-responses/` and `annotations.json` into
  * `test/fixtures/`, and review the diff like code.
  */
