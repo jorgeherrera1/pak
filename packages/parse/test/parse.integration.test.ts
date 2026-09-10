@@ -12,7 +12,7 @@ if (existsSync(env)) process.loadEnvFile(env);
 
 const fixtures = fileURLToPath(new URL("./fixtures/", import.meta.url));
 // Live output lands here (gitignored) so it can be inspected and diffed against fixtures/.
-// Wiped first: parse() would otherwise reuse the previous run's analysis.json and skip Azure.
+// Wiped first so the assertions only ever see files this run produced.
 const out = fileURLToPath(new URL("./out/", import.meta.url));
 const recorded: AnalyzeResultOutput = JSON.parse(
   readFileSync(join(fixtures, "analysis.json"), "utf8"),
