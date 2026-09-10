@@ -3,29 +3,23 @@
  * type against `fixtures/expected.json`, which is written by a human, never
  * generated. Needs AZURE_API_KEY in the repo-root .env.
  */
-import type { ParsedDocument } from "@dark-factory/parse";
 import { existsSync, readFileSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vitest";
-import { run } from "../src/index.ts";
+import { annotate } from "../src/annotate.ts";
 import type { Annotation, AnnotationType } from "../src/types.ts";
+import { doc } from "./doc.ts";
 
 const env = fileURLToPath(new URL("../../../.env", import.meta.url));
 if (existsSync(env)) process.loadEnvFile(env);
 
 const out = fileURLToPath(new URL("./out/", import.meta.url));
 const expectedFile = new URL("./fixtures/expected.json", import.meta.url);
-const doc: ParsedDocument = JSON.parse(
-  readFileSync(
-    new URL("../../parse/test/fixtures/parsed.json", import.meta.url),
-    "utf8",
-  ),
-);
 
 type Expected = { elementId: string; type: AnnotationType }[];
 
 /** Exact (elementId, type) match per type. */
-export function score(annotations: Annotation[], expected: Expected) {
+function score(annotations: Annotation[], expected: Expected) {
   const key = (x: { elementId: string; type: AnnotationType }) =>
     `${x.elementId}|${x.type}`;
   const got = new Set(annotations.map(key));
@@ -58,7 +52,7 @@ const FLOOR = 0;
 
 test("live annotate and eval", { timeout: 300_000 }, async () => {
   rmSync(out, { recursive: true, force: true });
-  const { annotations, warnings } = await run(doc, out);
+  const { annotations, warnings } = await annotate(doc, out);
   console.log(`${annotations.length} annotations, ${warnings.length} warnings`);
   for (const w of warnings) console.log(`  ${w}`);
   if (!existsSync(expectedFile)) {

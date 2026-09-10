@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { validate } from "../src/annotate.ts";
+import { validate } from "../src/validate.ts";
 
 const content = "intro\nThe system shall log in users.\nfooter";
 const anchors = new Map([["paragraphs/1", [{ offset: 6, length: 30 }]]]);

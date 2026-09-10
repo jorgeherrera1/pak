@@ -1,40 +1,32 @@
 /**
- * Replays recorded model responses; no network. To re-record: run
- * `test:integration`, copy `test/out/<sha256>/annotate/<key>/responses/` into
+ * Replays recorded model responses through validate; no network. To re-record:
+ * run `test:integration`, copy `test/out/<sha256>/annotate/<key>/` into
  * `test/fixtures/annotate-responses/` and `annotations.json` into
  * `test/fixtures/`, and review the diff like code.
  */
-import type { ParsedDocument } from "@dark-factory/parse";
-import { existsSync, readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { readdirSync, readFileSync } from "node:fs";
 import { expect, test } from "vitest";
-import { annotate } from "../src/annotate.ts";
+import { anchors } from "../src/chunk.ts";
+import { validate, type Row } from "../src/validate.ts";
+import { doc } from "./doc.ts";
 
-const responses = fileURLToPath(
-  new URL("./fixtures/annotate-responses/", import.meta.url),
-);
-const doc: ParsedDocument = JSON.parse(
-  readFileSync(
-    new URL("../../parse/test/fixtures/parsed.json", import.meta.url),
-    "utf8",
-  ),
-);
+const dir = new URL("./fixtures/annotate-responses/", import.meta.url);
+const rows: Row[] = readdirSync(dir)
+  .sort((a, b) => parseInt(a) - parseInt(b))
+  .flatMap((f) => JSON.parse(readFileSync(new URL(f, dir), "utf8")));
 
-test.skipIf(!existsSync(responses))(
-  "replayed annotations match the recording",
-  async () => {
-    const result = await annotate(doc, responses);
-    for (const a of result.annotations) {
-      expect(
-        doc.content.slice(a.span.offset, a.span.offset + a.span.length),
-      ).toBe(a.text);
-    }
-    const golden = JSON.parse(
-      readFileSync(
-        new URL("./fixtures/annotations.json", import.meta.url),
-        "utf8",
-      ),
-    );
-    expect(result).toEqual(golden);
-  },
-);
+test("replayed annotations match the recording", () => {
+  const result = validate(rows, anchors(doc), doc.content);
+  for (const a of result.annotations) {
+    expect(
+      doc.content.slice(a.span.offset, a.span.offset + a.span.length),
+    ).toBe(a.text);
+  }
+  const golden = JSON.parse(
+    readFileSync(
+      new URL("./fixtures/annotations.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  expect(result).toEqual(golden);
+});

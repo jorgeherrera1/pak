@@ -15,9 +15,6 @@ export function anchors(doc: ParsedDocument): Map<string, Span[]> {
   return map;
 }
 
-const text = (doc: ParsedDocument, span: Span[]) =>
-  span.map((s) => doc.content.slice(s.offset, s.offset + s.length)).join("\n");
-
 /** One line per element, in reading order. Sections are context, everything else gets an `[id]` anchor. */
 function render(doc: ParsedDocument): string[] {
   const lines: string[] = [];
@@ -25,12 +22,14 @@ function render(doc: ParsedDocument): string[] {
     if (el.kind === "section") {
       if (el.heading) lines.push(`## ${el.heading}`);
     } else if (el.kind === "table") {
-      const rows = new Map<number, string[]>();
-      for (const c of el.cells) {
-        rows.set(c.row, [...(rows.get(c.row) ?? []), `[${c.id}] ${c.text}`]);
-      }
-      for (const cells of rows.values()) lines.push(cells.join(" | "));
-    } else lines.push(`[${el.id}] ${text(doc, el.span)}`);
+      for (const cells of Map.groupBy(el.cells, (c) => c.row).values())
+        lines.push(cells.map((c) => `[${c.id}] ${c.text}`).join(" | "));
+    } else {
+      const text = el.span
+        .map((s) => doc.content.slice(s.offset, s.offset + s.length))
+        .join("\n");
+      lines.push(`[${el.id}] ${text}`);
+    }
   }
   return lines;
 }

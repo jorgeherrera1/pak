@@ -1,7 +1,7 @@
 {
   "extends": "@dark-factory/typescript-config/base.json",
   "compilerOptions": {
-    "lib": ["es2022"],
+    "lib": ["es2024"],
     "types": ["node"],
     "rootDir": "src",
     "outDir": "dist",

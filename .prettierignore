@@ -1,2 +1,1 @@
-packages/parse/test/fixtures/
-packages/annotate/test/fixtures/
+packages/*/test/fixtures/
