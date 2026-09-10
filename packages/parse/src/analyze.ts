@@ -13,12 +13,6 @@ import { STRING_INDEX_TYPE } from "./toParsedDocument.ts";
 const MODEL = "prebuilt-layout";
 const API_VERSION = "2024-11-30";
 
-/** True when `a` came from the exact request `analyze` makes now; anything else is stale. */
-export const isCurrent = (a: AnalyzeResultOutput): boolean =>
-  a.modelId === MODEL &&
-  a.apiVersion === API_VERSION &&
-  a.stringIndexType === STRING_INDEX_TYPE;
-
 function env(name: string): string {
   const value = process.env[name];
   if (!value) throw new Error(`${name} is not set`);
