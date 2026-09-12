@@ -2,6 +2,7 @@
   "extends": "@dark-factory/typescript-config/react-library.json",
   "compilerOptions": {
     "module": "Preserve",
+    "types": ["node"],
     "moduleResolution": "Bundler",
     "noEmit": true,
     "strictNullChecks": true,
