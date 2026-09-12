@@ -3,6 +3,8 @@
 import type { Span } from "@dark-factory/parse";
 
 export const TYPES = [
+  "product",
+  "business-goal",
   "feature",
   "functional-requirement",
   "mockup",
