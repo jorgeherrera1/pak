@@ -150,8 +150,8 @@ One-time setup: the SDK's `bootstrap` command creates its tables, and
   and a local Postgres: posts the fixture PDF to the create handler, polls the
   read handler until done or failed, asserts all four steps are done, downloads
   `parsed.json` through the artifact handler, and asserts it deep-equals
-  `packages/parse/test/fixtures/parsed.json` ignoring `source.sha256` only if
-  the fixture PDF differs. Runs locally, reported in the PR.
+  `packages/parse/test/fixtures/parsed.json`. Runs locally, reported in
+  the PR.
 
 ## Deferred on purpose
 

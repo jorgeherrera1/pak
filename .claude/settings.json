@@ -1,5 +1,8 @@
 {
   "enabledPlugins": {
-    "ponytail@ponytail": true
+    "ponytail@ponytail": true,
+    "superpowers@claude-plugins-official": true,
+    "azure@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
   }
 }
