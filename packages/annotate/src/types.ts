@@ -25,6 +25,19 @@ export const TYPES = [
 ] as const;
 export type AnnotationType = (typeof TYPES)[number];
 
+/** The types that name a thing the document refers to, as opposed to a statement it makes. */
+export const NOUN_TYPES = [
+  "product",
+  "feature",
+  "integration",
+  "data-entity",
+  "user-class",
+  "imposed-technology",
+  "standard",
+  "glossary-term",
+] as const;
+export type Kind = (typeof NOUN_TYPES)[number];
+
 /** Non-functional requirement categories. */
 export const CATEGORIES = [
   "PER",
@@ -37,6 +50,7 @@ export const CATEGORIES = [
 ] as const;
 export type Category = (typeof CATEGORIES)[number];
 
+/** Evidence that the SRS needs something: what a span is. */
 export type Annotation = {
   id: string;
   type: AnnotationType;
@@ -49,4 +63,24 @@ export type Annotation = {
   category?: Category;
 };
 
-export type AnnotateResult = { annotations: Annotation[]; warnings: string[] };
+/**
+ * A reference to a thing: what a span refers to. One per element a thing
+ * appears in. `name` and `kind` are what the chunk that produced it called
+ * the thing; hints for resolve to bucket on, not facts.
+ */
+export type Mention = {
+  id: string;
+  elementId: string;
+  span: Span;
+  /** Verbatim quote from the source, e.g. "skill". */
+  text: string;
+  /** The document's own label for the thing, singular, e.g. "Competency". */
+  name: string;
+  kind: Kind;
+};
+
+export type AnnotateResult = {
+  annotations: Annotation[];
+  mentions: Mention[];
+  warnings: string[];
+};

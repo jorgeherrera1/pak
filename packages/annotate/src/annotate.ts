@@ -6,7 +6,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { anchors, chunk } from "./chunk.ts";
 import type { AnnotateResult } from "./types.ts";
-import { rowSchema, validate, type Row } from "./validate.ts";
+import { outputSchema, validate, type ModelOutput } from "./validate.ts";
 
 const PROMPT = readFileSync(new URL("./prompt.md", import.meta.url), "utf8");
 /** Azure AI Foundry deployment name. */
@@ -30,11 +30,11 @@ export async function annotate(
   const responses = join(dir, "annotate");
   await mkdir(responses, { recursive: true });
   // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
-  const rows = await Promise.all(
-    chunk(doc).map(async (text, i): Promise<Row[]> => {
+  const outputs = await Promise.all(
+    chunk(doc).map(async (text, i): Promise<ModelOutput> => {
       const { output } = await generateText({
         model: azure(MODEL),
-        output: Output.array({ element: rowSchema }),
+        output: Output.object({ schema: outputSchema }),
         temperature: 0,
         instructions: PROMPT,
         prompt: text,
@@ -46,7 +46,14 @@ export async function annotate(
       return output;
     }),
   );
-  const result = validate(rows.flat(), anchors(doc), doc.content);
+  const result = validate(
+    {
+      annotations: outputs.flatMap((o) => o.annotations),
+      mentions: outputs.flatMap((o) => o.mentions),
+    },
+    anchors(doc),
+    doc.content,
+  );
   await writeFile(
     join(dir, "annotations.json"),
     JSON.stringify(result, null, 2),

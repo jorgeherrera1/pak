@@ -1,74 +1,204 @@
-[
-  {
-    "elementId": "tables/2/cells/0",
-    "quote": "The catalogue Type - Area - Competency",
-    "type": "data-entity",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/1",
-    "quote": "Read-only to this app - it is maintained elsewhere and loaded in.",
-    "type": "data-requirement",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/3",
-    "quote": "A directory identity, keyed on their Entra object id, created the first time they sign in.",
-    "type": "data-entity",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/3",
-    "quote": "It also carries the moment they last changed any level.",
-    "type": "data-requirement",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/5",
-    "quote": "One person, one competency, one level: Learner, Advanced or Expert.",
-    "type": "data-entity",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/5",
-    "quote": "This is personal data: we keep it until twelve months after the person's account is disabled, and it never goes into logs.",
-    "type": "data-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/156",
-    "quote": "The catalogue keeps being maintained outside this app.",
-    "type": "assumption",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/157",
-    "quote": "Everyone who needs the app already has a corporate Entra ID account.",
-    "type": "assumption",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/158",
-    "quote": "Before launch we need an export of the current catalogue and everyone's existing assessments out of Power Apps, from whoever owns that app.",
-    "type": "dependency",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/159",
-    "quote": "At the start of the build we need an Entra ID app registration per environment, with redirect URIs and credentials, from the corporate identity team.",
-    "type": "dependency",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/161",
-    "quote": "Telling people a write failed is our idea, not yours.",
-    "type": "assumption",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/162",
-    "quote": "Should unrated and \"I have looked at this and it does not apply to me\" be the same thing?",
-    "type": "assumption",
-    "category": null
-  }
-]
+{
+  "annotations": [
+    {
+      "elementId": "tables/2/cells/0",
+      "quote": "The catalogue Type - Area - Competency",
+      "type": "data-entity",
+      "category": null
+    },
+    {
+      "elementId": "tables/2/cells/1",
+      "quote": "Read-only to this app - it is maintained elsewhere and loaded in.",
+      "type": "integration",
+      "category": null
+    },
+    {
+      "elementId": "tables/2/cells/2",
+      "quote": "The person",
+      "type": "data-entity",
+      "category": null
+    },
+    {
+      "elementId": "tables/2/cells/3",
+      "quote": "A directory identity, keyed on their Entra object id, created the first time they sign in.",
+      "type": "data-requirement",
+      "category": null
+    },
+    {
+      "elementId": "tables/2/cells/3",
+      "quote": "it has to survive them clearing every level they hold",
+      "type": "data-requirement",
+      "category": null
+    },
+    {
+      "elementId": "tables/2/cells/5",
+      "quote": "One person, one competency, one level: Learner, Advanced or Expert.",
+      "type": "data-requirement",
+      "category": null
+    },
+    {
+      "elementId": "tables/2/cells/5",
+      "quote": "we keep it until twelve months after the person's account is disabled, and it never goes into logs.",
+      "type": "data-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/156",
+      "quote": "The catalogue keeps being maintained outside this app.",
+      "type": "assumption",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/157",
+      "quote": "Everyone who needs the app already has a corporate Entra ID account.",
+      "type": "assumption",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/158",
+      "quote": "Before launch we need an export of the current catalogue and everyone's existing assessments out of Power Apps, from whoever owns that app.",
+      "type": "dependency",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/159",
+      "quote": "At the start of the build we need an Entra ID app registration per environment, with redirect URIs and credentials, from the corporate identity team.",
+      "type": "dependency",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/161",
+      "quote": "Telling people a write failed is our idea, not yours.",
+      "type": "assumption",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/161",
+      "quote": "Nobody asked for it, but with the Save button gone a failed write is otherwise invisible and the person walks away believing a false claim was recorded.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/162",
+      "quote": "Should unrated and \"I have looked at this and it does not apply to me\" be the same thing?",
+      "type": "assumption",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/162",
+      "quote": "Today they are - a blank row means both.",
+      "type": "assumption",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/162",
+      "quote": "if staffing ever wants to distinguish \"nobody has assessed this\" from \"nobody here can do this\", the model needs a fourth state and we should know now rather than after migration.",
+      "type": "functional-requirement",
+      "category": null
+    }
+  ],
+  "mentions": [
+    {
+      "elementId": "tables/2/cells/0",
+      "quote": "The catalogue",
+      "name": "Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "tables/2/cells/0",
+      "quote": "Type",
+      "name": "Type",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "tables/2/cells/0",
+      "quote": "Area",
+      "name": "Area",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "tables/2/cells/0",
+      "quote": "Competency",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "tables/2/cells/1",
+      "quote": "this app",
+      "name": "App",
+      "kind": "product"
+    },
+    {
+      "elementId": "tables/2/cells/2",
+      "quote": "The person",
+      "name": "Person",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "tables/2/cells/3",
+      "quote": "Entra object id",
+      "name": "Entra Object ID",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "tables/2/cells/5",
+      "quote": "Learner",
+      "name": "Learner",
+      "kind": "glossary-term"
+    },
+    {
+      "elementId": "tables/2/cells/5",
+      "quote": "Advanced",
+      "name": "Advanced",
+      "kind": "glossary-term"
+    },
+    {
+      "elementId": "tables/2/cells/5",
+      "quote": "Expert",
+      "name": "Expert",
+      "kind": "glossary-term"
+    },
+    {
+      "elementId": "paragraphs/156",
+      "quote": "The catalogue",
+      "name": "Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "paragraphs/157",
+      "quote": "corporate Entra ID account",
+      "name": "Corporate Entra ID Account",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "paragraphs/158",
+      "quote": "Power Apps",
+      "name": "Power Apps",
+      "kind": "integration"
+    },
+    {
+      "elementId": "paragraphs/159",
+      "quote": "Entra ID app registration",
+      "name": "Entra ID App Registration",
+      "kind": "imposed-technology"
+    },
+    {
+      "elementId": "paragraphs/159",
+      "quote": "corporate identity team",
+      "name": "Corporate Identity Team",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/161",
+      "quote": "Save button",
+      "name": "Save Button",
+      "kind": "feature"
+    },
+    {
+      "elementId": "paragraphs/162",
+      "quote": "staffing",
+      "name": "Staffing",
+      "kind": "user-class"
+    }
+  ]
+}

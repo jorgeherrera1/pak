@@ -12,7 +12,7 @@
     },
     {
       "id": "a2",
-      "type": "feature",
+      "type": "functional-requirement",
       "elementId": "paragraphs/2",
       "span": {
         "offset": 51,
@@ -26,12 +26,22 @@
       "elementId": "paragraphs/4",
       "span": {
         "offset": 163,
-        "length": 143
+        "length": 57
       },
-      "text": "We cannot answer \"who knows Jira?\" without asking people. The competency data we do have is stale, and the app that holds it is the reason why."
+      "text": "We cannot answer \"who knows Jira?\" without asking people."
     },
     {
       "id": "a4",
+      "type": "integration",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 307,
+        "length": 45
+      },
+      "text": "Today that data lives in a Power Apps screen."
+    },
+    {
+      "id": "a5",
       "type": "imposed-technology",
       "elementId": "paragraphs/6",
       "span": {
@@ -41,7 +51,7 @@
       "text": "We are rebuilding it as a small Next.js/React app."
     },
     {
-      "id": "a5",
+      "id": "a6",
       "type": "ux-requirement",
       "elementId": "paragraphs/8",
       "span": {
@@ -51,18 +61,18 @@
       "text": "A consultant can open the app, find the competency they have in mind, and record their level without thinking about the mechanics - no save step, no second screen."
     },
     {
-      "id": "a6",
+      "id": "a7",
       "type": "non-functional-requirement",
       "elementId": "paragraphs/9",
       "span": {
         "offset": 1241,
-        "length": 153
+        "length": 37
       },
-      "text": "Nothing is ever lost to a closed tab. If a click did not reach the database, the person finds out immediately rather than believing a claim was recorded.",
+      "text": "Nothing is ever lost to a closed tab.",
       "category": "REL"
     },
     {
-      "id": "a7",
+      "id": "a8",
       "type": "ux-requirement",
       "elementId": "paragraphs/11",
       "span": {
@@ -72,7 +82,7 @@
       "text": "The words on the screen match the words the business uses, so nobody has to translate practitioner into advanced in their head."
     },
     {
-      "id": "a8",
+      "id": "a9",
       "type": "user-class",
       "elementId": "paragraphs/13",
       "span": {
@@ -82,7 +92,7 @@
       "text": "One audience, and only one: the consultant assessing themselves."
     },
     {
-      "id": "a9",
+      "id": "a10",
       "type": "out-of-scope",
       "elementId": "paragraphs/14",
       "span": {
@@ -92,7 +102,7 @@
       "text": "Managers, reviewers and staffing are not users of this release."
     },
     {
-      "id": "a10",
+      "id": "a11",
       "type": "feature",
       "elementId": "paragraphs/17",
       "span": {
@@ -102,7 +112,7 @@
       "text": "Browsing the competency catalogue and narrowing it down"
     },
     {
-      "id": "a11",
+      "id": "a12",
       "type": "feature",
       "elementId": "paragraphs/18",
       "span": {
@@ -112,8 +122,8 @@
       "text": "Recording, changing and clearing your own level"
     },
     {
-      "id": "a12",
-      "type": "imposed-technology",
+      "id": "a13",
+      "type": "integration",
       "elementId": "paragraphs/19",
       "span": {
         "offset": 2415,
@@ -122,7 +132,37 @@
       "text": "Signing in with corporate SSO"
     },
     {
-      "id": "a13",
+      "id": "a14",
+      "type": "out-of-scope",
+      "elementId": "paragraphs/21",
+      "span": {
+        "offset": 2478,
+        "length": 37
+      },
+      "text": "Manager, reviewer or validation views"
+    },
+    {
+      "id": "a15",
+      "type": "out-of-scope",
+      "elementId": "paragraphs/23",
+      "span": {
+        "offset": 2572,
+        "length": 36
+      },
+      "text": "Any way to edit the catalogue itself"
+    },
+    {
+      "id": "a16",
+      "type": "out-of-scope",
+      "elementId": "paragraphs/25",
+      "span": {
+        "offset": 2707,
+        "length": 34
+      },
+      "text": "Cross-employee search or reporting"
+    },
+    {
+      "id": "a17",
       "type": "mockup",
       "elementId": "paragraphs/76",
       "span": {
@@ -132,27 +172,7 @@
       "text": "The shape of the thing is right and we are keeping it: one flat grid, one row per competency, showing its Type, its Area and its name, with three tick columns for the level."
     },
     {
-      "id": "a14",
-      "type": "ux-requirement",
-      "elementId": "tables/1/cells/1",
-      "span": {
-        "offset": 4095,
-        "length": 273
-      },
-      "text": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner. Learner and Expert keep their names. This is the vocabulary we are standardising on - it should be identical everywhere the app speaks."
-    },
-    {
-      "id": "a15",
-      "type": "ux-requirement",
-      "elementId": "tables/1/cells/5",
-      "span": {
-        "offset": 4687,
-        "length": 103
-      },
-      "text": "The Save button and its unsaved-change counter go too. Neither should exist anywhere on the new screen."
-    },
-    {
-      "id": "a16",
+      "id": "a18",
       "type": "functional-requirement",
       "elementId": "paragraphs/87",
       "span": {
@@ -162,7 +182,7 @@
       "text": "As a consultant, I want to drill into one family of competencies, so I am not scrolling past a thousand rows to reach the ten that describe me."
     },
     {
-      "id": "a17",
+      "id": "a19",
       "type": "functional-requirement",
       "elementId": "paragraphs/88",
       "span": {
@@ -172,7 +192,7 @@
       "text": "Picking a Type narrows the Area dropdown to that Type's Areas and the grid to that Type's rows."
     },
     {
-      "id": "a18",
+      "id": "a20",
       "type": "functional-requirement",
       "elementId": "paragraphs/92",
       "span": {
@@ -182,7 +202,7 @@
       "text": "As a consultant, I want to type the name of the thing I know, because that is faster than navigating to it."
     },
     {
-      "id": "a19",
+      "id": "a21",
       "type": "functional-requirement",
       "elementId": "paragraphs/93",
       "span": {
@@ -192,7 +212,7 @@
       "text": "Typing in the competency box leaves only the rows whose competency name contains what was typed, ignoring case and accents."
     },
     {
-      "id": "a20",
+      "id": "a22",
       "type": "functional-requirement",
       "elementId": "paragraphs/97",
       "span": {
@@ -202,17 +222,17 @@
       "text": "As a consultant, I want to review what I have already claimed, because correcting an old profile is a different job from filling a new one."
     },
     {
-      "id": "a21",
+      "id": "a23",
       "type": "functional-requirement",
       "elementId": "paragraphs/98",
       "span": {
         "offset": 6196,
-        "length": 123
+        "length": 95
       },
-      "text": "With Mine switched on, the grid shows only competencies where this person has a level recorded. Everything else drops away."
+      "text": "With Mine switched on, the grid shows only competencies where this person has a level recorded."
     },
     {
-      "id": "a22",
+      "id": "a24",
       "type": "functional-requirement",
       "elementId": "paragraphs/102",
       "span": {
@@ -222,7 +242,7 @@
       "text": "As a consultant, I want to see only what is new since I was last here, so a two-month gap does not mean re-reading the whole catalogue."
     },
     {
-      "id": "a23",
+      "id": "a25",
       "type": "functional-requirement",
       "elementId": "paragraphs/103",
       "span": {
@@ -232,7 +252,7 @@
       "text": "With New switched on, the grid shows only competencies that were added to the catalogue after the last time this person changed any of their own levels."
     },
     {
-      "id": "a24",
+      "id": "a26",
       "type": "functional-requirement",
       "elementId": "paragraphs/109",
       "span": {
@@ -242,7 +262,7 @@
       "text": "As a consultant, I want one level per competency, because \"I am a Learner and an Expert at Jira\" is not a thing a person can be."
     },
     {
-      "id": "a25",
+      "id": "a27",
       "type": "functional-requirement",
       "elementId": "paragraphs/110",
       "span": {
@@ -252,7 +272,7 @@
       "text": "Ticking a level on a row that already holds a different one records the new level and clears the old, leaving exactly one of Learner, Advanced, Expert ticked on that row."
     },
     {
-      "id": "a26",
+      "id": "a28",
       "type": "functional-requirement",
       "elementId": "paragraphs/114",
       "span": {
@@ -262,7 +282,7 @@
       "text": "As a consultant, I want to take a claim back, because a mis-click should not become a permanent statement about me."
     },
     {
-      "id": "a27",
+      "id": "a29",
       "type": "functional-requirement",
       "elementId": "paragraphs/115",
       "span": {
@@ -272,7 +292,7 @@
       "text": "Unticking the level a row currently holds deletes the claim outright and returns the row to unrated - which is a real state, distinct from \"Learner\"."
     },
     {
-      "id": "a28",
+      "id": "a30",
       "type": "functional-requirement",
       "elementId": "paragraphs/119",
       "span": {
@@ -282,17 +302,17 @@
       "text": "As a consultant, I want my click to be the whole interaction, so I never lose work by closing a tab."
     },
     {
-      "id": "a29",
+      "id": "a31",
       "type": "functional-requirement",
       "elementId": "paragraphs/120",
       "span": {
         "offset": 8614,
-        "length": 159
+        "length": 84
       },
-      "text": "Every level change is written as it happens, with no further action from the person. There is no Save button, no counter, no \"you have unsaved changes\" prompt."
+      "text": "Every level change is written as it happens, with no further action from the person."
     },
     {
-      "id": "a30",
+      "id": "a32",
       "type": "functional-requirement",
       "elementId": "paragraphs/124",
       "span": {
@@ -302,7 +322,7 @@
       "text": "As a consultant, I want to be told when a click did not land, because silence would let me believe something false was recorded about me."
     },
     {
-      "id": "a31",
+      "id": "a33",
       "type": "functional-requirement",
       "elementId": "paragraphs/125",
       "span": {
@@ -312,7 +332,7 @@
       "text": "If a level change fails to write, the row goes back to its last saved level and a non-blocking message names the competency and says it was not saved."
     },
     {
-      "id": "a32",
+      "id": "a34",
       "type": "functional-requirement",
       "elementId": "paragraphs/130",
       "span": {
@@ -322,7 +342,7 @@
       "text": "As a consultant, I want to just be signed in, because this is an internal tool and I already have a corporate identity."
     },
     {
-      "id": "a33",
+      "id": "a35",
       "type": "functional-requirement",
       "elementId": "paragraphs/131",
       "span": {
@@ -332,28 +352,38 @@
       "text": "Opening any page unauthenticated sends the person to Microsoft Entra ID and brings them back to the page they asked for, signed in as their directory identity."
     },
     {
-      "id": "a34",
+      "id": "a36",
       "type": "integration",
       "elementId": "figures/0",
       "span": {
         "offset": 10389,
-        "length": 46
+        "length": 18
       },
-      "text": "Microsoft Entra ID external corporate identity"
+      "text": "Microsoft Entra ID"
     },
     {
-      "id": "a35",
+      "id": "a37",
       "type": "integration",
       "elementId": "figures/0",
       "span": {
         "offset": 10456,
-        "length": 55
+        "length": 19
       },
-      "text": "Power Apps \"Skills\" - retired one-time migration source"
+      "text": "Power Apps \"Skills\""
     },
     {
-      "id": "a36",
+      "id": "a38",
       "type": "imposed-technology",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10338,
+        "length": 10
+      },
+      "text": "PostgreSQL"
+    },
+    {
+      "id": "a39",
+      "type": "operational-requirement",
       "elementId": "paragraphs/147",
       "span": {
         "offset": 10548,
@@ -362,7 +392,7 @@
       "text": "The app stands alone. It owns its own PostgreSQL database and has exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC with the authorization-code flow and PKCE."
     },
     {
-      "id": "a37",
+      "id": "a40",
       "type": "data-entity",
       "elementId": "tables/2/cells/0",
       "span": {
@@ -372,8 +402,8 @@
       "text": "The catalogue Type - Area - Competency"
     },
     {
-      "id": "a38",
-      "type": "data-requirement",
+      "id": "a41",
+      "type": "integration",
       "elementId": "tables/2/cells/1",
       "span": {
         "offset": 10949,
@@ -382,8 +412,18 @@
       "text": "Read-only to this app - it is maintained elsewhere and loaded in."
     },
     {
-      "id": "a39",
+      "id": "a42",
       "type": "data-entity",
+      "elementId": "tables/2/cells/2",
+      "span": {
+        "offset": 11126,
+        "length": 10
+      },
+      "text": "The person"
+    },
+    {
+      "id": "a43",
+      "type": "data-requirement",
       "elementId": "tables/2/cells/3",
       "span": {
         "offset": 11137,
@@ -392,18 +432,18 @@
       "text": "A directory identity, keyed on their Entra object id, created the first time they sign in."
     },
     {
-      "id": "a40",
+      "id": "a44",
       "type": "data-requirement",
       "elementId": "tables/2/cells/3",
       "span": {
-        "offset": 11228,
-        "length": 55
+        "offset": 11340,
+        "length": 53
       },
-      "text": "It also carries the moment they last changed any level."
+      "text": "it has to survive them clearing every level they hold"
     },
     {
-      "id": "a41",
-      "type": "data-entity",
+      "id": "a45",
+      "type": "data-requirement",
       "elementId": "tables/2/cells/5",
       "span": {
         "offset": 11466,
@@ -412,17 +452,17 @@
       "text": "One person, one competency, one level: Learner, Advanced or Expert."
     },
     {
-      "id": "a42",
+      "id": "a46",
       "type": "data-requirement",
       "elementId": "tables/2/cells/5",
       "span": {
-        "offset": 11711,
-        "length": 122
+        "offset": 11734,
+        "length": 99
       },
-      "text": "This is personal data: we keep it until twelve months after the person's account is disabled, and it never goes into logs."
+      "text": "we keep it until twelve months after the person's account is disabled, and it never goes into logs."
     },
     {
-      "id": "a43",
+      "id": "a47",
       "type": "assumption",
       "elementId": "paragraphs/156",
       "span": {
@@ -432,7 +472,7 @@
       "text": "The catalogue keeps being maintained outside this app."
     },
     {
-      "id": "a44",
+      "id": "a48",
       "type": "assumption",
       "elementId": "paragraphs/157",
       "span": {
@@ -442,7 +482,7 @@
       "text": "Everyone who needs the app already has a corporate Entra ID account."
     },
     {
-      "id": "a45",
+      "id": "a49",
       "type": "dependency",
       "elementId": "paragraphs/158",
       "span": {
@@ -452,7 +492,7 @@
       "text": "Before launch we need an export of the current catalogue and everyone's existing assessments out of Power Apps, from whoever owns that app."
     },
     {
-      "id": "a46",
+      "id": "a50",
       "type": "dependency",
       "elementId": "paragraphs/159",
       "span": {
@@ -462,7 +502,7 @@
       "text": "At the start of the build we need an Entra ID app registration per environment, with redirect URIs and credentials, from the corporate identity team."
     },
     {
-      "id": "a47",
+      "id": "a51",
       "type": "assumption",
       "elementId": "paragraphs/161",
       "span": {
@@ -472,7 +512,17 @@
       "text": "Telling people a write failed is our idea, not yours."
     },
     {
-      "id": "a48",
+      "id": "a52",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/161",
+      "span": {
+        "offset": 12668,
+        "length": 152
+      },
+      "text": "Nobody asked for it, but with the Save button gone a failed write is otherwise invisible and the person walks away believing a false claim was recorded."
+    },
+    {
+      "id": "a53",
       "type": "assumption",
       "elementId": "paragraphs/162",
       "span": {
@@ -480,11 +530,588 @@
         "length": 89
       },
       "text": "Should unrated and \"I have looked at this and it does not apply to me\" be the same thing?"
+    },
+    {
+      "id": "a54",
+      "type": "assumption",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 12970,
+        "length": 40
+      },
+      "text": "Today they are - a blank row means both."
+    }
+  ],
+  "mentions": [
+    {
+      "id": "m1",
+      "elementId": "paragraphs/0",
+      "span": {
+        "offset": 23,
+        "length": 14
+      },
+      "text": "INTERNAL TOOLS",
+      "name": "INTERNAL TOOLS",
+      "kind": "product"
+    },
+    {
+      "id": "m2",
+      "elementId": "paragraphs/2",
+      "span": {
+        "offset": 70,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m3",
+      "elementId": "paragraphs/4",
+      "span": {
+        "offset": 191,
+        "length": 4
+      },
+      "text": "Jira",
+      "name": "Jira",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m4",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 334,
+        "length": 10
+      },
+      "text": "Power Apps",
+      "name": "Power Apps",
+      "kind": "integration"
+    },
+    {
+      "id": "m5",
+      "elementId": "paragraphs/6",
+      "span": {
+        "offset": 886,
+        "length": 7
+      },
+      "text": "Next.js",
+      "name": "Next.js",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m6",
+      "elementId": "paragraphs/6",
+      "span": {
+        "offset": 894,
+        "length": 5
+      },
+      "text": "React",
+      "name": "React",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m7",
+      "elementId": "paragraphs/8",
+      "span": {
+        "offset": 1106,
+        "length": 10
+      },
+      "text": "competency",
+      "name": "competency",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m8",
+      "elementId": "paragraphs/13",
+      "span": {
+        "offset": 1737,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m9",
+      "elementId": "paragraphs/19",
+      "span": {
+        "offset": 2431,
+        "length": 13
+      },
+      "text": "corporate SSO",
+      "name": "corporate SSO",
+      "kind": "integration"
+    },
+    {
+      "id": "m10",
+      "elementId": "tables/0/cells/44",
+      "span": {
+        "offset": 3323,
+        "length": 4
+      },
+      "text": "Jira",
+      "name": "Jira",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m11",
+      "elementId": "paragraphs/87",
+      "span": {
+        "offset": 5111,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m12",
+      "elementId": "paragraphs/88",
+      "span": {
+        "offset": 5260,
+        "length": 4
+      },
+      "text": "Type",
+      "name": "Type",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m13",
+      "elementId": "paragraphs/88",
+      "span": {
+        "offset": 5277,
+        "length": 4
+      },
+      "text": "Area",
+      "name": "Area",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m14",
+      "elementId": "paragraphs/92",
+      "span": {
+        "offset": 5625,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m15",
+      "elementId": "paragraphs/93",
+      "span": {
+        "offset": 5742,
+        "length": 10
+      },
+      "text": "competency",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m16",
+      "elementId": "paragraphs/97",
+      "span": {
+        "offset": 6061,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m17",
+      "elementId": "paragraphs/98",
+      "span": {
+        "offset": 6201,
+        "length": 4
+      },
+      "text": "Mine",
+      "name": "Mine",
+      "kind": "feature"
+    },
+    {
+      "id": "m18",
+      "elementId": "paragraphs/98",
+      "span": {
+        "offset": 6223,
+        "length": 4
+      },
+      "text": "grid",
+      "name": "Grid",
+      "kind": "feature"
+    },
+    {
+      "id": "m19",
+      "elementId": "paragraphs/102",
+      "span": {
+        "offset": 6491,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m20",
+      "elementId": "paragraphs/103",
+      "span": {
+        "offset": 6627,
+        "length": 3
+      },
+      "text": "New",
+      "name": "New",
+      "kind": "feature"
+    },
+    {
+      "id": "m21",
+      "elementId": "paragraphs/109",
+      "span": {
+        "offset": 7545,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m22",
+      "elementId": "paragraphs/109",
+      "span": {
+        "offset": 7606,
+        "length": 7
+      },
+      "text": "Learner",
+      "name": "Learner",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m23",
+      "elementId": "paragraphs/109",
+      "span": {
+        "offset": 7621,
+        "length": 6
+      },
+      "text": "Expert",
+      "name": "Expert",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m24",
+      "elementId": "paragraphs/109",
+      "span": {
+        "offset": 7631,
+        "length": 4
+      },
+      "text": "Jira",
+      "name": "Jira",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m25",
+      "elementId": "paragraphs/114",
+      "span": {
+        "offset": 8102,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m26",
+      "elementId": "paragraphs/119",
+      "span": {
+        "offset": 8518,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m27",
+      "elementId": "paragraphs/124",
+      "span": {
+        "offset": 8935,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m28",
+      "elementId": "paragraphs/130",
+      "span": {
+        "offset": 9545,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m29",
+      "elementId": "paragraphs/131",
+      "span": {
+        "offset": 9713,
+        "length": 18
+      },
+      "text": "Microsoft Entra ID",
+      "name": "Microsoft Entra ID",
+      "kind": "integration"
+    },
+    {
+      "id": "m30",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10264,
+        "length": 10
+      },
+      "text": "Consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m31",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10294,
+        "length": 12
+      },
+      "text": "Competencies",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m32",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10320,
+        "length": 7
+      },
+      "text": "Next.js",
+      "name": "Next.js",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m33",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10330,
+        "length": 5
+      },
+      "text": "React",
+      "name": "React",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m34",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10586,
+        "length": 10
+      },
+      "text": "PostgreSQL",
+      "name": "PostgreSQL",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m35",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10644,
+        "length": 18
+      },
+      "text": "Microsoft Entra ID",
+      "name": "Microsoft Entra ID",
+      "kind": "integration"
+    },
+    {
+      "id": "m36",
+      "elementId": "tables/2/cells/0",
+      "span": {
+        "offset": 10910,
+        "length": 13
+      },
+      "text": "The catalogue",
+      "name": "Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m37",
+      "elementId": "tables/2/cells/0",
+      "span": {
+        "offset": 10924,
+        "length": 4
+      },
+      "text": "Type",
+      "name": "Type",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m38",
+      "elementId": "tables/2/cells/0",
+      "span": {
+        "offset": 10931,
+        "length": 4
+      },
+      "text": "Area",
+      "name": "Area",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m39",
+      "elementId": "tables/2/cells/0",
+      "span": {
+        "offset": 10938,
+        "length": 10
+      },
+      "text": "Competency",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m40",
+      "elementId": "tables/2/cells/1",
+      "span": {
+        "offset": 10962,
+        "length": 8
+      },
+      "text": "this app",
+      "name": "App",
+      "kind": "product"
+    },
+    {
+      "id": "m41",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11174,
+        "length": 15
+      },
+      "text": "Entra object id",
+      "name": "Entra Object ID",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m42",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11505,
+        "length": 7
+      },
+      "text": "Learner",
+      "name": "Learner",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m43",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11514,
+        "length": 8
+      },
+      "text": "Advanced",
+      "name": "Advanced",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m44",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11526,
+        "length": 6
+      },
+      "text": "Expert",
+      "name": "Expert",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m45",
+      "elementId": "paragraphs/156",
+      "span": {
+        "offset": 11860,
+        "length": 13
+      },
+      "text": "The catalogue",
+      "name": "Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m46",
+      "elementId": "paragraphs/157",
+      "span": {
+        "offset": 12041,
+        "length": 26
+      },
+      "text": "corporate Entra ID account",
+      "name": "Corporate Entra ID Account",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m47",
+      "elementId": "paragraphs/158",
+      "span": {
+        "offset": 12223,
+        "length": 10
+      },
+      "text": "Power Apps",
+      "name": "Power Apps",
+      "kind": "integration"
+    },
+    {
+      "id": "m48",
+      "elementId": "paragraphs/159",
+      "span": {
+        "offset": 12484,
+        "length": 25
+      },
+      "text": "Entra ID app registration",
+      "name": "Entra ID App Registration",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m49",
+      "elementId": "paragraphs/159",
+      "span": {
+        "offset": 12572,
+        "length": 23
+      },
+      "text": "corporate identity team",
+      "name": "Corporate Identity Team",
+      "kind": "user-class"
+    },
+    {
+      "id": "m50",
+      "elementId": "paragraphs/161",
+      "span": {
+        "offset": 12702,
+        "length": 11
+      },
+      "text": "Save button",
+      "name": "Save Button",
+      "kind": "feature"
+    },
+    {
+      "id": "m51",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 13014,
+        "length": 8
+      },
+      "text": "staffing",
+      "name": "Staffing",
+      "kind": "user-class"
     }
   ],
   "warnings": [
-    "paragraphs/22: quote not found: \"Self-declared and unmoderated\"",
-    "paragraphs/24: quote not found: \"Types, Areas and Competencies are maintained elsewhere and this app only reads them\"",
-    "paragraphs/25: quote not found: \"No \\\"who knows X\\\", no exports, no dashboards\""
+    "tables/1/cells/0: quote not found: \"The screen is titled Competencies, not Skills.\"",
+    "tables/1/cells/4: quote not found: \"The Save button and its unsaved-change counter go too.\"",
+    "paragraphs/162: quote not found: \"if staffing ever wants to distinguish \\\"nobody has assessed this\\\" from \\\"nobody here can do this\\\", the model needs a fourth state and we should know now rather than after migration.\"",
+    "figures/0: duplicate imposed-technology \"PostgreSQL\"",
+    "figures/0: duplicate integration \"Microsoft Entra ID\"",
+    "figures/0: duplicate integration \"Power Apps \\\"Skills\\\"\"",
+    "tables/2/cells/2: duplicate data-entity \"The person\""
   ]
 }

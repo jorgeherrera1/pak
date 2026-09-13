@@ -1,128 +1,306 @@
-[
-  {
-    "elementId": "paragraphs/87",
-    "quote": "As a consultant, I want to drill into one family of competencies, so I am not scrolling past a thousand rows to reach the ten that describe me.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/88",
-    "quote": "Picking a Type narrows the Area dropdown to that Type's Areas and the grid to that Type's rows.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/92",
-    "quote": "As a consultant, I want to type the name of the thing I know, because that is faster than navigating to it.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/93",
-    "quote": "Typing in the competency box leaves only the rows whose competency name contains what was typed, ignoring case and accents.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/97",
-    "quote": "As a consultant, I want to review what I have already claimed, because correcting an old profile is a different job from filling a new one.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/98",
-    "quote": "With Mine switched on, the grid shows only competencies where this person has a level recorded. Everything else drops away.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/102",
-    "quote": "As a consultant, I want to see only what is new since I was last here, so a two-month gap does not mean re-reading the whole catalogue.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/103",
-    "quote": "With New switched on, the grid shows only competencies that were added to the catalogue after the last time this person changed any of their own levels.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/109",
-    "quote": "As a consultant, I want one level per competency, because \"I am a Learner and an Expert at Jira\" is not a thing a person can be.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/110",
-    "quote": "Ticking a level on a row that already holds a different one records the new level and clears the old, leaving exactly one of Learner, Advanced, Expert ticked on that row.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/114",
-    "quote": "As a consultant, I want to take a claim back, because a mis-click should not become a permanent statement about me.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/115",
-    "quote": "Unticking the level a row currently holds deletes the claim outright and returns the row to unrated - which is a real state, distinct from \"Learner\".",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/119",
-    "quote": "As a consultant, I want my click to be the whole interaction, so I never lose work by closing a tab.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/120",
-    "quote": "Every level change is written as it happens, with no further action from the person. There is no Save button, no counter, no \"you have unsaved changes\" prompt.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/124",
-    "quote": "As a consultant, I want to be told when a click did not land, because silence would let me believe something false was recorded about me.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/125",
-    "quote": "If a level change fails to write, the row goes back to its last saved level and a non-blocking message names the competency and says it was not saved.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/130",
-    "quote": "As a consultant, I want to just be signed in, because this is an internal tool and I already have a corporate identity.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/131",
-    "quote": "Opening any page unauthenticated sends the person to Microsoft Entra ID and brings them back to the page they asked for, signed in as their directory identity.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "figures/0",
-    "quote": "Microsoft Entra ID external corporate identity",
-    "type": "integration",
-    "category": null
-  },
-  {
-    "elementId": "figures/0",
-    "quote": "Power Apps \"Skills\" - retired one-time migration source",
-    "type": "integration",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/147",
-    "quote": "The app stands alone. It owns its own PostgreSQL database and has exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC with the authorization-code flow and PKCE.",
-    "type": "imposed-technology",
-    "category": null
-  }
-]
+{
+  "annotations": [
+    {
+      "elementId": "paragraphs/87",
+      "quote": "As a consultant, I want to drill into one family of competencies, so I am not scrolling past a thousand rows to reach the ten that describe me.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/88",
+      "quote": "Picking a Type narrows the Area dropdown to that Type's Areas and the grid to that Type's rows.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/92",
+      "quote": "As a consultant, I want to type the name of the thing I know, because that is faster than navigating to it.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/93",
+      "quote": "Typing in the competency box leaves only the rows whose competency name contains what was typed, ignoring case and accents.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/97",
+      "quote": "As a consultant, I want to review what I have already claimed, because correcting an old profile is a different job from filling a new one.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/98",
+      "quote": "With Mine switched on, the grid shows only competencies where this person has a level recorded.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/102",
+      "quote": "As a consultant, I want to see only what is new since I was last here, so a two-month gap does not mean re-reading the whole catalogue.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/103",
+      "quote": "With New switched on, the grid shows only competencies that were added to the catalogue after the last time this person changed any of their own levels.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/109",
+      "quote": "As a consultant, I want one level per competency, because \"I am a Learner and an Expert at Jira\" is not a thing a person can be.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/110",
+      "quote": "Ticking a level on a row that already holds a different one records the new level and clears the old, leaving exactly one of Learner, Advanced, Expert ticked on that row.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/114",
+      "quote": "As a consultant, I want to take a claim back, because a mis-click should not become a permanent statement about me.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/115",
+      "quote": "Unticking the level a row currently holds deletes the claim outright and returns the row to unrated - which is a real state, distinct from \"Learner\".",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/119",
+      "quote": "As a consultant, I want my click to be the whole interaction, so I never lose work by closing a tab.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/120",
+      "quote": "Every level change is written as it happens, with no further action from the person.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/124",
+      "quote": "As a consultant, I want to be told when a click did not land, because silence would let me believe something false was recorded about me.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/125",
+      "quote": "If a level change fails to write, the row goes back to its last saved level and a non-blocking message names the competency and says it was not saved.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/130",
+      "quote": "As a consultant, I want to just be signed in, because this is an internal tool and I already have a corporate identity.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/131",
+      "quote": "Opening any page unauthenticated sends the person to Microsoft Entra ID and brings them back to the page they asked for, signed in as their directory identity.",
+      "type": "functional-requirement",
+      "category": null
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "Microsoft Entra ID",
+      "type": "integration",
+      "category": null
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "Power Apps \"Skills\"",
+      "type": "integration",
+      "category": null
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "PostgreSQL",
+      "type": "imposed-technology",
+      "category": null
+    },
+    {
+      "elementId": "paragraphs/147",
+      "quote": "The app stands alone. It owns its own PostgreSQL database and has exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC with the authorization-code flow and PKCE.",
+      "type": "operational-requirement",
+      "category": null
+    }
+  ],
+  "mentions": [
+    {
+      "elementId": "paragraphs/87",
+      "quote": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/88",
+      "quote": "Type",
+      "name": "Type",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "paragraphs/88",
+      "quote": "Area",
+      "name": "Area",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "paragraphs/92",
+      "quote": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/93",
+      "quote": "competency",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "paragraphs/97",
+      "quote": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/98",
+      "quote": "Mine",
+      "name": "Mine",
+      "kind": "feature"
+    },
+    {
+      "elementId": "paragraphs/98",
+      "quote": "grid",
+      "name": "Grid",
+      "kind": "feature"
+    },
+    {
+      "elementId": "paragraphs/102",
+      "quote": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/103",
+      "quote": "New",
+      "name": "New",
+      "kind": "feature"
+    },
+    {
+      "elementId": "paragraphs/109",
+      "quote": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/109",
+      "quote": "Learner",
+      "name": "Learner",
+      "kind": "glossary-term"
+    },
+    {
+      "elementId": "paragraphs/109",
+      "quote": "Expert",
+      "name": "Expert",
+      "kind": "glossary-term"
+    },
+    {
+      "elementId": "paragraphs/109",
+      "quote": "Jira",
+      "name": "Jira",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "paragraphs/114",
+      "quote": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/119",
+      "quote": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/124",
+      "quote": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/130",
+      "quote": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "paragraphs/131",
+      "quote": "Microsoft Entra ID",
+      "name": "Microsoft Entra ID",
+      "kind": "integration"
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "Consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "Competencies",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "Next.js",
+      "name": "Next.js",
+      "kind": "imposed-technology"
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "React",
+      "name": "React",
+      "kind": "imposed-technology"
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "PostgreSQL",
+      "name": "PostgreSQL",
+      "kind": "imposed-technology"
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "Microsoft Entra ID",
+      "name": "Microsoft Entra ID",
+      "kind": "integration"
+    },
+    {
+      "elementId": "figures/0",
+      "quote": "Power Apps \"Skills\"",
+      "name": "Power Apps \"Skills\"",
+      "kind": "integration"
+    },
+    {
+      "elementId": "paragraphs/147",
+      "quote": "PostgreSQL",
+      "name": "PostgreSQL",
+      "kind": "imposed-technology"
+    },
+    {
+      "elementId": "paragraphs/147",
+      "quote": "Microsoft Entra ID",
+      "name": "Microsoft Entra ID",
+      "kind": "integration"
+    }
+  ]
+}

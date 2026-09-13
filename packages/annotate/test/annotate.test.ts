@@ -7,17 +7,24 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { expect, test } from "vitest";
 import { anchors } from "../src/chunk.ts";
-import { validate, type Row } from "../src/validate.ts";
+import { validate, type ModelOutput } from "../src/validate.ts";
 import { doc } from "./doc.ts";
 
 const dir = new URL("./fixtures/annotate-responses/", import.meta.url);
-const rows: Row[] = readdirSync(dir)
+const outputs: ModelOutput[] = readdirSync(dir)
   .sort((a, b) => parseInt(a) - parseInt(b))
-  .flatMap((f) => JSON.parse(readFileSync(new URL(f, dir), "utf8")));
+  .map((f) => JSON.parse(readFileSync(new URL(f, dir), "utf8")));
 
 test("replayed annotations match the recording", () => {
-  const result = validate(rows, anchors(doc), doc.content);
-  for (const a of result.annotations) {
+  const result = validate(
+    {
+      annotations: outputs.flatMap((o) => o.annotations),
+      mentions: outputs.flatMap((o) => o.mentions),
+    },
+    anchors(doc),
+    doc.content,
+  );
+  for (const a of [...result.annotations, ...result.mentions]) {
     expect(
       doc.content.slice(a.span.offset, a.span.offset + a.span.length),
     ).toBe(a.text);
