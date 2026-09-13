@@ -15,6 +15,9 @@ export async function GET(
   const blob = await streamBlob(`${id}/${name}`);
   if (!blob) return Response.json({ error: "not found" }, { status: 404 });
   return new Response(blob.body, {
-    headers: { "content-type": blob.contentType },
+    headers: {
+      "content-type": blob.contentType,
+      "x-content-type-options": "nosniff",
+    },
   });
 }

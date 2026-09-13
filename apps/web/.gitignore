@@ -33,3 +33,6 @@ yarn-error.log*
 # vercel
 .vercel
 /.swc
+
+# Workflow SDK-generated at build; not source
+app/.well-known/

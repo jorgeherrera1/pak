@@ -41,12 +41,9 @@ export async function POST(req: Request) {
     );
   });
 
+  let run;
   try {
-    const run = await start(parseJob, [id]);
-    await db
-      .update(jobs)
-      .set({ workflowRunId: run.runId })
-      .where(eq(jobs.id, id));
+    run = await start(parseJob, [id]);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     await db
@@ -55,5 +52,9 @@ export async function POST(req: Request) {
       .where(eq(jobs.id, id));
     return Response.json({ error: "could not start the job" }, { status: 500 });
   }
+  await db
+    .update(jobs)
+    .set({ workflowRunId: run.runId })
+    .where(eq(jobs.id, id));
   return Response.json({ id }, { status: 202 });
 }

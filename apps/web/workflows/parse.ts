@@ -1,6 +1,7 @@
 import { analyze, toParsedDocument } from "@dark-factory/parse";
 import type { AnalyzeResultOutput } from "@azure-rest/ai-document-intelligence";
 import { eq } from "drizzle-orm";
+import { FatalError } from "workflow";
 import { getBlob, putBlob } from "../lib/blob";
 import { db, jobs } from "../lib/db";
 import { runOperation } from "../lib/operations";
@@ -14,7 +15,7 @@ async function analyzeOperation(jobId: string) {
   "use step";
   await runOperation(jobId, "analyze", async () => {
     const pdf = await getBlob(`${jobId}/source.pdf`);
-    if (!pdf) throw new Error("source.pdf missing");
+    if (!pdf) throw new FatalError("source.pdf missing");
     const { result, figures } = await analyze(pdf);
     for (const { id, png } of figures)
       await putBlob(`${jobId}/figures/${id}.png`, png, "image/png");
@@ -30,10 +31,16 @@ async function buildOperation(jobId: string) {
   "use step";
   return runOperation(jobId, "build", async () => {
     const [job] = await db.select().from(jobs).where(eq(jobs.id, jobId));
-    if (!job) throw new Error("job missing");
+    if (!job) throw new FatalError("job missing");
     const raw = await getBlob(`${jobId}/analysis.json`);
-    if (!raw) throw new Error("analysis.json missing");
-    const result: AnalyzeResultOutput = JSON.parse(raw.toString("utf8"));
+    if (!raw) throw new FatalError("analysis.json missing");
+    let result: AnalyzeResultOutput;
+    try {
+      result = JSON.parse(raw.toString("utf8"));
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      throw new FatalError(`analysis.json is not valid JSON: ${message}`);
+    }
     const doc = toParsedDocument(result, job.sha256);
     await putBlob(
       `${jobId}/parsed.json`,
