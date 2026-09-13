@@ -49,7 +49,7 @@ Run from the repo root:
 
 Anything that touches Azure needs `AZURE_DI_ENDPOINT` and `AZURE_DI_KEY` (Document Intelligence) and `AZURE_API_KEY` (AI Foundry), read from a gitignored `.env` at the repo root. Never commit credentials.
 
-`packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording (run `test:integration`, copy `test/out/<sha256>/{analysis,parsed}.json` into `fixtures/`), never by hand, and the diff is reviewed like code. The same rule applies to `packages/annotate/test/fixtures/annotate-responses/` and `annotations.json`. `packages/annotate/test/fixtures/expected.json` is the eval ground truth and is written by a human only.
+`packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording (run `test:integration`, copy `test/out/<sha256>/{analysis,parsed}.json` into `fixtures/`), never by hand, and the diff is reviewed like code. The same rule applies to `packages/annotate/test/fixtures/annotate-responses/` and `annotate.json`. `packages/annotate/test/fixtures/expected.json` is the eval ground truth and is written by a human only.
 
 ## Definition of done
 

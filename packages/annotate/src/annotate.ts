@@ -4,11 +4,18 @@ import { Output, generateText } from "ai";
 import { readFileSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import type { z } from "zod";
 import { anchors, chunk } from "./chunk.ts";
 import type { AnnotateResult } from "./types.ts";
-import { rowSchema, validate, type Row } from "./validate.ts";
+import { classificationSchema, mentionSchema, validate } from "./validate.ts";
 
-const PROMPT = readFileSync(new URL("./prompt.md", import.meta.url), "utf8");
+const prompt = (name: string) =>
+  readFileSync(new URL(`./${name}.md`, import.meta.url), "utf8");
+/** Two tasks per chunk, each its own prompt and schema; they never share a call. */
+const TASKS = {
+  classify: { instructions: prompt("classify"), schema: classificationSchema },
+  mentions: { instructions: prompt("mentions"), schema: mentionSchema },
+} as const;
 /** Azure AI Foundry deployment name. */
 const MODEL = "gpt-4o";
 
@@ -16,40 +23,55 @@ const azure = createAzure({
   baseURL: "https://aif-motivus.services.ai.azure.com/openai/v1",
 });
 
+async function run<T>(
+  task: { instructions: string; schema: z.ZodType<T> },
+  text: string,
+  file: string,
+): Promise<T[]> {
+  const { output } = await generateText({
+    model: azure(MODEL),
+    output: Output.array({ element: task.schema }),
+    temperature: 0,
+    instructions: task.instructions,
+    prompt: text,
+  });
+  await writeFile(file, JSON.stringify(output, null, 2));
+  return output;
+}
+
 /**
- * ParsedDocument in, grounded annotations out. Every run calls the model;
- * nothing is reused between runs. Everything lands in `<outDir>/<sha256>/`:
- * one model call per chunk, its raw response written to `annotate/<i>.json`;
- * the validated result in `annotations.json`.
+ * ParsedDocument in, grounded classifications and mentions out. Every run
+ * calls the model; nothing is reused between runs. Everything lands in
+ * `<outDir>/<sha256>/`: two model calls per chunk, raw responses written to
+ * `annotate/classify/<i>.json` and `annotate/mentions/<i>.json`; the
+ * validated result in `annotate.json`.
  */
 export async function annotate(
   doc: ParsedDocument,
   outDir: string,
 ): Promise<AnnotateResult> {
   const dir = join(outDir, doc.source.sha256);
-  const responses = join(dir, "annotate");
-  await mkdir(responses, { recursive: true });
+  for (const t of Object.keys(TASKS))
+    await mkdir(join(dir, "annotate", t), { recursive: true });
   // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
-  const rows = await Promise.all(
-    chunk(doc).map(async (text, i): Promise<Row[]> => {
-      const { output } = await generateText({
-        model: azure(MODEL),
-        output: Output.array({ element: rowSchema }),
-        temperature: 0,
-        instructions: PROMPT,
-        prompt: text,
-      });
-      await writeFile(
-        join(responses, `${i}.json`),
-        JSON.stringify(output, null, 2),
-      );
-      return output;
+  const outputs = await Promise.all(
+    chunk(doc).map(async (text, i) => {
+      const file = (t: string) => join(dir, "annotate", t, `${i}.json`);
+      const [classifications, mentions] = await Promise.all([
+        run(TASKS.classify, text, file("classify")),
+        run(TASKS.mentions, text, file("mentions")),
+      ]);
+      return { classifications, mentions };
     }),
   );
-  const result = validate(rows.flat(), anchors(doc), doc.content);
-  await writeFile(
-    join(dir, "annotations.json"),
-    JSON.stringify(result, null, 2),
+  const result = validate(
+    {
+      classifications: outputs.flatMap((o) => o.classifications),
+      mentions: outputs.flatMap((o) => o.mentions),
+    },
+    anchors(doc),
+    doc.content,
   );
+  await writeFile(join(dir, "annotate.json"), JSON.stringify(result, null, 2));
   return result;
 }

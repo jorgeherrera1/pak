@@ -1,11 +1,5 @@
 [
   {
-    "elementId": "paragraphs/0",
-    "quote": "PRODUCT REQUIREMENTS . INTERNAL TOOLS",
-    "type": "product",
-    "category": null
-  },
-  {
     "elementId": "paragraphs/2",
     "quote": "One screen where a consultant tells us what they are good at - and it sticks the moment they click.",
     "type": "feature",
@@ -48,39 +42,27 @@
     "category": null
   },
   {
-    "elementId": "paragraphs/14",
-    "quote": "Managers, reviewers and staffing are not users of this release.",
-    "type": "out-of-scope",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/17",
-    "quote": "Browsing the competency catalogue and narrowing it down",
-    "type": "feature",
-    "category": null
-  },
-  {
     "elementId": "paragraphs/18",
     "quote": "Recording, changing and clearing your own level",
-    "type": "feature",
+    "type": "functional-requirement",
     "category": null
   },
   {
     "elementId": "paragraphs/19",
     "quote": "Signing in with corporate SSO",
-    "type": "imposed-technology",
+    "type": "integration",
     "category": null
   },
   {
     "elementId": "paragraphs/22",
     "quote": "Self-declared and unmoderated",
-    "type": "out-of-scope",
+    "type": "assumption",
     "category": null
   },
   {
     "elementId": "paragraphs/24",
     "quote": "Types, Areas and Competencies are maintained elsewhere and this app only reads them",
-    "type": "out-of-scope",
+    "type": "dependency",
     "category": null
   },
   {
@@ -91,20 +73,14 @@
   },
   {
     "elementId": "paragraphs/76",
-    "quote": "The shape of the thing is right and we are keeping it: one flat grid, one row per competency, showing its Type, its Area and its name, with three tick columns for the level.",
-    "type": "mockup",
+    "quote": "Rows come out sorted by Type, then Area, then competency name, so the grid reads the same way every time.",
+    "type": "ux-requirement",
     "category": null
   },
   {
     "elementId": "tables/1/cells/1",
-    "quote": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner. Learner and Expert keep their names. This is the vocabulary we are standardising on - it should be identical everywhere the app speaks.",
-    "type": "ux-requirement",
-    "category": null
-  },
-  {
-    "elementId": "tables/1/cells/5",
-    "quote": "The Save button and its unsaved-change counter go too. Neither should exist anywhere on the new screen.",
-    "type": "ux-requirement",
+    "quote": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner.",
+    "type": "standard",
     "category": null
   }
 ]

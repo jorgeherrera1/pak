@@ -7,7 +7,7 @@
   },
   {
     "elementId": "paragraphs/88",
-    "quote": "Picking a Type narrows the Area dropdown to that Type's Areas and the grid to that Type's rows.",
+    "quote": "Picking a Type narrows the Area dropdown to that Type's Areas and the grid to that Type's rows. The two dropdowns are a hierarchy, so Areas from other Types never appear.",
     "type": "functional-requirement",
     "category": null
   },
@@ -43,7 +43,7 @@
   },
   {
     "elementId": "paragraphs/103",
-    "quote": "With New switched on, the grid shows only competencies that were added to the catalogue after the last time this person changed any of their own levels.",
+    "quote": "With New switched on, the grid shows only competencies that were added to the catalogue after the last time this person changed any of their own levels. \"New\" is personal and relative - it is not a fixed window like \"the last 30 days\". Someone who last touched their levels forty-five days ago sees exactly what the catalogue gained in those forty-five days. Someone who has never recorded a level sees everything, because all of it is new to them.",
     "type": "functional-requirement",
     "category": null
   },
@@ -55,7 +55,7 @@
   },
   {
     "elementId": "paragraphs/110",
-    "quote": "Ticking a level on a row that already holds a different one records the new level and clears the old, leaving exactly one of Learner, Advanced, Expert ticked on that row.",
+    "quote": "Ticking a level on a row that already holds a different one records the new level and clears the old, leaving exactly one of Learner, Advanced, Expert ticked on that row. Re-ticking the level you already hold is a no-op - it should not generate a second write.",
     "type": "functional-requirement",
     "category": null
   },
@@ -91,7 +91,7 @@
   },
   {
     "elementId": "paragraphs/125",
-    "quote": "If a level change fails to write, the row goes back to its last saved level and a non-blocking message names the competency and says it was not saved.",
+    "quote": "If a level change fails to write, the row goes back to its last saved level and a non-blocking message names the competency and says it was not saved. The person is never left looking at a tick that does not exist in the database. A write that is merely slow, but succeeds, is left alone.",
     "type": "functional-requirement",
     "category": null
   },
@@ -103,7 +103,7 @@
   },
   {
     "elementId": "paragraphs/131",
-    "quote": "Opening any page unauthenticated sends the person to Microsoft Entra ID and brings them back to the page they asked for, signed in as their directory identity.",
+    "quote": "Opening any page unauthenticated sends the person to Microsoft Entra ID and brings them back to the page they asked for, signed in as their directory identity. Whose assessments are read and written is resolved from that session - never from anything the browser sends.",
     "type": "functional-requirement",
     "category": null
   },
@@ -121,8 +121,8 @@
   },
   {
     "elementId": "paragraphs/147",
-    "quote": "The app stands alone. It owns its own PostgreSQL database and has exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC with the authorization-code flow and PKCE.",
-    "type": "imposed-technology",
+    "quote": "The app stands alone. It owns its own PostgreSQL database and has exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC with the authorization-code flow and PKCE. The dashed line is a one-time load of the catalogue and the existing assessments out of the old Power Apps app; after go-live there is no connection between the two.",
+    "type": "integration",
     "category": null
   }
 ]

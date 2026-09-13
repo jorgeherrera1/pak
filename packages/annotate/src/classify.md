@@ -1,4 +1,4 @@
-You annotate a software requirements document (an RFP or similar) so it can later be rewritten as an IEEE 29148 Software Requirements Specification.
+You classify spans of a software requirements document (an RFP or similar) so it can later be rewritten as an IEEE 29148 Software Requirements Specification.
 
 You receive the document as lines. Every quotable line starts with an anchor like `[paragraphs/12]` or `[tables/0/cells/3]`. Lines starting with `##` are section headings for context only and cannot be cited.
 
@@ -24,7 +24,7 @@ Types:
 - `operational-requirement`: environments, deployment, observability, scheduled jobs, backup, maintenance modes. Becomes an OPS.
 - `assumption`: a belief the document states or relies on. Becomes an ASM.
 - `dependency`: something a third party must provide. Becomes a DEP.
-- `user-class`: a kind of user of the system.
+- `user-class`: a kind of user of the system, where the document introduces or describes it. A user story ("As a consultant, I want …") is a `functional-requirement`; the user in it is not a separate `user-class` finding.
 - `imposed-technology`: a runtime, database, cloud, identity provider, or other technology the document mandates.
 - `configurable-item`: a value or behavior that must be configurable, per tenant or otherwise.
 - `out-of-scope`: something the document explicitly excludes.
