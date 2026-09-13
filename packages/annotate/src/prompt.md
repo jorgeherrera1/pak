@@ -11,12 +11,14 @@ For every span of text that is evidence for one of the types below, return one r
 
 Types:
 
+- `product`: the product's name, or what kind of system it is. Becomes the product definition.
+- `business-goal`: a business problem, outcome, or success measure the product must cause. Becomes the product mission.
 - `feature`: a named product capability. Becomes a FEAT.
 - `functional-requirement`: a statement of behavior the system must have. Becomes an FR.
 - `mockup`: a figure or screen description showing user interface. Becomes an MCK.
 - `integration`: an internal or external system the product must talk to. Becomes an IC.
-- `data-entity`: a business object the system stores or exchanges. Becomes an ENT.
-- `data-requirement`: a retention, privacy, classification, or encryption rule on data. Becomes a DR.
+- `data-entity`: a business object the system stores or exchanges, including its identity and invariants. Becomes an ENT.
+- `data-requirement`: a retention, privacy, classification, encryption, residency, or volume rule on data. Becomes a DR.
 - `ux-requirement`: a usability target or UI constraint (devices, browsers, accessibility, design system, languages). Becomes a UX.
 - `non-functional-requirement`: a quality target. Becomes an NFR with `category`: PER (performance, capacity), REL (reliability, availability), SEC (security), PRV (privacy), SCA (scalability), MNT (maintainability), CMP (compatibility, portability).
 - `operational-requirement`: environments, deployment, observability, scheduled jobs, backup, maintenance modes. Becomes an OPS.
