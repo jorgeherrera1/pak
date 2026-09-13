@@ -8,7 +8,7 @@ import { existsSync, readFileSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vitest";
 import { annotate } from "../src/annotate.ts";
-import type { AnnotationType } from "../src/types.ts";
+import type { ClassificationType } from "../src/types.ts";
 import { doc } from "./doc.ts";
 
 const env = fileURLToPath(new URL("../../../.env", import.meta.url));
@@ -18,7 +18,7 @@ const out = fileURLToPath(new URL("./out/", import.meta.url));
 const expectedFile = new URL("./fixtures/expected.json", import.meta.url);
 
 type Expected = {
-  annotations: { elementId: string; type: AnnotationType }[];
+  classifications: { elementId: string; type: ClassificationType }[];
   mentions: { elementId: string; name: string }[];
 };
 
@@ -56,9 +56,9 @@ const FLOOR = 0;
 
 test("live annotate and eval", { timeout: 300_000 }, async () => {
   rmSync(out, { recursive: true, force: true });
-  const { annotations, mentions, warnings } = await annotate(doc, out);
+  const { classifications, mentions, warnings } = await annotate(doc, out);
   console.log(
-    `${annotations.length} annotations, ${mentions.length} mentions, ${warnings.length} warnings`,
+    `${classifications.length} classifications, ${mentions.length} mentions, ${warnings.length} warnings`,
   );
   for (const w of warnings) console.log(`  ${w}`);
   if (!existsSync(expectedFile)) {
@@ -67,9 +67,9 @@ test("live annotate and eval", { timeout: 300_000 }, async () => {
   }
   const expected: Expected = JSON.parse(readFileSync(expectedFile, "utf8"));
   const tables = {
-    annotations: score<{ elementId: string; type: AnnotationType }>(
-      annotations,
-      expected.annotations,
+    classifications: score<{ elementId: string; type: ClassificationType }>(
+      classifications,
+      expected.classifications,
       (x) => `${x.elementId}|${x.type}`,
       (x) => x.type,
     ),

@@ -23,7 +23,7 @@ export const TYPES = [
   "standard",
   "glossary-term",
 ] as const;
-export type AnnotationType = (typeof TYPES)[number];
+export type ClassificationType = (typeof TYPES)[number];
 
 /** The types that name a thing the document refers to, as opposed to a statement it makes. */
 export const NOUN_TYPES = [
@@ -51,9 +51,9 @@ export const CATEGORIES = [
 export type Category = (typeof CATEGORIES)[number];
 
 /** Evidence that the SRS needs something: what a span is. */
-export type Annotation = {
+export type Classification = {
   id: string;
-  type: AnnotationType;
+  type: ClassificationType;
   /** Element the quote was found in. */
   elementId: string;
   /** Where `text` sits in ParsedDocument.content. */
@@ -80,7 +80,7 @@ export type Mention = {
 };
 
 export type AnnotateResult = {
-  annotations: Annotation[];
+  classifications: Classification[];
   mentions: Mention[];
   warnings: string[];
 };

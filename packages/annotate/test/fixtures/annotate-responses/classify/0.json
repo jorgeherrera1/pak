@@ -1,0 +1,86 @@
+[
+  {
+    "elementId": "paragraphs/2",
+    "quote": "One screen where a consultant tells us what they are good at - and it sticks the moment they click.",
+    "type": "feature",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/4",
+    "quote": "We cannot answer \"who knows Jira?\" without asking people. The competency data we do have is stale, and the app that holds it is the reason why.",
+    "type": "business-goal",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/6",
+    "quote": "We are rebuilding it as a small Next.js/React app.",
+    "type": "imposed-technology",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/8",
+    "quote": "A consultant can open the app, find the competency they have in mind, and record their level without thinking about the mechanics - no save step, no second screen.",
+    "type": "ux-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/9",
+    "quote": "Nothing is ever lost to a closed tab. If a click did not reach the database, the person finds out immediately rather than believing a claim was recorded.",
+    "type": "non-functional-requirement",
+    "category": "REL"
+  },
+  {
+    "elementId": "paragraphs/11",
+    "quote": "The words on the screen match the words the business uses, so nobody has to translate practitioner into advanced in their head.",
+    "type": "ux-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/13",
+    "quote": "One audience, and only one: the consultant assessing themselves.",
+    "type": "user-class",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/18",
+    "quote": "Recording, changing and clearing your own level",
+    "type": "functional-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/19",
+    "quote": "Signing in with corporate SSO",
+    "type": "integration",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/22",
+    "quote": "Self-declared and unmoderated",
+    "type": "assumption",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/24",
+    "quote": "Types, Areas and Competencies are maintained elsewhere and this app only reads them",
+    "type": "dependency",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/25",
+    "quote": "No \"who knows X\", no exports, no dashboards",
+    "type": "out-of-scope",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/76",
+    "quote": "Rows come out sorted by Type, then Area, then competency name, so the grid reads the same way every time.",
+    "type": "ux-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/1/cells/1",
+    "quote": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner.",
+    "type": "standard",
+    "category": null
+  }
+]

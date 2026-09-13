@@ -1,0 +1,2063 @@
+{
+  "classifications": [
+    {
+      "id": "a1",
+      "type": "feature",
+      "elementId": "paragraphs/2",
+      "span": {
+        "offset": 51,
+        "length": 99
+      },
+      "text": "One screen where a consultant tells us what they are good at - and it sticks the moment they click."
+    },
+    {
+      "id": "a2",
+      "type": "business-goal",
+      "elementId": "paragraphs/4",
+      "span": {
+        "offset": 163,
+        "length": 143
+      },
+      "text": "We cannot answer \"who knows Jira?\" without asking people. The competency data we do have is stale, and the app that holds it is the reason why."
+    },
+    {
+      "id": "a3",
+      "type": "imposed-technology",
+      "elementId": "paragraphs/6",
+      "span": {
+        "offset": 854,
+        "length": 50
+      },
+      "text": "We are rebuilding it as a small Next.js/React app."
+    },
+    {
+      "id": "a4",
+      "type": "ux-requirement",
+      "elementId": "paragraphs/8",
+      "span": {
+        "offset": 1066,
+        "length": 163
+      },
+      "text": "A consultant can open the app, find the competency they have in mind, and record their level without thinking about the mechanics - no save step, no second screen."
+    },
+    {
+      "id": "a5",
+      "type": "non-functional-requirement",
+      "elementId": "paragraphs/9",
+      "span": {
+        "offset": 1241,
+        "length": 153
+      },
+      "text": "Nothing is ever lost to a closed tab. If a click did not reach the database, the person finds out immediately rather than believing a claim was recorded.",
+      "category": "REL"
+    },
+    {
+      "id": "a6",
+      "type": "ux-requirement",
+      "elementId": "paragraphs/11",
+      "span": {
+        "offset": 1561,
+        "length": 127
+      },
+      "text": "The words on the screen match the words the business uses, so nobody has to translate practitioner into advanced in their head."
+    },
+    {
+      "id": "a7",
+      "type": "user-class",
+      "elementId": "paragraphs/13",
+      "span": {
+        "offset": 1705,
+        "length": 64
+      },
+      "text": "One audience, and only one: the consultant assessing themselves."
+    },
+    {
+      "id": "a8",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/18",
+      "span": {
+        "offset": 2365,
+        "length": 47
+      },
+      "text": "Recording, changing and clearing your own level"
+    },
+    {
+      "id": "a9",
+      "type": "integration",
+      "elementId": "paragraphs/19",
+      "span": {
+        "offset": 2415,
+        "length": 29
+      },
+      "text": "Signing in with corporate SSO"
+    },
+    {
+      "id": "a10",
+      "type": "ux-requirement",
+      "elementId": "paragraphs/76",
+      "span": {
+        "offset": 3966,
+        "length": 105
+      },
+      "text": "Rows come out sorted by Type, then Area, then competency name, so the grid reads the same way every time."
+    },
+    {
+      "id": "a11",
+      "type": "standard",
+      "elementId": "tables/1/cells/1",
+      "span": {
+        "offset": 4095,
+        "length": 137
+      },
+      "text": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner."
+    },
+    {
+      "id": "a12",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/87",
+      "span": {
+        "offset": 5106,
+        "length": 143
+      },
+      "text": "As a consultant, I want to drill into one family of competencies, so I am not scrolling past a thousand rows to reach the ten that describe me."
+    },
+    {
+      "id": "a13",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/88",
+      "span": {
+        "offset": 5250,
+        "length": 170
+      },
+      "text": "Picking a Type narrows the Area dropdown to that Type's Areas and the grid to that Type's rows. The two dropdowns are a hierarchy, so Areas from other Types never appear."
+    },
+    {
+      "id": "a14",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/92",
+      "span": {
+        "offset": 5620,
+        "length": 107
+      },
+      "text": "As a consultant, I want to type the name of the thing I know, because that is faster than navigating to it."
+    },
+    {
+      "id": "a15",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/93",
+      "span": {
+        "offset": 5728,
+        "length": 123
+      },
+      "text": "Typing in the competency box leaves only the rows whose competency name contains what was typed, ignoring case and accents."
+    },
+    {
+      "id": "a16",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/97",
+      "span": {
+        "offset": 6056,
+        "length": 139
+      },
+      "text": "As a consultant, I want to review what I have already claimed, because correcting an old profile is a different job from filling a new one."
+    },
+    {
+      "id": "a17",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/98",
+      "span": {
+        "offset": 6196,
+        "length": 123
+      },
+      "text": "With Mine switched on, the grid shows only competencies where this person has a level recorded. Everything else drops away."
+    },
+    {
+      "id": "a18",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/102",
+      "span": {
+        "offset": 6486,
+        "length": 135
+      },
+      "text": "As a consultant, I want to see only what is new since I was last here, so a two-month gap does not mean re-reading the whole catalogue."
+    },
+    {
+      "id": "a19",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/103",
+      "span": {
+        "offset": 6622,
+        "length": 448
+      },
+      "text": "With New switched on, the grid shows only competencies that were added to the catalogue after the last time this person changed any of their own levels. \"New\" is personal and relative - it is not a fixed window like \"the last 30 days\". Someone who last touched their levels forty-five days ago sees exactly what the catalogue gained in those forty-five days. Someone who has never recorded a level sees everything, because all of it is new to them."
+    },
+    {
+      "id": "a20",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/109",
+      "span": {
+        "offset": 7540,
+        "length": 128
+      },
+      "text": "As a consultant, I want one level per competency, because \"I am a Learner and an Expert at Jira\" is not a thing a person can be."
+    },
+    {
+      "id": "a21",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/110",
+      "span": {
+        "offset": 7669,
+        "length": 260
+      },
+      "text": "Ticking a level on a row that already holds a different one records the new level and clears the old, leaving exactly one of Learner, Advanced, Expert ticked on that row. Re-ticking the level you already hold is a no-op - it should not generate a second write."
+    },
+    {
+      "id": "a22",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/114",
+      "span": {
+        "offset": 8097,
+        "length": 115
+      },
+      "text": "As a consultant, I want to take a claim back, because a mis-click should not become a permanent statement about me."
+    },
+    {
+      "id": "a23",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/115",
+      "span": {
+        "offset": 8213,
+        "length": 149
+      },
+      "text": "Unticking the level a row currently holds deletes the claim outright and returns the row to unrated - which is a real state, distinct from \"Learner\"."
+    },
+    {
+      "id": "a24",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/119",
+      "span": {
+        "offset": 8513,
+        "length": 100
+      },
+      "text": "As a consultant, I want my click to be the whole interaction, so I never lose work by closing a tab."
+    },
+    {
+      "id": "a25",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/120",
+      "span": {
+        "offset": 8614,
+        "length": 159
+      },
+      "text": "Every level change is written as it happens, with no further action from the person. There is no Save button, no counter, no \"you have unsaved changes\" prompt."
+    },
+    {
+      "id": "a26",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/124",
+      "span": {
+        "offset": 8930,
+        "length": 137
+      },
+      "text": "As a consultant, I want to be told when a click did not land, because silence would let me believe something false was recorded about me."
+    },
+    {
+      "id": "a27",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/125",
+      "span": {
+        "offset": 9068,
+        "length": 288
+      },
+      "text": "If a level change fails to write, the row goes back to its last saved level and a non-blocking message names the competency and says it was not saved. The person is never left looking at a tick that does not exist in the database. A write that is merely slow, but succeeds, is left alone."
+    },
+    {
+      "id": "a28",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/130",
+      "span": {
+        "offset": 9540,
+        "length": 119
+      },
+      "text": "As a consultant, I want to just be signed in, because this is an internal tool and I already have a corporate identity."
+    },
+    {
+      "id": "a29",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/131",
+      "span": {
+        "offset": 9660,
+        "length": 269
+      },
+      "text": "Opening any page unauthenticated sends the person to Microsoft Entra ID and brings them back to the page they asked for, signed in as their directory identity. Whose assessments are read and written is resolved from that session - never from anything the browser sends."
+    },
+    {
+      "id": "a30",
+      "type": "integration",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10389,
+        "length": 46
+      },
+      "text": "Microsoft Entra ID external corporate identity"
+    },
+    {
+      "id": "a31",
+      "type": "integration",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10456,
+        "length": 55
+      },
+      "text": "Power Apps \"Skills\" - retired one-time migration source"
+    },
+    {
+      "id": "a32",
+      "type": "integration",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10548,
+        "length": 347
+      },
+      "text": "The app stands alone. It owns its own PostgreSQL database and has exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC with the authorization-code flow and PKCE. The dashed line is a one-time load of the catalogue and the existing assessments out of the old Power Apps app; after go-live there is no connection between the two."
+    },
+    {
+      "id": "a33",
+      "type": "data-entity",
+      "elementId": "tables/2/cells/0",
+      "span": {
+        "offset": 10910,
+        "length": 38
+      },
+      "text": "The catalogue Type - Area - Competency"
+    },
+    {
+      "id": "a34",
+      "type": "dependency",
+      "elementId": "tables/2/cells/1",
+      "span": {
+        "offset": 10949,
+        "length": 65
+      },
+      "text": "Read-only to this app - it is maintained elsewhere and loaded in."
+    },
+    {
+      "id": "a35",
+      "type": "data-requirement",
+      "elementId": "tables/2/cells/1",
+      "span": {
+        "offset": 11015,
+        "length": 110
+      },
+      "text": "Each competency carries the date it was added to the catalogue, which is what the New toggle compares against."
+    },
+    {
+      "id": "a36",
+      "type": "data-entity",
+      "elementId": "tables/2/cells/2",
+      "span": {
+        "offset": 11126,
+        "length": 10
+      },
+      "text": "The person"
+    },
+    {
+      "id": "a37",
+      "type": "data-entity",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11137,
+        "length": 90
+      },
+      "text": "A directory identity, keyed on their Entra object id, created the first time they sign in."
+    },
+    {
+      "id": "a38",
+      "type": "data-requirement",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11228,
+        "length": 55
+      },
+      "text": "It also carries the moment they last changed any level."
+    },
+    {
+      "id": "a39",
+      "type": "data-requirement",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11284,
+        "length": 171
+      },
+      "text": "That timestamp is the other half of the New toggle, and it has to survive them clearing every level they hold - so it belongs on the person, not derived from their claims."
+    },
+    {
+      "id": "a40",
+      "type": "data-entity",
+      "elementId": "tables/2/cells/4",
+      "span": {
+        "offset": 11456,
+        "length": 9
+      },
+      "text": "The claim"
+    },
+    {
+      "id": "a41",
+      "type": "data-requirement",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11466,
+        "length": 67
+      },
+      "text": "One person, one competency, one level: Learner, Advanced or Expert."
+    },
+    {
+      "id": "a42",
+      "type": "data-requirement",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11534,
+        "length": 144
+      },
+      "text": "At most one of these per person per competency - the storage itself should make two impossible, rather than relying on the screen to prevent it."
+    },
+    {
+      "id": "a43",
+      "type": "data-requirement",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11679,
+        "length": 31
+      },
+      "text": "No record at all means unrated."
+    },
+    {
+      "id": "a44",
+      "type": "data-requirement",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11711,
+        "length": 122
+      },
+      "text": "This is personal data: we keep it until twelve months after the person's account is disabled, and it never goes into logs."
+    },
+    {
+      "id": "a45",
+      "type": "assumption",
+      "elementId": "paragraphs/156",
+      "span": {
+        "offset": 11860,
+        "length": 137
+      },
+      "text": "The catalogue keeps being maintained outside this app. If that changes, someone has to build an editor and this document grows a section."
+    },
+    {
+      "id": "a46",
+      "type": "assumption",
+      "elementId": "paragraphs/157",
+      "span": {
+        "offset": 12000,
+        "length": 120
+      },
+      "text": "Everyone who needs the app already has a corporate Entra ID account. There are no local accounts and no invitation flow."
+    },
+    {
+      "id": "a47",
+      "type": "dependency",
+      "elementId": "paragraphs/158",
+      "span": {
+        "offset": 12123,
+        "length": 139
+      },
+      "text": "Before launch we need an export of the current catalogue and everyone's existing assessments out of Power Apps, from whoever owns that app."
+    },
+    {
+      "id": "a48",
+      "type": "data-requirement",
+      "elementId": "paragraphs/158",
+      "span": {
+        "offset": 12263,
+        "length": 181
+      },
+      "text": "It has to carry each competency's original date of addition - if the migration stamps everything with today's date, the New toggle is wrong for every existing employee from day one."
+    },
+    {
+      "id": "a49",
+      "type": "dependency",
+      "elementId": "paragraphs/159",
+      "span": {
+        "offset": 12447,
+        "length": 149
+      },
+      "text": "At the start of the build we need an Entra ID app registration per environment, with redirect URIs and credentials, from the corporate identity team."
+    },
+    {
+      "id": "a50",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/161",
+      "span": {
+        "offset": 12614,
+        "length": 206
+      },
+      "text": "Telling people a write failed is our idea, not yours. Nobody asked for it, but with the Save button gone a failed write is otherwise invisible and the person walks away believing a false claim was recorded."
+    },
+    {
+      "id": "a51",
+      "type": "assumption",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 12880,
+        "length": 130
+      },
+      "text": "Should unrated and \"I have looked at this and it does not apply to me\" be the same thing? Today they are - a blank row means both."
+    },
+    {
+      "id": "a52",
+      "type": "functional-requirement",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 13011,
+        "length": 179
+      },
+      "text": "If staffing ever wants to distinguish \"nobody has assessed this\" from \"nobody here can do this\", the model needs a fourth state and we should know now rather than after migration."
+    }
+  ],
+  "mentions": [
+    {
+      "id": "m1",
+      "elementId": "paragraphs/1",
+      "span": {
+        "offset": 38,
+        "length": 12
+      },
+      "text": "Competencies",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m2",
+      "elementId": "paragraphs/2",
+      "span": {
+        "offset": 70,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m3",
+      "elementId": "paragraphs/4",
+      "span": {
+        "offset": 191,
+        "length": 4
+      },
+      "text": "Jira",
+      "name": "Jira",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m4",
+      "elementId": "paragraphs/4",
+      "span": {
+        "offset": 225,
+        "length": 15
+      },
+      "text": "competency data",
+      "name": "Competency Data",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m5",
+      "elementId": "paragraphs/4",
+      "span": {
+        "offset": 270,
+        "length": 3
+      },
+      "text": "app",
+      "name": "App",
+      "kind": "product"
+    },
+    {
+      "id": "m6",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 334,
+        "length": 17
+      },
+      "text": "Power Apps screen",
+      "name": "Power Apps Screen",
+      "kind": "product"
+    },
+    {
+      "id": "m7",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 409,
+        "length": 9
+      },
+      "text": "catalogue",
+      "name": "Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m8",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 525,
+        "length": 10
+      },
+      "text": "competency",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m9",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 540,
+        "length": 8
+      },
+      "text": "advanced",
+      "name": "Advanced",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m10",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 566,
+        "length": 5
+      },
+      "text": "skill",
+      "name": "Skill",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m11",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 576,
+        "length": 12
+      },
+      "text": "practitioner",
+      "name": "Practitioner",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m12",
+      "elementId": "paragraphs/6",
+      "span": {
+        "offset": 886,
+        "length": 7
+      },
+      "text": "Next.js",
+      "name": "Next.js",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m13",
+      "elementId": "paragraphs/6",
+      "span": {
+        "offset": 894,
+        "length": 5
+      },
+      "text": "React",
+      "name": "React",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m14",
+      "elementId": "paragraphs/8",
+      "span": {
+        "offset": 1092,
+        "length": 3
+      },
+      "text": "app",
+      "name": "App",
+      "kind": "product"
+    },
+    {
+      "id": "m15",
+      "elementId": "paragraphs/8",
+      "span": {
+        "offset": 1106,
+        "length": 10
+      },
+      "text": "competency",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m16",
+      "elementId": "paragraphs/9",
+      "span": {
+        "offset": 1308,
+        "length": 8
+      },
+      "text": "database",
+      "name": "Database",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m17",
+      "elementId": "paragraphs/10",
+      "span": {
+        "offset": 1465,
+        "length": 9
+      },
+      "text": "catalogue",
+      "name": "Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m18",
+      "elementId": "paragraphs/11",
+      "span": {
+        "offset": 1647,
+        "length": 12
+      },
+      "text": "practitioner",
+      "name": "Practitioner",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m19",
+      "elementId": "paragraphs/11",
+      "span": {
+        "offset": 1665,
+        "length": 8
+      },
+      "text": "advanced",
+      "name": "Advanced",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m20",
+      "elementId": "paragraphs/13",
+      "span": {
+        "offset": 1737,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m21",
+      "elementId": "paragraphs/13",
+      "span": {
+        "offset": 1836,
+        "length": 3
+      },
+      "text": "app",
+      "name": "App",
+      "kind": "product"
+    },
+    {
+      "id": "m22",
+      "elementId": "paragraphs/13",
+      "span": {
+        "offset": 1998,
+        "length": 12
+      },
+      "text": "competencies",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m23",
+      "elementId": "paragraphs/13",
+      "span": {
+        "offset": 2039,
+        "length": 9
+      },
+      "text": "catalogue",
+      "name": "Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m24",
+      "elementId": "paragraphs/14",
+      "span": {
+        "offset": 2072,
+        "length": 8
+      },
+      "text": "Managers",
+      "name": "Manager",
+      "kind": "user-class"
+    },
+    {
+      "id": "m25",
+      "elementId": "paragraphs/14",
+      "span": {
+        "offset": 2082,
+        "length": 9
+      },
+      "text": "reviewers",
+      "name": "Reviewer",
+      "kind": "user-class"
+    },
+    {
+      "id": "m26",
+      "elementId": "paragraphs/14",
+      "span": {
+        "offset": 2096,
+        "length": 8
+      },
+      "text": "staffing",
+      "name": "Staffing",
+      "kind": "user-class"
+    },
+    {
+      "id": "m27",
+      "elementId": "paragraphs/14",
+      "span": {
+        "offset": 2203,
+        "length": 7
+      },
+      "text": "profile",
+      "name": "Profile",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m28",
+      "elementId": "paragraphs/17",
+      "span": {
+        "offset": 2309,
+        "length": 20
+      },
+      "text": "competency catalogue",
+      "name": "Competency Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m29",
+      "elementId": "paragraphs/18",
+      "span": {
+        "offset": 2407,
+        "length": 5
+      },
+      "text": "level",
+      "name": "Level",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m30",
+      "elementId": "paragraphs/19",
+      "span": {
+        "offset": 2431,
+        "length": 13
+      },
+      "text": "corporate SSO",
+      "name": "Corporate SSO",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m31",
+      "elementId": "paragraphs/22",
+      "span": {
+        "offset": 2540,
+        "length": 13
+      },
+      "text": "self-declared",
+      "name": "Self-Declared",
+      "kind": "feature"
+    },
+    {
+      "id": "m32",
+      "elementId": "paragraphs/24",
+      "span": {
+        "offset": 2638,
+        "length": 12
+      },
+      "text": "Competencies",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m33",
+      "elementId": "paragraphs/24",
+      "span": {
+        "offset": 2685,
+        "length": 3
+      },
+      "text": "app",
+      "name": "App",
+      "kind": "product"
+    },
+    {
+      "id": "m34",
+      "elementId": "paragraphs/25",
+      "span": {
+        "offset": 2788,
+        "length": 10
+      },
+      "text": "dashboards",
+      "name": "Dashboard",
+      "kind": "feature"
+    },
+    {
+      "id": "m35",
+      "elementId": "tables/0/cells/0",
+      "span": {
+        "offset": 2827,
+        "length": 19
+      },
+      "text": "Skills Competencies",
+      "name": "Skill Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m36",
+      "elementId": "tables/0/cells/3",
+      "span": {
+        "offset": 2849,
+        "length": 4
+      },
+      "text": "Type",
+      "name": "Type",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m37",
+      "elementId": "tables/0/cells/4",
+      "span": {
+        "offset": 2854,
+        "length": 4
+      },
+      "text": "Area",
+      "name": "Area",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m38",
+      "elementId": "tables/0/cells/5",
+      "span": {
+        "offset": 2859,
+        "length": 16
+      },
+      "text": "Skill Competency",
+      "name": "Skill Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m39",
+      "elementId": "tables/0/cells/6",
+      "span": {
+        "offset": 2876,
+        "length": 7
+      },
+      "text": "Learner",
+      "name": "Learner",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m40",
+      "elementId": "tables/0/cells/7",
+      "span": {
+        "offset": 2884,
+        "length": 10
+      },
+      "text": "Pracunomer",
+      "name": "Pracunomer",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m41",
+      "elementId": "tables/0/cells/8",
+      "span": {
+        "offset": 2895,
+        "length": 6
+      },
+      "text": "Expert",
+      "name": "Expert",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m42",
+      "elementId": "tables/0/cells/13",
+      "span": {
+        "offset": 2928,
+        "length": 17
+      },
+      "text": "Competency Filter",
+      "name": "Competency Filter",
+      "kind": "feature"
+    },
+    {
+      "id": "m43",
+      "elementId": "tables/0/cells/14",
+      "span": {
+        "offset": 2950,
+        "length": 4
+      },
+      "text": "Mine",
+      "name": "Mine",
+      "kind": "feature"
+    },
+    {
+      "id": "m44",
+      "elementId": "tables/0/cells/15",
+      "span": {
+        "offset": 2968,
+        "length": 3
+      },
+      "text": "New",
+      "name": "New",
+      "kind": "feature"
+    },
+    {
+      "id": "m45",
+      "elementId": "tables/0/cells/17",
+      "span": {
+        "offset": 2994,
+        "length": 7
+      },
+      "text": "Agility",
+      "name": "Agility",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m46",
+      "elementId": "tables/0/cells/18",
+      "span": {
+        "offset": 3002,
+        "length": 25
+      },
+      "text": "Agile and DevOps Coaching",
+      "name": "Agile and DevOps Coaching",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m47",
+      "elementId": "tables/0/cells/20",
+      "span": {
+        "offset": 3028,
+        "length": 18
+      },
+      "text": "Atlassian / Bamboo",
+      "name": "Atlassian / Bamboo",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m48",
+      "elementId": "tables/0/cells/28",
+      "span": {
+        "offset": 3120,
+        "length": 21
+      },
+      "text": "Atlassian / Bitbucket",
+      "name": "Atlassian / Bitbucket",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m49",
+      "elementId": "tables/0/cells/36",
+      "span": {
+        "offset": 3215,
+        "length": 22
+      },
+      "text": "Atlassian / Confluence",
+      "name": "Atlassian / Confluence",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m50",
+      "elementId": "tables/0/cells/44",
+      "span": {
+        "offset": 3311,
+        "length": 16
+      },
+      "text": "Atlassian / Jira",
+      "name": "Atlassian / Jira",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m51",
+      "elementId": "tables/0/cells/51",
+      "span": {
+        "offset": 3401,
+        "length": 22
+      },
+      "text": "Atlassian / Jira Align",
+      "name": "Atlassian / Jira Align",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m52",
+      "elementId": "paragraphs/76",
+      "span": {
+        "offset": 3785,
+        "length": 4
+      },
+      "text": "Type",
+      "name": "Type",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m53",
+      "elementId": "paragraphs/76",
+      "span": {
+        "offset": 3795,
+        "length": 4
+      },
+      "text": "Area",
+      "name": "Area",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m54",
+      "elementId": "paragraphs/76",
+      "span": {
+        "offset": 3949,
+        "length": 15
+      },
+      "text": "competency name",
+      "name": "Competency Name",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m55",
+      "elementId": "paragraphs/76",
+      "span": {
+        "offset": 3743,
+        "length": 4
+      },
+      "text": "grid",
+      "name": "Grid",
+      "kind": "feature"
+    },
+    {
+      "id": "m56",
+      "elementId": "tables/1/cells/1",
+      "span": {
+        "offset": 4116,
+        "length": 12
+      },
+      "text": "Competencies",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m57",
+      "elementId": "tables/1/cells/1",
+      "span": {
+        "offset": 4134,
+        "length": 6
+      },
+      "text": "Skills",
+      "name": "Skill",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m58",
+      "elementId": "tables/1/cells/1",
+      "span": {
+        "offset": 4205,
+        "length": 8
+      },
+      "text": "Advanced",
+      "name": "Advanced",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m59",
+      "elementId": "tables/1/cells/1",
+      "span": {
+        "offset": 4219,
+        "length": 12
+      },
+      "text": "Practitioner",
+      "name": "Practitioner",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m60",
+      "elementId": "tables/1/cells/3",
+      "span": {
+        "offset": 4385,
+        "length": 4
+      },
+      "text": "Mine",
+      "name": "Mine",
+      "kind": "feature"
+    },
+    {
+      "id": "m61",
+      "elementId": "tables/1/cells/3",
+      "span": {
+        "offset": 4394,
+        "length": 3
+      },
+      "text": "New",
+      "name": "New",
+      "kind": "feature"
+    },
+    {
+      "id": "m62",
+      "elementId": "tables/1/cells/5",
+      "span": {
+        "offset": 4691,
+        "length": 11
+      },
+      "text": "Save button",
+      "name": "Save Button",
+      "kind": "feature"
+    },
+    {
+      "id": "m63",
+      "elementId": "paragraphs/87",
+      "span": {
+        "offset": 5111,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m64",
+      "elementId": "paragraphs/87",
+      "span": {
+        "offset": 5158,
+        "length": 12
+      },
+      "text": "competencies",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m65",
+      "elementId": "paragraphs/88",
+      "span": {
+        "offset": 5260,
+        "length": 4
+      },
+      "text": "Type",
+      "name": "Type",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m66",
+      "elementId": "paragraphs/88",
+      "span": {
+        "offset": 5277,
+        "length": 4
+      },
+      "text": "Area",
+      "name": "Area",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m67",
+      "elementId": "paragraphs/88",
+      "span": {
+        "offset": 5320,
+        "length": 4
+      },
+      "text": "grid",
+      "name": "Grid",
+      "kind": "feature"
+    },
+    {
+      "id": "m68",
+      "elementId": "paragraphs/92",
+      "span": {
+        "offset": 5625,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m69",
+      "elementId": "paragraphs/93",
+      "span": {
+        "offset": 5784,
+        "length": 15
+      },
+      "text": "competency name",
+      "name": "Competency Name",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m70",
+      "elementId": "paragraphs/97",
+      "span": {
+        "offset": 6061,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m71",
+      "elementId": "paragraphs/98",
+      "span": {
+        "offset": 6201,
+        "length": 4
+      },
+      "text": "Mine",
+      "name": "Mine",
+      "kind": "feature"
+    },
+    {
+      "id": "m72",
+      "elementId": "paragraphs/98",
+      "span": {
+        "offset": 6223,
+        "length": 4
+      },
+      "text": "grid",
+      "name": "Grid",
+      "kind": "feature"
+    },
+    {
+      "id": "m73",
+      "elementId": "paragraphs/103",
+      "span": {
+        "offset": 6627,
+        "length": 3
+      },
+      "text": "New",
+      "name": "New",
+      "kind": "feature"
+    },
+    {
+      "id": "m74",
+      "elementId": "paragraphs/103",
+      "span": {
+        "offset": 6700,
+        "length": 9
+      },
+      "text": "catalogue",
+      "name": "Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m75",
+      "elementId": "paragraphs/109",
+      "span": {
+        "offset": 7545,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m76",
+      "elementId": "paragraphs/109",
+      "span": {
+        "offset": 7568,
+        "length": 5
+      },
+      "text": "level",
+      "name": "Level",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m77",
+      "elementId": "paragraphs/109",
+      "span": {
+        "offset": 7578,
+        "length": 10
+      },
+      "text": "competency",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m78",
+      "elementId": "paragraphs/115",
+      "span": {
+        "offset": 8235,
+        "length": 3
+      },
+      "text": "row",
+      "name": "Row",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m79",
+      "elementId": "paragraphs/119",
+      "span": {
+        "offset": 8518,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m80",
+      "elementId": "paragraphs/120",
+      "span": {
+        "offset": 8620,
+        "length": 12
+      },
+      "text": "level change",
+      "name": "Level Change",
+      "kind": "feature"
+    },
+    {
+      "id": "m81",
+      "elementId": "paragraphs/125",
+      "span": {
+        "offset": 9181,
+        "length": 10
+      },
+      "text": "competency",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m82",
+      "elementId": "paragraphs/130",
+      "span": {
+        "offset": 9545,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m83",
+      "elementId": "paragraphs/131",
+      "span": {
+        "offset": 9713,
+        "length": 18
+      },
+      "text": "Microsoft Entra ID",
+      "name": "Microsoft Entra ID",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m84",
+      "elementId": "paragraphs/131",
+      "span": {
+        "offset": 9800,
+        "length": 18
+      },
+      "text": "directory identity",
+      "name": "Directory Identity",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m85",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10264,
+        "length": 10
+      },
+      "text": "Consultant",
+      "name": "Consultant",
+      "kind": "user-class"
+    },
+    {
+      "id": "m86",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10281,
+        "length": 12
+      },
+      "text": "competencies",
+      "name": "Competency",
+      "kind": "glossary-term"
+    },
+    {
+      "id": "m87",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10320,
+        "length": 7
+      },
+      "text": "Next.js",
+      "name": "Next.js",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m88",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10330,
+        "length": 5
+      },
+      "text": "React",
+      "name": "React",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m89",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10338,
+        "length": 10
+      },
+      "text": "PostgreSQL",
+      "name": "PostgreSQL",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m90",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10389,
+        "length": 18
+      },
+      "text": "Microsoft Entra ID",
+      "name": "Microsoft Entra ID",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m91",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10451,
+        "length": 4
+      },
+      "text": "OIDC",
+      "name": "OIDC",
+      "kind": "standard"
+    },
+    {
+      "id": "m92",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10456,
+        "length": 10
+      },
+      "text": "Power Apps",
+      "name": "Power Apps",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m93",
+      "elementId": "figures/0",
+      "span": {
+        "offset": 10468,
+        "length": 6
+      },
+      "text": "Skills",
+      "name": "Skills",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m94",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10586,
+        "length": 19
+      },
+      "text": "PostgreSQL database",
+      "name": "PostgreSQL Database",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m95",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10644,
+        "length": 18
+      },
+      "text": "Microsoft Entra ID",
+      "name": "Microsoft Entra ID",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m96",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10682,
+        "length": 4
+      },
+      "text": "OIDC",
+      "name": "OIDC",
+      "kind": "standard"
+    },
+    {
+      "id": "m97",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10696,
+        "length": 23
+      },
+      "text": "authorization-code flow",
+      "name": "Authorization-Code Flow",
+      "kind": "standard"
+    },
+    {
+      "id": "m98",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10724,
+        "length": 4
+      },
+      "text": "PKCE",
+      "name": "PKCE",
+      "kind": "standard"
+    },
+    {
+      "id": "m99",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10826,
+        "length": 10
+      },
+      "text": "Power Apps",
+      "name": "Power Apps",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m100",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10772,
+        "length": 9
+      },
+      "text": "catalogue",
+      "name": "Catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m101",
+      "elementId": "paragraphs/147",
+      "span": {
+        "offset": 10799,
+        "length": 11
+      },
+      "text": "assessments",
+      "name": "Assessment",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m102",
+      "elementId": "tables/2/cells/0",
+      "span": {
+        "offset": 10914,
+        "length": 9
+      },
+      "text": "catalogue",
+      "name": "catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m103",
+      "elementId": "tables/2/cells/0",
+      "span": {
+        "offset": 10924,
+        "length": 4
+      },
+      "text": "Type",
+      "name": "Type",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m104",
+      "elementId": "tables/2/cells/0",
+      "span": {
+        "offset": 10931,
+        "length": 4
+      },
+      "text": "Area",
+      "name": "Area",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m105",
+      "elementId": "tables/2/cells/0",
+      "span": {
+        "offset": 10938,
+        "length": 10
+      },
+      "text": "Competency",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m106",
+      "elementId": "tables/2/cells/1",
+      "span": {
+        "offset": 10967,
+        "length": 3
+      },
+      "text": "app",
+      "name": "app",
+      "kind": "product"
+    },
+    {
+      "id": "m107",
+      "elementId": "tables/2/cells/1",
+      "span": {
+        "offset": 11020,
+        "length": 10
+      },
+      "text": "competency",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m108",
+      "elementId": "tables/2/cells/2",
+      "span": {
+        "offset": 11130,
+        "length": 6
+      },
+      "text": "person",
+      "name": "person",
+      "kind": "user-class"
+    },
+    {
+      "id": "m109",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11139,
+        "length": 18
+      },
+      "text": "directory identity",
+      "name": "directory identity",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m110",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11174,
+        "length": 15
+      },
+      "text": "Entra object id",
+      "name": "Entra object id",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m111",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11289,
+        "length": 9
+      },
+      "text": "timestamp",
+      "name": "timestamp",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m112",
+      "elementId": "tables/2/cells/4",
+      "span": {
+        "offset": 11460,
+        "length": 5
+      },
+      "text": "claim",
+      "name": "claim",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m113",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11470,
+        "length": 6
+      },
+      "text": "person",
+      "name": "person",
+      "kind": "user-class"
+    },
+    {
+      "id": "m114",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11482,
+        "length": 10
+      },
+      "text": "competency",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m115",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11498,
+        "length": 5
+      },
+      "text": "level",
+      "name": "level",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m116",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11505,
+        "length": 7
+      },
+      "text": "Learner",
+      "name": "Learner",
+      "kind": "user-class"
+    },
+    {
+      "id": "m117",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11514,
+        "length": 8
+      },
+      "text": "Advanced",
+      "name": "Advanced",
+      "kind": "user-class"
+    },
+    {
+      "id": "m118",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11526,
+        "length": 6
+      },
+      "text": "Expert",
+      "name": "Expert",
+      "kind": "user-class"
+    },
+    {
+      "id": "m119",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11719,
+        "length": 13
+      },
+      "text": "personal data",
+      "name": "personal data",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m120",
+      "elementId": "paragraphs/156",
+      "span": {
+        "offset": 11864,
+        "length": 9
+      },
+      "text": "catalogue",
+      "name": "catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m121",
+      "elementId": "paragraphs/156",
+      "span": {
+        "offset": 11910,
+        "length": 3
+      },
+      "text": "app",
+      "name": "app",
+      "kind": "product"
+    },
+    {
+      "id": "m122",
+      "elementId": "paragraphs/157",
+      "span": {
+        "offset": 12041,
+        "length": 26
+      },
+      "text": "corporate Entra ID account",
+      "name": "corporate Entra ID account",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m123",
+      "elementId": "paragraphs/158",
+      "span": {
+        "offset": 12170,
+        "length": 9
+      },
+      "text": "catalogue",
+      "name": "catalogue",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m124",
+      "elementId": "paragraphs/158",
+      "span": {
+        "offset": 12223,
+        "length": 10
+      },
+      "text": "Power Apps",
+      "name": "Power Apps",
+      "kind": "product"
+    },
+    {
+      "id": "m125",
+      "elementId": "paragraphs/158",
+      "span": {
+        "offset": 12258,
+        "length": 3
+      },
+      "text": "app",
+      "name": "app",
+      "kind": "product"
+    },
+    {
+      "id": "m126",
+      "elementId": "paragraphs/158",
+      "span": {
+        "offset": 12284,
+        "length": 10
+      },
+      "text": "competency",
+      "name": "Competency",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m127",
+      "elementId": "paragraphs/159",
+      "span": {
+        "offset": 12484,
+        "length": 25
+      },
+      "text": "Entra ID app registration",
+      "name": "Entra ID app registration",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m128",
+      "elementId": "paragraphs/159",
+      "span": {
+        "offset": 12514,
+        "length": 11
+      },
+      "text": "environment",
+      "name": "environment",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m129",
+      "elementId": "paragraphs/159",
+      "span": {
+        "offset": 12532,
+        "length": 13
+      },
+      "text": "redirect URIs",
+      "name": "redirect URIs",
+      "kind": "imposed-technology"
+    },
+    {
+      "id": "m130",
+      "elementId": "paragraphs/159",
+      "span": {
+        "offset": 12550,
+        "length": 11
+      },
+      "text": "credentials",
+      "name": "credentials",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m131",
+      "elementId": "paragraphs/159",
+      "span": {
+        "offset": 12572,
+        "length": 23
+      },
+      "text": "corporate identity team",
+      "name": "corporate identity team",
+      "kind": "user-class"
+    },
+    {
+      "id": "m132",
+      "elementId": "paragraphs/161",
+      "span": {
+        "offset": 12702,
+        "length": 11
+      },
+      "text": "Save button",
+      "name": "Save button",
+      "kind": "feature"
+    },
+    {
+      "id": "m133",
+      "elementId": "paragraphs/161",
+      "span": {
+        "offset": 12631,
+        "length": 5
+      },
+      "text": "write",
+      "name": "write",
+      "kind": "feature"
+    },
+    {
+      "id": "m134",
+      "elementId": "paragraphs/161",
+      "span": {
+        "offset": 12801,
+        "length": 5
+      },
+      "text": "claim",
+      "name": "claim",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m135",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 12887,
+        "length": 7
+      },
+      "text": "unrated",
+      "name": "unrated",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m136",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 13014,
+        "length": 8
+      },
+      "text": "staffing",
+      "name": "staffing",
+      "kind": "user-class"
+    },
+    {
+      "id": "m137",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 13112,
+        "length": 5
+      },
+      "text": "model",
+      "name": "model",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m138",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 13133,
+        "length": 5
+      },
+      "text": "state",
+      "name": "state",
+      "kind": "data-entity"
+    },
+    {
+      "id": "m139",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 13180,
+        "length": 9
+      },
+      "text": "migration",
+      "name": "migration",
+      "kind": "feature"
+    }
+  ],
+  "warnings": [
+    "paragraphs/22: quote not found: \"Self-declared and unmoderated\"",
+    "paragraphs/24: quote not found: \"Types, Areas and Competencies are maintained elsewhere and this app only reads them\"",
+    "paragraphs/25: quote not found: \"No \\\"who knows X\\\", no exports, no dashboards\"",
+    "paragraphs/14: quote not found: \"app\"",
+    "paragraphs/92: quote not found: \"competency box\""
+  ]
+}

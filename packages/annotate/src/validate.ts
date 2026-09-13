@@ -3,13 +3,13 @@ import { z } from "zod";
 import { CATEGORIES, NOUN_TYPES, TYPES, type AnnotateResult } from "./types.ts";
 
 /** What the model returns. Quotes, never offsets. */
-export const rowSchema = z.object({
+export const classificationSchema = z.object({
   elementId: z.string(),
   quote: z.string(),
   type: z.enum(TYPES),
   category: z.enum(CATEGORIES).nullable(),
 });
-export type Row = z.infer<typeof rowSchema>;
+export type ClassificationRow = z.infer<typeof classificationSchema>;
 
 export const mentionSchema = z.object({
   elementId: z.string(),
@@ -18,7 +18,7 @@ export const mentionSchema = z.object({
   kind: z.enum(NOUN_TYPES),
 });
 export const outputSchema = z.object({
-  annotations: z.array(rowSchema),
+  classifications: z.array(classificationSchema),
   mentions: z.array(mentionSchema),
 });
 export type ModelOutput = z.infer<typeof outputSchema>;
@@ -26,18 +26,18 @@ export type ModelOutput = z.infer<typeof outputSchema>;
 const wordChar = /[\p{L}\p{N}]/u;
 
 /**
- * Model output in, grounded annotations and mentions out. A row survives only
+ * Model output in, grounded classifications and mentions out. A row survives only
  * if its element exists and its quote is found verbatim, on word boundaries,
  * inside that element's text; everything else becomes a warning. This is the
  * step boundary AI output must cross.
  */
 export function validate(
-  { annotations, mentions }: ModelOutput,
+  { classifications, mentions }: ModelOutput,
   anchors: Map<string, Span[]>,
   content: string,
 ): AnnotateResult {
   const result: AnnotateResult = {
-    annotations: [],
+    classifications: [],
     mentions: [],
     warnings: [],
   };
@@ -75,11 +75,11 @@ export function validate(
     return -1;
   };
 
-  for (const row of annotations) {
+  for (const row of classifications) {
     const offset = ground(row.elementId, row.quote, row.type);
     if (offset < 0) continue;
-    result.annotations.push({
-      id: `a${result.annotations.length + 1}`,
+    result.classifications.push({
+      id: `a${result.classifications.length + 1}`,
       type: row.type,
       elementId: row.elementId,
       span: { offset, length: row.quote.length },

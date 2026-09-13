@@ -13,6 +13,8 @@ if (import.meta.main) {
     process.exit(1);
   }
   const doc: ParsedDocument = JSON.parse(await readFile(parsedPath, "utf8"));
-  const { annotations, warnings } = await annotate(doc, outDir);
-  console.log(`${annotations.length} annotations, ${warnings.length} warnings`);
+  const { classifications, mentions, warnings } = await annotate(doc, outDir);
+  console.log(
+    `${classifications.length} classifications, ${mentions.length} mentions, ${warnings.length} warnings`,
+  );
 }

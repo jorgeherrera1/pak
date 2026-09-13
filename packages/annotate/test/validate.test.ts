@@ -3,13 +3,13 @@ import { validate } from "../src/validate.ts";
 
 const content = "intro\nThe system shall log in users. Typing is slow.\nfooter";
 const anchors = new Map([["paragraphs/1", [{ offset: 6, length: 46 }]]]);
-const none = { annotations: [], mentions: [] };
+const none = { classifications: [], mentions: [] };
 
 test("a verbatim quote becomes an annotation with a content span", () => {
-  const { annotations, warnings } = validate(
+  const { classifications, warnings } = validate(
     {
       ...none,
-      annotations: [
+      classifications: [
         {
           elementId: "paragraphs/1",
           quote: "shall log in users",
@@ -22,7 +22,7 @@ test("a verbatim quote becomes an annotation with a content span", () => {
     content,
   );
   expect(warnings).toEqual([]);
-  const [a] = annotations;
+  const [a] = classifications;
   expect(a).toMatchObject({
     id: "a1",
     type: "functional-requirement",
@@ -34,10 +34,10 @@ test("a verbatim quote becomes an annotation with a content span", () => {
 });
 
 test("unknown element and non-verbatim quote become warnings", () => {
-  const { annotations, warnings } = validate(
+  const { classifications, warnings } = validate(
     {
       ...none,
-      annotations: [
+      classifications: [
         {
           elementId: "paragraphs/9",
           quote: "shall",
@@ -55,7 +55,7 @@ test("unknown element and non-verbatim quote become warnings", () => {
     anchors,
     content,
   );
-  expect(annotations).toEqual([]);
+  expect(classifications).toEqual([]);
   expect(warnings).toHaveLength(2);
 });
 
