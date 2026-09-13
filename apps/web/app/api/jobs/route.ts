@@ -41,10 +41,19 @@ export async function POST(req: Request) {
     );
   });
 
-  const run = await start(parseJob, [id]);
-  await db
-    .update(jobs)
-    .set({ workflowRunId: run.runId })
-    .where(eq(jobs.id, id));
+  try {
+    const run = await start(parseJob, [id]);
+    await db
+      .update(jobs)
+      .set({ workflowRunId: run.runId })
+      .where(eq(jobs.id, id));
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await db
+      .update(jobs)
+      .set({ status: "failed", error: message, finishedAt: new Date() })
+      .where(eq(jobs.id, id));
+    return Response.json({ error: "could not start the job" }, { status: 500 });
+  }
   return Response.json({ id }, { status: 202 });
 }
