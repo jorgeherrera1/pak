@@ -5,8 +5,7 @@ import type { ParsedDocument } from "@dark-factory/parse";
 
 const env = fileURLToPath(new URL("../../../.env", import.meta.url));
 if (existsSync(env)) process.loadEnvFile(env);
-// eslint-disable-next-line turbo/no-undeclared-env-vars -- BASE_URL is test-only, not part of the app's env contract
-const base = process.env.BASE_URL ?? "http://localhost:3001";
+const base = process.env.WEB_BASE_URL ?? "http://localhost:3001";
 const fixtures = new URL(
   "../../../packages/parse/test/fixtures/",
   import.meta.url,

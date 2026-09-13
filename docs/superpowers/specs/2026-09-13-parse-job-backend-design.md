@@ -18,17 +18,17 @@ Sticky terms, used in code, tables, routes, and prose. They match AGENTS.md.
 
 ## Decisions
 
-| Topic | Decision |
-|---|---|
-| Host | `apps/web` (Next.js), deployed to Azure App Service. Not Vercel. |
-| Durable runtime | Vercel Workflow SDK, latest, with `@workflow/world-postgres` embedded in the Next.js server. |
-| Database | Postgres. Holds the SDK's own tables and two of ours, via Drizzle (already a dependency of the Postgres world). |
-| Files | Azure Blob Storage, one container. Local dev uses the real storage account through `.env`, same as Document Intelligence today. |
-| Unit of work | One PDF, one job. No batches. |
-| Re-uploads | Every upload is a new job. Azure is always called. Nothing is cached or deduplicated. The sha256 is recorded so identical bytes are visible. |
-| Provenance | Postgres rows plus Blob artifacts keyed by job id. No graph store until Resolve needs one. |
-| Progress | Operation-level: each operation writes its own status row. No streaming. |
-| API | Plain route handlers returning JSON. No Server Actions, no SAS URLs. |
+| Topic           | Decision                                                                                                                                     |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Host            | `apps/web` (Next.js), deployed to Azure App Service. Not Vercel.                                                                             |
+| Durable runtime | Vercel Workflow SDK, latest, with `@workflow/world-postgres` embedded in the Next.js server.                                                 |
+| Database        | Postgres. Holds the SDK's own tables and two of ours, via Drizzle (already a dependency of the Postgres world).                              |
+| Files           | Azure Blob Storage, one container. Local dev uses the real storage account through `.env`, same as Document Intelligence today.              |
+| Unit of work    | One PDF, one job. No batches.                                                                                                                |
+| Re-uploads      | Every upload is a new job. Azure is always called. Nothing is cached or deduplicated. The sha256 is recorded so identical bytes are visible. |
+| Provenance      | Postgres rows plus Blob artifacts keyed by job id. No graph store until Resolve needs one.                                                   |
+| Progress        | Operation-level: each operation writes its own status row. No streaming.                                                                     |
+| API             | Plain route handlers returning JSON. No Server Actions, no SAS URLs.                                                                         |
 
 ## Contract
 
@@ -129,8 +129,10 @@ Added to the gitignored root `.env` and to App Service settings:
 ```
 DATABASE_URL                  postgres connection string, used by Drizzle
 WORKFLOW_TARGET_WORLD         @workflow/world-postgres
+WORKFLOW_POSTGRES_URL         same connection string, used by the SDK
 AZURE_STORAGE_CONNECTION_STRING
 AZURE_STORAGE_CONTAINER       jobs
+WORKFLOW_LOCAL_BASE_URL       optional: the app's own URL, for local dev
 ```
 
 The Postgres world dispatches work back into the app over HTTP on

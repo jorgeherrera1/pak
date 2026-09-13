@@ -9,9 +9,19 @@ Set these in the root `.env` (gitignored):
 ```
 DATABASE_URL=postgres://localhost:5432/dark_factory
 WORKFLOW_TARGET_WORLD=@workflow/world-postgres
+WORKFLOW_POSTGRES_URL=postgres://localhost:5432/dark_factory
 AZURE_STORAGE_CONNECTION_STRING=<from the storage account>
 AZURE_STORAGE_CONTAINER=jobs
+WORKFLOW_LOCAL_BASE_URL=http://localhost:3001
 ```
+
+`DATABASE_URL` and `WORKFLOW_POSTGRES_URL` are the same connection string: Drizzle reads
+`DATABASE_URL`, the Workflow SDK reads `WORKFLOW_POSTGRES_URL`. `WORKFLOW_LOCAL_BASE_URL` is the
+app's own URL so the worker can dispatch work back to it; set it to `http://localhost:3001` for
+local dev, leave it unset on App Service (`PORT` is set there instead).
+
+Next.js loads `.env` from `apps/web`, so for local dev symlink the root file:
+`ln -s ../../.env apps/web/.env` (it is gitignored).
 
 ## Setup
 

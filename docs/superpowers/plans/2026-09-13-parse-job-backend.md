@@ -25,34 +25,36 @@
 
 ## File structure
 
-| File | Responsibility |
-|---|---|
-| `packages/parse/src/analyze.ts` | Azure call. Returns `{ result, figures }`, writes nothing. |
-| `packages/parse/src/index.ts` | Exports `analyze`, `toParsedDocument`, types. CLI still writes `<outDir>/<sha256>/`. |
-| `apps/web/lib/db/schema.ts` | Drizzle tables `jobs`, `operations`. |
-| `apps/web/lib/db/index.ts` | `db` client from `DATABASE_URL`. |
-| `apps/web/drizzle.config.ts` | drizzle-kit config. |
-| `apps/web/lib/blob.ts` | `putBlob`, `getBlob`, `streamBlob` on the one container. |
-| `apps/web/lib/upload.ts` | `validatePdf`, `MAX_BYTES`. Pure, unit tested. |
-| `apps/web/lib/operations.ts` | `OPERATIONS`, `setOperation`, `runOperation`. Unit tested with an injected setter. |
-| `apps/web/workflows/parse.ts` | `parseJob(jobId)` workflow and its three operation functions. |
-| `apps/web/app/api/jobs/route.ts` | `POST /api/jobs`. |
-| `apps/web/app/api/jobs/[id]/route.ts` | `GET /api/jobs/:id`. |
-| `apps/web/app/api/jobs/[id]/artifacts/[...path]/route.ts` | `GET /api/jobs/:id/artifacts/*`. |
-| `apps/web/test/upload.test.ts`, `apps/web/test/operations.test.ts` | Unit tests, no network. |
-| `apps/web/test/parse-job.integration.test.ts` | End to end against local Postgres, real Blob, real Azure. |
-| `apps/web/README.md` | Setup: env vars, bootstrap, drizzle push. |
+| File                                                               | Responsibility                                                                       |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `packages/parse/src/analyze.ts`                                    | Azure call. Returns `{ result, figures }`, writes nothing.                           |
+| `packages/parse/src/index.ts`                                      | Exports `analyze`, `toParsedDocument`, types. CLI still writes `<outDir>/<sha256>/`. |
+| `apps/web/lib/db/schema.ts`                                        | Drizzle tables `jobs`, `operations`.                                                 |
+| `apps/web/lib/db/index.ts`                                         | `db` client from `DATABASE_URL`.                                                     |
+| `apps/web/drizzle.config.ts`                                       | drizzle-kit config.                                                                  |
+| `apps/web/lib/blob.ts`                                             | `putBlob`, `getBlob`, `streamBlob` on the one container.                             |
+| `apps/web/lib/upload.ts`                                           | `validatePdf`, `MAX_BYTES`. Pure, unit tested.                                       |
+| `apps/web/lib/operations.ts`                                       | `OPERATIONS`, `setOperation`, `runOperation`. Unit tested with an injected setter.   |
+| `apps/web/workflows/parse.ts`                                      | `parseJob(jobId)` workflow and its three operation functions.                        |
+| `apps/web/app/api/jobs/route.ts`                                   | `POST /api/jobs`.                                                                    |
+| `apps/web/app/api/jobs/[id]/route.ts`                              | `GET /api/jobs/:id`.                                                                 |
+| `apps/web/app/api/jobs/[id]/artifacts/[...path]/route.ts`          | `GET /api/jobs/:id/artifacts/*`.                                                     |
+| `apps/web/test/upload.test.ts`, `apps/web/test/operations.test.ts` | Unit tests, no network.                                                              |
+| `apps/web/test/parse-job.integration.test.ts`                      | End to end against local Postgres, real Blob, real Azure.                            |
+| `apps/web/README.md`                                               | Setup: env vars, bootstrap, drizzle push.                                            |
 
 ---
 
 ### Task 1: `analyze` returns bytes instead of writing files
 
 **Files:**
+
 - Modify: `packages/parse/src/analyze.ts`
 - Modify: `packages/parse/src/index.ts`
 - Test: existing `packages/parse/test/toParsedDocument.test.ts` (unchanged) and `packages/parse/test/parse.integration.test.ts` (unchanged)
 
 **Interfaces:**
+
 - Produces: `analyze(pdf: Buffer): Promise<Analysis>` where `type Analysis = { result: AnalyzeResultOutput; figures: { id: string; png: Uint8Array }[] }`, exported from `@dark-factory/parse` together with `toParsedDocument(result, sha256)` and `type Analysis`.
 
 - [ ] **Step 1: Branch**
@@ -115,7 +117,10 @@ export { toParsedDocument } from "./toParsedDocument.ts";
  * runs. Everything lands in `<outDir>/<sha256 of the pdf>/`: figures/ first,
  * then analysis.json, then parsed.json, so a half-finished run never looks complete.
  */
-export async function parse(pdfPath: string, outDir: string): Promise<ParsedDocument> {
+export async function parse(
+  pdfPath: string,
+  outDir: string,
+): Promise<ParsedDocument> {
   const pdf = await readFile(pdfPath);
   const sha256 = hash("sha256", pdf);
   const dir = join(outDir, sha256);
@@ -161,11 +166,13 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ### Task 2: Wiring: dependencies, database schema, blob client, upload validation
 
 **Files:**
+
 - Modify: `apps/web/package.json`, `apps/web/next.config.ts`, `turbo.json`
 - Create: `apps/web/drizzle.config.ts`, `apps/web/lib/db/schema.ts`, `apps/web/lib/db/index.ts`, `apps/web/lib/blob.ts`, `apps/web/lib/upload.ts`, `apps/web/vitest.config.ts`
 - Test: `apps/web/test/upload.test.ts`
 
 **Interfaces:**
+
 - Produces: `db` (Drizzle client), tables `jobs` and `operations`; `putBlob(path: string, data: Uint8Array, contentType: string): Promise<void>`, `getBlob(path: string): Promise<Buffer | null>`, `streamBlob(path: string): Promise<{ body: ReadableStream; contentType: string } | null>`; `validatePdf(file: File | null): string | null` (error message or null), `MAX_BYTES`.
 
 - [ ] **Step 1: Install**
@@ -214,17 +221,28 @@ export default defineConfig({ test: { include: ["test/**/*.test.ts"] } });
 `apps/web/lib/db/schema.ts`:
 
 ```ts
-import { integer, pgTable, text, timestamp, unique, uuid } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgTable,
+  text,
+  timestamp,
+  unique,
+  uuid,
+} from "drizzle-orm/pg-core";
 
 export const jobs = pgTable("jobs", {
   id: uuid("id").primaryKey().defaultRandom(),
   filename: text("filename").notNull(),
   size: integer("size").notNull(),
   sha256: text("sha256").notNull(),
-  status: text("status", { enum: ["queued", "running", "done", "failed"] }).notNull().default("queued"),
+  status: text("status", { enum: ["queued", "running", "done", "failed"] })
+    .notNull()
+    .default("queued"),
   error: text("error"),
   workflowRunId: text("workflow_run_id"),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
   finishedAt: timestamp("finished_at", { withTimezone: true }),
 });
 
@@ -232,11 +250,15 @@ export const operations = pgTable(
   "operations",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    jobId: uuid("job_id").notNull().references(() => jobs.id, { onDelete: "cascade" }),
+    jobId: uuid("job_id")
+      .notNull()
+      .references(() => jobs.id, { onDelete: "cascade" }),
     step: text("step").notNull(),
     name: text("name").notNull(),
     position: integer("position").notNull(),
-    status: text("status", { enum: ["pending", "running", "done", "failed"] }).notNull().default("pending"),
+    status: text("status", { enum: ["pending", "running", "done", "failed"] })
+      .notNull()
+      .default("pending"),
     error: text("error"),
     startedAt: timestamp("started_at", { withTimezone: true }),
     finishedAt: timestamp("finished_at", { withTimezone: true }),
@@ -278,13 +300,20 @@ export default defineConfig({
 import { BlobServiceClient } from "@azure/storage-blob";
 
 const container = () =>
-  BlobServiceClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING!)
-    .getContainerClient(process.env.AZURE_STORAGE_CONTAINER ?? "jobs");
+  BlobServiceClient.fromConnectionString(
+    process.env.AZURE_STORAGE_CONNECTION_STRING!,
+  ).getContainerClient(process.env.AZURE_STORAGE_CONTAINER ?? "jobs");
 
-export async function putBlob(path: string, data: Uint8Array, contentType: string) {
-  await container().getBlockBlobClient(path).uploadData(data, {
-    blobHTTPHeaders: { blobContentType: contentType },
-  });
+export async function putBlob(
+  path: string,
+  data: Uint8Array,
+  contentType: string,
+) {
+  await container()
+    .getBlockBlobClient(path)
+    .uploadData(data, {
+      blobHTTPHeaders: { blobContentType: contentType },
+    });
 }
 
 export async function getBlob(path: string): Promise<Buffer | null> {
@@ -299,7 +328,9 @@ export async function streamBlob(path: string) {
   const res = await blob.download();
   const { Readable } = await import("node:stream");
   return {
-    body: Readable.toWeb(res.readableStreamBody as import("node:stream").Readable) as ReadableStream,
+    body: Readable.toWeb(
+      res.readableStreamBody as import("node:stream").Readable,
+    ) as ReadableStream,
     contentType: res.contentType ?? "application/octet-stream",
   };
 }
@@ -369,10 +400,12 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ### Task 3: Operation helper and the `parseJob` workflow
 
 **Files:**
+
 - Create: `apps/web/lib/operations.ts`, `apps/web/workflows/parse.ts`
 - Test: `apps/web/test/operations.test.ts`
 
 **Interfaces:**
+
 - Consumes: `db`, `jobs`, `operations` (Task 2); `getBlob`, `putBlob` (Task 2); `analyze`, `toParsedDocument` from `@dark-factory/parse` (Task 1).
 - Produces: `OPERATIONS = ["upload", "analyze", "build", "publish"] as const`; `type OperationName`; `setOperation(jobId, name, patch)`; `runOperation<T>(jobId, name, fn: () => Promise<T>, set = setOperation): Promise<T>`; `parseJob(jobId: string)`.
 
@@ -404,7 +437,14 @@ test("marks running then done and returns the value", async () => {
 test("marks failed with the message and rethrows", async () => {
   const { calls, set } = recorder();
   await expect(
-    runOperation("j", "analyze", async () => { throw new Error("boom"); }, set),
+    runOperation(
+      "j",
+      "analyze",
+      async () => {
+        throw new Error("boom");
+      },
+      set,
+    ),
   ).rejects.toThrow("boom");
   expect(calls[1]).toMatchObject({ status: "failed", error: "boom" });
 });
@@ -422,14 +462,27 @@ export const STEP = "parse";
 export const OPERATIONS = ["upload", "analyze", "build", "publish"] as const;
 export type OperationName = (typeof OPERATIONS)[number];
 export type OperationPatch = Partial<
-  Pick<typeof operations.$inferInsert, "status" | "error" | "startedAt" | "finishedAt">
+  Pick<
+    typeof operations.$inferInsert,
+    "status" | "error" | "startedAt" | "finishedAt"
+  >
 >;
 
-export async function setOperation(jobId: string, name: OperationName, patch: OperationPatch) {
+export async function setOperation(
+  jobId: string,
+  name: OperationName,
+  patch: OperationPatch,
+) {
   await db
     .update(operations)
     .set(patch)
-    .where(and(eq(operations.jobId, jobId), eq(operations.step, STEP), eq(operations.name, name)));
+    .where(
+      and(
+        eq(operations.jobId, jobId),
+        eq(operations.step, STEP),
+        eq(operations.name, name),
+      ),
+    );
 }
 
 /** Runs one operation body and records running, done, or failed around it. Rethrows so the SDK can retry. */
@@ -439,7 +492,11 @@ export async function runOperation<T>(
   fn: () => Promise<T>,
   set: typeof setOperation = setOperation,
 ): Promise<T> {
-  await set(jobId, name, { status: "running", startedAt: new Date(), error: null });
+  await set(jobId, name, {
+    status: "running",
+    startedAt: new Date(),
+    error: null,
+  });
   try {
     const out = await fn();
     await set(jobId, name, { status: "done", finishedAt: new Date() });
@@ -550,9 +607,11 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ### Task 4: Route handlers
 
 **Files:**
+
 - Create: `apps/web/app/api/jobs/route.ts`, `apps/web/app/api/jobs/[id]/route.ts`, `apps/web/app/api/jobs/[id]/artifacts/[...path]/route.ts`
 
 **Interfaces:**
+
 - Consumes: `validatePdf`, `isPdf` (Task 2); `putBlob`, `streamBlob` (Task 2); `db`, `jobs`, `operations` (Task 2); `OPERATIONS`, `STEP` (Task 3); `parseJob` (Task 3).
 - Produces: the HTTP contract in the spec.
 
@@ -575,9 +634,11 @@ export async function POST(req: Request) {
   const file = form.get("file");
   const upload = file instanceof File ? file : null;
   const error = validatePdf(upload);
-  if (error || !upload) return Response.json({ error: error ?? "no file" }, { status: 400 });
+  if (error || !upload)
+    return Response.json({ error: error ?? "no file" }, { status: 400 });
   const bytes = new Uint8Array(await upload.arrayBuffer());
-  if (!isPdf(bytes)) return Response.json({ error: "not a PDF" }, { status: 400 });
+  if (!isPdf(bytes))
+    return Response.json({ error: "not a PDF" }, { status: 400 });
 
   const id = crypto.randomUUID();
   await putBlob(`${id}/source.pdf`, bytes, "application/pdf");
@@ -603,7 +664,10 @@ export async function POST(req: Request) {
   });
 
   const run = await start(parseJob, [id]);
-  await db.update(jobs).set({ workflowRunId: run.runId }).where(eq(jobs.id, id));
+  await db
+    .update(jobs)
+    .set({ workflowRunId: run.runId })
+    .where(eq(jobs.id, id));
   return Response.json({ id }, { status: 202 });
 }
 ```
@@ -618,9 +682,13 @@ Confirm the `runId` property name in `node_modules/workflow/docs/api-reference/w
 import { asc, eq } from "drizzle-orm";
 import { db, isUuid, jobs, operations } from "../../../../lib/db";
 
-export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
+export async function GET(
+  _req: Request,
+  ctx: { params: Promise<{ id: string }> },
+) {
   const { id } = await ctx.params;
-  if (!isUuid(id)) return Response.json({ error: "not found" }, { status: 404 });
+  if (!isUuid(id))
+    return Response.json({ error: "not found" }, { status: 404 });
   const [job] = await db.select().from(jobs).where(eq(jobs.id, id));
   if (!job) return Response.json({ error: "not found" }, { status: 404 });
   const ops = await db
@@ -640,7 +708,8 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
 import { streamBlob } from "../../../../../../lib/blob";
 import { isUuid } from "../../../../../../lib/db";
 
-const ALLOWED = /^(source\.pdf|analysis\.json|parsed\.json|figures\/[\w.-]+\.png)$/;
+const ALLOWED =
+  /^(source\.pdf|analysis\.json|parsed\.json|figures\/[\w.-]+\.png)$/;
 
 export async function GET(
   _req: Request,
@@ -652,7 +721,9 @@ export async function GET(
     return Response.json({ error: "not found" }, { status: 404 });
   const blob = await streamBlob(`${id}/${name}`);
   if (!blob) return Response.json({ error: "not found" }, { status: 404 });
-  return new Response(blob.body, { headers: { "content-type": blob.contentType } });
+  return new Response(blob.body, {
+    headers: { "content-type": blob.contentType },
+  });
 }
 ```
 
@@ -673,10 +744,12 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ### Task 5: Integration test, setup docs, gates, PR
 
 **Files:**
+
 - Create: `apps/web/test/parse-job.integration.test.ts`
 - Modify: `apps/web/README.md`, root `.env` (local only, never committed)
 
 **Interfaces:**
+
 - Consumes: the route handlers (Task 4) running under `next dev`.
 
 - [ ] **Step 1: Local setup**
@@ -723,37 +796,60 @@ import type { ParsedDocument } from "@dark-factory/parse";
 const env = fileURLToPath(new URL("../../../.env", import.meta.url));
 if (existsSync(env)) process.loadEnvFile(env);
 const base = process.env.BASE_URL ?? "http://localhost:3001";
-const fixtures = new URL("../../../packages/parse/test/fixtures/", import.meta.url);
+const fixtures = new URL(
+  "../../../packages/parse/test/fixtures/",
+  import.meta.url,
+);
 const golden: ParsedDocument = JSON.parse(
   readFileSync(new URL("parsed.json", fixtures), "utf8"),
 );
 
-test("a posted PDF runs all four operations and yields the recorded parse", { timeout: 180_000 }, async () => {
-  const form = new FormData();
-  form.set("file", new File([readFileSync(new URL("prd-competencies.pdf", fixtures))], "prd-competencies.pdf"));
-  const created = await fetch(`${base}/api/jobs`, { method: "POST", body: form });
-  expect(created.status).toBe(202);
-  const { id } = (await created.json()) as { id: string };
+test(
+  "a posted PDF runs all four operations and yields the recorded parse",
+  { timeout: 180_000 },
+  async () => {
+    const form = new FormData();
+    form.set(
+      "file",
+      new File(
+        [readFileSync(new URL("prd-competencies.pdf", fixtures))],
+        "prd-competencies.pdf",
+      ),
+    );
+    const created = await fetch(`${base}/api/jobs`, {
+      method: "POST",
+      body: form,
+    });
+    expect(created.status).toBe(202);
+    const { id } = (await created.json()) as { id: string };
 
-  let job: { status: string; error: string | null; operations: { name: string; status: string }[] };
-  do {
-    await new Promise((r) => setTimeout(r, 2000));
-    job = await (await fetch(`${base}/api/jobs/${id}`)).json();
-  } while (job.status === "queued" || job.status === "running");
+    let job: {
+      status: string;
+      error: string | null;
+      operations: { name: string; status: string }[];
+    };
+    do {
+      await new Promise((r) => setTimeout(r, 2000));
+      job = await (await fetch(`${base}/api/jobs/${id}`)).json();
+    } while (job.status === "queued" || job.status === "running");
 
-  expect(job.error).toBeNull();
-  expect(job.status).toBe("done");
-  expect(job.operations.map((o) => [o.name, o.status])).toEqual([
-    ["upload", "done"], ["analyze", "done"], ["build", "done"], ["publish", "done"],
-  ]);
+    expect(job.error).toBeNull();
+    expect(job.status).toBe("done");
+    expect(job.operations.map((o) => [o.name, o.status])).toEqual([
+      ["upload", "done"],
+      ["analyze", "done"],
+      ["build", "done"],
+      ["publish", "done"],
+    ]);
 
-  const parsed: ParsedDocument = await (
-    await fetch(`${base}/api/jobs/${id}/artifacts/parsed.json`)
-  ).json();
-  expect(parsed.content).toBe(golden.content);
-  expect(parsed.elements.length).toBe(golden.elements.length);
-  expect(parsed.source.sha256).toBe(golden.source.sha256);
-});
+    const parsed: ParsedDocument = await (
+      await fetch(`${base}/api/jobs/${id}/artifacts/parsed.json`)
+    ).json();
+    expect(parsed.content).toBe(golden.content);
+    expect(parsed.elements.length).toBe(golden.elements.length);
+    expect(parsed.source.sha256).toBe(golden.source.sha256);
+  },
+);
 
 test("rejects a non-PDF", async () => {
   const form = new FormData();
