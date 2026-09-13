@@ -34,6 +34,8 @@ npm run db:push -w apps/web
 
 ## Run
 
+Run `npm run build` from the repo root once first, so `@dark-factory/parse` has a `dist/` to resolve.
+
 ```bash
 npm run dev -w apps/web
 ```
@@ -50,3 +52,7 @@ curl -s http://localhost:3001/api/jobs/<id> | jq '.status, [.operations[] | {nam
 ```
 
 Expect 202 with an id, then within about a minute status `done` and all four operations `done`.
+
+## Integration test
+
+`npm run test:integration -w apps/web` needs the dev server running on port 3001, plus Postgres, the storage account, and Azure credentials in `.env`; the root `npm run test:integration` now runs it too.
