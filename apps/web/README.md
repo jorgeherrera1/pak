@@ -1,28 +1,42 @@
-## Getting Started
+## Vocabulary
 
-First, run the development server:
+A **job** moves through the **station** (Requirements engineering), which runs in **steps** (Parse, Annotate, Resolve); each step is a sequence of **operations** (upload, analyze, build, publish).
 
-```bash
-yarn dev
+## Environment
+
+Set these in the root `.env` (gitignored):
+
+```
+DATABASE_URL=postgres://localhost:5432/dark_factory
+WORKFLOW_TARGET_WORLD=@workflow/world-postgres
+AZURE_STORAGE_CONNECTION_STRING=<from the storage account>
+AZURE_STORAGE_CONTAINER=jobs
 ```
 
-Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+createdb dark_factory
+az storage container create --name jobs --connection-string "$AZURE_STORAGE_CONNECTION_STRING"
+npx --package=@workflow/world-postgres bootstrap
+npm run db:push -w apps/web
+```
 
-To create [API routes](https://nextjs.org/docs/app/building-your-application/routing/router-handlers) add an `api/` directory to the `app/` directory with a `route.ts` file. For individual endpoints, create a subfolder in the `api` directory, like `api/hello/route.ts` would map to [http://localhost:3001/api/hello](http://localhost:3001/api/hello).
+## Run
 
-## Learn More
+```bash
+npm run dev -w apps/web
+```
 
-To learn more about Next.js, take a look at the following resources:
+Serves on [http://localhost:3001](http://localhost:3001).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn/foundations/about-nextjs) - an interactive Next.js tutorial.
+## Smoke test
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+With the dev server running:
 
-## Deploy on Vercel
+```bash
+curl -s -F file=@packages/parse/test/fixtures/prd-competencies.pdf http://localhost:3001/api/jobs
+curl -s http://localhost:3001/api/jobs/<id> | jq '.status, [.operations[] | {name, status}]'
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_source=github.com&utm_medium=referral&utm_campaign=turborepo-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Expect 202 with an id, then within about a minute status `done` and all four operations `done`.
