@@ -36,12 +36,6 @@
     "category": "REL"
   },
   {
-    "elementId": "paragraphs/10",
-    "quote": "Someone returning after two months can see only what the catalogue gained since they were last here, instead of re-reading a thousand rows.",
-    "type": "ux-requirement",
-    "category": null
-  },
-  {
     "elementId": "paragraphs/11",
     "quote": "The words on the screen match the words the business uses, so nobody has to translate practitioner into advanced in their head.",
     "type": "ux-requirement",
@@ -51,6 +45,18 @@
     "elementId": "paragraphs/13",
     "quote": "One audience, and only one: the consultant assessing themselves.",
     "type": "user-class",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/14",
+    "quote": "Managers, reviewers and staffing are not users of this release.",
+    "type": "out-of-scope",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/17",
+    "quote": "Browsing the competency catalogue and narrowing it down",
+    "type": "feature",
     "category": null
   },
   {
@@ -79,7 +85,7 @@
   },
   {
     "elementId": "paragraphs/25",
-    "quote": "Cross-employee search or reporting - no \"who knows X\", no exports, no dashboards",
+    "quote": "No \"who knows X\", no exports, no dashboards",
     "type": "out-of-scope",
     "category": null
   },
@@ -90,27 +96,15 @@
     "category": null
   },
   {
-    "elementId": "tables/1/cells/0",
+    "elementId": "tables/1/cells/1",
     "quote": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner. Learner and Expert keep their names. This is the vocabulary we are standardising on - it should be identical everywhere the app speaks.",
     "type": "ux-requirement",
     "category": null
   },
   {
-    "elementId": "tables/1/cells/4",
+    "elementId": "tables/1/cells/5",
     "quote": "The Save button and its unsaved-change counter go too. Neither should exist anywhere on the new screen.",
     "type": "ux-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/87",
-    "quote": "As a consultant, I want to drill into one family of competencies, so I am not scrolling past a thousand rows to reach the ten that describe me.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/92",
-    "quote": "As a consultant, I want to type the name of the thing I know, because that is faster than navigating to it.",
-    "type": "functional-requirement",
     "category": null
   }
 ]
