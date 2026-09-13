@@ -2,385 +2,489 @@
   "annotations": [
     {
       "id": "a1",
-      "type": "feature",
-      "elementId": "paragraphs/3",
+      "type": "product",
+      "elementId": "paragraphs/0",
       "span": {
-        "offset": 70,
-        "length": 136
+        "offset": 0,
+        "length": 37
       },
-      "text": "Competencies and Industry Experience - the two screens where a team member says what they know and which industries they have worked in."
+      "text": "PRODUCT REQUIREMENTS . INTERNAL TOOLS"
     },
     {
       "id": "a2",
-      "type": "functional-requirement",
-      "elementId": "paragraphs/6",
+      "type": "feature",
+      "elementId": "paragraphs/2",
       "span": {
-        "offset": 361,
-        "length": 148
+        "offset": 51,
+        "length": 99
       },
-      "text": "Competencies shows the company's full list of skills as one big table. For each skill the member can tick a level: Learner, Practitioner, or Expert."
+      "text": "One screen where a consultant tells us what they are good at - and it sticks the moment they click."
     },
     {
       "id": "a3",
-      "type": "functional-requirement",
-      "elementId": "paragraphs/7",
+      "type": "business-goal",
+      "elementId": "paragraphs/4",
       "span": {
-        "offset": 689,
-        "length": 113
+        "offset": 163,
+        "length": 143
       },
-      "text": "Industry Experience does the same thing for industries instead of skills: which sectors the member has worked in."
+      "text": "We cannot answer \"who knows Jira?\" without asking people. The competency data we do have is stale, and the app that holds it is the reason why."
     },
     {
       "id": "a4",
-      "type": "non-functional-requirement",
-      "elementId": "paragraphs/8",
+      "type": "imposed-technology",
+      "elementId": "paragraphs/6",
       "span": {
-        "offset": 803,
-        "length": 138
+        "offset": 854,
+        "length": 50
       },
-      "text": "A member only ever edits their own record. There is no way to pick another person, and there is no approval step - ticking a box saves it.",
-      "category": "SEC"
+      "text": "We are rebuilding it as a small Next.js/React app."
     },
     {
       "id": "a5",
-      "type": "feature",
-      "elementId": "paragraphs/11",
+      "type": "ux-requirement",
+      "elementId": "paragraphs/8",
       "span": {
-        "offset": 962,
-        "length": 46
+        "offset": 1066,
+        "length": 163
       },
-      "text": "Competencies - browse, filter, and rate skills"
+      "text": "A consultant can open the app, find the competency they have in mind, and record their level without thinking about the mechanics - no save step, no second screen."
     },
     {
       "id": "a6",
-      "type": "feature",
-      "elementId": "paragraphs/12",
+      "type": "non-functional-requirement",
+      "elementId": "paragraphs/9",
       "span": {
-        "offset": 1011,
-        "length": 49
+        "offset": 1241,
+        "length": 153
       },
-      "text": "Industry Experience - record industries worked in"
+      "text": "Nothing is ever lost to a closed tab. If a click did not reach the database, the person finds out immediately rather than believing a claim was recorded.",
+      "category": "REL"
     },
     {
       "id": "a7",
-      "type": "out-of-scope",
-      "elementId": "paragraphs/15",
+      "type": "ux-requirement",
+      "elementId": "paragraphs/11",
       "span": {
-        "offset": 1190,
-        "length": 8
+        "offset": 1561,
+        "length": 127
       },
-      "text": "About Me"
+      "text": "The words on the screen match the words the business uses, so nobody has to translate practitioner into advanced in their head."
     },
     {
       "id": "a8",
-      "type": "out-of-scope",
-      "elementId": "paragraphs/16",
+      "type": "user-class",
+      "elementId": "paragraphs/13",
       "span": {
-        "offset": 1201,
-        "length": 12
+        "offset": 1705,
+        "length": 64
       },
-      "text": "Endorsements"
+      "text": "One audience, and only one: the consultant assessing themselves."
     },
     {
       "id": "a9",
       "type": "out-of-scope",
-      "elementId": "paragraphs/17",
+      "elementId": "paragraphs/14",
       "span": {
-        "offset": 1216,
-        "length": 57
+        "offset": 2072,
+        "length": 63
       },
-      "text": "Adding or editing the skill and industry lists themselves"
+      "text": "Managers, reviewers and staffing are not users of this release."
     },
     {
       "id": "a10",
-      "type": "out-of-scope",
-      "elementId": "paragraphs/18",
+      "type": "feature",
+      "elementId": "paragraphs/17",
       "span": {
-        "offset": 1276,
-        "length": 62
+        "offset": 2296,
+        "length": 55
       },
-      "text": "Anything that reads this data later, such as search or reports"
+      "text": "Browsing the competency catalogue and narrowing it down"
     },
     {
       "id": "a11",
-      "type": "functional-requirement",
-      "elementId": "paragraphs/143",
+      "type": "feature",
+      "elementId": "paragraphs/18",
       "span": {
-        "offset": 4184,
-        "length": 27
+        "offset": 2365,
+        "length": 47
       },
-      "text": "Show all skills in a table."
+      "text": "Recording, changing and clearing your own level"
     },
     {
       "id": "a12",
-      "type": "functional-requirement",
-      "elementId": "paragraphs/146",
+      "type": "imposed-technology",
+      "elementId": "paragraphs/19",
       "span": {
-        "offset": 4376,
-        "length": 15
+        "offset": 2415,
+        "length": 29
       },
-      "text": "Filter by Type."
+      "text": "Signing in with corporate SSO"
     },
     {
       "id": "a13",
-      "type": "functional-requirement",
-      "elementId": "paragraphs/147",
+      "type": "mockup",
+      "elementId": "paragraphs/76",
       "span": {
-        "offset": 4392,
-        "length": 109
+        "offset": 3679,
+        "length": 173
       },
-      "text": "A dropdown lists every Type. Picking one shows only that Type's rows. It starts empty, which means no filter."
+      "text": "The shape of the thing is right and we are keeping it: one flat grid, one row per competency, showing its Type, its Area and its name, with three tick columns for the level."
     },
     {
       "id": "a14",
-      "type": "functional-requirement",
-      "elementId": "paragraphs/149",
+      "type": "ux-requirement",
+      "elementId": "tables/1/cells/1",
       "span": {
-        "offset": 4510,
-        "length": 41
+        "offset": 4095,
+        "length": 273
       },
-      "text": "Filter by Area, based on the Type picked."
+      "text": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner. Learner and Expert keep their names. This is the vocabulary we are standardising on - it should be identical everywhere the app speaks."
     },
     {
       "id": "a15",
-      "type": "functional-requirement",
-      "elementId": "paragraphs/150",
+      "type": "ux-requirement",
+      "elementId": "tables/1/cells/5",
       "span": {
-        "offset": 4552,
-        "length": 136
+        "offset": 4687,
+        "length": 103
       },
-      "text": "The Area dropdown only lists Areas that belong to the Type currently picked, so the member can never choose a pair that returns no rows."
+      "text": "The Save button and its unsaved-change counter go too. Neither should exist anywhere on the new screen."
     },
     {
       "id": "a16",
       "type": "functional-requirement",
-      "elementId": "paragraphs/152",
+      "elementId": "paragraphs/87",
       "span": {
-        "offset": 4697,
-        "length": 21
+        "offset": 5106,
+        "length": 143
       },
-      "text": "Search by skill name."
+      "text": "As a consultant, I want to drill into one family of competencies, so I am not scrolling past a thousand rows to reach the ten that describe me."
     },
     {
       "id": "a17",
       "type": "functional-requirement",
-      "elementId": "paragraphs/153",
+      "elementId": "paragraphs/88",
       "span": {
-        "offset": 4719,
-        "length": 108
+        "offset": 5250,
+        "length": 95
       },
-      "text": "A text box matches on the skill name. It works together with the Type and Area filters, not instead of them."
+      "text": "Picking a Type narrows the Area dropdown to that Type's Areas and the grid to that Type's rows."
     },
     {
       "id": "a18",
       "type": "functional-requirement",
-      "elementId": "paragraphs/155",
+      "elementId": "paragraphs/92",
       "span": {
-        "offset": 4836,
-        "length": 54
+        "offset": 5620,
+        "length": 107
       },
-      "text": "\"Mine\" switch - show only skills the member has rated."
+      "text": "As a consultant, I want to type the name of the thing I know, because that is faster than navigating to it."
     },
     {
       "id": "a19",
       "type": "functional-requirement",
-      "elementId": "paragraphs/156",
+      "elementId": "paragraphs/93",
       "span": {
-        "offset": 4891,
-        "length": 169
+        "offset": 5728,
+        "length": 123
       },
-      "text": "Off by default. When on, the table shows only rows where the member has ticked at least one level, so they can review their own profile without scrolling the whole list."
+      "text": "Typing in the competency box leaves only the rows whose competency name contains what was typed, ignoring case and accents."
     },
     {
       "id": "a20",
       "type": "functional-requirement",
-      "elementId": "paragraphs/158",
+      "elementId": "paragraphs/97",
       "span": {
-        "offset": 5069,
-        "length": 47
+        "offset": 6056,
+        "length": 139
       },
-      "text": "\"New\" switch - show only recently added skills."
+      "text": "As a consultant, I want to review what I have already claimed, because correcting an old profile is a different job from filling a new one."
     },
     {
       "id": "a21",
       "type": "functional-requirement",
-      "elementId": "paragraphs/159",
+      "elementId": "paragraphs/98",
       "span": {
-        "offset": 5117,
-        "length": 160
+        "offset": 6196,
+        "length": 123
       },
-      "text": "Off by default. When on, the table shows only skills added since the member last used the screen, so they can rate what is new without reading everything again."
+      "text": "With Mine switched on, the grid shows only competencies where this person has a level recorded. Everything else drops away."
     },
     {
       "id": "a22",
       "type": "functional-requirement",
-      "elementId": "tables/2/cells/1",
+      "elementId": "paragraphs/102",
       "span": {
-        "offset": 5320,
-        "length": 146
+        "offset": 6486,
+        "length": 135
       },
-      "text": "Type, Area, the search box, Mine, and New all apply at the same time. The table updates as soon as any of them changes - there is no Apply button."
+      "text": "As a consultant, I want to see only what is new since I was last here, so a two-month gap does not mean re-reading the whole catalogue."
     },
     {
       "id": "a23",
       "type": "functional-requirement",
-      "elementId": "tables/2/cells/3",
+      "elementId": "paragraphs/103",
       "span": {
-        "offset": 5475,
-        "length": 36
+        "offset": 6622,
+        "length": 152
       },
-      "text": "Rate a skill at one of three levels."
+      "text": "With New switched on, the grid shows only competencies that were added to the catalogue after the last time this person changed any of their own levels."
     },
     {
       "id": "a24",
       "type": "functional-requirement",
-      "elementId": "tables/2/cells/4",
+      "elementId": "paragraphs/109",
       "span": {
-        "offset": 5512,
-        "length": 170
+        "offset": 7540,
+        "length": 128
       },
-      "text": "Each row has a Learner, a Practitioner, and an Expert tick box. Rated and unrated skills appear in the same table, so the member can see what they have not filled in yet."
+      "text": "As a consultant, I want one level per competency, because \"I am a Learner and an Expert at Jira\" is not a thing a person can be."
     },
     {
       "id": "a25",
       "type": "functional-requirement",
-      "elementId": "tables/2/cells/6",
+      "elementId": "paragraphs/110",
       "span": {
-        "offset": 5691,
-        "length": 48
+        "offset": 7669,
+        "length": 170
       },
-      "text": "Higher levels tick the lower ones automatically."
+      "text": "Ticking a level on a row that already holds a different one records the new level and clears the old, leaving exactly one of Learner, Advanced, Expert ticked on that row."
     },
     {
       "id": "a26",
       "type": "functional-requirement",
-      "elementId": "tables/2/cells/7",
+      "elementId": "paragraphs/114",
       "span": {
-        "offset": 5740,
-        "length": 253
+        "offset": 8097,
+        "length": 115
       },
-      "text": "Ticking a level also ticks every level below it. Those boxes are shown greyed out and cannot be unticked on their own - a member can never be a Practitioner without also being a Learner. Unticking the level the member chose clears the ones it filled in."
+      "text": "As a consultant, I want to take a claim back, because a mis-click should not become a permanent statement about me."
     },
     {
       "id": "a27",
       "type": "functional-requirement",
-      "elementId": "tables/2/cells/9",
+      "elementId": "paragraphs/115",
       "span": {
-        "offset": 6002,
-        "length": 150
+        "offset": 8213,
+        "length": 149
       },
-      "text": "Save as soon as a box is ticked. There is no Save button. Ticking or unticking a box saves straight away, and unticking removes the rating completely."
+      "text": "Unticking the level a row currently holds deletes the claim outright and returns the row to unrated - which is a real state, distinct from \"Learner\"."
     },
     {
       "id": "a28",
       "type": "functional-requirement",
-      "elementId": "tables/2/cells/11",
+      "elementId": "paragraphs/119",
       "span": {
-        "offset": 6161,
-        "length": 146
+        "offset": 8513,
+        "length": 100
       },
-      "text": "A member only sees their own ratings. The table has no column for who rated what, and there is no way to look at or change someone else's ratings."
+      "text": "As a consultant, I want my click to be the whole interaction, so I never lose work by closing a tab."
     },
     {
       "id": "a29",
       "type": "functional-requirement",
-      "elementId": "tables/2/cells/13",
+      "elementId": "paragraphs/120",
       "span": {
-        "offset": 6316,
-        "length": 172
+        "offset": 8614,
+        "length": 159
       },
-      "text": "Explain the three levels. The info button in the header opens a short description of what Learner, Practitioner, and Expert mean, so everyone rates themselves the same way."
+      "text": "Every level change is written as it happens, with no further action from the person. There is no Save button, no counter, no \"you have unsaved changes\" prompt."
     },
     {
       "id": "a30",
       "type": "functional-requirement",
-      "elementId": "tables/2/cells/15",
+      "elementId": "paragraphs/124",
       "span": {
-        "offset": 6497,
-        "length": 118
+        "offset": 8930,
+        "length": 137
       },
-      "text": "Go back to the home screen. The home button in the header returns to the four tiles. Ratings already saved stay saved."
+      "text": "As a consultant, I want to be told when a click did not land, because silence would let me believe something false was recorded about me."
     },
     {
       "id": "a31",
       "type": "functional-requirement",
-      "elementId": "tables/3/cells/1",
+      "elementId": "paragraphs/125",
       "span": {
-        "offset": 6779,
-        "length": 125
+        "offset": 9068,
+        "length": 150
       },
-      "text": "Open from the home screen. The \"Industry Experience\" tile is third on the home screen, between Competencies and Endorsements."
+      "text": "If a level change fails to write, the row goes back to its last saved level and a non-blocking message names the competency and says it was not saved."
     },
     {
       "id": "a32",
       "type": "functional-requirement",
-      "elementId": "tables/3/cells/3",
+      "elementId": "paragraphs/130",
       "span": {
-        "offset": 6913,
-        "length": 176
+        "offset": 9540,
+        "length": 119
       },
-      "text": "Show the list of industries. Industries come from a list the company maintains. The member picks from it and cannot type in their own, so the values stay the same for everyone."
+      "text": "As a consultant, I want to just be signed in, because this is an internal tool and I already have a corporate identity."
     },
     {
       "id": "a33",
       "type": "functional-requirement",
-      "elementId": "tables/3/cells/5",
+      "elementId": "paragraphs/131",
       "span": {
-        "offset": 7098,
-        "length": 100
+        "offset": 9660,
+        "length": 159
       },
-      "text": "Tick each industry the member has worked in. Ticked and unticked industries appear in the same list."
+      "text": "Opening any page unauthenticated sends the person to Microsoft Entra ID and brings them back to the page they asked for, signed in as their directory identity."
     },
     {
       "id": "a34",
-      "type": "functional-requirement",
-      "elementId": "tables/3/cells/7",
+      "type": "integration",
+      "elementId": "figures/0",
       "span": {
-        "offset": 7207,
-        "length": 153
+        "offset": 10389,
+        "length": 46
       },
-      "text": "Save on tick, and show only the member's own record. Same as Competencies: no Save button, saves straight away, and a member only sees their own answers."
+      "text": "Microsoft Entra ID external corporate identity"
     },
     {
       "id": "a35",
-      "type": "functional-requirement",
-      "elementId": "tables/3/cells/9",
+      "type": "integration",
+      "elementId": "figures/0",
       "span": {
-        "offset": 7369,
-        "length": 85
+        "offset": 10456,
+        "length": 55
       },
-      "text": "Go back to the home screen. A home button in the header, the same as on Competencies."
+      "text": "Power Apps \"Skills\" - retired one-time migration source"
     },
     {
       "id": "a36",
-      "type": "data-requirement",
-      "elementId": "paragraphs/209",
+      "type": "imposed-technology",
+      "elementId": "paragraphs/147",
       "span": {
-        "offset": 8008,
-        "length": 352
+        "offset": 10548,
+        "length": 181
       },
-      "text": "Store one level per skill, not three tick boxes. Because a higher level always fills in the lower ones, a single row holding the highest level the member picked says everything. The screen works out which lower boxes to grey out. Storing three separate true/false fields would let bad combinations exist in the database, such as Expert without Learner."
+      "text": "The app stands alone. It owns its own PostgreSQL database and has exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC with the authorization-code flow and PKCE."
     },
     {
       "id": "a37",
-      "type": "data-requirement",
-      "elementId": "paragraphs/210",
+      "type": "data-entity",
+      "elementId": "tables/2/cells/0",
       "span": {
-        "offset": 8361,
-        "length": 188
+        "offset": 10910,
+        "length": 38
       },
-      "text": "Type and Area are separate tables, not text fields. They are picked from dropdowns, and the Area dropdown depends on the Type. Keeping them as their own tables is what makes that possible."
+      "text": "The catalogue Type - Area - Competency"
     },
     {
       "id": "a38",
       "type": "data-requirement",
-      "elementId": "paragraphs/211",
+      "elementId": "tables/2/cells/1",
       "span": {
-        "offset": 8550,
+        "offset": 10949,
+        "length": 65
+      },
+      "text": "Read-only to this app - it is maintained elsewhere and loaded in."
+    },
+    {
+      "id": "a39",
+      "type": "data-entity",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11137,
+        "length": 90
+      },
+      "text": "A directory identity, keyed on their Entra object id, created the first time they sign in."
+    },
+    {
+      "id": "a40",
+      "type": "data-requirement",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11228,
+        "length": 55
+      },
+      "text": "It also carries the moment they last changed any level."
+    },
+    {
+      "id": "a41",
+      "type": "data-entity",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11466,
+        "length": 67
+      },
+      "text": "One person, one competency, one level: Learner, Advanced or Expert."
+    },
+    {
+      "id": "a42",
+      "type": "data-requirement",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11711,
         "length": 122
       },
-      "text": "Email identifies the member. It comes from the signed-in user and is what links their ratings and industries back to them."
+      "text": "This is personal data: we keep it until twelve months after the person's account is disabled, and it never goes into logs."
+    },
+    {
+      "id": "a43",
+      "type": "assumption",
+      "elementId": "paragraphs/156",
+      "span": {
+        "offset": 11860,
+        "length": 54
+      },
+      "text": "The catalogue keeps being maintained outside this app."
+    },
+    {
+      "id": "a44",
+      "type": "assumption",
+      "elementId": "paragraphs/157",
+      "span": {
+        "offset": 12000,
+        "length": 68
+      },
+      "text": "Everyone who needs the app already has a corporate Entra ID account."
+    },
+    {
+      "id": "a45",
+      "type": "dependency",
+      "elementId": "paragraphs/158",
+      "span": {
+        "offset": 12123,
+        "length": 139
+      },
+      "text": "Before launch we need an export of the current catalogue and everyone's existing assessments out of Power Apps, from whoever owns that app."
+    },
+    {
+      "id": "a46",
+      "type": "dependency",
+      "elementId": "paragraphs/159",
+      "span": {
+        "offset": 12447,
+        "length": 149
+      },
+      "text": "At the start of the build we need an Entra ID app registration per environment, with redirect URIs and credentials, from the corporate identity team."
+    },
+    {
+      "id": "a47",
+      "type": "assumption",
+      "elementId": "paragraphs/161",
+      "span": {
+        "offset": 12614,
+        "length": 53
+      },
+      "text": "Telling people a write failed is our idea, not yours."
+    },
+    {
+      "id": "a48",
+      "type": "assumption",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 12880,
+        "length": 89
+      },
+      "text": "Should unrated and \"I have looked at this and it does not apply to me\" be the same thing?"
     }
   ],
-  "warnings": []
+  "warnings": [
+    "paragraphs/22: quote not found: \"Self-declared and unmoderated\"",
+    "paragraphs/24: quote not found: \"Types, Areas and Competencies are maintained elsewhere and this app only reads them\"",
+    "paragraphs/25: quote not found: \"No \\\"who knows X\\\", no exports, no dashboards\""
+  ]
 }
