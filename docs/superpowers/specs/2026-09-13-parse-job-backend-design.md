@@ -129,15 +129,13 @@ Added to the gitignored root `.env` and to App Service settings:
 ```
 DATABASE_URL                  postgres connection string, used by Drizzle
 WORKFLOW_TARGET_WORLD         @workflow/world-postgres
-WORKFLOW_POSTGRES_URL         same connection string, used by the SDK
 AZURE_STORAGE_CONNECTION_STRING
 AZURE_STORAGE_CONTAINER       jobs
 ```
 
 The Postgres world dispatches work back into the app over HTTP on
-`/.well-known/workflow/v1/flow`. The setting that tells it the app's own base
-URL is confirmed during implementation from the installed package's docs and
-added to this list. App Service must allow the app to call itself, which the
+`/.well-known/workflow/v1/flow`. The target is `WORKFLOW_LOCAL_BASE_URL` when set, otherwise
+`http://localhost:<detected port>`, which is correct on App Service. App Service must allow the app to call itself, which the
 default configuration does.
 
 One-time setup: the SDK's `bootstrap` command creates its tables, and
@@ -165,9 +163,10 @@ One-time setup: the SDK's `bootstrap` command creates its tables, and
 - `apps/web` integration test, `npm run test:integration`, needs credentials
   and a local Postgres: posts the fixture PDF to the create handler, polls the
   read handler until done or failed, asserts all four operations are done,
-  downloads `parsed.json` through the artifact handler, and asserts it
-  deep-equals `packages/parse/test/fixtures/parsed.json`. Runs locally,
-  reported in the PR.
+  downloads `parsed.json` through the artifact handler, and asserts its
+  `content` and element count equal `packages/parse/test/fixtures/parsed.json`
+  (Azure output is not byte-stable, so the parse integration test compares the
+  same way). Runs locally, reported in the PR.
 
 ## Deferred on purpose
 
