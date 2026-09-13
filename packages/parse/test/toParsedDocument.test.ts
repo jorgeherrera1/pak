@@ -16,7 +16,7 @@ const golden: ParsedDocument = JSON.parse(fixture("parsed.json").toString());
 
 const doc = toParsedDocument(
   analysis,
-  hash("sha256", fixture("Competency-Self-Assessment-PRD.pdf")),
+  hash("sha256", fixture("prd-competencies.pdf")),
 );
 
 test("provenance: every span points at exactly its own text", () => {

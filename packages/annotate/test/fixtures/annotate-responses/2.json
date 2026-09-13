@@ -1,0 +1,32 @@
+[
+  {
+    "elementId": "paragraphs/161",
+    "quote": "Telling people a write failed is our idea, not yours.",
+    "type": "assumption",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/161",
+    "quote": "Nobody asked for it, but with the Save button gone a failed write is otherwise invisible and the person walks away believing a false claim was recorded.",
+    "type": "ux-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/161",
+    "quote": "We think it is not optional.",
+    "type": "assumption",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/162",
+    "quote": "Should unrated and \"I have looked at this and it does not apply to me\" be the same thing?",
+    "type": "assumption",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/162",
+    "quote": "If staffing ever wants to distinguish \"nobody has assessed this\" from \"nobody here can do this\", the model needs a fourth state and we should know now rather than after migration.",
+    "type": "data-requirement",
+    "category": null
+  }
+]

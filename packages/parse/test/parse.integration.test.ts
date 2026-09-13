@@ -31,7 +31,7 @@ test(
   async () => {
     await rm(out, { recursive: true, force: true });
     const doc = await parse(
-      join(fixtures, "Competency-Self-Assessment-PRD.pdf"),
+      join(fixtures, "prd-competencies.pdf"),
       out,
     );
     const dir = join(out, doc.source.sha256);

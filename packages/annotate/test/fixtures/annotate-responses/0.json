@@ -1,73 +1,115 @@
 [
   {
-    "elementId": "paragraphs/3",
-    "quote": "Competencies and Industry Experience - the two screens where a team member says what they know and which industries they have worked in.",
+    "elementId": "paragraphs/0",
+    "quote": "PRODUCT REQUIREMENTS . INTERNAL TOOLS",
+    "type": "product",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/2",
+    "quote": "One screen where a consultant tells us what they are good at - and it sticks the moment they click.",
     "type": "feature",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/4",
+    "quote": "We cannot answer \"who knows Jira?\" without asking people. The competency data we do have is stale, and the app that holds it is the reason why.",
+    "type": "business-goal",
     "category": null
   },
   {
     "elementId": "paragraphs/6",
-    "quote": "Competencies shows the company's full list of skills as one big table. For each skill the member can tick a level: Learner, Practitioner, or Expert.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/7",
-    "quote": "Industry Experience does the same thing for industries instead of skills: which sectors the member has worked in.",
-    "type": "functional-requirement",
+    "quote": "We are rebuilding it as a small Next.js/React app.",
+    "type": "imposed-technology",
     "category": null
   },
   {
     "elementId": "paragraphs/8",
-    "quote": "A member only ever edits their own record. There is no way to pick another person, and there is no approval step - ticking a box saves it.",
+    "quote": "A consultant can open the app, find the competency they have in mind, and record their level without thinking about the mechanics - no save step, no second screen.",
+    "type": "ux-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/9",
+    "quote": "Nothing is ever lost to a closed tab. If a click did not reach the database, the person finds out immediately rather than believing a claim was recorded.",
     "type": "non-functional-requirement",
-    "category": "SEC"
+    "category": "REL"
+  },
+  {
+    "elementId": "paragraphs/10",
+    "quote": "Someone returning after two months can see only what the catalogue gained since they were last here, instead of re-reading a thousand rows.",
+    "type": "ux-requirement",
+    "category": null
   },
   {
     "elementId": "paragraphs/11",
-    "quote": "Competencies - browse, filter, and rate skills",
-    "type": "feature",
+    "quote": "The words on the screen match the words the business uses, so nobody has to translate practitioner into advanced in their head.",
+    "type": "ux-requirement",
     "category": null
   },
   {
-    "elementId": "paragraphs/12",
-    "quote": "Industry Experience - record industries worked in",
-    "type": "feature",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/15",
-    "quote": "About Me",
-    "type": "out-of-scope",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/16",
-    "quote": "Endorsements",
-    "type": "out-of-scope",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/17",
-    "quote": "Adding or editing the skill and industry lists themselves",
-    "type": "out-of-scope",
+    "elementId": "paragraphs/13",
+    "quote": "One audience, and only one: the consultant assessing themselves.",
+    "type": "user-class",
     "category": null
   },
   {
     "elementId": "paragraphs/18",
-    "quote": "Anything that reads this data later, such as search or reports",
+    "quote": "Recording, changing and clearing your own level",
+    "type": "feature",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/19",
+    "quote": "Signing in with corporate SSO",
+    "type": "imposed-technology",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/22",
+    "quote": "Self-declared and unmoderated",
     "type": "out-of-scope",
     "category": null
   },
   {
-    "elementId": "paragraphs/143",
-    "quote": "Show all skills in a table.",
+    "elementId": "paragraphs/24",
+    "quote": "Types, Areas and Competencies are maintained elsewhere and this app only reads them",
+    "type": "out-of-scope",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/25",
+    "quote": "Cross-employee search or reporting - no \"who knows X\", no exports, no dashboards",
+    "type": "out-of-scope",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/76",
+    "quote": "The shape of the thing is right and we are keeping it: one flat grid, one row per competency, showing its Type, its Area and its name, with three tick columns for the level.",
+    "type": "mockup",
+    "category": null
+  },
+  {
+    "elementId": "tables/1/cells/0",
+    "quote": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner. Learner and Expert keep their names. This is the vocabulary we are standardising on - it should be identical everywhere the app speaks.",
+    "type": "ux-requirement",
+    "category": null
+  },
+  {
+    "elementId": "tables/1/cells/4",
+    "quote": "The Save button and its unsaved-change counter go too. Neither should exist anywhere on the new screen.",
+    "type": "ux-requirement",
+    "category": null
+  },
+  {
+    "elementId": "paragraphs/87",
+    "quote": "As a consultant, I want to drill into one family of competencies, so I am not scrolling past a thousand rows to reach the ten that describe me.",
     "type": "functional-requirement",
     "category": null
   },
   {
-    "elementId": "paragraphs/146",
-    "quote": "Filter by Type.",
+    "elementId": "paragraphs/92",
+    "quote": "As a consultant, I want to type the name of the thing I know, because that is faster than navigating to it.",
     "type": "functional-requirement",
     "category": null
   }
