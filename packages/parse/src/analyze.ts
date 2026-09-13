@@ -6,8 +6,6 @@ import DocumentIntelligence, {
   type AnalyzeOperationOutput,
   type AnalyzeResultOutput,
 } from "@azure-rest/ai-document-intelligence";
-import { mkdir, writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import { STRING_INDEX_TYPE } from "./toParsedDocument.ts";
 
 const MODEL = "prebuilt-layout";
@@ -19,15 +17,13 @@ function env(name: string): string {
   return value;
 }
 
-/**
- * Sends the PDF to Azure Document Intelligence and persists the raw result:
- * `<dir>/figures/<id>.png` for every figure, then `<dir>/analysis.json` last,
- * so a half-finished run never looks complete.
- */
-export async function analyze(
-  pdf: Buffer,
-  dir: string,
-): Promise<AnalyzeResultOutput> {
+export type Analysis = {
+  result: AnalyzeResultOutput;
+  figures: { id: string; png: Uint8Array }[];
+};
+
+/** Sends the PDF to Azure Document Intelligence and returns the raw result plus every figure image. */
+export async function analyze(pdf: Buffer): Promise<Analysis> {
   const client = DocumentIntelligence(
     env("AZURE_DI_ENDPOINT"),
     { key: env("AZURE_DI_KEY") },
@@ -53,8 +49,8 @@ export async function analyze(
   if (!result)
     throw new Error(`analysis ${done.status}: ${JSON.stringify(done.error)}`);
 
-  await mkdir(join(dir, "figures"), { recursive: true });
   const resultId = parseResultIdFromResponse(initial);
+  const figures: Analysis["figures"] = [];
   for (const { id } of result.figures ?? []) {
     if (!id) continue;
     const res = await client
@@ -68,12 +64,7 @@ export async function analyze(
       .asNodeStream();
     if (res.status !== "200" || !res.body)
       throw new Error(`figure ${id}: HTTP ${res.status}`);
-    await writeFile(
-      join(dir, "figures", `${id}.png`),
-      await streamToUint8Array(res.body),
-    );
+    figures.push({ id, png: await streamToUint8Array(res.body) });
   }
-
-  await writeFile(join(dir, "analysis.json"), JSON.stringify(result, null, 2));
-  return result;
+  return { result, figures };
 }
