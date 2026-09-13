@@ -30,10 +30,7 @@ test(
   { timeout: 120_000 },
   async () => {
     await rm(out, { recursive: true, force: true });
-    const doc = await parse(
-      join(fixtures, "prd-competencies.pdf"),
-      out,
-    );
+    const doc = await parse(join(fixtures, "prd-competencies.pdf"), out);
     const dir = join(out, doc.source.sha256);
     const live: AnalyzeResultOutput = JSON.parse(
       readFileSync(join(dir, "analysis.json"), "utf8"),
