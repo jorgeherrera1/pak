@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { runOperation, type OperationPatch } from "../lib/operations";
+import { runOperation, type OperationPatch } from "@/lib/operations";
 
 const recorder = () => {
   const calls: OperationPatch[] = [];

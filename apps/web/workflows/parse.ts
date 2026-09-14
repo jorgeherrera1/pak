@@ -2,9 +2,9 @@ import { analyze, toParsedDocument } from "@dark-factory/parse";
 import type { AnalyzeResultOutput } from "@azure-rest/ai-document-intelligence";
 import { eq } from "drizzle-orm";
 import { FatalError } from "workflow";
-import { getBlob, putBlob } from "../lib/blob";
-import { db, jobs } from "../lib/db";
-import { runOperation } from "../lib/operations";
+import { getBlob, putBlob } from "@/lib/blob";
+import { db, jobs } from "@/lib/db";
+import { runOperation } from "@/lib/operations";
 
 async function setJob(jobId: string, patch: Partial<typeof jobs.$inferInsert>) {
   "use step";

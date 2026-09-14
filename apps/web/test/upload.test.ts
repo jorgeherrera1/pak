@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { MAX_BYTES, isPdf, validatePdf } from "../lib/upload";
+import { MAX_BYTES, isPdf, validatePdf } from "@/lib/upload";
 
 const enc = (s: string) => new TextEncoder().encode(s);
 

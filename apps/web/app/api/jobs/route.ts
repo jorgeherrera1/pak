@@ -1,11 +1,11 @@
 import { hash } from "node:crypto";
 import { eq } from "drizzle-orm";
 import { start } from "workflow/api";
-import { putBlob } from "../../../lib/blob";
-import { db, jobs, operations } from "../../../lib/db";
-import { OPERATIONS, STEP } from "../../../lib/operations";
-import { isPdf, validatePdf } from "../../../lib/upload";
-import { parseJob } from "../../../workflows/parse";
+import { putBlob } from "@/lib/blob";
+import { db, jobs, operations } from "@/lib/db";
+import { OPERATIONS, STEP } from "@/lib/operations";
+import { isPdf, validatePdf } from "@/lib/upload";
+import { parseJob } from "@/workflows/parse";
 
 export async function POST(req: Request) {
   const form = await req.formData();

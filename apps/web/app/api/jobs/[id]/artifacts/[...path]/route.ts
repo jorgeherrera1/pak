@@ -1,5 +1,5 @@
-import { streamBlob } from "../../../../../../lib/blob";
-import { isUuid } from "../../../../../../lib/db";
+import { streamBlob } from "@/lib/blob";
+import { isUuid } from "@/lib/db";
 
 const ALLOWED =
   /^(source\.pdf|analysis\.json|parsed\.json|figures\/[\w.-]+\.png)$/;

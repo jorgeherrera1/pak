@@ -1,5 +1,5 @@
 import { asc, eq } from "drizzle-orm";
-import { db, isUuid, jobs, operations } from "../../../../lib/db";
+import { db, isUuid, jobs, operations } from "@/lib/db";
 
 export async function GET(
   _req: Request,
