@@ -21,11 +21,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@dark-factory/ui/components/item";
-
-const formatSize = (bytes: number) =>
-  bytes < 1e6
-    ? `${Math.max(1, Math.round(bytes / 1024))} KB`
-    : `${(bytes / 1048576).toFixed(1)} MB`;
+import { formatSize } from "@/lib/format";
 
 export function Intake() {
   const router = useRouter();
@@ -77,7 +73,7 @@ export function Intake() {
       {file && (
         <Card>
           <CardHeader>
-            <CardTitle>Ready to run</CardTitle>
+            <CardTitle>Ready to start</CardTitle>
             <CardDescription>1 document queued</CardDescription>
             <CardAction>
               <Button size="lg" onClick={start} disabled={busy}>
@@ -109,7 +105,11 @@ export function Intake() {
                 </Button>
               </ItemActions>
             </Item>
-            {error && <p className="text-sm text-destructive">{error}</p>}
+            {error && (
+              <p role="alert" className="text-sm text-destructive">
+                {error}
+              </p>
+            )}
           </CardContent>
         </Card>
       )}

@@ -18,6 +18,7 @@ export function useJob(id: string) {
         const res = await fetch(`/api/jobs/${id}`);
         if (stopped) return;
         if (res.status === 404) return setError("job not found");
+        if (!res.ok) return setError(`request failed (${res.status})`);
         const next = (await res.json()) as JobResponse;
         if (stopped) return;
         setJob(next);

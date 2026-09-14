@@ -48,6 +48,11 @@ test("three step nodes in order, parse carrying its operations", () => {
   expect(nodes[1]?.data.operations).toEqual([]);
   expect(nodes[1]?.data.status).toBe("pending");
   expect(nodes[0]?.position.x).toBeLessThan(nodes[1]?.position.x ?? 0);
+  expect(nodes.map((n) => n.data.handles)).toEqual([
+    { target: false, source: true },
+    { target: true, source: true },
+    { target: true, source: false },
+  ]);
 });
 
 test("operations are ordered by position and keep their error", () => {

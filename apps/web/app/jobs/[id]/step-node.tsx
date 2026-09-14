@@ -28,9 +28,9 @@ const LABEL: Record<OperationStatus, string> = {
 
 export type StepFlowNode = FlowNode<StepNodeData, "step">;
 
-export function StepNode({ id, data }: NodeProps<StepFlowNode>) {
+export function StepNode({ data }: NodeProps<StepFlowNode>) {
   return (
-    <Node handles={{ target: id !== "parse", source: id !== "resolve" }}>
+    <Node handles={data.handles}>
       <NodeHeader>
         <NodeTitle className="flex items-center gap-2">
           {ICON[data.status]}

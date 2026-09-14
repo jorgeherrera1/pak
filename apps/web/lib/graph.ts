@@ -23,6 +23,7 @@ export type StepNodeData = {
   label: string;
   status: StepStatus;
   operations: OperationRow[];
+  handles: { target: boolean; source: boolean };
 };
 export type StepNode = {
   id: string;
@@ -65,7 +66,12 @@ export function toGraph(job: JobResponse): {
       id: step.id,
       type: "step",
       position: { x: i * NODE_GAP, y: 0 },
-      data: { label: step.label, status: stepStatus(operations), operations },
+      data: {
+        label: step.label,
+        status: stepStatus(operations),
+        operations,
+        handles: { target: i > 0, source: i < STEPS.length - 1 },
+      },
     };
   });
   const edges = nodes.slice(1).map((target, i): StepEdge => {
@@ -74,7 +80,7 @@ export function toGraph(job: JobResponse): {
       id: `${source.id}-${target.id}`,
       source: source.id,
       target: target.id,
-      ...(target.data.status === "running" ? { type: "animated" } : {}),
+      type: target.data.status === "running" ? "animated" : undefined,
     };
   });
   return { nodes, edges };
