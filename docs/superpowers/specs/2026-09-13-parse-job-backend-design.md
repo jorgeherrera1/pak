@@ -137,7 +137,7 @@ The Postgres world dispatches work back into the app over HTTP on
 default configuration does.
 
 One-time setup: the SDK's `bootstrap` command creates its tables, and
-`drizzle-kit push` creates ours. Both are documented in `apps/web/README.md`.
+`drizzle-kit migrate` creates ours in schema `dark_factory` of the `motivus` database. Both are documented in `apps/web/README.md`.
 
 ## Errors
 

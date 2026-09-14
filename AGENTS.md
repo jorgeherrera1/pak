@@ -46,7 +46,7 @@ Run from the repo root:
 - `npm run parse <file.pdf> <outDir>` — run the parse step on a PDF
 - `npm run annotate <parsed.json> <outDir>` — run the annotate step on a parsed document
 - `npm run pipeline <file.pdf> <outDir>` — parse then annotate
-- `npm run db:push -w apps/web` — create or update our tables
+- `npm run db:migrate -w apps/web` — apply our SQL migrations (`db:generate` after a schema change)
 
 Anything that touches Azure needs `AZURE_DI_ENDPOINT` and `AZURE_DI_KEY` (Document Intelligence) and `AZURE_API_KEY` (AI Foundry), read from a gitignored `.env` at the repo root. `apps/web` also needs `WORKFLOW_TARGET_WORLD`, `WORKFLOW_POSTGRES_URL`, and `AZURE_STORAGE_CONNECTION_STRING` in the same `.env`. Never commit credentials.
 

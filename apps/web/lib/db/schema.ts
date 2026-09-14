@@ -1,13 +1,16 @@
 import {
   integer,
-  pgTable,
+  pgSchema,
   text,
   timestamp,
   unique,
   uuid,
 } from "drizzle-orm/pg-core";
 
-export const jobs = pgTable("jobs", {
+/** Our tables live in their own schema; the Workflow SDK owns `workflow` and `graphile_worker`. */
+const darkFactory = pgSchema("dark_factory");
+
+export const jobs = darkFactory.table("jobs", {
   id: uuid("id").primaryKey().defaultRandom(),
   filename: text("filename").notNull(),
   size: integer("size").notNull(),
@@ -23,7 +26,7 @@ export const jobs = pgTable("jobs", {
   finishedAt: timestamp("finished_at", { withTimezone: true }),
 });
 
-export const operations = pgTable(
+export const operations = darkFactory.table(
   "operations",
   {
     id: uuid("id").primaryKey().defaultRandom(),
