@@ -37,6 +37,9 @@ export default function RootLayout({
           disableTransitionOnChange
           enableSystem
         >
+          <header className="flex h-16 items-center border-b border-border px-8">
+            <span className="font-display font-bold">Dark Factory</span>
+          </header>
           {children}
         </ThemeProvider>
       </body>
