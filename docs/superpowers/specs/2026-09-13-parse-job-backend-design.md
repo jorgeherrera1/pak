@@ -76,7 +76,7 @@ operations
   unique (job_id, step, name)
 ```
 
-Blob layout, one container named by `AZURE_STORAGE_CONTAINER`:
+Blob layout, one container named `jobs`:
 
 ```
 <jobId>/source.pdf
@@ -127,17 +127,13 @@ existing tests are unchanged.
 Added to the gitignored root `.env` and to App Service settings:
 
 ```
-DATABASE_URL                  postgres connection string, used by Drizzle
-WORKFLOW_TARGET_WORLD         @workflow/world-postgres
-WORKFLOW_POSTGRES_URL         same connection string, used by the SDK
+WORKFLOW_TARGET_WORLD         @workflow/world-postgres (run state in Postgres, not local files)
+WORKFLOW_POSTGRES_URL         postgres connection string, read by the SDK and by Drizzle
 AZURE_STORAGE_CONNECTION_STRING
-AZURE_STORAGE_CONTAINER       jobs
-WORKFLOW_LOCAL_BASE_URL       optional: the app's own URL, for local dev
 ```
 
 The Postgres world dispatches work back into the app over HTTP on
-`/.well-known/workflow/v1/flow`. The target is `WORKFLOW_LOCAL_BASE_URL` when set, otherwise
-`http://localhost:<detected port>`, which is correct on App Service. App Service must allow the app to call itself, which the
+`/.well-known/workflow/v1/flow`. The worker detects the app's own port, so no base URL is configured. App Service must allow the app to call itself, which the
 default configuration does.
 
 One-time setup: the SDK's `bootstrap` command creates its tables, and

@@ -55,7 +55,9 @@ test(
     const parsed: ParsedDocument = await (
       await fetch(`${base}/api/jobs/${id}/artifacts/parsed.json`)
     ).json();
-    expect(parsed.content).toBe(golden.content);
+    // Azure OCR is not byte-stable (stray glyphs differ between calls), so exact text
+    // is parse's integration test's concern; here the structure and identity must match.
+    expect(parsed.source.pages).toBe(golden.source.pages);
     expect(parsed.elements.length).toBe(golden.elements.length);
     expect(parsed.source.sha256).toBe(golden.source.sha256);
   },
