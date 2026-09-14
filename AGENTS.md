@@ -29,7 +29,7 @@ Turborepo monorepo, npm workspaces (`apps/*`, `packages/*`), 100% TypeScript. No
 
 `packages/annotate` is station 1, step 2 (Annotate): `ParsedDocument` in, grounded annotations out, via a `gpt-4o` deployment on Azure AI Foundry through the Vercel AI SDK. The vocabulary follows the IEEE 29148 SRS template. Every annotation is validated in code against the source text before it is emitted.
 
-`apps/web`, `packages/ui`, and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter. They will be repurposed or removed as the factory takes shape — do not invest effort in them beyond keeping the build green.
+`apps/web` is Station 1's host: the Next.js app that receives a job (one requirements PDF), runs its Parse operations durably on the Vercel Workflow SDK with a Postgres world, stores artifacts in Azure Blob, and exposes `/api/jobs`. `packages/ui` and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter — do not invest effort in them beyond keeping the build green.
 
 ## Commands
 
@@ -42,12 +42,13 @@ Run from the repo root:
 - `npm run check-types` — typecheck all workspaces
 - `npm run format` — format with Prettier
 - `npm test` — unit tests, no network
-- `npm run test:integration` — parse the fixture PDF against live Azure and compare with the recording
+- `npm run test:integration` — parse the fixture PDF against live Azure and compare with the recording; `npm run test:integration -w apps/web` additionally needs the dev server running on port 3001, Postgres, the storage account, and Azure credentials in `.env`
 - `npm run parse <file.pdf> <outDir>` — run the parse step on a PDF
 - `npm run annotate <parsed.json> <outDir>` — run the annotate step on a parsed document
 - `npm run pipeline <file.pdf> <outDir>` — parse then annotate
+- `npm run db:migrate -w apps/web` — apply our SQL migrations (`db:generate` after a schema change)
 
-Anything that touches Azure needs `AZURE_DI_ENDPOINT` and `AZURE_DI_KEY` (Document Intelligence) and `AZURE_API_KEY` (AI Foundry), read from a gitignored `.env` at the repo root. Never commit credentials.
+Anything that touches Azure needs `AZURE_DI_ENDPOINT` and `AZURE_DI_KEY` (Document Intelligence) and `AZURE_API_KEY` (AI Foundry), read from a gitignored `.env` at the repo root. `apps/web` also needs `WORKFLOW_TARGET_WORLD`, `WORKFLOW_POSTGRES_URL`, and `AZURE_STORAGE_CONNECTION_STRING` in the same `.env`. Never commit credentials.
 
 `packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording (run `test:integration`, copy `test/out/<sha256>/{analysis,parsed}.json` into `fixtures/`), never by hand, and the diff is reviewed like code. The same rule applies to `packages/annotate/test/fixtures/annotate-responses/` and `annotate.json`. `packages/annotate/test/fixtures/expected.json` is the eval ground truth and is written by a human only.
 

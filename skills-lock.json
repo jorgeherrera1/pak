@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "ai-elements": {
+      "source": "vercel/ai-elements",
+      "sourceType": "github",
+      "skillPath": "skills/ai-elements/SKILL.md",
+      "computedHash": "6d7ccc65b98adb04d6c47632746dbfea55528903de9b027f6b39b80983d5aa55"
+    },
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "github",
@@ -12,6 +18,18 @@
       "sourceType": "github",
       "skillPath": "skills/turborepo/SKILL.md",
       "computedHash": "9fc79a6ea6cfab14b048a83818991ed3fcb681a205baf35343e0ab378c239b5f"
+    },
+    "workflow": {
+      "source": "vercel/workflow",
+      "sourceType": "github",
+      "skillPath": "skills/workflow/SKILL.md",
+      "computedHash": "a6cadffb4a30e982ebc0c1a66ad259effbba18eea0b67960cc2bdd106a3ddb3b"
+    },
+    "workflow-init": {
+      "source": "vercel/workflow",
+      "sourceType": "github",
+      "skillPath": "skills/workflow-init/SKILL.md",
+      "computedHash": "a3f845e2f32ff5aeb1536c8668d677189a99c39e3de9c26da88993ec9870da00"
     }
   }
 }

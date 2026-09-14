@@ -1,28 +1,60 @@
-## Getting Started
+## Vocabulary
 
-First, run the development server:
+A **job** moves through the **station** (Requirements engineering), which runs in **steps** (Parse, Annotate, Resolve); each step is a sequence of **operations** (upload, analyze, build, publish).
 
-```bash
-yarn dev
+## Environment
+
+Set these in the root `.env` (gitignored):
+
+```
+WORKFLOW_TARGET_WORLD=@workflow/world-postgres
+WORKFLOW_POSTGRES_URL=postgres://localhost:5432/motivus
+AZURE_STORAGE_CONNECTION_STRING=<from the storage account>
 ```
 
-Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
+`WORKFLOW_TARGET_WORLD` tells the Workflow SDK to keep run state in Postgres instead of local
+files; `WORKFLOW_POSTGRES_URL` is the connection string, read by both the SDK and Drizzle. The
+worker dispatches work back to the app over HTTP and finds the app's port by itself. Files go
+to the `jobs` container.
 
-You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
+Next.js loads `.env` from `apps/web`, so for local dev symlink the root file:
+`ln -s ../../.env apps/web/.env` (it is gitignored).
 
-To create [API routes](https://nextjs.org/docs/app/building-your-application/routing/router-handlers) add an `api/` directory to the `app/` directory with a `route.ts` file. For individual endpoints, create a subfolder in the `api` directory, like `api/hello/route.ts` would map to [http://localhost:3001/api/hello](http://localhost:3001/api/hello).
+## Setup
 
-## Learn More
+```bash
+createdb motivus
+az storage container create --name jobs --connection-string "$AZURE_STORAGE_CONNECTION_STRING"
+npx --package=@workflow/world-postgres bootstrap
+npm run db:migrate -w apps/web
+```
 
-To learn more about Next.js, take a look at the following resources:
+Our tables live in schema `dark_factory` of the `motivus` database, created by the SQL
+migrations in `apps/web/drizzle/` (after a schema change: `npm run db:generate -w apps/web`,
+commit the new file, then `db:migrate`). The SDK's bootstrap creates its
+own schemas there too: `workflow`, `workflow_drizzle`, and `graphile_worker`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn/foundations/about-nextjs) - an interactive Next.js tutorial.
+## Run
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Run `npm run build` from the repo root once first, so `@dark-factory/parse` has a `dist/` to resolve.
 
-## Deploy on Vercel
+```bash
+npm run dev -w apps/web
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_source=github.com&utm_medium=referral&utm_campaign=turborepo-readme) from the creators of Next.js.
+Serves on [http://localhost:3001](http://localhost:3001).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Smoke test
+
+With the dev server running:
+
+```bash
+curl -s -F file=@packages/parse/test/fixtures/prd-competencies.pdf http://localhost:3001/api/jobs
+curl -s http://localhost:3001/api/jobs/<id> | jq '.status, [.operations[] | {name, status}]'
+```
+
+Expect 202 with an id, then within about a minute status `done` and all four operations `done`.
+
+## Integration test
+
+`npm run test:integration -w apps/web` needs the dev server running on port 3001, plus Postgres, the storage account, and Azure credentials in `.env`; the root `npm run test:integration` now runs it too.

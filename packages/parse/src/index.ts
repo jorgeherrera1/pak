@@ -1,17 +1,18 @@
 import { hash } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { analyze } from "./analyze.ts";
 import { toParsedDocument } from "./toParsedDocument.ts";
 import type { ParsedDocument } from "./types.ts";
 
 export type * from "./types.ts";
+export { analyze, type Analysis } from "./analyze.ts";
 export { toParsedDocument } from "./toParsedDocument.ts";
 
 /**
  * PDF in, ParsedDocument out. Every run calls Azure; nothing is reused between
- * runs. Everything lands in `<outDir>/<sha256 of the pdf>/`: analysis.json and
- * figures/ as the service returned them, parsed.json derived from analysis.json.
+ * runs. Everything lands in `<outDir>/<sha256 of the pdf>/`: figures/ first,
+ * then analysis.json, then parsed.json, so a half-finished run never looks complete.
  */
 export async function parse(
   pdfPath: string,
@@ -20,8 +21,12 @@ export async function parse(
   const pdf = await readFile(pdfPath);
   const sha256 = hash("sha256", pdf);
   const dir = join(outDir, sha256);
-  const analysis = await analyze(pdf, dir);
-  const doc = toParsedDocument(analysis, sha256);
+  const { result, figures } = await analyze(pdf);
+  await mkdir(join(dir, "figures"), { recursive: true });
+  for (const { id, png } of figures)
+    await writeFile(join(dir, "figures", `${id}.png`), png);
+  await writeFile(join(dir, "analysis.json"), JSON.stringify(result, null, 2));
+  const doc = toParsedDocument(result, sha256);
   await writeFile(join(dir, "parsed.json"), JSON.stringify(doc, null, 2));
   return doc;
 }
