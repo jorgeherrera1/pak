@@ -5,7 +5,7 @@ import type { ParsedDocument } from "@dark-factory/parse";
 
 const env = fileURLToPath(new URL("../../../.env", import.meta.url));
 if (existsSync(env)) process.loadEnvFile(env);
-const base = process.env.WEB_BASE_URL ?? "http://localhost:3001";
+const base = "http://localhost:3001";
 const fixtures = new URL(
   "../../../packages/parse/test/fixtures/",
   import.meta.url,
