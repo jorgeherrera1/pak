@@ -29,7 +29,7 @@ Turborepo monorepo, npm workspaces (`apps/*`, `packages/*`), 100% TypeScript. No
 
 `packages/annotate` is station 1, step 2 (Annotate): `ParsedDocument` in, grounded annotations out, via a `gpt-4o` deployment on Azure AI Foundry through the Vercel AI SDK. The vocabulary follows the IEEE 29148 SRS template. Every annotation is validated in code against the source text before it is emitted.
 
-`apps/web` is Station 1's host: the Next.js app that receives a job (one requirements PDF), runs its Parse operations durably on the Vercel Workflow SDK with a Postgres world, stores artifacts in Azure Blob, and exposes `/api/jobs`. `packages/ui` and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter — do not invest effort in them beyond keeping the build green.
+`apps/web` is Station 1's host: the Next.js app that receives a job (one requirements PDF), runs its Parse and Annotate operations durably on the Vercel Workflow SDK with a Postgres world, stores artifacts in Azure Blob, and exposes `/api/jobs`. `packages/ui` and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter — do not invest effort in them beyond keeping the build green.
 
 ## Commands
 
