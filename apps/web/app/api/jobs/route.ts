@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { start } from "workflow/api";
 import { putBlob } from "@/lib/blob";
 import { db, jobs, operations } from "@/lib/db";
-import { OPERATIONS, STEP } from "@/lib/operations";
+import { initialOperations } from "@/lib/operations";
 import { isPdf, validatePdf } from "@/lib/upload";
 import { parseJob } from "@/workflows/parse";
 
@@ -28,17 +28,7 @@ export async function POST(req: Request) {
       size: bytes.byteLength,
       sha256: hash("sha256", bytes),
     });
-    await tx.insert(operations).values(
-      OPERATIONS.map((name, position) => ({
-        jobId: id,
-        step: STEP,
-        name,
-        position,
-        status: name === "upload" ? ("done" as const) : ("pending" as const),
-        startedAt: name === "upload" ? now : null,
-        finishedAt: name === "upload" ? now : null,
-      })),
-    );
+    await tx.insert(operations).values(initialOperations(id, now));
   });
 
   let run;

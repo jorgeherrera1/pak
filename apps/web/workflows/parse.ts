@@ -13,7 +13,7 @@ async function setJob(jobId: string, patch: Partial<typeof jobs.$inferInsert>) {
 
 async function analyzeOperation(jobId: string) {
   "use step";
-  await runOperation(jobId, "analyze", async () => {
+  await runOperation(jobId, "parse", "analyze", async () => {
     const pdf = await getBlob(`${jobId}/source.pdf`);
     if (!pdf) throw new FatalError("source.pdf missing");
     const { result, figures } = await analyze(pdf);
@@ -29,7 +29,7 @@ async function analyzeOperation(jobId: string) {
 
 async function buildOperation(jobId: string) {
   "use step";
-  return runOperation(jobId, "build", async () => {
+  return runOperation(jobId, "parse", "build", async () => {
     const [job] = await db.select().from(jobs).where(eq(jobs.id, jobId));
     if (!job) throw new FatalError("job missing");
     const raw = await getBlob(`${jobId}/analysis.json`);
@@ -51,23 +51,13 @@ async function buildOperation(jobId: string) {
   });
 }
 
-async function publishOperation(jobId: string) {
-  "use step";
-  await runOperation(jobId, "publish", async () => {
-    await db
-      .update(jobs)
-      .set({ status: "done", finishedAt: new Date() })
-      .where(eq(jobs.id, jobId));
-  });
-}
-
 export async function parseJob(jobId: string) {
   "use workflow";
   await setJob(jobId, { status: "running" });
   try {
     await analyzeOperation(jobId);
     const counts = await buildOperation(jobId);
-    await publishOperation(jobId);
+    await setJob(jobId, { status: "done", finishedAt: new Date() });
     return counts;
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
