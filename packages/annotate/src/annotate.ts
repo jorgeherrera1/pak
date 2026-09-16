@@ -1,20 +1,19 @@
 import { createAzure } from "@ai-sdk/azure";
 import type { ParsedDocument } from "@dark-factory/parse";
 import { Output, generateText } from "ai";
-import { readFileSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { z } from "zod";
 import { anchors, chunk } from "./chunk.ts";
+import classify from "./classify.ts";
+import mentions from "./mentions.ts";
 import type { AnnotateResult } from "./types.ts";
 import { classificationSchema, mentionSchema, validate } from "./validate.ts";
 
-const prompt = (name: string) =>
-  readFileSync(new URL(`./${name}.md`, import.meta.url), "utf8");
 /** Two tasks per chunk, each its own prompt and schema; they never share a call. */
 const TASKS = {
-  classify: { instructions: prompt("classify"), schema: classificationSchema },
-  mentions: { instructions: prompt("mentions"), schema: mentionSchema },
+  classify: { instructions: classify, schema: classificationSchema },
+  mentions: { instructions: mentions, schema: mentionSchema },
 } as const;
 /** Azure AI Foundry deployment name. */
 const MODEL = "gpt-4o";
