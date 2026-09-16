@@ -7,7 +7,7 @@
     ".": "./dist/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp src/*.md dist/",
     "check-types": "tsc -p tsconfig.test.json",
     "lint": "eslint src test --max-warnings 0",
     "test": "vitest run --exclude \"**/*.integration.test.ts\"",

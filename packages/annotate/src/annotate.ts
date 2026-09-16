@@ -26,7 +26,6 @@ const azure = createAzure({
 async function run<T>(
   task: { instructions: string; schema: z.ZodType<T> },
   text: string,
-  file: string,
 ): Promise<T[]> {
   const { output } = await generateText({
     model: azure(MODEL),
@@ -35,9 +34,13 @@ async function run<T>(
     instructions: task.instructions,
     prompt: text,
   });
-  await writeFile(file, JSON.stringify(output, null, 2));
   return output;
 }
+
+/** One chunk of document text in, the model's classification rows out. Calls the model every time. */
+export const runClassify = (text: string) => run(TASKS.classify, text);
+/** One chunk of document text in, the model's mention rows out. Calls the model every time. */
+export const runMentions = (text: string) => run(TASKS.mentions, text);
 
 /**
  * ParsedDocument in, grounded classifications and mentions out. Every run
@@ -53,13 +56,21 @@ export async function annotate(
   const dir = join(outDir, doc.source.sha256);
   for (const t of Object.keys(TASKS))
     await mkdir(join(dir, "annotate", t), { recursive: true });
+  const write = (t: string, i: number, data: unknown) =>
+    writeFile(
+      join(dir, "annotate", t, `${i}.json`),
+      JSON.stringify(data, null, 2),
+    );
   // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
   const outputs = await Promise.all(
     chunk(doc).map(async (text, i) => {
-      const file = (t: string) => join(dir, "annotate", t, `${i}.json`);
       const [classifications, mentions] = await Promise.all([
-        run(TASKS.classify, text, file("classify")),
-        run(TASKS.mentions, text, file("mentions")),
+        runClassify(text),
+        runMentions(text),
+      ]);
+      await Promise.all([
+        write("classify", i, classifications),
+        write("mentions", i, mentions),
       ]);
       return { classifications, mentions };
     }),
