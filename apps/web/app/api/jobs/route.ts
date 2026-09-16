@@ -5,7 +5,7 @@ import { putBlob } from "@/lib/blob";
 import { db, jobs, operations } from "@/lib/db";
 import { initialOperations } from "@/lib/operations";
 import { isPdf, validatePdf } from "@/lib/upload";
-import { parseJob } from "@/workflows/parse";
+import { runJob } from "@/workflows/job";
 
 export async function POST(req: Request) {
   const form = await req.formData();
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
   let run;
   try {
-    run = await start(parseJob, [id]);
+    run = await start(runJob, [id]);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     await db
