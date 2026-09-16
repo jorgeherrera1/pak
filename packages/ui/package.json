@@ -10,8 +10,7 @@
   "exports": {
     "./styles.css": "./src/styles.css",
     "./components/*": "./src/components/*.tsx",
-    "./lib/*": "./src/lib/*.ts",
-    "./*": "./src/*.tsx"
+    "./lib/*": "./src/lib/*.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit",
