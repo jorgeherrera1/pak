@@ -142,8 +142,12 @@
           "tableFrom": "operations",
           "tableTo": "jobs",
           "schemaTo": "dark_factory",
-          "columnsFrom": ["job_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "job_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -153,7 +157,11 @@
         "operations_job_id_step_name_unique": {
           "name": "operations_job_id_step_name_unique",
           "nullsNotDistinct": false,
-          "columns": ["job_id", "step", "name"]
+          "columns": [
+            "job_id",
+            "step",
+            "name"
+          ]
         }
       },
       "policies": {},

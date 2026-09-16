@@ -1,5 +1,8 @@
-import { asc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db, isUuid, jobs, operations } from "@/lib/db";
+import { OPERATIONS } from "@/lib/operations";
+
+const STEPS = Object.keys(OPERATIONS);
 
 export async function GET(
   _req: Request,
@@ -13,7 +16,11 @@ export async function GET(
   const ops = await db
     .select()
     .from(operations)
-    .where(eq(operations.jobId, id))
-    .orderBy(asc(operations.position));
+    .where(eq(operations.jobId, id));
+  // Assembly-line order: by step in OPERATIONS's key order, then by position within it.
+  ops.sort(
+    (a, b) =>
+      STEPS.indexOf(a.step) - STEPS.indexOf(b.step) || a.position - b.position,
+  );
   return Response.json({ ...job, operations: ops });
 }

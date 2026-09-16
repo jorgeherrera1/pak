@@ -62,43 +62,39 @@ async function buildOperation(jobId: string) {
   });
 }
 
+async function annotateChunks(
+  jobId: string,
+  name: "classify" | "mentions",
+  run: (text: string) => Promise<unknown>,
+) {
+  const doc = await readJson<ParsedDocument>(`${jobId}/parsed.json`);
+  const chunks = chunk(doc);
+  // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
+  await Promise.all(
+    chunks.map(async (text, i) => {
+      const rows = await run(text);
+      await putBlob(
+        `${jobId}/annotate/${name}/${i}.json`,
+        json(rows),
+        "application/json",
+      );
+    }),
+  );
+  return { chunks: chunks.length };
+}
+
 async function classifyOperation(jobId: string) {
   "use step";
-  return runOperation(jobId, "annotate", "classify", async () => {
-    const doc = await readJson<ParsedDocument>(`${jobId}/parsed.json`);
-    const chunks = chunk(doc);
-    // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
-    await Promise.all(
-      chunks.map(async (text, i) => {
-        const rows = await runClassify(text);
-        await putBlob(
-          `${jobId}/annotate/classify/${i}.json`,
-          json(rows),
-          "application/json",
-        );
-      }),
-    );
-    return { chunks: chunks.length };
-  });
+  return runOperation(jobId, "annotate", "classify", () =>
+    annotateChunks(jobId, "classify", runClassify),
+  );
 }
 
 async function mentionsOperation(jobId: string) {
   "use step";
-  return runOperation(jobId, "annotate", "mentions", async () => {
-    const doc = await readJson<ParsedDocument>(`${jobId}/parsed.json`);
-    const chunks = chunk(doc);
-    await Promise.all(
-      chunks.map(async (text, i) => {
-        const rows = await runMentions(text);
-        await putBlob(
-          `${jobId}/annotate/mentions/${i}.json`,
-          json(rows),
-          "application/json",
-        );
-      }),
-    );
-    return { chunks: chunks.length };
-  });
+  return runOperation(jobId, "annotate", "mentions", () =>
+    annotateChunks(jobId, "mentions", runMentions),
+  );
 }
 
 async function validateOperation(jobId: string) {
