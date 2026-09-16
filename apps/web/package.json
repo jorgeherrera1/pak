@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@azure/storage-blob": "^12.33.0",
+    "@dark-factory/annotate": "*",
     "@dark-factory/parse": "*",
     "@dark-factory/ui": "*",
     "@workflow/world-postgres": "^4.3.6",

@@ -15,8 +15,8 @@ const golden: ParsedDocument = JSON.parse(
 );
 
 test(
-  "a posted PDF runs all four operations and yields the recorded parse",
-  { timeout: 180_000 },
+  "a posted PDF runs Parse and Annotate and yields the recorded parse",
+  { timeout: 300_000 },
   async () => {
     const form = new FormData();
     form.set(
@@ -36,7 +36,7 @@ test(
     let job: {
       status: string;
       error: string | null;
-      operations: { name: string; status: string }[];
+      operations: { step: string; name: string; status: string }[];
     };
     do {
       await new Promise((r) => setTimeout(r, 2000));
@@ -45,11 +45,13 @@ test(
 
     expect(job.error).toBeNull();
     expect(job.status).toBe("done");
-    expect(job.operations.map((o) => [o.name, o.status])).toEqual([
-      ["upload", "done"],
-      ["analyze", "done"],
-      ["build", "done"],
-      ["publish", "done"],
+    expect(job.operations.map((o) => [o.step, o.name, o.status])).toEqual([
+      ["parse", "upload", "done"],
+      ["parse", "analyze", "done"],
+      ["parse", "build", "done"],
+      ["annotate", "classify", "done"],
+      ["annotate", "mentions", "done"],
+      ["annotate", "validate", "done"],
     ]);
 
     const parsed: ParsedDocument = await (
@@ -60,6 +62,12 @@ test(
     expect(parsed.source.pages).toBe(golden.source.pages);
     expect(parsed.elements.length).toBe(golden.elements.length);
     expect(parsed.source.sha256).toBe(golden.source.sha256);
+
+    const annotated = (await (
+      await fetch(`${base}/api/jobs/${id}/artifacts/annotate.json`)
+    ).json()) as { classifications: unknown[]; mentions: unknown[] };
+    expect(annotated.classifications.length).toBeGreaterThan(0);
+    expect(annotated.mentions.length).toBeGreaterThan(0);
   },
 );
 

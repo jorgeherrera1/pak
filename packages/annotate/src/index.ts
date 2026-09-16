@@ -3,8 +3,9 @@ import { readFile } from "node:fs/promises";
 import { annotate } from "./annotate.ts";
 
 export type * from "./types.ts";
-export { annotate } from "./annotate.ts";
-export { validate } from "./validate.ts";
+export { annotate, runClassify, runMentions } from "./annotate.ts";
+export { anchors, chunk } from "./chunk.ts";
+export { validate, type ModelOutput } from "./validate.ts";
 
 if (import.meta.main) {
   const [parsedPath, outDir] = process.argv.slice(2);
