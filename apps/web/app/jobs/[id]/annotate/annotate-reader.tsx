@@ -233,6 +233,19 @@ export function AnnotateReader({
       where={where}
     />
   );
+  // Select all acts on what is listed: this tab, narrowed by the filter.
+  const allOn = layers.every((l) => !hidden.has(l.key));
+  const setAll = (on: boolean) =>
+    setHidden((h) => {
+      const next = new Set(h);
+      for (const l of layers) {
+        if (on) next.delete(l.key);
+        else next.add(l.key);
+        // Either way the layer speaks for its instances again.
+        for (const m of byLayer.get(l.key)!) next.delete(m.id);
+      }
+      return next;
+    });
   // Most names come up once; folded so the recurring ones stay readable. A filter looks everywhere.
   const fold = tab === "m" && !filter.trim();
   const once = fold
@@ -311,6 +324,17 @@ export function AnnotateReader({
               placeholder={tab === "c" ? "Filter types" : "Filter names"}
               className="w-full bg-transparent outline-none"
             />
+          </label>
+          <label className="flex items-center gap-2.5 px-3 text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={allOn}
+              disabled={layers.length === 0}
+              onChange={() => setAll(!allOn)}
+              className="size-4 accent-primary"
+            />
+            {allOn ? "Deselect all" : "Select all"}
+            {filter.trim() && ` ${layers.length} matching`}
           </label>
         </div>
         <div className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-4 pb-4">
