@@ -5,7 +5,6 @@ import type {
   Category,
   Classification,
   ClassificationType,
-  Kind,
   Mention,
 } from "@dark-factory/annotate";
 import type { Cell, Element, ParsedDocument } from "@dark-factory/parse";
@@ -14,9 +13,8 @@ import { segments } from "@/lib/segments";
 
 type Mark = Classification | Mention;
 const isC = (m: Mark): m is Classification => "type" in m;
-const typeOf = (m: Mark) => (isC(m) ? m.type : m.kind);
-/** Layer key: classifications and mentions share type names, so they are toggled apart. */
-const layer = (m: Mark) => `${isC(m) ? "c" : "m"}:${typeOf(m)}`;
+/** Layer key: a classification toggles by its type, a mention by the thing it names. */
+const layer = (m: Mark) => (isC(m) ? `c:${m.type}` : `m:${m.name}`);
 
 // Class names are spelled out so Tailwind can see them.
 const FAMILIES = [
@@ -79,16 +77,7 @@ const FAMILIES = [
 const familyOf = (t: string) =>
   FAMILIES.find((f) => (f.types as string[]).includes(t)) ?? FAMILIES[3]!;
 
-const KINDS: Kind[] = [
-  "data-entity",
-  "glossary-term",
-  "imposed-technology",
-  "user-class",
-  "feature",
-  "product",
-  "integration",
-  "standard",
-];
+const MENTION_LINE = "border-bright-cyan";
 const CATEGORY: Record<Category, string> = {
   PER: "performance, capacity",
   REL: "reliability, availability",
@@ -125,7 +114,7 @@ export function AnnotateReader({
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
 
-  const { byElement, counts, parity, dropped } = useMemo(() => {
+  const { byElement, counts, parity, dropped, names } = useMemo(() => {
     const all: Mark[] = [
       ...annotations.classifications,
       ...annotations.mentions,
@@ -148,7 +137,12 @@ export function AnnotateReader({
       const [, id = "", what = w] = w.match(/^(\S+): (.*)$/s) ?? [];
       dropped.set(owner(id), [...(dropped.get(owner(id)) ?? []), what]);
     }
-    return { byElement, counts, parity, dropped };
+    // The things the document names, most mentioned first.
+    const names = [...counts]
+      .filter(([k]) => k.startsWith("m:"))
+      .map(([k, n]) => [k.slice(2), n] as const)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    return { byElement, counts, parity, dropped, names };
   }, [annotations]);
 
   const ctx: Ctx = {
@@ -227,14 +221,14 @@ export function AnnotateReader({
         <span className={`mt-2 border-t px-3 pt-4 pb-2 ${EYEBROW}`}>
           Mentions · underline
         </span>
-        {KINDS.map((k) => (
+        {names.map(([name, count]) => (
           <Layer
-            key={k}
-            label={k}
-            count={counts.get(`m:${k}`) ?? 0}
-            on={!hidden.has(`m:${k}`)}
-            onToggle={() => toggle(`m:${k}`)}
-            swatch={`h-[3px] w-3.5 ${familyOf(k).swatch}`}
+            key={name}
+            label={name}
+            count={count}
+            on={!hidden.has(`m:${name}`)}
+            onToggle={() => toggle(`m:${name}`)}
+            swatch="h-[3px] w-3.5 bg-bright-cyan"
           />
         ))}
       </nav>
@@ -319,7 +313,7 @@ function Text({
       <span
         key={i}
         title={s.marks
-          .map((m) => `${m.id} ${typeOf(m)}${isC(m) ? "" : ` · ${m.name}`}`)
+          .map((m) => `${m.id} ${isC(m) ? m.type : m.name}`)
           .join("\n")}
         // The margin chip is the keyboard path to the same selection.
         onClick={cls && (() => ctx.select(cls.id))}
@@ -328,7 +322,7 @@ function Text({
           cls &&
             `cursor-pointer ${familyOf(cls.type).tint[on ? 1 : ctx.parity.get(cls.id)!]}`,
           on && `ring-2 ${familyOf(cls!.type).ring}`,
-          men && `border-b-2 ${familyOf(men.kind).line}`,
+          men && `border-b-2 ${MENTION_LINE}`,
         ]
           .filter(Boolean)
           .join(" ")}
