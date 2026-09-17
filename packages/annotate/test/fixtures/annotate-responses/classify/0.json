@@ -44,13 +44,13 @@
   {
     "elementId": "paragraphs/18",
     "quote": "Recording, changing and clearing your own level",
-    "type": "functional-requirement",
+    "type": "feature",
     "category": null
   },
   {
     "elementId": "paragraphs/19",
     "quote": "Signing in with corporate SSO",
-    "type": "integration",
+    "type": "imposed-technology",
     "category": null
   },
   {
@@ -74,13 +74,13 @@
   {
     "elementId": "paragraphs/76",
     "quote": "Rows come out sorted by Type, then Area, then competency name, so the grid reads the same way every time.",
-    "type": "ux-requirement",
+    "type": "functional-requirement",
     "category": null
   },
   {
     "elementId": "tables/1/cells/1",
     "quote": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner.",
-    "type": "standard",
+    "type": "ux-requirement",
     "category": null
   }
 ]

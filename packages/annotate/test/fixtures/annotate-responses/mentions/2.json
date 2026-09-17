@@ -1,230 +1,117 @@
 [
   {
     "elementId": "tables/2/cells/0",
-    "quote": "catalogue",
-    "name": "catalogue",
-    "kind": "data-entity"
+    "quote": "The catalogue",
+    "name": "Catalogue"
   },
   {
     "elementId": "tables/2/cells/0",
     "quote": "Type",
-    "name": "Type",
-    "kind": "data-entity"
+    "name": "Type"
   },
   {
     "elementId": "tables/2/cells/0",
     "quote": "Area",
-    "name": "Area",
-    "kind": "data-entity"
+    "name": "Area"
   },
   {
     "elementId": "tables/2/cells/0",
     "quote": "Competency",
-    "name": "Competency",
-    "kind": "data-entity"
+    "name": "Competency"
   },
   {
     "elementId": "tables/2/cells/1",
-    "quote": "app",
-    "name": "app",
-    "kind": "product"
+    "quote": "this app",
+    "name": "App"
   },
   {
     "elementId": "tables/2/cells/1",
-    "quote": "competency",
-    "name": "Competency",
-    "kind": "data-entity"
+    "quote": "the catalogue",
+    "name": "Catalogue"
+  },
+  {
+    "elementId": "tables/2/cells/1",
+    "quote": "the New toggle",
+    "name": "New Toggle"
   },
   {
     "elementId": "tables/2/cells/2",
-    "quote": "person",
-    "name": "person",
-    "kind": "user-class"
+    "quote": "The person",
+    "name": "Person"
   },
   {
     "elementId": "tables/2/cells/3",
-    "quote": "directory identity",
-    "name": "directory identity",
-    "kind": "data-entity"
+    "quote": "A directory identity",
+    "name": "Directory Identity"
   },
   {
     "elementId": "tables/2/cells/3",
-    "quote": "Entra object id",
-    "name": "Entra object id",
-    "kind": "data-entity"
+    "quote": "their Entra object id",
+    "name": "Entra Object ID"
   },
   {
     "elementId": "tables/2/cells/3",
-    "quote": "timestamp",
-    "name": "timestamp",
-    "kind": "data-entity"
+    "quote": "the New toggle",
+    "name": "New Toggle"
   },
   {
     "elementId": "tables/2/cells/4",
-    "quote": "claim",
-    "name": "claim",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "tables/2/cells/5",
-    "quote": "person",
-    "name": "person",
-    "kind": "user-class"
-  },
-  {
-    "elementId": "tables/2/cells/5",
-    "quote": "competency",
-    "name": "Competency",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "tables/2/cells/5",
-    "quote": "level",
-    "name": "level",
-    "kind": "data-entity"
+    "quote": "The claim",
+    "name": "Claim"
   },
   {
     "elementId": "tables/2/cells/5",
     "quote": "Learner",
-    "name": "Learner",
-    "kind": "user-class"
+    "name": "Learner"
   },
   {
     "elementId": "tables/2/cells/5",
     "quote": "Advanced",
-    "name": "Advanced",
-    "kind": "user-class"
+    "name": "Advanced"
   },
   {
     "elementId": "tables/2/cells/5",
     "quote": "Expert",
-    "name": "Expert",
-    "kind": "user-class"
+    "name": "Expert"
+  },
+  {
+    "elementId": "tables/2/cells/5",
+    "quote": "the screen",
+    "name": "Screen"
   },
   {
     "elementId": "tables/2/cells/5",
     "quote": "personal data",
-    "name": "personal data",
-    "kind": "data-entity"
+    "name": "Personal Data"
   },
   {
     "elementId": "paragraphs/156",
-    "quote": "catalogue",
-    "name": "catalogue",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/156",
-    "quote": "app",
-    "name": "app",
-    "kind": "product"
+    "quote": "The catalogue",
+    "name": "Catalogue"
   },
   {
     "elementId": "paragraphs/157",
     "quote": "corporate Entra ID account",
-    "name": "corporate Entra ID account",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/158",
-    "quote": "catalogue",
-    "name": "catalogue",
-    "kind": "data-entity"
+    "name": "Corporate Entra ID Account"
   },
   {
     "elementId": "paragraphs/158",
     "quote": "Power Apps",
-    "name": "Power Apps",
-    "kind": "product"
+    "name": "Power Apps"
   },
   {
     "elementId": "paragraphs/158",
-    "quote": "app",
-    "name": "app",
-    "kind": "product"
-  },
-  {
-    "elementId": "paragraphs/158",
-    "quote": "competency",
-    "name": "Competency",
-    "kind": "data-entity"
+    "quote": "the New toggle",
+    "name": "New Toggle"
   },
   {
     "elementId": "paragraphs/159",
     "quote": "Entra ID app registration",
-    "name": "Entra ID app registration",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "paragraphs/159",
-    "quote": "environment",
-    "name": "environment",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/159",
-    "quote": "redirect URIs",
-    "name": "redirect URIs",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "paragraphs/159",
-    "quote": "credentials",
-    "name": "credentials",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/159",
-    "quote": "corporate identity team",
-    "name": "corporate identity team",
-    "kind": "user-class"
+    "name": "Entra ID App Registration"
   },
   {
     "elementId": "paragraphs/161",
-    "quote": "Save button",
-    "name": "Save button",
-    "kind": "feature"
-  },
-  {
-    "elementId": "paragraphs/161",
-    "quote": "write",
-    "name": "write",
-    "kind": "feature"
-  },
-  {
-    "elementId": "paragraphs/161",
-    "quote": "claim",
-    "name": "claim",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/162",
-    "quote": "unrated",
-    "name": "unrated",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/162",
-    "quote": "staffing",
-    "name": "staffing",
-    "kind": "user-class"
-  },
-  {
-    "elementId": "paragraphs/162",
-    "quote": "model",
-    "name": "model",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/162",
-    "quote": "state",
-    "name": "state",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/162",
-    "quote": "migration",
-    "name": "migration",
-    "kind": "feature"
+    "quote": "the Save button",
+    "name": "Save Button"
   }
 ]

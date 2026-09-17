@@ -2,241 +2,226 @@
   {
     "elementId": "paragraphs/87",
     "quote": "consultant",
-    "name": "Consultant",
-    "kind": "user-class"
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/87",
     "quote": "competencies",
-    "name": "Competency",
-    "kind": "glossary-term"
+    "name": "Competency"
   },
   {
     "elementId": "paragraphs/88",
     "quote": "Type",
-    "name": "Type",
-    "kind": "data-entity"
+    "name": "Type"
   },
   {
     "elementId": "paragraphs/88",
     "quote": "Area",
-    "name": "Area",
-    "kind": "data-entity"
+    "name": "Area"
   },
   {
     "elementId": "paragraphs/88",
     "quote": "grid",
-    "name": "Grid",
-    "kind": "feature"
+    "name": "Grid"
   },
   {
     "elementId": "paragraphs/92",
     "quote": "consultant",
-    "name": "Consultant",
-    "kind": "user-class"
-  },
-  {
-    "elementId": "paragraphs/92",
-    "quote": "competency box",
-    "name": "Competency Box",
-    "kind": "feature"
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/93",
-    "quote": "competency name",
-    "name": "Competency Name",
-    "kind": "data-entity"
+    "quote": "competency box",
+    "name": "Competency Box"
+  },
+  {
+    "elementId": "paragraphs/93",
+    "quote": "rows",
+    "name": "Row"
+  },
+  {
+    "elementId": "paragraphs/95",
+    "quote": "Atlassian / Jira",
+    "name": "Atlassian / Jira"
+  },
+  {
+    "elementId": "paragraphs/95",
+    "quote": "Atlassian / Jira Align",
+    "name": "Atlassian / Jira Align"
+  },
+  {
+    "elementId": "paragraphs/96",
+    "quote": "No competencies match this filter",
+    "name": "No Competencies Match This Filter Message"
   },
   {
     "elementId": "paragraphs/97",
     "quote": "consultant",
-    "name": "Consultant",
-    "kind": "user-class"
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/98",
     "quote": "Mine",
-    "name": "Mine",
-    "kind": "feature"
+    "name": "Mine Toggle"
   },
   {
     "elementId": "paragraphs/98",
     "quote": "grid",
-    "name": "Grid",
-    "kind": "feature"
+    "name": "Grid"
+  },
+  {
+    "elementId": "paragraphs/98",
+    "quote": "competencies",
+    "name": "Competency"
+  },
+  {
+    "elementId": "paragraphs/101",
+    "quote": "You have not rated any competency yet",
+    "name": "No Rated Competencies Message"
+  },
+  {
+    "elementId": "paragraphs/102",
+    "quote": "consultant",
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/103",
     "quote": "New",
-    "name": "New",
-    "kind": "feature"
+    "name": "New Toggle"
+  },
+  {
+    "elementId": "paragraphs/103",
+    "quote": "grid",
+    "name": "Grid"
+  },
+  {
+    "elementId": "paragraphs/103",
+    "quote": "competencies",
+    "name": "Competency"
   },
   {
     "elementId": "paragraphs/103",
     "quote": "catalogue",
-    "name": "Catalogue",
-    "kind": "data-entity"
+    "name": "Catalogue"
   },
   {
     "elementId": "paragraphs/109",
     "quote": "consultant",
-    "name": "Consultant",
-    "kind": "user-class"
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/109",
     "quote": "level",
-    "name": "Level",
-    "kind": "data-entity"
+    "name": "Level"
   },
   {
     "elementId": "paragraphs/109",
     "quote": "competency",
-    "name": "Competency",
-    "kind": "glossary-term"
+    "name": "Competency"
+  },
+  {
+    "elementId": "paragraphs/110",
+    "quote": "Learner",
+    "name": "Learner Level"
+  },
+  {
+    "elementId": "paragraphs/110",
+    "quote": "Advanced",
+    "name": "Advanced Level"
+  },
+  {
+    "elementId": "paragraphs/110",
+    "quote": "Expert",
+    "name": "Expert Level"
+  },
+  {
+    "elementId": "paragraphs/114",
+    "quote": "consultant",
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/115",
     "quote": "row",
-    "name": "Row",
-    "kind": "data-entity"
+    "name": "Row"
+  },
+  {
+    "elementId": "paragraphs/115",
+    "quote": "Learner",
+    "name": "Learner Level"
   },
   {
     "elementId": "paragraphs/119",
     "quote": "consultant",
-    "name": "Consultant",
-    "kind": "user-class"
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/120",
-    "quote": "level change",
-    "name": "Level Change",
-    "kind": "feature"
+    "quote": "Save button",
+    "name": "Save Button"
+  },
+  {
+    "elementId": "paragraphs/124",
+    "quote": "consultant",
+    "name": "Consultant"
+  },
+  {
+    "elementId": "paragraphs/125",
+    "quote": "row",
+    "name": "Row"
   },
   {
     "elementId": "paragraphs/125",
     "quote": "competency",
-    "name": "Competency",
-    "kind": "glossary-term"
+    "name": "Competency"
   },
   {
     "elementId": "paragraphs/130",
     "quote": "consultant",
-    "name": "Consultant",
-    "kind": "user-class"
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/131",
     "quote": "Microsoft Entra ID",
-    "name": "Microsoft Entra ID",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "paragraphs/131",
-    "quote": "directory identity",
-    "name": "Directory Identity",
-    "kind": "data-entity"
+    "name": "Microsoft Entra ID"
   },
   {
     "elementId": "figures/0",
     "quote": "Consultant",
-    "name": "Consultant",
-    "kind": "user-class"
+    "name": "Consultant"
   },
   {
     "elementId": "figures/0",
     "quote": "competencies",
-    "name": "Competency",
-    "kind": "glossary-term"
+    "name": "Competency"
   },
   {
     "elementId": "figures/0",
-    "quote": "Next.js",
-    "name": "Next.js",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "figures/0",
-    "quote": "React",
-    "name": "React",
-    "kind": "imposed-technology"
+    "quote": "Next.js / React",
+    "name": "Next.js / React"
   },
   {
     "elementId": "figures/0",
     "quote": "PostgreSQL",
-    "name": "PostgreSQL",
-    "kind": "imposed-technology"
+    "name": "PostgreSQL"
   },
   {
     "elementId": "figures/0",
     "quote": "Microsoft Entra ID",
-    "name": "Microsoft Entra ID",
-    "kind": "imposed-technology"
+    "name": "Microsoft Entra ID"
   },
   {
     "elementId": "figures/0",
     "quote": "OIDC",
-    "name": "OIDC",
-    "kind": "standard"
+    "name": "OIDC"
   },
   {
     "elementId": "figures/0",
     "quote": "Power Apps",
-    "name": "Power Apps",
-    "kind": "imposed-technology"
+    "name": "Power Apps"
   },
   {
     "elementId": "figures/0",
     "quote": "Skills",
-    "name": "Skills",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/147",
-    "quote": "PostgreSQL database",
-    "name": "PostgreSQL Database",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "paragraphs/147",
-    "quote": "Microsoft Entra ID",
-    "name": "Microsoft Entra ID",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "paragraphs/147",
-    "quote": "OIDC",
-    "name": "OIDC",
-    "kind": "standard"
-  },
-  {
-    "elementId": "paragraphs/147",
-    "quote": "authorization-code flow",
-    "name": "Authorization-Code Flow",
-    "kind": "standard"
-  },
-  {
-    "elementId": "paragraphs/147",
-    "quote": "PKCE",
-    "name": "PKCE",
-    "kind": "standard"
-  },
-  {
-    "elementId": "paragraphs/147",
-    "quote": "Power Apps",
-    "name": "Power Apps",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "paragraphs/147",
-    "quote": "catalogue",
-    "name": "Catalogue",
-    "kind": "data-entity"
-  },
-  {
-    "elementId": "paragraphs/147",
-    "quote": "assessments",
-    "name": "Assessment",
-    "kind": "data-entity"
+    "name": "Skills"
   }
 ]
