@@ -31,6 +31,7 @@ const FAMILIES = [
     ],
     ink: "text-blue-800 dark:text-blue-400",
     swatch: "bg-electric-blue",
+    accent: "accent-electric-blue",
     tint: ["bg-electric-blue/15", "bg-electric-blue/30"],
     line: "border-electric-blue",
     ring: "ring-electric-blue",
@@ -47,6 +48,7 @@ const FAMILIES = [
     ],
     ink: "text-moss-700 dark:text-moss-300",
     swatch: "bg-moss-500",
+    accent: "accent-moss-500",
     tint: ["bg-moss-500/15", "bg-moss-500/30"],
     line: "border-moss-500",
     ring: "ring-moss-500",
@@ -62,6 +64,7 @@ const FAMILIES = [
     ],
     ink: "text-indigo-700 dark:text-indigo-400",
     swatch: "bg-indigo-500",
+    accent: "accent-indigo-500",
     tint: ["bg-indigo-500/15", "bg-indigo-500/30"],
     line: "border-indigo-500",
     ring: "ring-indigo-500",
@@ -71,6 +74,7 @@ const FAMILIES = [
     types: ["business-goal", "out-of-scope", "glossary-term"],
     ink: "text-lime-700 dark:text-lime-400",
     swatch: "bg-lime-600",
+    accent: "accent-lime-600",
     tint: ["bg-lime-600/20", "bg-lime-600/35"],
     line: "border-lime-600",
     ring: "ring-lime-600",
@@ -203,10 +207,10 @@ export function AnnotateReader({
           f.types.map((t) => ({
             key: `c:${t}`,
             label: t as string,
-            swatch: `size-3.5 rounded-[3px] ${f.swatch}`,
+            accent: f.accent,
           })),
         )
-      : names.map((n) => ({ ...n, swatch: "h-[3px] w-3.5 bg-bright-cyan" }))
+      : names.map((n) => ({ ...n, accent: "accent-bright-cyan" }))
   ).filter(
     (l) =>
       byLayer.has(l.key) &&
@@ -216,7 +220,7 @@ export function AnnotateReader({
     <Group
       key={l.key}
       label={l.label}
-      swatch={l.swatch}
+      accent={l.accent}
       marks={byLayer.get(l.key)!}
       open={focus === l.key}
       selected={selected}
@@ -350,7 +354,7 @@ export function AnnotateReader({
 /** One layer of the index: its name and count, and when open every instance in reading order. */
 function Group({
   label,
-  swatch,
+  accent,
   marks,
   open,
   selected,
@@ -363,7 +367,8 @@ function Group({
   where,
 }: {
   label: string;
-  swatch: string;
+  /** The checkbox carries the family colour, so it is the swatch too. */
+  accent: string;
   marks: Mark[];
   open: boolean;
   selected: string | null;
@@ -388,7 +393,7 @@ function Group({
           aria-label={`Show ${label}`}
           checked={on}
           onChange={() => onHide(layerKey)}
-          className="size-4 accent-primary"
+          className={`size-4 ${accent}`}
         />
         <button
           type="button"
@@ -396,9 +401,6 @@ function Group({
           onClick={onToggle}
           className={`flex h-full flex-1 items-center gap-2.5 px-2.5 text-left ${on ? "" : "text-muted-foreground line-through"}`}
         >
-          <span className="flex w-3.5 justify-center">
-            <span className={swatch} />
-          </span>
           <span className={`flex-1 ${open ? "font-bold" : ""}`}>{label}</span>
           <span className="pr-3 text-xs text-muted-foreground">
             {open && at >= 0 ? `${at + 1} / ${marks.length}` : marks.length}
@@ -420,7 +422,7 @@ function Group({
                 checked={shown}
                 disabled={!on}
                 onChange={() => onHide(m.id)}
-                className="mt-2 size-4 accent-primary"
+                className={`mt-2 size-4 ${accent}`}
               />
               <button
                 type="button"
