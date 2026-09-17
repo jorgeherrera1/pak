@@ -73,7 +73,7 @@
     },
     {
       "id": "a8",
-      "type": "functional-requirement",
+      "type": "feature",
       "elementId": "paragraphs/18",
       "span": {
         "offset": 2365,
@@ -83,7 +83,7 @@
     },
     {
       "id": "a9",
-      "type": "integration",
+      "type": "imposed-technology",
       "elementId": "paragraphs/19",
       "span": {
         "offset": 2415,
@@ -93,7 +93,7 @@
     },
     {
       "id": "a10",
-      "type": "ux-requirement",
+      "type": "functional-requirement",
       "elementId": "paragraphs/76",
       "span": {
         "offset": 3966,
@@ -103,7 +103,7 @@
     },
     {
       "id": "a11",
-      "type": "standard",
+      "type": "ux-requirement",
       "elementId": "tables/1/cells/1",
       "span": {
         "offset": 4095,
@@ -363,7 +363,7 @@
     },
     {
       "id": "a37",
-      "type": "data-entity",
+      "type": "data-requirement",
       "elementId": "tables/2/cells/3",
       "span": {
         "offset": 11137,
@@ -443,13 +443,13 @@
     },
     {
       "id": "a45",
-      "type": "assumption",
+      "type": "dependency",
       "elementId": "paragraphs/156",
       "span": {
         "offset": 11860,
-        "length": 137
+        "length": 54
       },
-      "text": "The catalogue keeps being maintained outside this app. If that changes, someone has to build an editor and this document grows a section."
+      "text": "The catalogue keeps being maintained outside this app."
     },
     {
       "id": "a46",
@@ -457,9 +457,9 @@
       "elementId": "paragraphs/157",
       "span": {
         "offset": 12000,
-        "length": 120
+        "length": 68
       },
-      "text": "Everyone who needs the app already has a corporate Entra ID account. There are no local accounts and no invitation flow."
+      "text": "Everyone who needs the app already has a corporate Entra ID account."
     },
     {
       "id": "a47",
@@ -493,26 +493,46 @@
     },
     {
       "id": "a50",
-      "type": "functional-requirement",
+      "type": "assumption",
       "elementId": "paragraphs/161",
       "span": {
         "offset": 12614,
-        "length": 206
+        "length": 53
       },
-      "text": "Telling people a write failed is our idea, not yours. Nobody asked for it, but with the Save button gone a failed write is otherwise invisible and the person walks away believing a false claim was recorded."
+      "text": "Telling people a write failed is our idea, not yours."
     },
     {
       "id": "a51",
+      "type": "ux-requirement",
+      "elementId": "paragraphs/161",
+      "span": {
+        "offset": 12668,
+        "length": 152
+      },
+      "text": "Nobody asked for it, but with the Save button gone a failed write is otherwise invisible and the person walks away believing a false claim was recorded."
+    },
+    {
+      "id": "a52",
       "type": "assumption",
       "elementId": "paragraphs/162",
       "span": {
         "offset": 12880,
-        "length": 130
+        "length": 89
       },
-      "text": "Should unrated and \"I have looked at this and it does not apply to me\" be the same thing? Today they are - a blank row means both."
+      "text": "Should unrated and \"I have looked at this and it does not apply to me\" be the same thing?"
     },
     {
-      "id": "a52",
+      "id": "a53",
+      "type": "assumption",
+      "elementId": "paragraphs/162",
+      "span": {
+        "offset": 12970,
+        "length": 40
+      },
+      "text": "Today they are - a blank row means both."
+    },
+    {
+      "id": "a54",
       "type": "functional-requirement",
       "elementId": "paragraphs/162",
       "span": {
@@ -531,8 +551,7 @@
         "length": 12
       },
       "text": "Competencies",
-      "name": "Competency",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
       "id": "m2",
@@ -542,140 +561,127 @@
         "length": 10
       },
       "text": "consultant",
-      "name": "Consultant",
-      "kind": "user-class"
+      "name": "Consultant"
     },
     {
       "id": "m3",
-      "elementId": "paragraphs/4",
-      "span": {
-        "offset": 191,
-        "length": 4
-      },
-      "text": "Jira",
-      "name": "Jira",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m4",
       "elementId": "paragraphs/4",
       "span": {
         "offset": 225,
         "length": 15
       },
       "text": "competency data",
-      "name": "Competency Data",
-      "kind": "data-entity"
+      "name": "Competency Data"
+    },
+    {
+      "id": "m4",
+      "elementId": "paragraphs/4",
+      "span": {
+        "offset": 266,
+        "length": 7
+      },
+      "text": "the app",
+      "name": "The App"
     },
     {
       "id": "m5",
-      "elementId": "paragraphs/4",
-      "span": {
-        "offset": 270,
-        "length": 3
-      },
-      "text": "app",
-      "name": "App",
-      "kind": "product"
-    },
-    {
-      "id": "m6",
       "elementId": "paragraphs/5",
       "span": {
         "offset": 334,
         "length": 17
       },
       "text": "Power Apps screen",
-      "name": "Power Apps Screen",
-      "kind": "product"
+      "name": "Power Apps Screen"
+    },
+    {
+      "id": "m6",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 405,
+        "length": 13
+      },
+      "text": "the catalogue",
+      "name": "Catalogue"
     },
     {
       "id": "m7",
-      "elementId": "paragraphs/5",
-      "span": {
-        "offset": 409,
-        "length": 9
-      },
-      "text": "catalogue",
-      "name": "Catalogue",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m8",
       "elementId": "paragraphs/5",
       "span": {
         "offset": 525,
         "length": 10
       },
       "text": "competency",
-      "name": "Competency",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
-      "id": "m9",
+      "id": "m8",
       "elementId": "paragraphs/5",
       "span": {
         "offset": 540,
         "length": 8
       },
       "text": "advanced",
-      "name": "Advanced",
-      "kind": "glossary-term"
+      "name": "Advanced"
     },
     {
-      "id": "m10",
+      "id": "m9",
       "elementId": "paragraphs/5",
       "span": {
         "offset": 566,
         "length": 5
       },
       "text": "skill",
-      "name": "Skill",
-      "kind": "glossary-term"
+      "name": "Skill"
     },
     {
-      "id": "m11",
+      "id": "m10",
       "elementId": "paragraphs/5",
       "span": {
         "offset": 576,
         "length": 12
       },
       "text": "practitioner",
-      "name": "Practitioner",
-      "kind": "glossary-term"
+      "name": "Practitioner"
+    },
+    {
+      "id": "m11",
+      "elementId": "paragraphs/5",
+      "span": {
+        "offset": 611,
+        "length": 11
+      },
+      "text": "Save button",
+      "name": "Save Button"
     },
     {
       "id": "m12",
       "elementId": "paragraphs/6",
       "span": {
         "offset": 886,
-        "length": 7
+        "length": 17
       },
-      "text": "Next.js",
-      "name": "Next.js",
-      "kind": "imposed-technology"
+      "text": "Next.js/React app",
+      "name": "Next.js/React App"
     },
     {
       "id": "m13",
-      "elementId": "paragraphs/6",
+      "elementId": "paragraphs/8",
       "span": {
-        "offset": 894,
-        "length": 5
+        "offset": 1068,
+        "length": 10
       },
-      "text": "React",
-      "name": "React",
-      "kind": "imposed-technology"
+      "text": "consultant",
+      "name": "Consultant"
     },
     {
       "id": "m14",
       "elementId": "paragraphs/8",
       "span": {
-        "offset": 1092,
-        "length": 3
+        "offset": 1088,
+        "length": 7
       },
-      "text": "app",
-      "name": "App",
-      "kind": "product"
+      "text": "the app",
+      "name": "The App"
     },
     {
       "id": "m15",
@@ -685,1379 +691,902 @@
         "length": 10
       },
       "text": "competency",
-      "name": "Competency",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
       "id": "m16",
-      "elementId": "paragraphs/9",
+      "elementId": "paragraphs/10",
       "span": {
-        "offset": 1308,
-        "length": 8
+        "offset": 1461,
+        "length": 13
       },
-      "text": "database",
-      "name": "Database",
-      "kind": "data-entity"
+      "text": "the catalogue",
+      "name": "Catalogue"
     },
     {
       "id": "m17",
-      "elementId": "paragraphs/10",
-      "span": {
-        "offset": 1465,
-        "length": 9
-      },
-      "text": "catalogue",
-      "name": "Catalogue",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m18",
       "elementId": "paragraphs/11",
       "span": {
         "offset": 1647,
         "length": 12
       },
       "text": "practitioner",
-      "name": "Practitioner",
-      "kind": "glossary-term"
+      "name": "Practitioner"
     },
     {
-      "id": "m19",
+      "id": "m18",
       "elementId": "paragraphs/11",
       "span": {
         "offset": 1665,
         "length": 8
       },
       "text": "advanced",
-      "name": "Advanced",
-      "kind": "glossary-term"
+      "name": "Advanced"
     },
     {
-      "id": "m20",
+      "id": "m19",
       "elementId": "paragraphs/13",
       "span": {
         "offset": 1737,
         "length": 10
       },
       "text": "consultant",
-      "name": "Consultant",
-      "kind": "user-class"
+      "name": "Consultant"
+    },
+    {
+      "id": "m20",
+      "elementId": "paragraphs/13",
+      "span": {
+        "offset": 1832,
+        "length": 7
+      },
+      "text": "the app",
+      "name": "The App"
     },
     {
       "id": "m21",
-      "elementId": "paragraphs/13",
-      "span": {
-        "offset": 1836,
-        "length": 3
-      },
-      "text": "app",
-      "name": "App",
-      "kind": "product"
-    },
-    {
-      "id": "m22",
       "elementId": "paragraphs/13",
       "span": {
         "offset": 1998,
         "length": 12
       },
       "text": "competencies",
-      "name": "Competency",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
-      "id": "m23",
+      "id": "m22",
       "elementId": "paragraphs/13",
       "span": {
         "offset": 2039,
         "length": 9
       },
       "text": "catalogue",
-      "name": "Catalogue",
-      "kind": "data-entity"
+      "name": "Catalogue"
     },
     {
-      "id": "m24",
+      "id": "m23",
       "elementId": "paragraphs/14",
       "span": {
         "offset": 2072,
         "length": 8
       },
       "text": "Managers",
-      "name": "Manager",
-      "kind": "user-class"
+      "name": "Manager"
     },
     {
-      "id": "m25",
+      "id": "m24",
       "elementId": "paragraphs/14",
       "span": {
         "offset": 2082,
         "length": 9
       },
       "text": "reviewers",
-      "name": "Reviewer",
-      "kind": "user-class"
+      "name": "Reviewer"
     },
     {
-      "id": "m26",
+      "id": "m25",
       "elementId": "paragraphs/14",
       "span": {
         "offset": 2096,
         "length": 8
       },
       "text": "staffing",
-      "name": "Staffing",
-      "kind": "user-class"
+      "name": "Staffing"
     },
     {
-      "id": "m27",
-      "elementId": "paragraphs/14",
-      "span": {
-        "offset": 2203,
-        "length": 7
-      },
-      "text": "profile",
-      "name": "Profile",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m28",
+      "id": "m26",
       "elementId": "paragraphs/17",
       "span": {
         "offset": 2309,
         "length": 20
       },
       "text": "competency catalogue",
-      "name": "Competency Catalogue",
-      "kind": "data-entity"
+      "name": "Catalogue"
     },
     {
-      "id": "m29",
-      "elementId": "paragraphs/18",
-      "span": {
-        "offset": 2407,
-        "length": 5
-      },
-      "text": "level",
-      "name": "Level",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m30",
+      "id": "m27",
       "elementId": "paragraphs/19",
       "span": {
         "offset": 2431,
         "length": 13
       },
       "text": "corporate SSO",
-      "name": "Corporate SSO",
-      "kind": "imposed-technology"
+      "name": "Corporate SSO"
     },
     {
-      "id": "m31",
+      "id": "m28",
       "elementId": "paragraphs/22",
       "span": {
         "offset": 2540,
         "length": 13
       },
       "text": "self-declared",
-      "name": "Self-Declared",
-      "kind": "feature"
+      "name": "Self-Declared"
     },
     {
-      "id": "m32",
+      "id": "m29",
       "elementId": "paragraphs/24",
       "span": {
         "offset": 2638,
         "length": 12
       },
       "text": "Competencies",
-      "name": "Competency",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
-      "id": "m33",
-      "elementId": "paragraphs/24",
+      "id": "m30",
+      "elementId": "paragraphs/25",
       "span": {
-        "offset": 2685,
-        "length": 3
+        "offset": 2707,
+        "length": 21
       },
-      "text": "app",
-      "name": "App",
-      "kind": "product"
+      "text": "Cross-employee search",
+      "name": "Cross-Employee Search"
     },
     {
-      "id": "m34",
+      "id": "m31",
+      "elementId": "paragraphs/25",
+      "span": {
+        "offset": 2732,
+        "length": 9
+      },
+      "text": "reporting",
+      "name": "Reporting"
+    },
+    {
+      "id": "m32",
       "elementId": "paragraphs/25",
       "span": {
         "offset": 2788,
         "length": 10
       },
       "text": "dashboards",
-      "name": "Dashboard",
-      "kind": "feature"
+      "name": "Dashboard"
     },
     {
-      "id": "m35",
-      "elementId": "tables/0/cells/0",
+      "id": "m33",
+      "elementId": "paragraphs/74",
       "span": {
-        "offset": 2827,
-        "length": 19
-      },
-      "text": "Skills Competencies",
-      "name": "Skill Competency",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m36",
-      "elementId": "tables/0/cells/3",
-      "span": {
-        "offset": 2849,
-        "length": 4
-      },
-      "text": "Type",
-      "name": "Type",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m37",
-      "elementId": "tables/0/cells/4",
-      "span": {
-        "offset": 2854,
-        "length": 4
-      },
-      "text": "Area",
-      "name": "Area",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m38",
-      "elementId": "tables/0/cells/5",
-      "span": {
-        "offset": 2859,
-        "length": 16
-      },
-      "text": "Skill Competency",
-      "name": "Skill Competency",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m39",
-      "elementId": "tables/0/cells/6",
-      "span": {
-        "offset": 2876,
-        "length": 7
-      },
-      "text": "Learner",
-      "name": "Learner",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m40",
-      "elementId": "tables/0/cells/7",
-      "span": {
-        "offset": 2884,
-        "length": 10
-      },
-      "text": "Pracunomer",
-      "name": "Pracunomer",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m41",
-      "elementId": "tables/0/cells/8",
-      "span": {
-        "offset": 2895,
-        "length": 6
-      },
-      "text": "Expert",
-      "name": "Expert",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m42",
-      "elementId": "tables/0/cells/13",
-      "span": {
-        "offset": 2928,
+        "offset": 3471,
         "length": 17
       },
-      "text": "Competency Filter",
-      "name": "Competency Filter",
-      "kind": "feature"
+      "text": "Power Apps screen",
+      "name": "Power Apps Screen"
     },
     {
-      "id": "m43",
-      "elementId": "tables/0/cells/14",
-      "span": {
-        "offset": 2950,
-        "length": 4
-      },
-      "text": "Mine",
-      "name": "Mine",
-      "kind": "feature"
-    },
-    {
-      "id": "m44",
-      "elementId": "tables/0/cells/15",
-      "span": {
-        "offset": 2968,
-        "length": 3
-      },
-      "text": "New",
-      "name": "New",
-      "kind": "feature"
-    },
-    {
-      "id": "m45",
-      "elementId": "tables/0/cells/17",
-      "span": {
-        "offset": 2994,
-        "length": 7
-      },
-      "text": "Agility",
-      "name": "Agility",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m46",
-      "elementId": "tables/0/cells/18",
-      "span": {
-        "offset": 3002,
-        "length": 25
-      },
-      "text": "Agile and DevOps Coaching",
-      "name": "Agile and DevOps Coaching",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m47",
-      "elementId": "tables/0/cells/20",
-      "span": {
-        "offset": 3028,
-        "length": 18
-      },
-      "text": "Atlassian / Bamboo",
-      "name": "Atlassian / Bamboo",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m48",
-      "elementId": "tables/0/cells/28",
-      "span": {
-        "offset": 3120,
-        "length": 21
-      },
-      "text": "Atlassian / Bitbucket",
-      "name": "Atlassian / Bitbucket",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m49",
-      "elementId": "tables/0/cells/36",
-      "span": {
-        "offset": 3215,
-        "length": 22
-      },
-      "text": "Atlassian / Confluence",
-      "name": "Atlassian / Confluence",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m50",
-      "elementId": "tables/0/cells/44",
-      "span": {
-        "offset": 3311,
-        "length": 16
-      },
-      "text": "Atlassian / Jira",
-      "name": "Atlassian / Jira",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m51",
-      "elementId": "tables/0/cells/51",
-      "span": {
-        "offset": 3401,
-        "length": 22
-      },
-      "text": "Atlassian / Jira Align",
-      "name": "Atlassian / Jira Align",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m52",
+      "id": "m34",
       "elementId": "paragraphs/76",
       "span": {
         "offset": 3785,
         "length": 4
       },
       "text": "Type",
-      "name": "Type",
-      "kind": "glossary-term"
+      "name": "Type"
     },
     {
-      "id": "m53",
+      "id": "m35",
       "elementId": "paragraphs/76",
       "span": {
         "offset": 3795,
         "length": 4
       },
       "text": "Area",
-      "name": "Area",
-      "kind": "glossary-term"
+      "name": "Area"
     },
     {
-      "id": "m54",
+      "id": "m36",
       "elementId": "paragraphs/76",
       "span": {
         "offset": 3949,
         "length": 15
       },
       "text": "competency name",
-      "name": "Competency Name",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
-      "id": "m55",
-      "elementId": "paragraphs/76",
-      "span": {
-        "offset": 3743,
-        "length": 4
-      },
-      "text": "grid",
-      "name": "Grid",
-      "kind": "feature"
-    },
-    {
-      "id": "m56",
-      "elementId": "tables/1/cells/1",
-      "span": {
-        "offset": 4116,
-        "length": 12
-      },
-      "text": "Competencies",
-      "name": "Competency",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m57",
-      "elementId": "tables/1/cells/1",
-      "span": {
-        "offset": 4134,
-        "length": 6
-      },
-      "text": "Skills",
-      "name": "Skill",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m58",
-      "elementId": "tables/1/cells/1",
-      "span": {
-        "offset": 4205,
-        "length": 8
-      },
-      "text": "Advanced",
-      "name": "Advanced",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m59",
-      "elementId": "tables/1/cells/1",
-      "span": {
-        "offset": 4219,
-        "length": 12
-      },
-      "text": "Practitioner",
-      "name": "Practitioner",
-      "kind": "glossary-term"
-    },
-    {
-      "id": "m60",
-      "elementId": "tables/1/cells/3",
-      "span": {
-        "offset": 4385,
-        "length": 4
-      },
-      "text": "Mine",
-      "name": "Mine",
-      "kind": "feature"
-    },
-    {
-      "id": "m61",
-      "elementId": "tables/1/cells/3",
-      "span": {
-        "offset": 4394,
-        "length": 3
-      },
-      "text": "New",
-      "name": "New",
-      "kind": "feature"
-    },
-    {
-      "id": "m62",
-      "elementId": "tables/1/cells/5",
-      "span": {
-        "offset": 4691,
-        "length": 11
-      },
-      "text": "Save button",
-      "name": "Save Button",
-      "kind": "feature"
-    },
-    {
-      "id": "m63",
+      "id": "m37",
       "elementId": "paragraphs/87",
       "span": {
         "offset": 5111,
         "length": 10
       },
       "text": "consultant",
-      "name": "Consultant",
-      "kind": "user-class"
+      "name": "Consultant"
     },
     {
-      "id": "m64",
+      "id": "m38",
       "elementId": "paragraphs/87",
       "span": {
         "offset": 5158,
         "length": 12
       },
       "text": "competencies",
-      "name": "Competency",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
-      "id": "m65",
+      "id": "m39",
       "elementId": "paragraphs/88",
       "span": {
         "offset": 5260,
         "length": 4
       },
       "text": "Type",
-      "name": "Type",
-      "kind": "data-entity"
+      "name": "Type"
     },
     {
-      "id": "m66",
+      "id": "m40",
       "elementId": "paragraphs/88",
       "span": {
         "offset": 5277,
         "length": 4
       },
       "text": "Area",
-      "name": "Area",
-      "kind": "data-entity"
+      "name": "Area"
     },
     {
-      "id": "m67",
+      "id": "m41",
       "elementId": "paragraphs/88",
       "span": {
         "offset": 5320,
         "length": 4
       },
       "text": "grid",
-      "name": "Grid",
-      "kind": "feature"
+      "name": "Grid"
     },
     {
-      "id": "m68",
+      "id": "m42",
       "elementId": "paragraphs/92",
       "span": {
         "offset": 5625,
         "length": 10
       },
       "text": "consultant",
-      "name": "Consultant",
-      "kind": "user-class"
+      "name": "Consultant"
     },
     {
-      "id": "m69",
+      "id": "m43",
       "elementId": "paragraphs/93",
       "span": {
-        "offset": 5784,
-        "length": 15
+        "offset": 5742,
+        "length": 14
       },
-      "text": "competency name",
-      "name": "Competency Name",
-      "kind": "data-entity"
+      "text": "competency box",
+      "name": "Competency Box"
     },
     {
-      "id": "m70",
+      "id": "m44",
+      "elementId": "paragraphs/93",
+      "span": {
+        "offset": 5773,
+        "length": 4
+      },
+      "text": "rows",
+      "name": "Row"
+    },
+    {
+      "id": "m45",
+      "elementId": "paragraphs/95",
+      "span": {
+        "offset": 5886,
+        "length": 16
+      },
+      "text": "Atlassian / Jira",
+      "name": "Atlassian / Jira"
+    },
+    {
+      "id": "m46",
+      "elementId": "paragraphs/95",
+      "span": {
+        "offset": 5909,
+        "length": 22
+      },
+      "text": "Atlassian / Jira Align",
+      "name": "Atlassian / Jira Align"
+    },
+    {
+      "id": "m47",
+      "elementId": "paragraphs/96",
+      "span": {
+        "offset": 5994,
+        "length": 33
+      },
+      "text": "No competencies match this filter",
+      "name": "No Competencies Match This Filter Message"
+    },
+    {
+      "id": "m48",
       "elementId": "paragraphs/97",
       "span": {
         "offset": 6061,
         "length": 10
       },
       "text": "consultant",
-      "name": "Consultant",
-      "kind": "user-class"
+      "name": "Consultant"
     },
     {
-      "id": "m71",
+      "id": "m49",
       "elementId": "paragraphs/98",
       "span": {
         "offset": 6201,
         "length": 4
       },
       "text": "Mine",
-      "name": "Mine",
-      "kind": "feature"
+      "name": "Mine Toggle"
     },
     {
-      "id": "m72",
+      "id": "m50",
       "elementId": "paragraphs/98",
       "span": {
         "offset": 6223,
         "length": 4
       },
       "text": "grid",
-      "name": "Grid",
-      "kind": "feature"
+      "name": "Grid"
     },
     {
-      "id": "m73",
+      "id": "m51",
+      "elementId": "paragraphs/98",
+      "span": {
+        "offset": 6239,
+        "length": 12
+      },
+      "text": "competencies",
+      "name": "Competency"
+    },
+    {
+      "id": "m52",
+      "elementId": "paragraphs/102",
+      "span": {
+        "offset": 6491,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant"
+    },
+    {
+      "id": "m53",
       "elementId": "paragraphs/103",
       "span": {
         "offset": 6627,
         "length": 3
       },
       "text": "New",
-      "name": "New",
-      "kind": "feature"
+      "name": "New Toggle"
     },
     {
-      "id": "m74",
+      "id": "m54",
+      "elementId": "paragraphs/103",
+      "span": {
+        "offset": 6648,
+        "length": 4
+      },
+      "text": "grid",
+      "name": "Grid"
+    },
+    {
+      "id": "m55",
+      "elementId": "paragraphs/103",
+      "span": {
+        "offset": 6664,
+        "length": 12
+      },
+      "text": "competencies",
+      "name": "Competency"
+    },
+    {
+      "id": "m56",
       "elementId": "paragraphs/103",
       "span": {
         "offset": 6700,
         "length": 9
       },
       "text": "catalogue",
-      "name": "Catalogue",
-      "kind": "data-entity"
+      "name": "Catalogue"
     },
     {
-      "id": "m75",
+      "id": "m57",
       "elementId": "paragraphs/109",
       "span": {
         "offset": 7545,
         "length": 10
       },
       "text": "consultant",
-      "name": "Consultant",
-      "kind": "user-class"
+      "name": "Consultant"
     },
     {
-      "id": "m76",
+      "id": "m58",
       "elementId": "paragraphs/109",
       "span": {
         "offset": 7568,
         "length": 5
       },
       "text": "level",
-      "name": "Level",
-      "kind": "data-entity"
+      "name": "Level"
     },
     {
-      "id": "m77",
+      "id": "m59",
       "elementId": "paragraphs/109",
       "span": {
         "offset": 7578,
         "length": 10
       },
       "text": "competency",
-      "name": "Competency",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
-      "id": "m78",
+      "id": "m60",
+      "elementId": "paragraphs/110",
+      "span": {
+        "offset": 7794,
+        "length": 7
+      },
+      "text": "Learner",
+      "name": "Learner Level"
+    },
+    {
+      "id": "m61",
+      "elementId": "paragraphs/110",
+      "span": {
+        "offset": 7803,
+        "length": 8
+      },
+      "text": "Advanced",
+      "name": "Advanced Level"
+    },
+    {
+      "id": "m62",
+      "elementId": "paragraphs/110",
+      "span": {
+        "offset": 7813,
+        "length": 6
+      },
+      "text": "Expert",
+      "name": "Expert Level"
+    },
+    {
+      "id": "m63",
+      "elementId": "paragraphs/114",
+      "span": {
+        "offset": 8102,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant"
+    },
+    {
+      "id": "m64",
       "elementId": "paragraphs/115",
       "span": {
         "offset": 8235,
         "length": 3
       },
       "text": "row",
-      "name": "Row",
-      "kind": "data-entity"
+      "name": "Row"
     },
     {
-      "id": "m79",
+      "id": "m65",
+      "elementId": "paragraphs/115",
+      "span": {
+        "offset": 8353,
+        "length": 7
+      },
+      "text": "Learner",
+      "name": "Learner Level"
+    },
+    {
+      "id": "m66",
       "elementId": "paragraphs/119",
       "span": {
         "offset": 8518,
         "length": 10
       },
       "text": "consultant",
-      "name": "Consultant",
-      "kind": "user-class"
+      "name": "Consultant"
     },
     {
-      "id": "m80",
+      "id": "m67",
       "elementId": "paragraphs/120",
       "span": {
-        "offset": 8620,
-        "length": 12
+        "offset": 8711,
+        "length": 11
       },
-      "text": "level change",
-      "name": "Level Change",
-      "kind": "feature"
+      "text": "Save button",
+      "name": "Save Button"
     },
     {
-      "id": "m81",
+      "id": "m68",
+      "elementId": "paragraphs/124",
+      "span": {
+        "offset": 8935,
+        "length": 10
+      },
+      "text": "consultant",
+      "name": "Consultant"
+    },
+    {
+      "id": "m69",
+      "elementId": "paragraphs/125",
+      "span": {
+        "offset": 9106,
+        "length": 3
+      },
+      "text": "row",
+      "name": "Row"
+    },
+    {
+      "id": "m70",
       "elementId": "paragraphs/125",
       "span": {
         "offset": 9181,
         "length": 10
       },
       "text": "competency",
-      "name": "Competency",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
-      "id": "m82",
+      "id": "m71",
       "elementId": "paragraphs/130",
       "span": {
         "offset": 9545,
         "length": 10
       },
       "text": "consultant",
-      "name": "Consultant",
-      "kind": "user-class"
+      "name": "Consultant"
     },
     {
-      "id": "m83",
+      "id": "m72",
       "elementId": "paragraphs/131",
       "span": {
         "offset": 9713,
         "length": 18
       },
       "text": "Microsoft Entra ID",
-      "name": "Microsoft Entra ID",
-      "kind": "imposed-technology"
+      "name": "Microsoft Entra ID"
     },
     {
-      "id": "m84",
-      "elementId": "paragraphs/131",
-      "span": {
-        "offset": 9800,
-        "length": 18
-      },
-      "text": "directory identity",
-      "name": "Directory Identity",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m85",
+      "id": "m73",
       "elementId": "figures/0",
       "span": {
         "offset": 10264,
         "length": 10
       },
       "text": "Consultant",
-      "name": "Consultant",
-      "kind": "user-class"
+      "name": "Consultant"
     },
     {
-      "id": "m86",
+      "id": "m74",
       "elementId": "figures/0",
       "span": {
         "offset": 10281,
         "length": 12
       },
       "text": "competencies",
-      "name": "Competency",
-      "kind": "glossary-term"
+      "name": "Competency"
     },
     {
-      "id": "m87",
+      "id": "m75",
       "elementId": "figures/0",
       "span": {
         "offset": 10320,
-        "length": 7
+        "length": 15
       },
-      "text": "Next.js",
-      "name": "Next.js",
-      "kind": "imposed-technology"
+      "text": "Next.js / React",
+      "name": "Next.js / React"
     },
     {
-      "id": "m88",
-      "elementId": "figures/0",
-      "span": {
-        "offset": 10330,
-        "length": 5
-      },
-      "text": "React",
-      "name": "React",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m89",
+      "id": "m76",
       "elementId": "figures/0",
       "span": {
         "offset": 10338,
         "length": 10
       },
       "text": "PostgreSQL",
-      "name": "PostgreSQL",
-      "kind": "imposed-technology"
+      "name": "PostgreSQL"
     },
     {
-      "id": "m90",
+      "id": "m77",
       "elementId": "figures/0",
       "span": {
         "offset": 10389,
         "length": 18
       },
       "text": "Microsoft Entra ID",
-      "name": "Microsoft Entra ID",
-      "kind": "imposed-technology"
+      "name": "Microsoft Entra ID"
     },
     {
-      "id": "m91",
+      "id": "m78",
       "elementId": "figures/0",
       "span": {
         "offset": 10451,
         "length": 4
       },
       "text": "OIDC",
-      "name": "OIDC",
-      "kind": "standard"
+      "name": "OIDC"
     },
     {
-      "id": "m92",
+      "id": "m79",
       "elementId": "figures/0",
       "span": {
         "offset": 10456,
         "length": 10
       },
       "text": "Power Apps",
-      "name": "Power Apps",
-      "kind": "imposed-technology"
+      "name": "Power Apps"
     },
     {
-      "id": "m93",
+      "id": "m80",
       "elementId": "figures/0",
       "span": {
         "offset": 10468,
         "length": 6
       },
       "text": "Skills",
-      "name": "Skills",
-      "kind": "data-entity"
+      "name": "Skills"
     },
     {
-      "id": "m94",
-      "elementId": "paragraphs/147",
-      "span": {
-        "offset": 10586,
-        "length": 19
-      },
-      "text": "PostgreSQL database",
-      "name": "PostgreSQL Database",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m95",
-      "elementId": "paragraphs/147",
-      "span": {
-        "offset": 10644,
-        "length": 18
-      },
-      "text": "Microsoft Entra ID",
-      "name": "Microsoft Entra ID",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m96",
-      "elementId": "paragraphs/147",
-      "span": {
-        "offset": 10682,
-        "length": 4
-      },
-      "text": "OIDC",
-      "name": "OIDC",
-      "kind": "standard"
-    },
-    {
-      "id": "m97",
-      "elementId": "paragraphs/147",
-      "span": {
-        "offset": 10696,
-        "length": 23
-      },
-      "text": "authorization-code flow",
-      "name": "Authorization-Code Flow",
-      "kind": "standard"
-    },
-    {
-      "id": "m98",
-      "elementId": "paragraphs/147",
-      "span": {
-        "offset": 10724,
-        "length": 4
-      },
-      "text": "PKCE",
-      "name": "PKCE",
-      "kind": "standard"
-    },
-    {
-      "id": "m99",
-      "elementId": "paragraphs/147",
-      "span": {
-        "offset": 10826,
-        "length": 10
-      },
-      "text": "Power Apps",
-      "name": "Power Apps",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m100",
-      "elementId": "paragraphs/147",
-      "span": {
-        "offset": 10772,
-        "length": 9
-      },
-      "text": "catalogue",
-      "name": "Catalogue",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m101",
-      "elementId": "paragraphs/147",
-      "span": {
-        "offset": 10799,
-        "length": 11
-      },
-      "text": "assessments",
-      "name": "Assessment",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m102",
+      "id": "m81",
       "elementId": "tables/2/cells/0",
       "span": {
-        "offset": 10914,
-        "length": 9
+        "offset": 10910,
+        "length": 13
       },
-      "text": "catalogue",
-      "name": "catalogue",
-      "kind": "data-entity"
+      "text": "The catalogue",
+      "name": "Catalogue"
     },
     {
-      "id": "m103",
+      "id": "m82",
       "elementId": "tables/2/cells/0",
       "span": {
         "offset": 10924,
         "length": 4
       },
       "text": "Type",
-      "name": "Type",
-      "kind": "data-entity"
+      "name": "Type"
     },
     {
-      "id": "m104",
+      "id": "m83",
       "elementId": "tables/2/cells/0",
       "span": {
         "offset": 10931,
         "length": 4
       },
       "text": "Area",
-      "name": "Area",
-      "kind": "data-entity"
+      "name": "Area"
     },
     {
-      "id": "m105",
+      "id": "m84",
       "elementId": "tables/2/cells/0",
       "span": {
         "offset": 10938,
         "length": 10
       },
       "text": "Competency",
-      "name": "Competency",
-      "kind": "data-entity"
+      "name": "Competency"
     },
     {
-      "id": "m106",
+      "id": "m85",
       "elementId": "tables/2/cells/1",
       "span": {
-        "offset": 10967,
-        "length": 3
+        "offset": 10962,
+        "length": 8
       },
-      "text": "app",
-      "name": "app",
-      "kind": "product"
+      "text": "this app",
+      "name": "App"
     },
     {
-      "id": "m107",
+      "id": "m86",
       "elementId": "tables/2/cells/1",
       "span": {
-        "offset": 11020,
-        "length": 10
+        "offset": 11064,
+        "length": 13
       },
-      "text": "competency",
-      "name": "Competency",
-      "kind": "data-entity"
+      "text": "the catalogue",
+      "name": "Catalogue"
     },
     {
-      "id": "m108",
+      "id": "m87",
+      "elementId": "tables/2/cells/1",
+      "span": {
+        "offset": 11093,
+        "length": 14
+      },
+      "text": "the New toggle",
+      "name": "New Toggle"
+    },
+    {
+      "id": "m88",
       "elementId": "tables/2/cells/2",
       "span": {
-        "offset": 11130,
-        "length": 6
-      },
-      "text": "person",
-      "name": "person",
-      "kind": "user-class"
-    },
-    {
-      "id": "m109",
-      "elementId": "tables/2/cells/3",
-      "span": {
-        "offset": 11139,
-        "length": 18
-      },
-      "text": "directory identity",
-      "name": "directory identity",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m110",
-      "elementId": "tables/2/cells/3",
-      "span": {
-        "offset": 11174,
-        "length": 15
-      },
-      "text": "Entra object id",
-      "name": "Entra object id",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m111",
-      "elementId": "tables/2/cells/3",
-      "span": {
-        "offset": 11289,
-        "length": 9
-      },
-      "text": "timestamp",
-      "name": "timestamp",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m112",
-      "elementId": "tables/2/cells/4",
-      "span": {
-        "offset": 11460,
-        "length": 5
-      },
-      "text": "claim",
-      "name": "claim",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m113",
-      "elementId": "tables/2/cells/5",
-      "span": {
-        "offset": 11470,
-        "length": 6
-      },
-      "text": "person",
-      "name": "person",
-      "kind": "user-class"
-    },
-    {
-      "id": "m114",
-      "elementId": "tables/2/cells/5",
-      "span": {
-        "offset": 11482,
+        "offset": 11126,
         "length": 10
       },
-      "text": "competency",
-      "name": "Competency",
-      "kind": "data-entity"
+      "text": "The person",
+      "name": "Person"
     },
     {
-      "id": "m115",
-      "elementId": "tables/2/cells/5",
+      "id": "m89",
+      "elementId": "tables/2/cells/3",
       "span": {
-        "offset": 11498,
-        "length": 5
+        "offset": 11137,
+        "length": 20
       },
-      "text": "level",
-      "name": "level",
-      "kind": "data-entity"
+      "text": "A directory identity",
+      "name": "Directory Identity"
     },
     {
-      "id": "m116",
+      "id": "m90",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11168,
+        "length": 21
+      },
+      "text": "their Entra object id",
+      "name": "Entra Object ID"
+    },
+    {
+      "id": "m91",
+      "elementId": "tables/2/cells/3",
+      "span": {
+        "offset": 11320,
+        "length": 14
+      },
+      "text": "the New toggle",
+      "name": "New Toggle"
+    },
+    {
+      "id": "m92",
+      "elementId": "tables/2/cells/4",
+      "span": {
+        "offset": 11456,
+        "length": 9
+      },
+      "text": "The claim",
+      "name": "Claim"
+    },
+    {
+      "id": "m93",
       "elementId": "tables/2/cells/5",
       "span": {
         "offset": 11505,
         "length": 7
       },
       "text": "Learner",
-      "name": "Learner",
-      "kind": "user-class"
+      "name": "Learner"
     },
     {
-      "id": "m117",
+      "id": "m94",
       "elementId": "tables/2/cells/5",
       "span": {
         "offset": 11514,
         "length": 8
       },
       "text": "Advanced",
-      "name": "Advanced",
-      "kind": "user-class"
+      "name": "Advanced"
     },
     {
-      "id": "m118",
+      "id": "m95",
       "elementId": "tables/2/cells/5",
       "span": {
         "offset": 11526,
         "length": 6
       },
       "text": "Expert",
-      "name": "Expert",
-      "kind": "user-class"
+      "name": "Expert"
     },
     {
-      "id": "m119",
+      "id": "m96",
+      "elementId": "tables/2/cells/5",
+      "span": {
+        "offset": 11653,
+        "length": 10
+      },
+      "text": "the screen",
+      "name": "Screen"
+    },
+    {
+      "id": "m97",
       "elementId": "tables/2/cells/5",
       "span": {
         "offset": 11719,
         "length": 13
       },
       "text": "personal data",
-      "name": "personal data",
-      "kind": "data-entity"
+      "name": "Personal Data"
     },
     {
-      "id": "m120",
+      "id": "m98",
       "elementId": "paragraphs/156",
       "span": {
-        "offset": 11864,
-        "length": 9
+        "offset": 11860,
+        "length": 13
       },
-      "text": "catalogue",
-      "name": "catalogue",
-      "kind": "data-entity"
+      "text": "The catalogue",
+      "name": "Catalogue"
     },
     {
-      "id": "m121",
-      "elementId": "paragraphs/156",
-      "span": {
-        "offset": 11910,
-        "length": 3
-      },
-      "text": "app",
-      "name": "app",
-      "kind": "product"
-    },
-    {
-      "id": "m122",
+      "id": "m99",
       "elementId": "paragraphs/157",
       "span": {
         "offset": 12041,
         "length": 26
       },
       "text": "corporate Entra ID account",
-      "name": "corporate Entra ID account",
-      "kind": "data-entity"
+      "name": "Corporate Entra ID Account"
     },
     {
-      "id": "m123",
-      "elementId": "paragraphs/158",
-      "span": {
-        "offset": 12170,
-        "length": 9
-      },
-      "text": "catalogue",
-      "name": "catalogue",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m124",
+      "id": "m100",
       "elementId": "paragraphs/158",
       "span": {
         "offset": 12223,
         "length": 10
       },
       "text": "Power Apps",
-      "name": "Power Apps",
-      "kind": "product"
+      "name": "Power Apps"
     },
     {
-      "id": "m125",
+      "id": "m101",
       "elementId": "paragraphs/158",
       "span": {
-        "offset": 12258,
-        "length": 3
+        "offset": 12379,
+        "length": 14
       },
-      "text": "app",
-      "name": "app",
-      "kind": "product"
+      "text": "the New toggle",
+      "name": "New Toggle"
     },
     {
-      "id": "m126",
-      "elementId": "paragraphs/158",
-      "span": {
-        "offset": 12284,
-        "length": 10
-      },
-      "text": "competency",
-      "name": "Competency",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m127",
+      "id": "m102",
       "elementId": "paragraphs/159",
       "span": {
         "offset": 12484,
         "length": 25
       },
       "text": "Entra ID app registration",
-      "name": "Entra ID app registration",
-      "kind": "imposed-technology"
+      "name": "Entra ID App Registration"
     },
     {
-      "id": "m128",
-      "elementId": "paragraphs/159",
-      "span": {
-        "offset": 12514,
-        "length": 11
-      },
-      "text": "environment",
-      "name": "environment",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m129",
-      "elementId": "paragraphs/159",
-      "span": {
-        "offset": 12532,
-        "length": 13
-      },
-      "text": "redirect URIs",
-      "name": "redirect URIs",
-      "kind": "imposed-technology"
-    },
-    {
-      "id": "m130",
-      "elementId": "paragraphs/159",
-      "span": {
-        "offset": 12550,
-        "length": 11
-      },
-      "text": "credentials",
-      "name": "credentials",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m131",
-      "elementId": "paragraphs/159",
-      "span": {
-        "offset": 12572,
-        "length": 23
-      },
-      "text": "corporate identity team",
-      "name": "corporate identity team",
-      "kind": "user-class"
-    },
-    {
-      "id": "m132",
+      "id": "m103",
       "elementId": "paragraphs/161",
       "span": {
-        "offset": 12702,
-        "length": 11
+        "offset": 12698,
+        "length": 15
       },
-      "text": "Save button",
-      "name": "Save button",
-      "kind": "feature"
-    },
-    {
-      "id": "m133",
-      "elementId": "paragraphs/161",
-      "span": {
-        "offset": 12631,
-        "length": 5
-      },
-      "text": "write",
-      "name": "write",
-      "kind": "feature"
-    },
-    {
-      "id": "m134",
-      "elementId": "paragraphs/161",
-      "span": {
-        "offset": 12801,
-        "length": 5
-      },
-      "text": "claim",
-      "name": "claim",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m135",
-      "elementId": "paragraphs/162",
-      "span": {
-        "offset": 12887,
-        "length": 7
-      },
-      "text": "unrated",
-      "name": "unrated",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m136",
-      "elementId": "paragraphs/162",
-      "span": {
-        "offset": 13014,
-        "length": 8
-      },
-      "text": "staffing",
-      "name": "staffing",
-      "kind": "user-class"
-    },
-    {
-      "id": "m137",
-      "elementId": "paragraphs/162",
-      "span": {
-        "offset": 13112,
-        "length": 5
-      },
-      "text": "model",
-      "name": "model",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m138",
-      "elementId": "paragraphs/162",
-      "span": {
-        "offset": 13133,
-        "length": 5
-      },
-      "text": "state",
-      "name": "state",
-      "kind": "data-entity"
-    },
-    {
-      "id": "m139",
-      "elementId": "paragraphs/162",
-      "span": {
-        "offset": 13180,
-        "length": 9
-      },
-      "text": "migration",
-      "name": "migration",
-      "kind": "feature"
+      "text": "the Save button",
+      "name": "Save Button"
     }
   ],
   "warnings": [
     "paragraphs/22: quote not found: \"Self-declared and unmoderated\"",
     "paragraphs/24: quote not found: \"Types, Areas and Competencies are maintained elsewhere and this app only reads them\"",
     "paragraphs/25: quote not found: \"No \\\"who knows X\\\", no exports, no dashboards\"",
-    "paragraphs/14: quote not found: \"app\"",
-    "paragraphs/92: quote not found: \"competency box\""
+    "paragraphs/24: quote not found: \"Types\"",
+    "paragraphs/24: quote not found: \"Areas\"",
+    "tables/1/cells/0: quote not found: \"Competencies\"",
+    "tables/1/cells/0: quote not found: \"Skills\"",
+    "tables/1/cells/0: quote not found: \"Advanced\"",
+    "tables/1/cells/0: quote not found: \"Practitioner\"",
+    "tables/1/cells/0: quote not found: \"Learner\"",
+    "tables/1/cells/0: quote not found: \"Expert\"",
+    "tables/1/cells/4: quote not found: \"Save button\"",
+    "paragraphs/101: mention too long: \"You have not rated any competency yet\""
   ]
 }

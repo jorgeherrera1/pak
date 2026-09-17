@@ -59,7 +59,7 @@ test("unknown element and non-verbatim quote become warnings", () => {
   expect(warnings).toHaveLength(2);
 });
 
-test("a mention grounds like an annotation and keeps name and kind", () => {
+test("a mention grounds like an annotation and keeps its name", () => {
   const { mentions, warnings } = validate(
     {
       ...none,
@@ -67,14 +67,12 @@ test("a mention grounds like an annotation and keeps name and kind", () => {
         {
           elementId: "paragraphs/1",
           quote: "users",
-          name: "User",
-          kind: "user-class",
+          name: "User"
         },
         {
           elementId: "paragraphs/1",
           quote: "system",
-          name: "  ",
-          kind: "product",
+          name: "  "
         },
       ],
     },
@@ -83,8 +81,8 @@ test("a mention grounds like an annotation and keeps name and kind", () => {
   );
   expect(warnings).toEqual([]);
   expect(mentions).toMatchObject([
-    { id: "m1", text: "users", name: "User", kind: "user-class" },
-    { id: "m2", text: "system", name: "system", kind: "product" },
+    { id: "m1", text: "users", name: "User" },
+    { id: "m2", text: "system", name: "system" },
   ]);
   for (const m of mentions)
     expect(content.slice(m.span.offset, m.span.offset + m.span.length)).toBe(
@@ -96,8 +94,7 @@ test("a repeated row is a warning, not a second annotation", () => {
   const m = {
     elementId: "paragraphs/1",
     quote: "users",
-    name: "User",
-    kind: "user-class" as const,
+    name: "User"
   };
   const { mentions, warnings } = validate(
     { ...none, mentions: [m, m] },
@@ -105,7 +102,7 @@ test("a repeated row is a warning, not a second annotation", () => {
     content,
   );
   expect(mentions).toHaveLength(1);
-  expect(warnings).toEqual(['paragraphs/1: duplicate user-class "users"']);
+  expect(warnings).toEqual(['paragraphs/1: duplicate mention "users"']);
 });
 
 test("a quote only matches on word boundaries", () => {
@@ -116,10 +113,9 @@ test("a quote only matches on word boundaries", () => {
         {
           elementId: "paragraphs/1",
           quote: "Typ",
-          name: "Typ",
-          kind: "feature",
+          name: "Typ"
         },
-        { elementId: "paragraphs/1", quote: "in", name: "in", kind: "feature" },
+        { elementId: "paragraphs/1", quote: "in", name: "in" },
       ],
     },
     anchors,
@@ -131,4 +127,25 @@ test("a quote only matches on word boundaries", () => {
   expect(
     content.slice(mentions[0]!.span.offset - 1, mentions[0]!.span.offset + 3),
   ).toBe(" in ");
+});
+
+test("a sentence is not a mention", () => {
+  const { mentions, warnings } = validate(
+    {
+      ...none,
+      mentions: [
+        {
+          elementId: "paragraphs/1",
+          quote: "The system shall log in users",
+          name: "Login",
+        },
+      ],
+    },
+    anchors,
+    content,
+  );
+  expect(mentions).toEqual([]);
+  expect(warnings).toEqual([
+    'paragraphs/1: mention too long: "The system shall log in users"',
+  ]);
 });

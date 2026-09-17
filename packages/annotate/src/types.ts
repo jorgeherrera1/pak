@@ -25,19 +25,6 @@ export const TYPES = [
 ] as const;
 export type ClassificationType = (typeof TYPES)[number];
 
-/** The types that name a thing the document refers to, as opposed to a statement it makes. */
-export const NOUN_TYPES = [
-  "product",
-  "feature",
-  "integration",
-  "data-entity",
-  "user-class",
-  "imposed-technology",
-  "standard",
-  "glossary-term",
-] as const;
-export type Kind = (typeof NOUN_TYPES)[number];
-
 /** Non-functional requirement categories. */
 export const CATEGORIES = [
   "PER",
@@ -64,9 +51,11 @@ export type Classification = {
 };
 
 /**
- * A reference to a thing: what a span refers to. One per element a thing
- * appears in. `name` and `kind` are what the chunk that produced it called
- * the thing; hints for resolve to bucket on, not facts.
+ * A term: a place the text names a thing in the document's domain. One per
+ * element a thing appears in. A mention says which thing, never what the
+ * thing is: that is decided once per thing in resolve, not once per occurrence.
+ * `name` is what the chunk that produced it called the thing; a hint for
+ * resolve to merge on, not a fact.
  */
 export type Mention = {
   id: string;
@@ -76,7 +65,6 @@ export type Mention = {
   text: string;
   /** The document's own label for the thing, singular, e.g. "Competency". */
   name: string;
-  kind: Kind;
 };
 
 export type AnnotateResult = {

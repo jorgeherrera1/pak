@@ -1,6 +1,6 @@
 import type { Span } from "@dark-factory/parse";
 import { z } from "zod";
-import { CATEGORIES, NOUN_TYPES, TYPES, type AnnotateResult } from "./types.ts";
+import { CATEGORIES, TYPES, type AnnotateResult } from "./types.ts";
 
 /** What the model returns. Quotes, never offsets. */
 export const classificationSchema = z.object({
@@ -15,7 +15,6 @@ export const mentionSchema = z.object({
   elementId: z.string(),
   quote: z.string(),
   name: z.string(),
-  kind: z.enum(NOUN_TYPES),
 });
 export const outputSchema = z.object({
   classifications: z.array(classificationSchema),
@@ -24,6 +23,8 @@ export const outputSchema = z.object({
 export type ModelOutput = z.infer<typeof outputSchema>;
 
 const wordChar = /[\p{L}\p{N}]/u;
+/** A mention is a term. Anything longer is a statement, which is classify's job. */
+const MAX_MENTION_WORDS = 5;
 
 /**
  * Model output in, grounded classifications and mentions out. A row survives only
@@ -88,7 +89,13 @@ export function validate(
     });
   }
   for (const m of mentions) {
-    const offset = ground(m.elementId, m.quote, m.kind);
+    if (m.quote.trim().split(/\s+/).length > MAX_MENTION_WORDS) {
+      result.warnings.push(
+        `${m.elementId}: mention too long: ${JSON.stringify(m.quote)}`,
+      );
+      continue;
+    }
+    const offset = ground(m.elementId, m.quote, "mention");
     if (offset < 0) continue;
     result.mentions.push({
       id: `m${result.mentions.length + 1}`,
@@ -96,7 +103,6 @@ export function validate(
       span: { offset, length: m.quote.length },
       text: m.quote,
       name: m.name.trim() || m.quote,
-      kind: m.kind,
     });
   }
   return result;
