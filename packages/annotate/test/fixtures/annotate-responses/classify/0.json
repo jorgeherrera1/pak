@@ -50,12 +50,12 @@
   {
     "elementId": "paragraphs/19",
     "quote": "Signing in with corporate SSO",
-    "type": "imposed-technology",
+    "type": "integration",
     "category": null
   },
   {
     "elementId": "paragraphs/22",
-    "quote": "Self-declared and unmoderated",
+    "quote": "Claims are self-declared and unmoderated",
     "type": "assumption",
     "category": null
   },
@@ -73,14 +73,14 @@
   },
   {
     "elementId": "paragraphs/76",
-    "quote": "Rows come out sorted by Type, then Area, then competency name, so the grid reads the same way every time.",
-    "type": "functional-requirement",
+    "quote": "One flat grid, one row per competency, showing its Type, its Area and its name, with three tick columns for the level.",
+    "type": "mockup",
     "category": null
   },
   {
     "elementId": "tables/1/cells/1",
     "quote": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner.",
-    "type": "ux-requirement",
+    "type": "standard",
     "category": null
   }
 ]

@@ -17,7 +17,7 @@
   {
     "elementId": "paragraphs/4",
     "quote": "the app",
-    "name": "The App"
+    "name": "App"
   },
   {
     "elementId": "paragraphs/5",
@@ -67,7 +67,7 @@
   {
     "elementId": "paragraphs/8",
     "quote": "the app",
-    "name": "The App"
+    "name": "App"
   },
   {
     "elementId": "paragraphs/8",
@@ -97,7 +97,7 @@
   {
     "elementId": "paragraphs/13",
     "quote": "the app",
-    "name": "The App"
+    "name": "App"
   },
   {
     "elementId": "paragraphs/13",
@@ -125,9 +125,24 @@
     "name": "Staffing"
   },
   {
+    "elementId": "paragraphs/14",
+    "quote": "users",
+    "name": "User"
+  },
+  {
+    "elementId": "paragraphs/14",
+    "quote": "claims",
+    "name": "Claim"
+  },
+  {
     "elementId": "paragraphs/17",
     "quote": "competency catalogue",
-    "name": "Catalogue"
+    "name": "Competency Catalogue"
+  },
+  {
+    "elementId": "paragraphs/18",
+    "quote": "level",
+    "name": "Level"
   },
   {
     "elementId": "paragraphs/19",
@@ -135,24 +150,34 @@
     "name": "Corporate SSO"
   },
   {
+    "elementId": "paragraphs/21",
+    "quote": "Manager",
+    "name": "Manager"
+  },
+  {
+    "elementId": "paragraphs/21",
+    "quote": "reviewer",
+    "name": "Reviewer"
+  },
+  {
     "elementId": "paragraphs/22",
-    "quote": "self-declared",
-    "name": "Self-Declared"
+    "quote": "claims",
+    "name": "Claim"
+  },
+  {
+    "elementId": "paragraphs/23",
+    "quote": "Types",
+    "name": "Type"
+  },
+  {
+    "elementId": "paragraphs/23",
+    "quote": "Areas",
+    "name": "Area"
   },
   {
     "elementId": "paragraphs/24",
     "quote": "Competencies",
     "name": "Competency"
-  },
-  {
-    "elementId": "paragraphs/24",
-    "quote": "Types",
-    "name": "Type"
-  },
-  {
-    "elementId": "paragraphs/24",
-    "quote": "Areas",
-    "name": "Area"
   },
   {
     "elementId": "paragraphs/25",
@@ -166,13 +191,13 @@
   },
   {
     "elementId": "paragraphs/25",
-    "quote": "dashboards",
-    "name": "Dashboard"
+    "quote": "exports",
+    "name": "Export"
   },
   {
-    "elementId": "paragraphs/74",
-    "quote": "Power Apps screen",
-    "name": "Power Apps Screen"
+    "elementId": "paragraphs/25",
+    "quote": "dashboards",
+    "name": "Dashboard"
   },
   {
     "elementId": "paragraphs/76",
@@ -187,40 +212,65 @@
   {
     "elementId": "paragraphs/76",
     "quote": "competency name",
-    "name": "Competency"
+    "name": "Competency Name"
   },
   {
-    "elementId": "tables/1/cells/0",
+    "elementId": "paragraphs/76",
+    "quote": "grid",
+    "name": "Grid"
+  },
+  {
+    "elementId": "tables/1/cells/1",
     "quote": "Competencies",
     "name": "Competency"
   },
   {
-    "elementId": "tables/1/cells/0",
+    "elementId": "tables/1/cells/1",
     "quote": "Skills",
     "name": "Skill"
   },
   {
-    "elementId": "tables/1/cells/0",
+    "elementId": "tables/1/cells/1",
     "quote": "Advanced",
     "name": "Advanced"
   },
   {
-    "elementId": "tables/1/cells/0",
+    "elementId": "tables/1/cells/1",
     "quote": "Practitioner",
     "name": "Practitioner"
   },
   {
-    "elementId": "tables/1/cells/0",
+    "elementId": "tables/1/cells/1",
     "quote": "Learner",
     "name": "Learner"
   },
   {
-    "elementId": "tables/1/cells/0",
+    "elementId": "tables/1/cells/1",
     "quote": "Expert",
     "name": "Expert"
   },
   {
-    "elementId": "tables/1/cells/4",
+    "elementId": "tables/1/cells/3",
+    "quote": "Mine",
+    "name": "Mine"
+  },
+  {
+    "elementId": "tables/1/cells/3",
+    "quote": "New",
+    "name": "New"
+  },
+  {
+    "elementId": "tables/1/cells/5",
+    "quote": "home icon",
+    "name": "Home Icon"
+  },
+  {
+    "elementId": "tables/1/cells/5",
+    "quote": "info icon",
+    "name": "Info Icon"
+  },
+  {
+    "elementId": "tables/1/cells/5",
     "quote": "Save button",
     "name": "Save Button"
   }

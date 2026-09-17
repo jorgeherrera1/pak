@@ -15,5 +15,8 @@ Rules:
 - One mention per (element, thing). If a thing appears twice on one line, return it once.
 - \`quote\` must be copied verbatim from the line. Never paraphrase, never fix typos.
 - Do not say what a thing is, only where it is named.
+- Example data is not a term. Sample rows in a table or screenshot ("Atlassian / Jira", "Agility") and sample values illustrate a thing; they are not the thing. Skip them.
+- Text the screen displays is not a term. A quoted message or label string ("No competencies match this filter") is copy, not a thing. The control it sits on ("Save button") is.
+- \`name\` is the bare name: no leading "the", no plural. "the app", "App" and "apps" all get \`App\`; "claims" gets \`Claim\`.
 - Do not invent things. A line that names nothing yields nothing.
 `;

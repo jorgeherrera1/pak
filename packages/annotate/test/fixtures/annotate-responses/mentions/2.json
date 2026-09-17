@@ -32,7 +32,7 @@
   {
     "elementId": "tables/2/cells/1",
     "quote": "the New toggle",
-    "name": "New Toggle"
+    "name": "New toggle"
   },
   {
     "elementId": "tables/2/cells/2",
@@ -42,17 +42,22 @@
   {
     "elementId": "tables/2/cells/3",
     "quote": "A directory identity",
-    "name": "Directory Identity"
+    "name": "Directory identity"
   },
   {
     "elementId": "tables/2/cells/3",
     "quote": "their Entra object id",
-    "name": "Entra Object ID"
+    "name": "Entra object id"
   },
   {
     "elementId": "tables/2/cells/3",
     "quote": "the New toggle",
-    "name": "New Toggle"
+    "name": "New toggle"
+  },
+  {
+    "elementId": "tables/2/cells/3",
+    "quote": "their claims",
+    "name": "Claim"
   },
   {
     "elementId": "tables/2/cells/4",
@@ -80,11 +85,6 @@
     "name": "Screen"
   },
   {
-    "elementId": "tables/2/cells/5",
-    "quote": "personal data",
-    "name": "Personal Data"
-  },
-  {
     "elementId": "paragraphs/156",
     "quote": "The catalogue",
     "name": "Catalogue"
@@ -92,7 +92,7 @@
   {
     "elementId": "paragraphs/157",
     "quote": "corporate Entra ID account",
-    "name": "Corporate Entra ID Account"
+    "name": "Entra ID account"
   },
   {
     "elementId": "paragraphs/158",
@@ -102,16 +102,21 @@
   {
     "elementId": "paragraphs/158",
     "quote": "the New toggle",
-    "name": "New Toggle"
+    "name": "New toggle"
   },
   {
     "elementId": "paragraphs/159",
     "quote": "Entra ID app registration",
-    "name": "Entra ID App Registration"
+    "name": "Entra ID app registration"
+  },
+  {
+    "elementId": "paragraphs/159",
+    "quote": "the corporate identity team",
+    "name": "Corporate identity team"
   },
   {
     "elementId": "paragraphs/161",
     "quote": "the Save button",
-    "name": "Save Button"
+    "name": "Save button"
   }
 ]
