@@ -14,7 +14,9 @@ import { segments } from "@/lib/segments";
 type Mark = Classification | Mention;
 const isC = (m: Mark): m is Classification => "type" in m;
 /** Layer key: a classification toggles by its type, a mention by the thing it names. */
-const layer = (m: Mark) => (isC(m) ? `c:${m.type}` : `m:${m.name}`);
+// ponytail: "Save Button" and "Save button" share a layer by lowercasing; real merging is resolve's job.
+const layer = (m: Mark) =>
+  isC(m) ? `c:${m.type}` : `m:${m.name.toLowerCase()}`;
 
 // Class names are spelled out so Tailwind can see them.
 const FAMILIES = [
@@ -137,11 +139,13 @@ export function AnnotateReader({
       const [, id = "", what = w] = w.match(/^(\S+): (.*)$/s) ?? [];
       dropped.set(owner(id), [...(dropped.get(owner(id)) ?? []), what]);
     }
-    // The things the document names, most mentioned first.
-    const names = [...counts]
-      .filter(([k]) => k.startsWith("m:"))
-      .map(([k, n]) => [k.slice(2), n] as const)
-      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    // The things the document names, most mentioned first, labelled as first written.
+    const labels = new Map<string, string>();
+    for (const m of annotations.mentions)
+      if (!labels.has(layer(m))) labels.set(layer(m), m.name);
+    const names = [...labels]
+      .map(([key, label]) => ({ key, label, count: counts.get(key)! }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
     return { byElement, counts, parity, dropped, names };
   }, [annotations]);
 
@@ -158,6 +162,17 @@ export function AnnotateReader({
       if (!next.delete(key)) next.add(key);
       return next;
     });
+
+  const nameLayer = (n: (typeof names)[number]) => (
+    <Layer
+      key={n.key}
+      label={n.label}
+      count={n.count}
+      on={!hidden.has(n.key)}
+      onToggle={() => toggle(n.key)}
+      swatch="h-[3px] w-3.5 bg-bright-cyan"
+    />
+  );
 
   const rows: ReactNode[] = [];
   let currentPage = 0;
@@ -221,16 +236,16 @@ export function AnnotateReader({
         <span className={`mt-2 border-t px-3 pt-4 pb-2 ${EYEBROW}`}>
           Mentions · underline
         </span>
-        {names.map(([name, count]) => (
-          <Layer
-            key={name}
-            label={name}
-            count={count}
-            on={!hidden.has(`m:${name}`)}
-            onToggle={() => toggle(`m:${name}`)}
-            swatch="h-[3px] w-3.5 bg-bright-cyan"
-          />
-        ))}
+        {names.filter((n) => n.count > 1).map(nameLayer)}
+        {/* Most names come up once; folded so the recurring ones stay readable. */}
+        <details>
+          <summary className="cursor-pointer rounded-sm px-3 py-1.5 text-muted-foreground hover:bg-secondary">
+            {names.filter((n) => n.count === 1).length} mentioned once
+          </summary>
+          <div className="flex flex-col gap-0.5">
+            {names.filter((n) => n.count === 1).map(nameLayer)}
+          </div>
+        </details>
       </nav>
       <div className="flex flex-1 justify-center bg-muted px-12 py-10">
         <article className="flex w-[920px] flex-col gap-5 self-start rounded-lg border bg-card px-12 py-11">
