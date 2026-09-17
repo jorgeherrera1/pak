@@ -73,10 +73,10 @@ export function toGraph(job: JobResponse): {
         status: stepStatus(operations),
         operations,
         handles: { target: i > 0, source: i < STEPS.length - 1 },
-        // ponytail: only Parse has a reader; drop the condition when every step does.
-        ...(step.id === "parse" &&
+        // ponytail: Resolve has no reader; drop the condition when every step does.
+        ...(step.id !== "resolve" &&
           stepStatus(operations) === "done" && {
-            href: `/jobs/${job.id}/parse`,
+            href: `/jobs/${job.id}/${step.id}`,
           }),
       },
     };

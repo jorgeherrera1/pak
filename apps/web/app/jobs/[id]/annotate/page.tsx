@@ -5,9 +5,9 @@ import type { AnnotateResult } from "@dark-factory/annotate";
 import type { ParsedDocument } from "@dark-factory/parse";
 import { getBlob } from "@/lib/blob";
 import { db, isUuid, jobs } from "@/lib/db";
-import { ParseReader } from "../parse/parse-reader";
+import { AnnotateReader } from "./annotate-reader";
 
-// SPIKE: the Parse reader with annotate.json laid over it.
+// The document as Annotate read it: parsed.json with annotate.json laid over it.
 // Reads parsed.json straight from blob on the server: the job is done by the time this page has a link to it.
 export default async function Page({
   params,
@@ -43,14 +43,20 @@ export default async function Page({
             {ann.mentions.length} mentions · {ann.warnings.length} warnings
           </span>
         </div>
+        <Link
+          href={`/jobs/${id}/parse`}
+          className="ml-auto text-sm font-bold text-primary hover:text-action-hover"
+        >
+          Parse
+        </Link>
         <a
           href={`/api/jobs/${id}/artifacts/annotate.json`}
-          className="ml-auto text-sm font-bold text-primary hover:text-action-hover"
+          className="text-sm font-bold text-primary hover:text-action-hover"
         >
           annotate.json
         </a>
       </header>
-      <ParseReader
+      <AnnotateReader
         doc={doc}
         annotations={ann}
         figureBase={`/api/jobs/${id}/artifacts/`}
