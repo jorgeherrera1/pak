@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { expect, test } from "vitest";
 import type { AnnotateResult } from "@dark-factory/annotate";
 import type { ParsedDocument } from "@dark-factory/parse";
-import { segments } from "@/lib/segments";
+import { context, segments } from "@/lib/segments";
 
 const mark = (id: string, offset: number, length: number) => ({
   id,
@@ -63,4 +63,22 @@ test("every fixture annotation is recovered verbatim from its element", () => {
   }
   expect(missed).toEqual([]);
   expect(all.length).toBeGreaterThan(0);
+});
+
+test("context cuts at word boundaries and flattens newlines", () => {
+  const content = "alpha beta gamma\nthe catalogue keeps growing every day";
+  const at = content.indexOf("catalogue");
+  expect(context(content, { offset: at, length: 9 }, 12)).toEqual({
+    pre: "gamma the ",
+    hit: "catalogue",
+    post: " keeps",
+  });
+});
+
+test("context keeps everything when the document edge is inside the window", () => {
+  expect(context("the app works", { offset: 4, length: 3 })).toEqual({
+    pre: "the ",
+    hit: "app",
+    post: " works",
+  });
 });

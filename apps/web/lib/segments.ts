@@ -28,3 +28,20 @@ export function segments<T extends { span: Span }>(
     };
   });
 }
+
+/** A mark's quote with up to `n` characters either side, cut at word boundaries, newlines flattened. */
+export function context(content: string, span: Span, n = 40) {
+  const end = span.offset + span.length;
+  const flat = (s: string) => s.replace(/\s+/g, " ");
+  return {
+    pre: flat(content.slice(Math.max(0, span.offset - n), span.offset)).replace(
+      span.offset > n ? /^\S*\s/ : /^/,
+      "",
+    ),
+    hit: flat(content.slice(span.offset, end)),
+    post: flat(content.slice(end, end + n)).replace(
+      end + n < content.length ? /\s\S*$/ : /$/,
+      "",
+    ),
+  };
+}

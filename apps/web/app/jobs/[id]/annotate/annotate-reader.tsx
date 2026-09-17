@@ -9,7 +9,7 @@ import type {
 } from "@dark-factory/annotate";
 import type { Cell, Element, ParsedDocument } from "@dark-factory/parse";
 import { useMemo, useState, type ReactNode } from "react";
-import { segments } from "@/lib/segments";
+import { context, segments } from "@/lib/segments";
 
 type Mark = Classification | Mention;
 const isC = (m: Mark): m is Classification => "type" in m;
@@ -113,10 +113,13 @@ export function AnnotateReader({
   annotations: AnnotateResult;
   figureBase: string;
 }) {
-  const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
+  const [tab, setTab] = useState<"c" | "m">("c");
+  /** The one layer being read, e.g. "m:catalogue"; the document shows only its marks. */
+  const [focus, setFocus] = useState<string | null>(null);
+  const [filter, setFilter] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
 
-  const { byElement, counts, parity, dropped, names } = useMemo(() => {
+  const { byElement, byLayer, parity, dropped, names, where } = useMemo(() => {
     const all: Mark[] = [
       ...annotations.classifications,
       ...annotations.mentions,
@@ -124,8 +127,12 @@ export function AnnotateReader({
     const byElement = new Map<string, Mark[]>();
     for (const m of all)
       byElement.set(m.elementId, [...(byElement.get(m.elementId) ?? []), m]);
-    const counts = new Map<string, number>();
-    for (const m of all) counts.set(layer(m), (counts.get(layer(m)) ?? 0) + 1);
+    // Every instance of a layer, in reading order: what the index steps through.
+    const byLayer = new Map<string, Mark[]>();
+    for (const m of all)
+      byLayer.set(layer(m), [...(byLayer.get(layer(m)) ?? []), m]);
+    for (const ms of byLayer.values())
+      ms.sort((a, b) => a.span.offset - b.span.offset);
     const parity = new Map<string, number>();
     const seen = new Map<string, number>();
     for (const c of annotations.classifications) {
@@ -144,35 +151,73 @@ export function AnnotateReader({
     for (const m of annotations.mentions)
       if (!labels.has(layer(m))) labels.set(layer(m), m.name);
     const names = [...labels]
-      .map(([key, label]) => ({ key, label, count: counts.get(key)! }))
+      .map(([key, label]) => ({ key, label, count: byLayer.get(key)!.length }))
       .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
-    return { byElement, counts, parity, dropped, names };
-  }, [annotations]);
+    const els = new Map(doc.elements.map((e) => [e.id, e]));
+    /** "p5 · What we store" */
+    const where = (elementId: string) => {
+      const e = els.get(owner(elementId));
+      let s = e;
+      while (s && !(s.kind === "section" && s.heading))
+        s = s.parent ? els.get(s.parent) : undefined;
+      return [
+        e?.region[0] && `p${e.region[0].page}`,
+        s?.kind === "section" && s.heading,
+      ]
+        .filter(Boolean)
+        .join(" · ");
+    };
+    return { byElement, byLayer, parity, dropped, names, where };
+  }, [annotations, doc]);
 
   const ctx: Ctx = {
     visible: (id) =>
-      (byElement.get(id) ?? []).filter((m) => !hidden.has(layer(m))),
+      (byElement.get(id) ?? []).filter((m) => !focus || layer(m) === focus),
     selected,
     select: (id) => setSelected((s) => (s === id ? null : id)),
     parity,
   };
-  const toggle = (key: string) =>
-    setHidden((h) => {
-      const next = new Set(h);
-      if (!next.delete(key)) next.add(key);
-      return next;
-    });
+  const go = (m: Mark) => {
+    setSelected(m.id);
+    document
+      .querySelector(`[data-marks~="${m.id}"]`)
+      ?.scrollIntoView({ block: "center" });
+  };
 
-  const nameLayer = (n: (typeof names)[number]) => (
-    <Layer
-      key={n.key}
-      label={n.label}
-      count={n.count}
-      on={!hidden.has(n.key)}
-      onToggle={() => toggle(n.key)}
-      swatch="h-[3px] w-3.5 bg-bright-cyan"
+  const layers = (
+    tab === "c"
+      ? FAMILIES.flatMap((f) =>
+          f.types.map((t) => ({
+            key: `c:${t}`,
+            label: t as string,
+            swatch: `size-3.5 rounded-[3px] ${f.swatch}`,
+          })),
+        )
+      : names.map((n) => ({ ...n, swatch: "h-[3px] w-3.5 bg-bright-cyan" }))
+  ).filter(
+    (l) =>
+      byLayer.has(l.key) &&
+      l.label.toLowerCase().includes(filter.trim().toLowerCase()),
+  );
+  const group = (l: (typeof layers)[number]) => (
+    <Group
+      key={l.key}
+      label={l.label}
+      swatch={l.swatch}
+      marks={byLayer.get(l.key)!}
+      open={focus === l.key}
+      selected={selected}
+      onToggle={() => setFocus((f) => (f === l.key ? null : l.key))}
+      onGo={go}
+      content={doc.content}
+      where={where}
     />
   );
+  // Most names come up once; folded so the recurring ones stay readable. A filter looks everywhere.
+  const fold = tab === "m" && !filter.trim();
+  const once = fold
+    ? layers.filter((l) => byLayer.get(l.key)!.length === 1)
+    : [];
 
   const rows: ReactNode[] = [];
   let currentPage = 0;
@@ -212,42 +257,60 @@ export function AnnotateReader({
 
   return (
     <div className="flex flex-1">
-      <nav className="sticky top-0 flex h-screen w-72 shrink-0 flex-col gap-0.5 overflow-y-auto border-r bg-card p-4 text-sm">
-        <span className={`px-3 pb-2 ${EYEBROW}`}>
-          Classifications · highlight
-        </span>
-        {FAMILIES.map((f) => (
-          <div key={f.label} className="flex flex-col gap-0.5 pb-2">
-            <span className={`px-3 pt-2 text-xs font-bold ${f.ink}`}>
-              {f.label}
-            </span>
-            {f.types.map((t) => (
-              <Layer
+      <nav className="sticky top-0 flex h-screen w-[440px] shrink-0 flex-col border-r bg-card text-sm">
+        <div className="flex flex-col gap-2.5 p-4">
+          <div className="grid grid-cols-2 gap-1 rounded-md bg-muted p-1">
+            {(
+              [
+                ["c", `Classifications ${annotations.classifications.length}`],
+                [
+                  "m",
+                  `Mentions ${annotations.mentions.length} · ${names.length} names`,
+                ],
+              ] as const
+            ).map(([t, label]) => (
+              <button
                 key={t}
-                label={t}
-                count={counts.get(`c:${t}`) ?? 0}
-                on={!hidden.has(`c:${t}`)}
-                onToggle={() => toggle(`c:${t}`)}
-                swatch={`size-3.5 rounded-[3px] ${f.swatch}`}
-              />
+                type="button"
+                aria-pressed={tab === t}
+                onClick={() => {
+                  setTab(t);
+                  setFocus(null);
+                }}
+                className={`h-10 rounded-sm font-bold ${tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary"}`}
+              >
+                {label}
+              </button>
             ))}
           </div>
-        ))}
-        <span className={`mt-2 border-t px-3 pt-4 pb-2 ${EYEBROW}`}>
-          Mentions · underline
-        </span>
-        {names.filter((n) => n.count > 1).map(nameLayer)}
-        {/* Most names come up once; folded so the recurring ones stay readable. */}
-        <details>
-          <summary className="cursor-pointer rounded-sm px-3 py-1.5 text-muted-foreground hover:bg-secondary">
-            {names.filter((n) => n.count === 1).length} mentioned once
-          </summary>
-          <div className="flex flex-col gap-0.5">
-            {names.filter((n) => n.count === 1).map(nameLayer)}
-          </div>
-        </details>
+          <label className="flex h-10 items-center rounded-sm border bg-background px-3">
+            <span className="sr-only">Filter</span>
+            <input
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder={tab === "c" ? "Filter types" : "Filter names"}
+              className="w-full bg-transparent outline-none"
+            />
+          </label>
+        </div>
+        <div className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-4 pb-4">
+          {layers.filter((l) => !once.includes(l)).map(group)}
+          {once.length > 0 && (
+            <details open={once.some((l) => l.key === focus)}>
+              <summary className="cursor-pointer rounded-sm px-3 py-1.5 text-muted-foreground hover:bg-secondary">
+                {once.length} mentioned once
+              </summary>
+              <div className="flex flex-col gap-0.5">{once.map(group)}</div>
+            </details>
+          )}
+          {layers.length === 0 && (
+            <span className="px-3 py-1.5 text-muted-foreground">
+              Nothing matches.
+            </span>
+          )}
+        </div>
       </nav>
-      <div className="flex flex-1 justify-center bg-muted px-12 py-10">
+      <div className="flex flex-1 justify-center bg-muted px-6 py-10">
         <article className="flex w-[920px] flex-col gap-5 self-start rounded-lg border bg-card px-12 py-11">
           {annotations.warnings.length > 0 && (
             <div className="rounded-sm border border-destructive/40 bg-destructive/5 p-3 text-[13px] leading-normal">
@@ -268,38 +331,80 @@ export function AnnotateReader({
   );
 }
 
-function Layer({
+/** One layer of the index: its name and count, and when open every instance in reading order. */
+function Group({
   label,
-  count,
-  on,
-  onToggle,
   swatch,
+  marks,
+  open,
+  selected,
+  onToggle,
+  onGo,
+  content,
+  where,
 }: {
   label: string;
-  count: number;
-  on: boolean;
-  onToggle: () => void;
   swatch: string;
+  marks: Mark[];
+  open: boolean;
+  selected: string | null;
+  onToggle: () => void;
+  onGo: (m: Mark) => void;
+  content: string;
+  where: (elementId: string) => string;
 }) {
-  const live = on && count > 0;
+  const at = marks.findIndex((m) => m.id === selected);
   return (
-    <button
-      type="button"
-      aria-pressed={on}
-      disabled={count === 0}
-      onClick={onToggle}
-      className={`flex h-8 items-center gap-2.5 rounded-sm px-3 text-left enabled:hover:bg-secondary ${live ? "" : "text-muted-foreground"}`}
+    <div
+      className={`flex flex-col rounded-sm ${open ? "my-1 border border-primary bg-primary/5" : ""}`}
     >
-      <span className="flex w-3.5 justify-center">
-        <span
-          className={
-            live ? swatch : "size-3 rounded-[3px] border border-gray-400"
-          }
-        />
-      </span>
-      <span className={`flex-1 ${on ? "" : "line-through"}`}>{label}</span>
-      <span className="text-xs text-muted-foreground">{count}</span>
-    </button>
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={onToggle}
+        className="flex h-9 shrink-0 items-center gap-2.5 rounded-sm px-3 text-left hover:bg-secondary"
+      >
+        <span className="flex w-3.5 justify-center">
+          <span className={swatch} />
+        </span>
+        <span className={`flex-1 ${open ? "font-bold" : ""}`}>{label}</span>
+        <span className="text-xs text-muted-foreground">
+          {open && at >= 0 ? `${at + 1} / ${marks.length}` : marks.length}
+        </span>
+      </button>
+      {open &&
+        marks.map((m, i) => {
+          const c = isC(m) ? undefined : context(content, m.span, 24);
+          return (
+            <button
+              key={m.id}
+              type="button"
+              aria-current={m.id === selected}
+              onClick={() => onGo(m)}
+              className={`grid grid-cols-[1.25rem_minmax(0,1fr)] gap-x-2 border-t border-primary/25 px-3 py-1.5 text-left text-[13px] hover:bg-primary/10 ${m.id === selected ? "bg-primary/20" : ""}`}
+            >
+              <span className="text-xs text-muted-foreground">{i + 1}</span>
+              <span className="truncate text-muted-foreground">
+                {c ? (
+                  <>
+                    …{c.pre}
+                    <b className="text-foreground">{c.hit}</b>
+                    {c.post}…
+                  </>
+                ) : (
+                  <>
+                    <code className="text-[11px]">{m.id}</code>{" "}
+                    <span className="text-foreground">{m.text}</span>
+                  </>
+                )}
+              </span>
+              <span className="col-start-2 truncate text-[11px] text-muted-foreground">
+                {where(m.elementId)}
+              </span>
+            </button>
+          );
+        })}
+    </div>
   );
 }
 
@@ -327,17 +432,20 @@ function Text({
     return (
       <span
         key={i}
+        data-marks={s.marks.map((m) => m.id).join(" ")}
         title={s.marks
           .map((m) => `${m.id} ${isC(m) ? m.type : m.name}`)
           .join("\n")}
         // The margin chip is the keyboard path to the same selection.
-        onClick={cls && (() => ctx.select(cls.id))}
+        onClick={() => ctx.select((cls ?? men)!.id)}
         className={[
           "box-decoration-clone py-[3px]",
-          cls &&
-            `cursor-pointer ${familyOf(cls.type).tint[on ? 1 : ctx.parity.get(cls.id)!]}`,
+          "cursor-pointer",
+          cls && familyOf(cls.type).tint[on ? 1 : ctx.parity.get(cls.id)!],
           on && `ring-2 ${familyOf(cls!.type).ring}`,
           men && `border-b-2 ${MENTION_LINE}`,
+          men?.id === ctx.selected &&
+            "rounded-[3px] bg-bright-cyan text-deepest",
         ]
           .filter(Boolean)
           .join(" ")}
@@ -395,6 +503,7 @@ function Body({
       const f = familyOf(whole.type);
       return (
         <p
+          data-marks={whole.id}
           onClick={() => ctx.select(whole.id)}
           className={`cursor-pointer border-l-[3px] pl-3 leading-[1.65] ${f.line} ${on ? `${f.tint[0]} ring-2 ${f.ring}` : ""}`}
         >
