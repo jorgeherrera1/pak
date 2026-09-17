@@ -16,11 +16,26 @@
   },
   {
     "elementId": "paragraphs/88",
-    "quote": "Area",
-    "name": "Area"
+    "quote": "Area dropdown",
+    "name": "Area dropdown"
   },
   {
     "elementId": "paragraphs/88",
+    "quote": "grid",
+    "name": "Grid"
+  },
+  {
+    "elementId": "paragraphs/90",
+    "quote": "Type",
+    "name": "Type"
+  },
+  {
+    "elementId": "paragraphs/90",
+    "quote": "Areas",
+    "name": "Area"
+  },
+  {
+    "elementId": "paragraphs/90",
     "quote": "grid",
     "name": "Grid"
   },
@@ -32,7 +47,7 @@
   {
     "elementId": "paragraphs/93",
     "quote": "competency box",
-    "name": "Competency Box"
+    "name": "Competency box"
   },
   {
     "elementId": "paragraphs/93",
@@ -40,19 +55,9 @@
     "name": "Row"
   },
   {
-    "elementId": "paragraphs/95",
-    "quote": "Atlassian / Jira",
-    "name": "Atlassian / Jira"
-  },
-  {
-    "elementId": "paragraphs/95",
-    "quote": "Atlassian / Jira Align",
-    "name": "Atlassian / Jira Align"
-  },
-  {
-    "elementId": "paragraphs/96",
-    "quote": "No competencies match this filter",
-    "name": "No Competencies Match This Filter Message"
+    "elementId": "paragraphs/93",
+    "quote": "competency name",
+    "name": "Competency name"
   },
   {
     "elementId": "paragraphs/97",
@@ -62,7 +67,7 @@
   {
     "elementId": "paragraphs/98",
     "quote": "Mine",
-    "name": "Mine Toggle"
+    "name": "Mine switch"
   },
   {
     "elementId": "paragraphs/98",
@@ -75,11 +80,6 @@
     "name": "Competency"
   },
   {
-    "elementId": "paragraphs/101",
-    "quote": "You have not rated any competency yet",
-    "name": "No Rated Competencies Message"
-  },
-  {
     "elementId": "paragraphs/102",
     "quote": "consultant",
     "name": "Consultant"
@@ -87,7 +87,7 @@
   {
     "elementId": "paragraphs/103",
     "quote": "New",
-    "name": "New Toggle"
+    "name": "New switch"
   },
   {
     "elementId": "paragraphs/103",
@@ -122,17 +122,17 @@
   {
     "elementId": "paragraphs/110",
     "quote": "Learner",
-    "name": "Learner Level"
+    "name": "Learner"
   },
   {
     "elementId": "paragraphs/110",
     "quote": "Advanced",
-    "name": "Advanced Level"
+    "name": "Advanced"
   },
   {
     "elementId": "paragraphs/110",
     "quote": "Expert",
-    "name": "Expert Level"
+    "name": "Expert"
   },
   {
     "elementId": "paragraphs/114",
@@ -141,13 +141,8 @@
   },
   {
     "elementId": "paragraphs/115",
-    "quote": "row",
-    "name": "Row"
-  },
-  {
-    "elementId": "paragraphs/115",
-    "quote": "Learner",
-    "name": "Learner Level"
+    "quote": "claim",
+    "name": "Claim"
   },
   {
     "elementId": "paragraphs/119",
@@ -157,17 +152,12 @@
   {
     "elementId": "paragraphs/120",
     "quote": "Save button",
-    "name": "Save Button"
+    "name": "Save button"
   },
   {
     "elementId": "paragraphs/124",
     "quote": "consultant",
     "name": "Consultant"
-  },
-  {
-    "elementId": "paragraphs/125",
-    "quote": "row",
-    "name": "Row"
   },
   {
     "elementId": "paragraphs/125",
@@ -185,6 +175,11 @@
     "name": "Microsoft Entra ID"
   },
   {
+    "elementId": "paragraphs/131",
+    "quote": "directory identity",
+    "name": "Directory identity"
+  },
+  {
     "elementId": "figures/0",
     "quote": "Consultant",
     "name": "Consultant"
@@ -196,8 +191,13 @@
   },
   {
     "elementId": "figures/0",
-    "quote": "Next.js / React",
-    "name": "Next.js / React"
+    "quote": "Next.js",
+    "name": "Next.js"
+  },
+  {
+    "elementId": "figures/0",
+    "quote": "React",
+    "name": "React"
   },
   {
     "elementId": "figures/0",
@@ -223,5 +223,50 @@
     "elementId": "figures/0",
     "quote": "Skills",
     "name": "Skills"
+  },
+  {
+    "elementId": "paragraphs/147",
+    "quote": "app",
+    "name": "App"
+  },
+  {
+    "elementId": "paragraphs/147",
+    "quote": "PostgreSQL database",
+    "name": "PostgreSQL database"
+  },
+  {
+    "elementId": "paragraphs/147",
+    "quote": "Microsoft Entra ID",
+    "name": "Microsoft Entra ID"
+  },
+  {
+    "elementId": "paragraphs/147",
+    "quote": "OIDC",
+    "name": "OIDC"
+  },
+  {
+    "elementId": "paragraphs/147",
+    "quote": "authorization-code flow",
+    "name": "Authorization-code flow"
+  },
+  {
+    "elementId": "paragraphs/147",
+    "quote": "PKCE",
+    "name": "PKCE"
+  },
+  {
+    "elementId": "paragraphs/147",
+    "quote": "Power Apps",
+    "name": "Power Apps"
+  },
+  {
+    "elementId": "paragraphs/147",
+    "quote": "catalogue",
+    "name": "Catalogue"
+  },
+  {
+    "elementId": "paragraphs/147",
+    "quote": "assessments",
+    "name": "Assessment"
   }
 ]
