@@ -24,6 +24,8 @@ export type StepNodeData = {
   status: StepStatus;
   operations: OperationRow[];
   handles: { target: boolean; source: boolean };
+  /** Where the step's result can be read, once there is one. */
+  href?: string;
 };
 export type StepNode = {
   id: string;
@@ -71,6 +73,11 @@ export function toGraph(job: JobResponse): {
         status: stepStatus(operations),
         operations,
         handles: { target: i > 0, source: i < STEPS.length - 1 },
+        // ponytail: only Parse has a reader; drop the condition when every step does.
+        ...(step.id === "parse" &&
+          stepStatus(operations) === "done" && {
+            href: `/jobs/${job.id}/parse`,
+          }),
       },
     };
   });

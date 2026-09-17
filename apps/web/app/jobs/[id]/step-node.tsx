@@ -2,11 +2,19 @@
 
 import type { ReactNode } from "react";
 import type { NodeProps, Node as FlowNode } from "@xyflow/react";
-import { Check, CircleDashed, LoaderCircle, X } from "lucide-react";
+import Link from "next/link";
+import {
+  Check,
+  ChevronRight,
+  CircleDashed,
+  LoaderCircle,
+  X,
+} from "lucide-react";
 import {
   Node,
   NodeContent,
   NodeDescription,
+  NodeFooter,
   NodeHeader,
   NodeTitle,
 } from "@dark-factory/ui/components/node";
@@ -59,6 +67,17 @@ export function StepNode({ data }: NodeProps<StepFlowNode>) {
           </ul>
         )}
       </NodeContent>
+      {data.href && (
+        <NodeFooter>
+          <Link
+            href={data.href}
+            className="nopan pointer-events-auto flex w-full items-center justify-between text-sm font-bold text-primary hover:text-action-hover"
+          >
+            Read the result
+            <ChevronRight className="size-4" />
+          </Link>
+        </NodeFooter>
+      )}
     </Node>
   );
 }
