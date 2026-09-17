@@ -117,6 +117,8 @@ export function AnnotateReader({
   /** The one layer being read, e.g. "m:catalogue"; the document shows only its marks. */
   const [focus, setFocus] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
+  /** What is switched off: layer keys ("m:catalogue") and single mark ids ("a5"). */
+  const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
 
   const { byElement, byLayer, parity, dropped, names, where } = useMemo(() => {
@@ -172,11 +174,22 @@ export function AnnotateReader({
 
   const ctx: Ctx = {
     visible: (id) =>
-      (byElement.get(id) ?? []).filter((m) => !focus || layer(m) === focus),
+      (byElement.get(id) ?? []).filter(
+        (m) =>
+          (!focus || layer(m) === focus) &&
+          !hidden.has(layer(m)) &&
+          !hidden.has(m.id),
+      ),
     selected,
     select: (id) => setSelected((s) => (s === id ? null : id)),
     parity,
   };
+  const toggle = (key: string) =>
+    setHidden((h) => {
+      const next = new Set(h);
+      if (!next.delete(key)) next.add(key);
+      return next;
+    });
   const go = (m: Mark) => {
     setSelected(m.id);
     document
@@ -207,6 +220,9 @@ export function AnnotateReader({
       marks={byLayer.get(l.key)!}
       open={focus === l.key}
       selected={selected}
+      hidden={hidden}
+      layerKey={l.key}
+      onHide={toggle}
       onToggle={() => setFocus((f) => (f === l.key ? null : l.key))}
       onGo={go}
       content={doc.content}
@@ -338,6 +354,9 @@ function Group({
   marks,
   open,
   selected,
+  hidden,
+  layerKey,
+  onHide,
   onToggle,
   onGo,
   content,
@@ -348,60 +367,89 @@ function Group({
   marks: Mark[];
   open: boolean;
   selected: string | null;
+  hidden: ReadonlySet<string>;
+  layerKey: string;
+  /** Switches a whole layer (by key) or one instance (by id) off and on. */
+  onHide: (key: string) => void;
   onToggle: () => void;
   onGo: (m: Mark) => void;
   content: string;
   where: (elementId: string) => string;
 }) {
   const at = marks.findIndex((m) => m.id === selected);
+  const on = !hidden.has(layerKey);
   return (
     <div
       className={`flex flex-col rounded-sm ${open ? "my-1 border border-primary bg-primary/5" : ""}`}
     >
-      <button
-        type="button"
-        aria-expanded={open}
-        onClick={onToggle}
-        className="flex h-9 shrink-0 items-center gap-2.5 rounded-sm px-3 text-left hover:bg-secondary"
-      >
-        <span className="flex w-3.5 justify-center">
-          <span className={swatch} />
-        </span>
-        <span className={`flex-1 ${open ? "font-bold" : ""}`}>{label}</span>
-        <span className="text-xs text-muted-foreground">
-          {open && at >= 0 ? `${at + 1} / ${marks.length}` : marks.length}
-        </span>
-      </button>
+      <div className="flex h-9 shrink-0 items-center rounded-sm pl-3 hover:bg-secondary">
+        <input
+          type="checkbox"
+          aria-label={`Show ${label}`}
+          checked={on}
+          onChange={() => onHide(layerKey)}
+          className="size-4 accent-primary"
+        />
+        <button
+          type="button"
+          aria-expanded={open}
+          onClick={onToggle}
+          className={`flex h-full flex-1 items-center gap-2.5 px-2.5 text-left ${on ? "" : "text-muted-foreground line-through"}`}
+        >
+          <span className="flex w-3.5 justify-center">
+            <span className={swatch} />
+          </span>
+          <span className={`flex-1 ${open ? "font-bold" : ""}`}>{label}</span>
+          <span className="pr-3 text-xs text-muted-foreground">
+            {open && at >= 0 ? `${at + 1} / ${marks.length}` : marks.length}
+          </span>
+        </button>
+      </div>
       {open &&
         marks.map((m, i) => {
           const c = isC(m) ? undefined : context(content, m.span, 24);
+          const shown = on && !hidden.has(m.id);
           return (
-            <button
+            <div
               key={m.id}
-              type="button"
-              aria-current={m.id === selected}
-              onClick={() => onGo(m)}
-              className={`grid grid-cols-[1.25rem_minmax(0,1fr)] gap-x-2 border-t border-primary/25 px-3 py-1.5 text-left text-[13px] hover:bg-primary/10 ${m.id === selected ? "bg-primary/20" : ""}`}
+              className={`flex items-start border-t border-primary/25 pl-3 hover:bg-primary/10 ${m.id === selected ? "bg-primary/20" : ""}`}
             >
-              <span className="text-xs text-muted-foreground">{i + 1}</span>
-              <span className="truncate text-muted-foreground">
-                {c ? (
-                  <>
-                    …{c.pre}
-                    <b className="text-foreground">{c.hit}</b>
-                    {c.post}…
-                  </>
-                ) : (
-                  <>
-                    <code className="text-[11px]">{m.id}</code>{" "}
-                    <span className="text-foreground">{m.text}</span>
-                  </>
-                )}
-              </span>
-              <span className="col-start-2 truncate text-[11px] text-muted-foreground">
-                {where(m.elementId)}
-              </span>
-            </button>
+              <input
+                type="checkbox"
+                aria-label={`Show ${m.id}`}
+                checked={shown}
+                disabled={!on}
+                onChange={() => onHide(m.id)}
+                className="mt-2 size-4 accent-primary"
+              />
+              <button
+                type="button"
+                aria-current={m.id === selected}
+                // Something switched off is not in the document, so there is nowhere to jump to.
+                disabled={!shown}
+                onClick={() => onGo(m)}
+                className="grid min-w-0 flex-1 grid-cols-[1.25rem_minmax(0,1fr)] gap-x-2 px-2.5 py-1.5 text-left text-[13px] disabled:opacity-50"
+              >
+                <span className="text-xs text-muted-foreground">{i + 1}</span>
+                <span className="truncate text-muted-foreground">
+                  {c ? (
+                    <>
+                      …{c.pre}
+                      <b className="text-foreground">{c.hit}</b>
+                      {c.post}…
+                    </>
+                  ) : (
+                    <>
+                      <code className="text-[11px]">{m.id}</code>{" "}
+                      <span className="text-foreground">{m.text}</span>
+                    </>
+                  )}
+                </span>
+                <span className="col-start-2 truncate text-[11px] text-muted-foreground">
+                  {where(m.elementId)}
+                </span>
+              </button>
+            </div>
           );
         })}
     </div>
