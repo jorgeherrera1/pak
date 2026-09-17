@@ -13,10 +13,132 @@ import { context, segments } from "@/lib/segments";
 
 type Mark = Classification | Mention;
 const isC = (m: Mark): m is Classification => "type" in m;
-/** Layer key: a classification toggles by its type, a mention by the thing it names. */
+/** Layer key: a classification toggles by its type (and NFR category), a mention by the thing it names. */
 // ponytail: "Save Button" and "Save button" share a layer by lowercasing; real merging is resolve's job.
-const layer = (m: Mark) =>
-  isC(m) ? `c:${m.type}` : `m:${m.name.toLowerCase()}`;
+const layer = (m: Mark) => (isC(m) ? leafKey(m) : `m:${m.name.toLowerCase()}`);
+const leafKey = (l: { type: ClassificationType; category?: Category }) =>
+  `c:${l.type}${l.category ? `:${l.category}` : ""}`;
+
+/** Where each classification type lands in the SRS template (IEEE 29148). Sections no type feeds are left out. */
+type Leaf = { label: string; type: ClassificationType; category?: Category };
+type Section = { label: string; children: (Section | Leaf)[] };
+const SRS: Section[] = [
+  {
+    label: "Part 0 · Document Control",
+    children: [
+      { label: "0.3 Glossary", type: "glossary-term" },
+      // The template has no section for these; its checklist wants them cited by name and clause.
+      { label: "Binding standards", type: "standard" },
+    ],
+  },
+  {
+    label: "Part I · Product Context",
+    children: [
+      { label: "1 Product Mission", type: "business-goal" },
+      {
+        label: "2 Product Definition",
+        children: [
+          { label: "Definition", type: "product" },
+          { label: "Out of scope", type: "out-of-scope" },
+        ],
+      },
+      { label: "3 User Profiles", type: "user-class" },
+      {
+        label: "4 System Context",
+        children: [
+          {
+            label: "4.2 Technology Stack (imposed)",
+            type: "imposed-technology",
+          },
+          {
+            label: "4.3 Deployment & Tenant Configuration",
+            type: "configurable-item",
+          },
+        ],
+      },
+      { label: "5 Product Features", type: "feature" },
+      {
+        label: "6 Assumptions & Dependencies",
+        children: [
+          { label: "Assumptions", type: "assumption" },
+          { label: "Dependencies", type: "dependency" },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Part II · Product Requirements",
+    children: [
+      {
+        label: "7 Functional Requirements",
+        children: [
+          { label: "Requirements", type: "functional-requirement" },
+          { label: "UI mockups", type: "mockup" },
+        ],
+      },
+      { label: "8 Integration Contracts", type: "integration" },
+      {
+        label: "9 Data Requirements",
+        children: [
+          { label: "9.2 Entity catalog", type: "data-entity" },
+          { label: "9.3 Data policies", type: "data-requirement" },
+        ],
+      },
+      { label: "10 UI/UX Requirements", type: "ux-requirement" },
+      {
+        label: "11 Non-Functional Requirements",
+        children: [
+          {
+            label: "11.1 Performance & capacity",
+            type: "non-functional-requirement",
+            category: "PER",
+          },
+          {
+            label: "11.2 Reliability & availability",
+            type: "non-functional-requirement",
+            category: "REL",
+          },
+          {
+            label: "11.3 Security",
+            type: "non-functional-requirement",
+            category: "SEC",
+          },
+          {
+            label: "11.4 Privacy",
+            type: "non-functional-requirement",
+            category: "PRV",
+          },
+          {
+            label: "11.5 Scalability",
+            type: "non-functional-requirement",
+            category: "SCA",
+          },
+          {
+            label: "11.6 Maintainability",
+            type: "non-functional-requirement",
+            category: "MNT",
+          },
+          {
+            label: "11.7 Compatibility & portability",
+            type: "non-functional-requirement",
+            category: "CMP",
+          },
+          { label: "No category", type: "non-functional-requirement" },
+        ],
+      },
+      { label: "12 Operational Requirements", type: "operational-requirement" },
+    ],
+  },
+];
+const flatten = (
+  nodes: (Section | Leaf)[],
+  path = "",
+): (Leaf & { path: string })[] =>
+  nodes.flatMap((n) =>
+    "children" in n
+      ? flatten(n.children, `${path} ${n.label}`)
+      : [{ ...n, path }],
+  );
 
 // Class names are spelled out so Tailwind can see them.
 const FAMILIES = [
@@ -201,25 +323,29 @@ export function AnnotateReader({
       ?.scrollIntoView({ block: "center" });
   };
 
+  const q = filter.trim().toLowerCase();
+  // What is listed: layers that have instances, narrowed by the filter. A type also answers to its section's name.
   const layers = (
     tab === "c"
-      ? FAMILIES.flatMap((f) =>
-          f.types.map((t) => ({
-            key: `c:${t}`,
-            label: t as string,
-            accent: f.accent,
-          })),
-        )
-      : names.map((n) => ({ ...n, accent: "accent-bright-cyan" }))
-  ).filter(
-    (l) =>
-      byLayer.has(l.key) &&
-      l.label.toLowerCase().includes(filter.trim().toLowerCase()),
-  );
+      ? flatten(SRS).map((l) => ({
+          key: leafKey(l),
+          label: l.label,
+          hint: l.type as string,
+          search: `${l.path} ${l.label} ${l.type}`,
+          accent: familyOf(l.type).accent,
+        }))
+      : names.map((n) => ({
+          ...n,
+          hint: "",
+          search: n.label,
+          accent: "accent-bright-cyan",
+        }))
+  ).filter((l) => byLayer.has(l.key) && l.search.toLowerCase().includes(q));
   const group = (l: (typeof layers)[number]) => (
     <Group
       key={l.key}
       label={l.label}
+      hint={l.hint}
       accent={l.accent}
       marks={byLayer.get(l.key)!}
       open={focus === l.key}
@@ -233,19 +359,79 @@ export function AnnotateReader({
       where={where}
     />
   );
-  // Select all acts on what is listed: this tab, narrowed by the filter.
-  const allOn = layers.every((l) => !hidden.has(l.key));
-  const setAll = (on: boolean) =>
+  const setLayers = (keys: string[], on: boolean) =>
     setHidden((h) => {
       const next = new Set(h);
-      for (const l of layers) {
-        if (on) next.delete(l.key);
-        else next.add(l.key);
+      for (const key of keys) {
+        if (on) next.delete(key);
+        else next.add(key);
         // Either way the layer speaks for its instances again.
-        for (const m of byLayer.get(l.key)!) next.delete(m.id);
+        for (const m of byLayer.get(key)!) next.delete(m.id);
       }
       return next;
     });
+  // Select all acts on what is listed: this tab, narrowed by the filter.
+  const allOn = layers.every((l) => !hidden.has(l.key));
+  const setAll = (on: boolean) =>
+    setLayers(
+      layers.map((l) => l.key),
+      on,
+    );
+
+  /** The classifications as the SRS they will become: sections nest, types are the leaves. */
+  const tree = (n: Section | Leaf, depth: number): ReactNode => {
+    const indent = { paddingLeft: depth * 14 };
+    if (!("children" in n)) {
+      const l = layers.find((l) => l.key === leafKey(n));
+      if (l)
+        return (
+          <div key={l.key} style={indent}>
+            {group(l)}
+          </div>
+        );
+      // An empty slot is worth seeing, but not while searching, and "No category" only when it happens.
+      if (q || (n.type === "non-functional-requirement" && !n.category))
+        return null;
+      return (
+        <div
+          key={leafKey(n)}
+          style={indent}
+          className="flex h-8 items-center gap-2.5 pr-3 pl-3 text-muted-foreground/70"
+        >
+          <span className="size-4 rounded-[3px] border border-dashed border-gray-400" />
+          <span className="flex-1">{n.label}</span>
+          <span className="text-xs">0</span>
+        </div>
+      );
+    }
+    const kids = n.children.map((c) => tree(c, depth + 1)).filter(Boolean);
+    if (!kids.length) return null;
+    const keys = flatten(n.children)
+      .map(leafKey)
+      .filter((k) => layers.some((l) => l.key === k));
+    const on = keys.every((k) => !hidden.has(k));
+    return (
+      <div key={n.label} className="flex flex-col gap-0.5">
+        <label
+          style={indent}
+          className={`flex h-8 items-center gap-2.5 pr-3 pl-3 font-bold ${depth === 0 ? `pt-2 ${EYEBROW}` : ""}`}
+        >
+          <input
+            type="checkbox"
+            checked={keys.length > 0 && on}
+            disabled={keys.length === 0}
+            onChange={() => setLayers(keys, !on)}
+            className="size-4 accent-primary"
+          />
+          <span className="flex-1">{n.label}</span>
+          <span className="text-xs font-normal text-muted-foreground">
+            {keys.reduce((sum, k) => sum + byLayer.get(k)!.length, 0)}
+          </span>
+        </label>
+        {kids}
+      </div>
+    );
+  };
   // Most names come up once; folded so the recurring ones stay readable. A filter looks everywhere.
   const fold = tab === "m" && !filter.trim();
   const once = fold
@@ -338,7 +524,9 @@ export function AnnotateReader({
           </label>
         </div>
         <div className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-4 pb-4">
-          {layers.filter((l) => !once.includes(l)).map(group)}
+          {tab === "c"
+            ? SRS.map((n) => tree(n, 0))
+            : layers.filter((l) => !once.includes(l)).map(group)}
           {once.length > 0 && (
             <details open={once.some((l) => l.key === focus)}>
               <summary className="cursor-pointer rounded-sm px-3 py-1.5 text-muted-foreground hover:bg-secondary">
@@ -378,6 +566,7 @@ export function AnnotateReader({
 /** One layer of the index: its name and count, and when open every instance in reading order. */
 function Group({
   label,
+  hint,
   accent,
   marks,
   open,
@@ -391,6 +580,8 @@ function Group({
   where,
 }: {
   label: string;
+  /** The type behind a section label, e.g. "data-entity". */
+  hint: string;
   /** The checkbox carries the family colour, so it is the swatch too. */
   accent: string;
   marks: Mark[];
@@ -425,7 +616,14 @@ function Group({
           onClick={onToggle}
           className={`flex h-full flex-1 items-center gap-2.5 px-2.5 text-left ${on ? "" : "text-muted-foreground line-through"}`}
         >
-          <span className={`flex-1 ${open ? "font-bold" : ""}`}>{label}</span>
+          <span className={`flex-1 truncate ${open ? "font-bold" : ""}`}>
+            {label}
+            {hint && (
+              <code className="ml-2 text-[11px] font-normal text-muted-foreground">
+                {hint}
+              </code>
+            )}
+          </span>
           <span className="pr-3 text-xs text-muted-foreground">
             {open && at >= 0 ? `${at + 1} / ${marks.length}` : marks.length}
           </span>
