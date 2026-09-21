@@ -759,9 +759,6 @@ function Margin({
           dropped · {w}
         </span>
       ))}
-      <code className="text-[11px]">
-        {e.kind === "paragraph" && e.role ? `${e.id} · ${e.role}` : e.id}
-      </code>
     </div>
   );
 }
