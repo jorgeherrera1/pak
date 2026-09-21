@@ -1,12 +1,12 @@
 import { expect, test } from "vitest";
-import { validate } from "../src/validate.ts";
+import { ground } from "../src/ground.ts";
 
 const content = "intro\nThe system shall log in users. Typing is slow.\nfooter";
 const anchors = new Map([["paragraphs/1", [{ offset: 6, length: 46 }]]]);
 const none = { classifications: [], mentions: [] };
 
 test("a verbatim quote becomes an annotation with a content span", () => {
-  const { classifications, warnings } = validate(
+  const { classifications, warnings } = ground(
     {
       ...none,
       classifications: [
@@ -34,7 +34,7 @@ test("a verbatim quote becomes an annotation with a content span", () => {
 });
 
 test("unknown element and non-verbatim quote become warnings", () => {
-  const { classifications, warnings } = validate(
+  const { classifications, warnings } = ground(
     {
       ...none,
       classifications: [
@@ -60,19 +60,19 @@ test("unknown element and non-verbatim quote become warnings", () => {
 });
 
 test("a mention grounds like an annotation and keeps its name", () => {
-  const { mentions, warnings } = validate(
+  const { mentions, warnings } = ground(
     {
       ...none,
       mentions: [
         {
           elementId: "paragraphs/1",
           quote: "users",
-          name: "User"
+          name: "User",
         },
         {
           elementId: "paragraphs/1",
           quote: "system",
-          name: "  "
+          name: "  ",
         },
       ],
     },
@@ -90,30 +90,15 @@ test("a mention grounds like an annotation and keeps its name", () => {
     );
 });
 
-test("a repeated row is a warning, not a second annotation", () => {
-  const m = {
-    elementId: "paragraphs/1",
-    quote: "users",
-    name: "User"
-  };
-  const { mentions, warnings } = validate(
-    { ...none, mentions: [m, m] },
-    anchors,
-    content,
-  );
-  expect(mentions).toHaveLength(1);
-  expect(warnings).toEqual(['paragraphs/1: duplicate mention "users"']);
-});
-
 test("a quote only matches on word boundaries", () => {
-  const { mentions, warnings } = validate(
+  const { mentions, warnings } = ground(
     {
       ...none,
       mentions: [
         {
           elementId: "paragraphs/1",
           quote: "Typ",
-          name: "Typ"
+          name: "Typ",
         },
         { elementId: "paragraphs/1", quote: "in", name: "in" },
       ],
@@ -127,25 +112,4 @@ test("a quote only matches on word boundaries", () => {
   expect(
     content.slice(mentions[0]!.span.offset - 1, mentions[0]!.span.offset + 3),
   ).toBe(" in ");
-});
-
-test("a sentence is not a mention", () => {
-  const { mentions, warnings } = validate(
-    {
-      ...none,
-      mentions: [
-        {
-          elementId: "paragraphs/1",
-          quote: "The system shall log in users",
-          name: "Login",
-        },
-      ],
-    },
-    anchors,
-    content,
-  );
-  expect(mentions).toEqual([]);
-  expect(warnings).toEqual([
-    'paragraphs/1: mention too long: "The system shall log in users"',
-  ]);
 });

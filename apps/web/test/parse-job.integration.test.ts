@@ -51,7 +51,7 @@ test(
       ["parse", "build", "done"],
       ["annotate", "classify", "done"],
       ["annotate", "mentions", "done"],
-      ["annotate", "validate", "done"],
+      ["annotate", "ground", "done"],
     ]);
 
     const parsed: ParsedDocument = await (

@@ -1,5 +1,5 @@
 /**
- * Replays recorded model responses through validate; no network. To re-record:
+ * Replays recorded model responses through ground; no network. To re-record:
  * run `test:integration`, copy `test/out/<sha256>/annotate/` into
  * `test/fixtures/annotate-responses/` and `annotate.json` into
  * `test/fixtures/`, and review the diff like code.
@@ -7,7 +7,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { expect, test } from "vitest";
 import { anchors } from "../src/chunk.ts";
-import { validate, type ModelOutput } from "../src/validate.ts";
+import { ground, type ModelOutput } from "../src/ground.ts";
 import { doc } from "./doc.ts";
 
 const responses = <T>(task: string): T[] => {
@@ -25,7 +25,7 @@ test("replayed annotations match the recording", () => {
     classifications: responses("classify"),
     mentions: responses("mentions"),
   };
-  const result = validate(output, anchors(doc), doc.content);
+  const result = ground(output, anchors(doc), doc.content);
   for (const a of [...result.classifications, ...result.mentions]) {
     expect(
       doc.content.slice(a.span.offset, a.span.offset + a.span.length),

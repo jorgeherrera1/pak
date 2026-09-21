@@ -5,7 +5,7 @@ import { annotate } from "./annotate.ts";
 export type * from "./types.ts";
 export { annotate, runClassify, runMentions } from "./annotate.ts";
 export { anchors, chunk } from "./chunk.ts";
-export { validate, type ModelOutput } from "./validate.ts";
+export { ground, type ModelOutput } from "./ground.ts";
 
 if (import.meta.main) {
   const [parsedPath, outDir] = process.argv.slice(2);

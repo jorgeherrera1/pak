@@ -27,7 +27,7 @@ test("initialOperations lists every operation of every step, upload done", () =>
     ["parse", "build", 2, "pending"],
     ["annotate", "classify", 0, "pending"],
     ["annotate", "mentions", 1, "pending"],
-    ["annotate", "validate", 2, "pending"],
+    ["annotate", "ground", 2, "pending"],
   ]);
   expect(rows[0]).toMatchObject({
     jobId: "j",
