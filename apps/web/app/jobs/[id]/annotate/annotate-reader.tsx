@@ -118,7 +118,7 @@ const CATEGORY: Record<Category, string> = {
 };
 
 const anchor = (id: string) => id.replaceAll("/", "-");
-/** Marks and warnings on a table hang off its cells: "tables/2/cells/5" belongs to "tables/2". */
+/** Marks on a table hang off its cells: "tables/2/cells/5" belongs to "tables/2". */
 const owner = (elementId: string) => elementId.replace(/\/cells\/\d+$/, "");
 const EYEBROW =
   "font-display text-xs font-bold tracking-eyebrow text-muted-foreground uppercase";
@@ -147,62 +147,55 @@ export function AnnotateReader({
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
 
-  const { byElement, byLayer, byId, parity, dropped, names, where } =
-    useMemo(() => {
-      const all: Mark[] = [
-        ...annotations.classifications,
-        ...annotations.mentions,
-      ];
-      const byId = new Map(all.map((m) => [m.id, m]));
-      const byElement = new Map<string, Mark[]>();
-      for (const m of all)
-        byElement.set(m.elementId, [...(byElement.get(m.elementId) ?? []), m]);
-      // Every instance of a layer, in reading order: what the index steps through.
-      const byLayer = new Map<string, Mark[]>();
-      for (const m of all)
-        byLayer.set(layer(m), [...(byLayer.get(layer(m)) ?? []), m]);
-      for (const ms of byLayer.values())
-        ms.sort((a, b) => a.span.offset - b.span.offset);
-      const parity = new Map<string, number>();
-      const seen = new Map<string, number>();
-      for (const c of annotations.classifications) {
-        const n = seen.get(c.elementId) ?? 0;
-        parity.set(c.id, n % 2);
-        seen.set(c.elementId, n + 1);
-      }
-      // Warnings read "<elementId>: <what happened>".
-      const dropped = new Map<string, string[]>();
-      for (const w of annotations.warnings) {
-        const [, id = "", what = w] = w.match(/^(\S+): (.*)$/s) ?? [];
-        dropped.set(owner(id), [...(dropped.get(owner(id)) ?? []), what]);
-      }
-      // The things the document names, most mentioned first, labelled as first written.
-      const labels = new Map<string, string>();
-      for (const m of annotations.mentions)
-        if (!labels.has(layer(m))) labels.set(layer(m), m.name);
-      const names = [...labels]
-        .map(([key, label]) => ({
-          key,
-          label,
-          count: byLayer.get(key)!.length,
-        }))
-        .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
-      const els = new Map(doc.elements.map((e) => [e.id, e]));
-      /** "p5 · What we store" */
-      const where = (elementId: string) => {
-        const e = els.get(owner(elementId));
-        let s = e;
-        while (s && !(s.kind === "section" && s.heading))
-          s = s.parent ? els.get(s.parent) : undefined;
-        return [
-          e?.region[0] && `p${e.region[0].page}`,
-          s?.kind === "section" && s.heading,
-        ]
-          .filter(Boolean)
-          .join(" · ");
-      };
-      return { byElement, byLayer, byId, parity, dropped, names, where };
-    }, [annotations, doc]);
+  const { byElement, byLayer, byId, parity, names, where } = useMemo(() => {
+    const all: Mark[] = [
+      ...annotations.classifications,
+      ...annotations.mentions,
+    ];
+    const byId = new Map(all.map((m) => [m.id, m]));
+    const byElement = new Map<string, Mark[]>();
+    for (const m of all)
+      byElement.set(m.elementId, [...(byElement.get(m.elementId) ?? []), m]);
+    // Every instance of a layer, in reading order: what the index steps through.
+    const byLayer = new Map<string, Mark[]>();
+    for (const m of all)
+      byLayer.set(layer(m), [...(byLayer.get(layer(m)) ?? []), m]);
+    for (const ms of byLayer.values())
+      ms.sort((a, b) => a.span.offset - b.span.offset);
+    const parity = new Map<string, number>();
+    const seen = new Map<string, number>();
+    for (const c of annotations.classifications) {
+      const n = seen.get(c.elementId) ?? 0;
+      parity.set(c.id, n % 2);
+      seen.set(c.elementId, n + 1);
+    }
+    // The things the document names, most mentioned first, labelled as first written.
+    const labels = new Map<string, string>();
+    for (const m of annotations.mentions)
+      if (!labels.has(layer(m))) labels.set(layer(m), m.name);
+    const names = [...labels]
+      .map(([key, label]) => ({
+        key,
+        label,
+        count: byLayer.get(key)!.length,
+      }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+    const els = new Map(doc.elements.map((e) => [e.id, e]));
+    /** "p5 · What we store" */
+    const where = (elementId: string) => {
+      const e = els.get(owner(elementId));
+      let s = e;
+      while (s && !(s.kind === "section" && s.heading))
+        s = s.parent ? els.get(s.parent) : undefined;
+      return [
+        e?.region[0] && `p${e.region[0].page}`,
+        s?.kind === "section" && s.heading,
+      ]
+        .filter(Boolean)
+        .join(" · ");
+    };
+    return { byElement, byLayer, byId, parity, names, where };
+  }, [annotations, doc]);
 
   const ctx: Ctx = {
     visible: (id) =>
@@ -322,7 +315,6 @@ export function AnnotateReader({
           e={e}
           marks={ids.flatMap(ctx.visible)}
           classified={ids.some((id) => byElement.get(id)?.some(isC))}
-          dropped={dropped.get(e.id) ?? []}
           ctx={ctx}
         />
       </div>,
@@ -398,18 +390,6 @@ export function AnnotateReader({
       </nav>
       <div className="flex flex-1 justify-center bg-muted px-6 py-10">
         <article className="flex w-[920px] flex-col gap-5 self-start rounded-lg border bg-card px-12 py-11">
-          {annotations.warnings.length > 0 && (
-            <div className="rounded-sm border border-destructive/40 bg-destructive/5 p-3 text-[13px] leading-normal">
-              <span className="font-bold text-destructive">
-                {annotations.warnings.length} annotations dropped at validation
-              </span>
-              <ul className="mt-1 list-disc pl-5">
-                {annotations.warnings.map((w, i) => (
-                  <li key={i}>{w}</li>
-                ))}
-              </ul>
-            </div>
-          )}
           {rows}
         </article>
       </div>
@@ -708,18 +688,16 @@ function Table({
   );
 }
 
-/** What Annotate said about this element: one chip per classification, the names it mentions, what was dropped. */
+/** What Annotate said about this element: one chip per classification, the names it mentions. */
 function Margin({
   e,
   marks,
   classified,
-  dropped,
   ctx,
 }: {
   e: Element;
   marks: Mark[];
   classified: boolean;
-  dropped: string[];
   ctx: Ctx;
 }) {
   const mentions = marks.filter((m): m is Mention => !isC(m));
@@ -754,11 +732,6 @@ function Margin({
           {names.join(", ")}
         </span>
       )}
-      {dropped.map((w, i) => (
-        <span key={i} className="text-destructive">
-          dropped · {w}
-        </span>
-      ))}
     </div>
   );
 }
