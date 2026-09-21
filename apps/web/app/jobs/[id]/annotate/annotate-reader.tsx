@@ -13,132 +13,33 @@ import { context, segments } from "@/lib/segments";
 
 type Mark = Classification | Mention;
 const isC = (m: Mark): m is Classification => "type" in m;
-/** Layer key: a classification toggles by its type (and NFR category), a mention by the thing it names. */
+/** Layer key: a classification toggles by its type, a mention by the thing it names. */
 // ponytail: "Save Button" and "Save button" share a layer by lowercasing; real merging is resolve's job.
-const layer = (m: Mark) => (isC(m) ? leafKey(m) : `m:${m.name.toLowerCase()}`);
-const leafKey = (l: { type: ClassificationType; category?: Category }) =>
-  `c:${l.type}${l.category ? `:${l.category}` : ""}`;
+const layer = (m: Mark) =>
+  isC(m) ? `c:${m.type}` : `m:${m.name.toLowerCase()}`;
 
-/** Where each classification type lands in the SRS template (IEEE 29148). Sections no type feeds are left out. */
-type Leaf = { label: string; type: ClassificationType; category?: Category };
-type Section = { label: string; children: (Section | Leaf)[] };
-const SRS: Section[] = [
-  {
-    label: "Part 0 · Document Control",
-    children: [
-      { label: "0.3 Glossary", type: "glossary-term" },
-      // The template has no section for these; its checklist wants them cited by name and clause.
-      { label: "Binding standards", type: "standard" },
-    ],
-  },
-  {
-    label: "Part I · Product Context",
-    children: [
-      { label: "1 Product Mission", type: "business-goal" },
-      {
-        label: "2 Product Definition",
-        children: [
-          { label: "Definition", type: "product" },
-          { label: "Out of scope", type: "out-of-scope" },
-        ],
-      },
-      { label: "3 User Profiles", type: "user-class" },
-      {
-        label: "4 System Context",
-        children: [
-          {
-            label: "4.2 Technology Stack (imposed)",
-            type: "imposed-technology",
-          },
-          {
-            label: "4.3 Deployment & Tenant Configuration",
-            type: "configurable-item",
-          },
-        ],
-      },
-      { label: "5 Product Features", type: "feature" },
-      {
-        label: "6 Assumptions & Dependencies",
-        children: [
-          { label: "Assumptions", type: "assumption" },
-          { label: "Dependencies", type: "dependency" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Part II · Product Requirements",
-    children: [
-      {
-        label: "7 Functional Requirements",
-        children: [
-          { label: "Requirements", type: "functional-requirement" },
-          { label: "UI mockups", type: "mockup" },
-        ],
-      },
-      { label: "8 Integration Contracts", type: "integration" },
-      {
-        label: "9 Data Requirements",
-        children: [
-          { label: "9.2 Entity catalog", type: "data-entity" },
-          { label: "9.3 Data policies", type: "data-requirement" },
-        ],
-      },
-      { label: "10 UI/UX Requirements", type: "ux-requirement" },
-      {
-        label: "11 Non-Functional Requirements",
-        children: [
-          {
-            label: "11.1 Performance & capacity",
-            type: "non-functional-requirement",
-            category: "PER",
-          },
-          {
-            label: "11.2 Reliability & availability",
-            type: "non-functional-requirement",
-            category: "REL",
-          },
-          {
-            label: "11.3 Security",
-            type: "non-functional-requirement",
-            category: "SEC",
-          },
-          {
-            label: "11.4 Privacy",
-            type: "non-functional-requirement",
-            category: "PRV",
-          },
-          {
-            label: "11.5 Scalability",
-            type: "non-functional-requirement",
-            category: "SCA",
-          },
-          {
-            label: "11.6 Maintainability",
-            type: "non-functional-requirement",
-            category: "MNT",
-          },
-          {
-            label: "11.7 Compatibility & portability",
-            type: "non-functional-requirement",
-            category: "CMP",
-          },
-          { label: "No category", type: "non-functional-requirement" },
-        ],
-      },
-      { label: "12 Operational Requirements", type: "operational-requirement" },
-    ],
-  },
+/** The vocabulary in its own order. The package exports the types only, so the list is repeated here. */
+const ORDER: ClassificationType[] = [
+  "product",
+  "business-goal",
+  "feature",
+  "functional-requirement",
+  "mockup",
+  "integration",
+  "data-entity",
+  "data-requirement",
+  "ux-requirement",
+  "non-functional-requirement",
+  "operational-requirement",
+  "assumption",
+  "dependency",
+  "user-class",
+  "imposed-technology",
+  "configurable-item",
+  "out-of-scope",
+  "standard",
+  "glossary-term",
 ];
-const flatten = (
-  nodes: (Section | Leaf)[],
-  path = "",
-): (Leaf & { path: string })[] =>
-  nodes.flatMap((n) =>
-    "children" in n
-      ? flatten(n.children, `${path} ${n.label}`)
-      : [{ ...n, path }],
-  );
 
 // Class names are spelled out so Tailwind can see them.
 const FAMILIES = [
@@ -240,82 +141,99 @@ export function AnnotateReader({
   figureBase: string;
 }) {
   const [tab, setTab] = useState<"c" | "m">("c");
-  /** The one layer being read, e.g. "m:catalogue"; the document shows only its marks. */
-  const [focus, setFocus] = useState<string | null>(null);
-  const [filter, setFilter] = useState("");
+  /** Layers whose occurrences are folded away; everything starts open. */
+  const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
   /** What is switched off: layer keys ("m:catalogue") and single mark ids ("a5"). */
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
 
-  const { byElement, byLayer, parity, dropped, names, where } = useMemo(() => {
-    const all: Mark[] = [
-      ...annotations.classifications,
-      ...annotations.mentions,
-    ];
-    const byElement = new Map<string, Mark[]>();
-    for (const m of all)
-      byElement.set(m.elementId, [...(byElement.get(m.elementId) ?? []), m]);
-    // Every instance of a layer, in reading order: what the index steps through.
-    const byLayer = new Map<string, Mark[]>();
-    for (const m of all)
-      byLayer.set(layer(m), [...(byLayer.get(layer(m)) ?? []), m]);
-    for (const ms of byLayer.values())
-      ms.sort((a, b) => a.span.offset - b.span.offset);
-    const parity = new Map<string, number>();
-    const seen = new Map<string, number>();
-    for (const c of annotations.classifications) {
-      const n = seen.get(c.elementId) ?? 0;
-      parity.set(c.id, n % 2);
-      seen.set(c.elementId, n + 1);
-    }
-    // Warnings read "<elementId>: <what happened>".
-    const dropped = new Map<string, string[]>();
-    for (const w of annotations.warnings) {
-      const [, id = "", what = w] = w.match(/^(\S+): (.*)$/s) ?? [];
-      dropped.set(owner(id), [...(dropped.get(owner(id)) ?? []), what]);
-    }
-    // The things the document names, most mentioned first, labelled as first written.
-    const labels = new Map<string, string>();
-    for (const m of annotations.mentions)
-      if (!labels.has(layer(m))) labels.set(layer(m), m.name);
-    const names = [...labels]
-      .map(([key, label]) => ({ key, label, count: byLayer.get(key)!.length }))
-      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
-    const els = new Map(doc.elements.map((e) => [e.id, e]));
-    /** "p5 · What we store" */
-    const where = (elementId: string) => {
-      const e = els.get(owner(elementId));
-      let s = e;
-      while (s && !(s.kind === "section" && s.heading))
-        s = s.parent ? els.get(s.parent) : undefined;
-      return [
-        e?.region[0] && `p${e.region[0].page}`,
-        s?.kind === "section" && s.heading,
-      ]
-        .filter(Boolean)
-        .join(" · ");
-    };
-    return { byElement, byLayer, parity, dropped, names, where };
-  }, [annotations, doc]);
+  const { byElement, byLayer, byId, parity, dropped, names, where } =
+    useMemo(() => {
+      const all: Mark[] = [
+        ...annotations.classifications,
+        ...annotations.mentions,
+      ];
+      const byId = new Map(all.map((m) => [m.id, m]));
+      const byElement = new Map<string, Mark[]>();
+      for (const m of all)
+        byElement.set(m.elementId, [...(byElement.get(m.elementId) ?? []), m]);
+      // Every instance of a layer, in reading order: what the index steps through.
+      const byLayer = new Map<string, Mark[]>();
+      for (const m of all)
+        byLayer.set(layer(m), [...(byLayer.get(layer(m)) ?? []), m]);
+      for (const ms of byLayer.values())
+        ms.sort((a, b) => a.span.offset - b.span.offset);
+      const parity = new Map<string, number>();
+      const seen = new Map<string, number>();
+      for (const c of annotations.classifications) {
+        const n = seen.get(c.elementId) ?? 0;
+        parity.set(c.id, n % 2);
+        seen.set(c.elementId, n + 1);
+      }
+      // Warnings read "<elementId>: <what happened>".
+      const dropped = new Map<string, string[]>();
+      for (const w of annotations.warnings) {
+        const [, id = "", what = w] = w.match(/^(\S+): (.*)$/s) ?? [];
+        dropped.set(owner(id), [...(dropped.get(owner(id)) ?? []), what]);
+      }
+      // The things the document names, most mentioned first, labelled as first written.
+      const labels = new Map<string, string>();
+      for (const m of annotations.mentions)
+        if (!labels.has(layer(m))) labels.set(layer(m), m.name);
+      const names = [...labels]
+        .map(([key, label]) => ({
+          key,
+          label,
+          count: byLayer.get(key)!.length,
+        }))
+        .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+      const els = new Map(doc.elements.map((e) => [e.id, e]));
+      /** "p5 · What we store" */
+      const where = (elementId: string) => {
+        const e = els.get(owner(elementId));
+        let s = e;
+        while (s && !(s.kind === "section" && s.heading))
+          s = s.parent ? els.get(s.parent) : undefined;
+        return [
+          e?.region[0] && `p${e.region[0].page}`,
+          s?.kind === "section" && s.heading,
+        ]
+          .filter(Boolean)
+          .join(" · ");
+      };
+      return { byElement, byLayer, byId, parity, dropped, names, where };
+    }, [annotations, doc]);
 
   const ctx: Ctx = {
     visible: (id) =>
       (byElement.get(id) ?? []).filter(
-        (m) =>
-          (!focus || layer(m) === focus) &&
-          !hidden.has(layer(m)) &&
-          !hidden.has(m.id),
+        (m) => !hidden.has(layer(m)) && !hidden.has(m.id),
       ),
     selected,
-    select: (id) => setSelected((s) => (s === id ? null : id)),
+    select: (id) => {
+      setSelected((s) => (s === id ? null : id));
+      reveal(id);
+    },
     parity,
   };
-  const toggle = (key: string) =>
-    setHidden((h) => {
-      const next = new Set(h);
-      if (!next.delete(key)) next.add(key);
-      return next;
-    });
+  const flip = (key: string) => (set: ReadonlySet<string>) => {
+    const next = new Set(set);
+    if (!next.delete(key)) next.add(key);
+    return next;
+  };
+  /** Something picked in the document shows up in the pane: right tab, group open, row in view. */
+  const reveal = (id: string) => {
+    const m = byId.get(id);
+    if (!m) return;
+    setTab(isC(m) ? "c" : "m");
+    setCollapsed((c) => new Set([...c].filter((k) => k !== layer(m))));
+    // The row only exists once the tab and the group have opened.
+    requestAnimationFrame(() =>
+      document
+        .querySelector(`[data-row="${id}"]`)
+        ?.scrollIntoView({ block: "nearest" }),
+    );
+  };
   const go = (m: Mark) => {
     setSelected(m.id);
     document
@@ -323,37 +241,28 @@ export function AnnotateReader({
       ?.scrollIntoView({ block: "center" });
   };
 
-  const q = filter.trim().toLowerCase();
-  // What is listed: layers that have instances, narrowed by the filter. A type also answers to its section's name.
+  // What is listed: the labels that have occurrences.
   const layers = (
     tab === "c"
-      ? flatten(SRS).map((l) => ({
-          key: leafKey(l),
-          label: l.label,
-          hint: l.type as string,
-          search: `${l.path} ${l.label} ${l.type}`,
-          accent: familyOf(l.type).accent,
+      ? ORDER.map((t) => ({
+          key: `c:${t}`,
+          label: t as string,
+          accent: familyOf(t).accent,
         }))
-      : names.map((n) => ({
-          ...n,
-          hint: "",
-          search: n.label,
-          accent: "accent-bright-cyan",
-        }))
-  ).filter((l) => byLayer.has(l.key) && l.search.toLowerCase().includes(q));
+      : names.map((n) => ({ ...n, accent: "accent-bright-cyan" }))
+  ).filter((l) => byLayer.has(l.key));
   const group = (l: (typeof layers)[number]) => (
     <Group
       key={l.key}
       label={l.label}
-      hint={l.hint}
       accent={l.accent}
       marks={byLayer.get(l.key)!}
-      open={focus === l.key}
+      open={!collapsed.has(l.key)}
       selected={selected}
       hidden={hidden}
       layerKey={l.key}
-      onHide={toggle}
-      onToggle={() => setFocus((f) => (f === l.key ? null : l.key))}
+      onHide={(key) => setHidden(flip(key))}
+      onToggle={() => setCollapsed(flip(l.key))}
       onGo={go}
       content={doc.content}
       where={where}
@@ -370,7 +279,7 @@ export function AnnotateReader({
       }
       return next;
     });
-  // Select all acts on what is listed: this tab, narrowed by the filter.
+  // Select all and collapse all act on what is listed: this tab.
   const allOn = layers.every((l) => !hidden.has(l.key));
   const setAll = (on: boolean) =>
     setLayers(
@@ -378,65 +287,11 @@ export function AnnotateReader({
       on,
     );
 
-  /** The classifications as the SRS they will become: sections nest, types are the leaves. */
-  const tree = (n: Section | Leaf, depth: number): ReactNode => {
-    const indent = { paddingLeft: depth * 14 };
-    if (!("children" in n)) {
-      const l = layers.find((l) => l.key === leafKey(n));
-      if (l)
-        return (
-          <div key={l.key} style={indent}>
-            {group(l)}
-          </div>
-        );
-      // An empty slot is worth seeing, but not while searching, and "No category" only when it happens.
-      if (q || (n.type === "non-functional-requirement" && !n.category))
-        return null;
-      return (
-        <div
-          key={leafKey(n)}
-          style={indent}
-          className="flex h-8 items-center gap-2.5 pr-3 pl-3 text-muted-foreground/70"
-        >
-          <span className="size-4 rounded-[3px] border border-dashed border-gray-400" />
-          <span className="flex-1">{n.label}</span>
-          <span className="text-xs">0</span>
-        </div>
-      );
-    }
-    const kids = n.children.map((c) => tree(c, depth + 1)).filter(Boolean);
-    if (!kids.length) return null;
-    const keys = flatten(n.children)
-      .map(leafKey)
-      .filter((k) => layers.some((l) => l.key === k));
-    const on = keys.every((k) => !hidden.has(k));
-    return (
-      <div key={n.label} className="flex flex-col gap-0.5">
-        <label
-          style={indent}
-          className={`flex h-8 items-center gap-2.5 pr-3 pl-3 font-bold ${depth === 0 ? `pt-2 ${EYEBROW}` : ""}`}
-        >
-          <input
-            type="checkbox"
-            checked={keys.length > 0 && on}
-            disabled={keys.length === 0}
-            onChange={() => setLayers(keys, !on)}
-            className="size-4 accent-primary"
-          />
-          <span className="flex-1">{n.label}</span>
-          <span className="text-xs font-normal text-muted-foreground">
-            {keys.reduce((sum, k) => sum + byLayer.get(k)!.length, 0)}
-          </span>
-        </label>
-        {kids}
-      </div>
-    );
-  };
-  // Most names come up once; folded so the recurring ones stay readable. A filter looks everywhere.
-  const fold = tab === "m" && !filter.trim();
-  const once = fold
-    ? layers.filter((l) => byLayer.get(l.key)!.length === 1)
-    : [];
+  const allOpen = layers.every((l) => !collapsed.has(l.key));
+  const empty = ORDER.filter((t) => !byLayer.has(`c:${t}`));
+  // Most names come up once; folded so the recurring ones stay readable.
+  const once =
+    tab === "m" ? layers.filter((l) => byLayer.get(l.key)!.length === 1) : [];
 
   const rows: ReactNode[] = [];
   let currentPage = 0;
@@ -492,53 +347,52 @@ export function AnnotateReader({
                 key={t}
                 type="button"
                 aria-pressed={tab === t}
-                onClick={() => {
-                  setTab(t);
-                  setFocus(null);
-                }}
+                onClick={() => setTab(t)}
                 className={`h-10 rounded-sm font-bold ${tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary"}`}
               >
                 {label}
               </button>
             ))}
           </div>
-          <label className="flex h-10 items-center rounded-sm border bg-background px-3">
-            <span className="sr-only">Filter</span>
-            <input
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              placeholder={tab === "c" ? "Filter types" : "Filter names"}
-              className="w-full bg-transparent outline-none"
-            />
-          </label>
-          <label className="flex items-center gap-2.5 px-3 text-muted-foreground">
-            <input
-              type="checkbox"
-              checked={allOn}
-              disabled={layers.length === 0}
-              onChange={() => setAll(!allOn)}
-              className="size-4 accent-primary"
-            />
-            {allOn ? "Deselect all" : "Select all"}
-            {filter.trim() && ` ${layers.length} matching`}
-          </label>
+          <div className="flex items-center justify-between px-3 text-muted-foreground">
+            <label className="flex items-center gap-2.5">
+              <input
+                type="checkbox"
+                checked={allOn}
+                onChange={() => setAll(!allOn)}
+                className="size-4 accent-primary"
+              />
+              {allOn ? "Deselect all" : "Select all"}
+            </label>
+            <button
+              type="button"
+              onClick={() =>
+                setCollapsed(
+                  allOpen ? new Set(layers.map((l) => l.key)) : new Set(),
+                )
+              }
+              className="hover:text-foreground"
+            >
+              {allOpen ? "Collapse all" : "Expand all"}
+            </button>
+          </div>
         </div>
         <div className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-4 pb-4">
-          {tab === "c"
-            ? SRS.map((n) => tree(n, 0))
-            : layers.filter((l) => !once.includes(l)).map(group)}
+          {layers.filter((l) => !once.includes(l)).map(group)}
           {once.length > 0 && (
-            <details open={once.some((l) => l.key === focus)}>
+            <details
+              open={once.some((l) => byLayer.get(l.key)![0]!.id === selected)}
+            >
               <summary className="cursor-pointer rounded-sm px-3 py-1.5 text-muted-foreground hover:bg-secondary">
                 {once.length} mentioned once
               </summary>
               <div className="flex flex-col gap-0.5">{once.map(group)}</div>
             </details>
           )}
-          {layers.length === 0 && (
-            <span className="px-3 py-1.5 text-muted-foreground">
-              Nothing matches.
-            </span>
+          {tab === "c" && empty.length > 0 && (
+            <p className="px-3 pt-2 text-xs leading-normal text-muted-foreground">
+              Nothing found for {empty.join(", ")}.
+            </p>
           )}
         </div>
       </nav>
@@ -563,10 +417,9 @@ export function AnnotateReader({
   );
 }
 
-/** One layer of the index: its name and count, and when open every instance in reading order. */
+/** One label of the index: its name and count, and under it every occurrence in reading order. */
 function Group({
   label,
-  hint,
   accent,
   marks,
   open,
@@ -580,8 +433,6 @@ function Group({
   where,
 }: {
   label: string;
-  /** The type behind a section label, e.g. "data-entity". */
-  hint: string;
   /** The checkbox carries the family colour, so it is the swatch too. */
   accent: string;
   marks: Mark[];
@@ -589,7 +440,7 @@ function Group({
   selected: string | null;
   hidden: ReadonlySet<string>;
   layerKey: string;
-  /** Switches a whole layer (by key) or one instance (by id) off and on. */
+  /** Switches a whole layer (by key) or one occurrence (by id) off and on. */
   onHide: (key: string) => void;
   onToggle: () => void;
   onGo: (m: Mark) => void;
@@ -599,10 +450,8 @@ function Group({
   const at = marks.findIndex((m) => m.id === selected);
   const on = !hidden.has(layerKey);
   return (
-    <div
-      className={`flex flex-col rounded-sm ${open ? "my-1 border border-primary bg-primary/5" : ""}`}
-    >
-      <div className="flex h-9 shrink-0 items-center rounded-sm pl-3 hover:bg-secondary">
+    <div className="flex flex-col">
+      <div className="flex h-10 shrink-0 items-center rounded-sm pl-3 hover:bg-secondary">
         <input
           type="checkbox"
           aria-label={`Show ${label}`}
@@ -614,29 +463,26 @@ function Group({
           type="button"
           aria-expanded={open}
           onClick={onToggle}
-          className={`flex h-full flex-1 items-center gap-2.5 px-2.5 text-left ${on ? "" : "text-muted-foreground line-through"}`}
+          className={`flex h-full flex-1 items-center gap-2.5 px-2.5 text-left font-bold ${on ? "" : "text-muted-foreground line-through"}`}
         >
-          <span className={`flex-1 truncate ${open ? "font-bold" : ""}`}>
-            {label}
-            {hint && (
-              <code className="ml-2 text-[11px] font-normal text-muted-foreground">
-                {hint}
-              </code>
-            )}
+          <span className="flex-1 truncate">{label}</span>
+          <span className="text-xs font-normal text-muted-foreground">
+            {at >= 0 ? `${at + 1} / ${marks.length}` : marks.length}
           </span>
-          <span className="pr-3 text-xs text-muted-foreground">
-            {open && at >= 0 ? `${at + 1} / ${marks.length}` : marks.length}
-          </span>
+          <span
+            className={`mr-3 size-2 border-r-2 border-b-2 border-muted-foreground ${open ? "mb-1 rotate-45" : "-rotate-45"}`}
+          />
         </button>
       </div>
       {open &&
-        marks.map((m, i) => {
+        marks.map((m) => {
           const c = isC(m) ? undefined : context(content, m.span, 24);
           const shown = on && !hidden.has(m.id);
           return (
             <div
               key={m.id}
-              className={`flex items-start border-t border-primary/25 pl-3 hover:bg-primary/10 ${m.id === selected ? "bg-primary/20" : ""}`}
+              data-row={m.id}
+              className={`ml-5 flex h-[34px] items-center rounded-r-sm border-l pl-3.5 hover:bg-secondary ${m.id === selected ? "bg-primary/25 ring-1 ring-primary ring-inset" : ""}`}
             >
               <input
                 type="checkbox"
@@ -644,7 +490,7 @@ function Group({
                 checked={shown}
                 disabled={!on}
                 onChange={() => onHide(m.id)}
-                className={`mt-2 size-4 ${accent}`}
+                className={`size-3.5 ${accent}`}
               />
               <button
                 type="button"
@@ -652,10 +498,9 @@ function Group({
                 // Something switched off is not in the document, so there is nowhere to jump to.
                 disabled={!shown}
                 onClick={() => onGo(m)}
-                className="grid min-w-0 flex-1 grid-cols-[1.25rem_minmax(0,1fr)] gap-x-2 px-2.5 py-1.5 text-left text-[13px] disabled:opacity-50"
+                className="flex h-full min-w-0 flex-1 items-center gap-2 px-2.5 text-left text-[13px] disabled:opacity-50"
               >
-                <span className="text-xs text-muted-foreground">{i + 1}</span>
-                <span className="truncate text-muted-foreground">
+                <span className="min-w-0 flex-1 truncate text-muted-foreground">
                   {c ? (
                     <>
                       …{c.pre}
@@ -664,12 +509,12 @@ function Group({
                     </>
                   ) : (
                     <>
-                      <code className="text-[11px]">{m.id}</code>{" "}
+                      <code className="pr-1.5 text-[11px]">{m.id}</code>
                       <span className="text-foreground">{m.text}</span>
                     </>
                   )}
                 </span>
-                <span className="col-start-2 truncate text-[11px] text-muted-foreground">
+                <span className="max-w-[9rem] shrink-0 truncate text-[11px] text-muted-foreground">
                   {where(m.elementId)}
                 </span>
               </button>
