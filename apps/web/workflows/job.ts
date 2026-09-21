@@ -8,7 +8,7 @@ import {
   chunk,
   runClassify,
   runMentions,
-  validate,
+  ground,
   type ModelOutput,
 } from "@dark-factory/annotate";
 import type { AnalyzeResultOutput } from "@azure-rest/ai-document-intelligence";
@@ -97,9 +97,9 @@ async function mentionsOperation(jobId: string) {
   );
 }
 
-async function validateOperation(jobId: string) {
+async function groundOperation(jobId: string) {
   "use step";
-  return runOperation(jobId, "annotate", "validate", async () => {
+  return runOperation(jobId, "annotate", "ground", async () => {
     const doc = await readJson<ParsedDocument>(`${jobId}/parsed.json`);
     const n = chunk(doc).length;
     const indexes = Array.from({ length: n }, (_, i) => i);
@@ -119,7 +119,7 @@ async function validateOperation(jobId: string) {
         ),
       ),
     ]);
-    const result = validate(
+    const result = ground(
       { classifications: classifications.flat(), mentions: mentions.flat() },
       anchors(doc),
       doc.content,
@@ -141,7 +141,7 @@ export async function runJob(jobId: string) {
     await analyzeOperation(jobId);
     await buildOperation(jobId);
     await Promise.all([classifyOperation(jobId), mentionsOperation(jobId)]);
-    const counts = await validateOperation(jobId);
+    const counts = await groundOperation(jobId);
     await setJob(jobId, { status: "done", finishedAt: new Date() });
     return counts;
   } catch (err) {

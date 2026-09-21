@@ -4,7 +4,7 @@ import { db, operations } from "./db";
 /** Every step's operations, in assembly-line order. Only this file knows them. */
 export const OPERATIONS = {
   parse: ["upload", "analyze", "build"],
-  annotate: ["classify", "mentions", "validate"],
+  annotate: ["classify", "mentions", "ground"],
 } as const;
 export type StepName = keyof typeof OPERATIONS;
 export type OperationName = (typeof OPERATIONS)[StepName][number];

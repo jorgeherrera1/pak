@@ -44,7 +44,7 @@
   {
     "elementId": "paragraphs/18",
     "quote": "Recording, changing and clearing your own level",
-    "type": "functional-requirement",
+    "type": "feature",
     "category": null
   },
   {
@@ -55,7 +55,7 @@
   },
   {
     "elementId": "paragraphs/22",
-    "quote": "Self-declared and unmoderated",
+    "quote": "Claims are self-declared and unmoderated",
     "type": "assumption",
     "category": null
   },
@@ -73,8 +73,8 @@
   },
   {
     "elementId": "paragraphs/76",
-    "quote": "Rows come out sorted by Type, then Area, then competency name, so the grid reads the same way every time.",
-    "type": "ux-requirement",
+    "quote": "One flat grid, one row per competency, showing its Type, its Area and its name, with three tick columns for the level.",
+    "type": "mockup",
     "category": null
   },
   {

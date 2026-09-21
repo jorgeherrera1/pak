@@ -1,12 +1,12 @@
 import { expect, test } from "vitest";
-import { validate } from "../src/validate.ts";
+import { ground } from "../src/ground.ts";
 
 const content = "intro\nThe system shall log in users. Typing is slow.\nfooter";
 const anchors = new Map([["paragraphs/1", [{ offset: 6, length: 46 }]]]);
 const none = { classifications: [], mentions: [] };
 
 test("a verbatim quote becomes an annotation with a content span", () => {
-  const { classifications, warnings } = validate(
+  const { classifications, warnings } = ground(
     {
       ...none,
       classifications: [
@@ -34,7 +34,7 @@ test("a verbatim quote becomes an annotation with a content span", () => {
 });
 
 test("unknown element and non-verbatim quote become warnings", () => {
-  const { classifications, warnings } = validate(
+  const { classifications, warnings } = ground(
     {
       ...none,
       classifications: [
@@ -59,8 +59,8 @@ test("unknown element and non-verbatim quote become warnings", () => {
   expect(warnings).toHaveLength(2);
 });
 
-test("a mention grounds like an annotation and keeps name and kind", () => {
-  const { mentions, warnings } = validate(
+test("a mention grounds like an annotation and keeps its name", () => {
+  const { mentions, warnings } = ground(
     {
       ...none,
       mentions: [
@@ -68,13 +68,11 @@ test("a mention grounds like an annotation and keeps name and kind", () => {
           elementId: "paragraphs/1",
           quote: "users",
           name: "User",
-          kind: "user-class",
         },
         {
           elementId: "paragraphs/1",
           quote: "system",
           name: "  ",
-          kind: "product",
         },
       ],
     },
@@ -83,8 +81,8 @@ test("a mention grounds like an annotation and keeps name and kind", () => {
   );
   expect(warnings).toEqual([]);
   expect(mentions).toMatchObject([
-    { id: "m1", text: "users", name: "User", kind: "user-class" },
-    { id: "m2", text: "system", name: "system", kind: "product" },
+    { id: "m1", text: "users", name: "User" },
+    { id: "m2", text: "system", name: "system" },
   ]);
   for (const m of mentions)
     expect(content.slice(m.span.offset, m.span.offset + m.span.length)).toBe(
@@ -92,24 +90,8 @@ test("a mention grounds like an annotation and keeps name and kind", () => {
     );
 });
 
-test("a repeated row is a warning, not a second annotation", () => {
-  const m = {
-    elementId: "paragraphs/1",
-    quote: "users",
-    name: "User",
-    kind: "user-class" as const,
-  };
-  const { mentions, warnings } = validate(
-    { ...none, mentions: [m, m] },
-    anchors,
-    content,
-  );
-  expect(mentions).toHaveLength(1);
-  expect(warnings).toEqual(['paragraphs/1: duplicate user-class "users"']);
-});
-
 test("a quote only matches on word boundaries", () => {
-  const { mentions, warnings } = validate(
+  const { mentions, warnings } = ground(
     {
       ...none,
       mentions: [
@@ -117,9 +99,8 @@ test("a quote only matches on word boundaries", () => {
           elementId: "paragraphs/1",
           quote: "Typ",
           name: "Typ",
-          kind: "feature",
         },
-        { elementId: "paragraphs/1", quote: "in", name: "in", kind: "feature" },
+        { elementId: "paragraphs/1", quote: "in", name: "in" },
       ],
     },
     anchors,

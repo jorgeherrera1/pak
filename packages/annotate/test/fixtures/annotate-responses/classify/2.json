@@ -8,19 +8,7 @@
   {
     "elementId": "tables/2/cells/1",
     "quote": "Read-only to this app - it is maintained elsewhere and loaded in.",
-    "type": "dependency",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/1",
-    "quote": "Each competency carries the date it was added to the catalogue, which is what the New toggle compares against.",
-    "type": "data-requirement",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/2",
-    "quote": "The person",
-    "type": "data-entity",
+    "type": "assumption",
     "category": null
   },
   {
@@ -36,33 +24,9 @@
     "category": null
   },
   {
-    "elementId": "tables/2/cells/3",
-    "quote": "That timestamp is the other half of the New toggle, and it has to survive them clearing every level they hold - so it belongs on the person, not derived from their claims.",
-    "type": "data-requirement",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/4",
-    "quote": "The claim",
-    "type": "data-entity",
-    "category": null
-  },
-  {
     "elementId": "tables/2/cells/5",
     "quote": "One person, one competency, one level: Learner, Advanced or Expert.",
-    "type": "data-requirement",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/5",
-    "quote": "At most one of these per person per competency - the storage itself should make two impossible, rather than relying on the screen to prevent it.",
-    "type": "data-requirement",
-    "category": null
-  },
-  {
-    "elementId": "tables/2/cells/5",
-    "quote": "No record at all means unrated.",
-    "type": "data-requirement",
+    "type": "data-entity",
     "category": null
   },
   {
@@ -73,13 +37,13 @@
   },
   {
     "elementId": "paragraphs/156",
-    "quote": "The catalogue keeps being maintained outside this app. If that changes, someone has to build an editor and this document grows a section.",
+    "quote": "The catalogue keeps being maintained outside this app.",
     "type": "assumption",
     "category": null
   },
   {
     "elementId": "paragraphs/157",
-    "quote": "Everyone who needs the app already has a corporate Entra ID account. There are no local accounts and no invitation flow.",
+    "quote": "Everyone who needs the app already has a corporate Entra ID account.",
     "type": "assumption",
     "category": null
   },
@@ -90,33 +54,9 @@
     "category": null
   },
   {
-    "elementId": "paragraphs/158",
-    "quote": "It has to carry each competency's original date of addition - if the migration stamps everything with today's date, the New toggle is wrong for every existing employee from day one.",
-    "type": "data-requirement",
-    "category": null
-  },
-  {
     "elementId": "paragraphs/159",
     "quote": "At the start of the build we need an Entra ID app registration per environment, with redirect URIs and credentials, from the corporate identity team.",
     "type": "dependency",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/161",
-    "quote": "Telling people a write failed is our idea, not yours. Nobody asked for it, but with the Save button gone a failed write is otherwise invisible and the person walks away believing a false claim was recorded.",
-    "type": "functional-requirement",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/162",
-    "quote": "Should unrated and \"I have looked at this and it does not apply to me\" be the same thing? Today they are - a blank row means both.",
-    "type": "assumption",
-    "category": null
-  },
-  {
-    "elementId": "paragraphs/162",
-    "quote": "If staffing ever wants to distinguish \"nobody has assessed this\" from \"nobody here can do this\", the model needs a fourth state and we should know now rather than after migration.",
-    "type": "functional-requirement",
     "category": null
   }
 ]

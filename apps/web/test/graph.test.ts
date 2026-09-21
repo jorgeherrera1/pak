@@ -84,10 +84,15 @@ test("the edge into a running step is animated, others plain", () => {
   expect(idle.edges.every((e) => e.type === undefined)).toBe(true);
 });
 
-test("the parse node links to its reader only once every parse operation is done", () => {
+test("a node links to its reader only once every one of its operations is done", () => {
   const done = toGraph(job([op("upload", "done"), op("build", "done")]));
   expect(done.nodes[0]?.data.href).toBe("/jobs/j/parse");
   expect(done.nodes[1]?.data.href).toBeUndefined();
   const running = toGraph(job([op("upload", "done"), op("build", "running")]));
   expect(running.nodes[0]?.data.href).toBeUndefined();
+  const annotated = toGraph(
+    job([op("build", "done"), { ...op("classify", "done"), step: "annotate" }]),
+  );
+  expect(annotated.nodes[1]?.data.href).toBe("/jobs/j/annotate");
+  expect(annotated.nodes[2]?.data.href).toBeUndefined();
 });

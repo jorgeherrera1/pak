@@ -8,7 +8,7 @@ import { anchors, chunk } from "./chunk.ts";
 import classify from "./classify.ts";
 import mentions from "./mentions.ts";
 import type { AnnotateResult } from "./types.ts";
-import { classificationSchema, mentionSchema, validate } from "./validate.ts";
+import { classificationSchema, ground, mentionSchema } from "./ground.ts";
 
 /** Two tasks per chunk, each its own prompt and schema; they never share a call. */
 const TASKS = {
@@ -46,7 +46,7 @@ export const runMentions = (text: string) => run(TASKS.mentions, text);
  * calls the model; nothing is reused between runs. Everything lands in
  * `<outDir>/<sha256>/`: two model calls per chunk, raw responses written to
  * `annotate/classify/<i>.json` and `annotate/mentions/<i>.json`; the
- * validated result in `annotate.json`.
+ * grounded result in `annotate.json`.
  */
 export async function annotate(
   doc: ParsedDocument,
@@ -74,7 +74,7 @@ export async function annotate(
       return { classifications, mentions };
     }),
   );
-  const result = validate(
+  const result = ground(
     {
       classifications: outputs.flatMap((o) => o.classifications),
       mentions: outputs.flatMap((o) => o.mentions),

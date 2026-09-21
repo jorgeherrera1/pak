@@ -2,379 +2,276 @@
   {
     "elementId": "paragraphs/1",
     "quote": "Competencies",
-    "name": "Competency",
-    "kind": "glossary-term"
+    "name": "Competency"
   },
   {
     "elementId": "paragraphs/2",
     "quote": "consultant",
-    "name": "Consultant",
-    "kind": "user-class"
-  },
-  {
-    "elementId": "paragraphs/4",
-    "quote": "Jira",
-    "name": "Jira",
-    "kind": "imposed-technology"
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/4",
     "quote": "competency data",
-    "name": "Competency Data",
-    "kind": "data-entity"
+    "name": "Competency Data"
   },
   {
     "elementId": "paragraphs/4",
-    "quote": "app",
-    "name": "App",
-    "kind": "product"
+    "quote": "the app",
+    "name": "App"
   },
   {
     "elementId": "paragraphs/5",
     "quote": "Power Apps screen",
-    "name": "Power Apps Screen",
-    "kind": "product"
+    "name": "Power Apps Screen"
   },
   {
     "elementId": "paragraphs/5",
-    "quote": "catalogue",
-    "name": "Catalogue",
-    "kind": "data-entity"
+    "quote": "the catalogue",
+    "name": "Catalogue"
   },
   {
     "elementId": "paragraphs/5",
     "quote": "competency",
-    "name": "Competency",
-    "kind": "glossary-term"
+    "name": "Competency"
   },
   {
     "elementId": "paragraphs/5",
     "quote": "advanced",
-    "name": "Advanced",
-    "kind": "glossary-term"
+    "name": "Advanced"
   },
   {
     "elementId": "paragraphs/5",
     "quote": "skill",
-    "name": "Skill",
-    "kind": "glossary-term"
+    "name": "Skill"
   },
   {
     "elementId": "paragraphs/5",
     "quote": "practitioner",
-    "name": "Practitioner",
-    "kind": "glossary-term"
+    "name": "Practitioner"
+  },
+  {
+    "elementId": "paragraphs/5",
+    "quote": "Save button",
+    "name": "Save Button"
   },
   {
     "elementId": "paragraphs/6",
-    "quote": "Next.js",
-    "name": "Next.js",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "paragraphs/6",
-    "quote": "React",
-    "name": "React",
-    "kind": "imposed-technology"
+    "quote": "Next.js/React app",
+    "name": "Next.js/React App"
   },
   {
     "elementId": "paragraphs/8",
-    "quote": "app",
-    "name": "App",
-    "kind": "product"
+    "quote": "consultant",
+    "name": "Consultant"
+  },
+  {
+    "elementId": "paragraphs/8",
+    "quote": "the app",
+    "name": "App"
   },
   {
     "elementId": "paragraphs/8",
     "quote": "competency",
-    "name": "Competency",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "paragraphs/9",
-    "quote": "database",
-    "name": "Database",
-    "kind": "data-entity"
+    "name": "Competency"
   },
   {
     "elementId": "paragraphs/10",
-    "quote": "catalogue",
-    "name": "Catalogue",
-    "kind": "data-entity"
+    "quote": "the catalogue",
+    "name": "Catalogue"
   },
   {
     "elementId": "paragraphs/11",
     "quote": "practitioner",
-    "name": "Practitioner",
-    "kind": "glossary-term"
+    "name": "Practitioner"
   },
   {
     "elementId": "paragraphs/11",
     "quote": "advanced",
-    "name": "Advanced",
-    "kind": "glossary-term"
+    "name": "Advanced"
   },
   {
     "elementId": "paragraphs/13",
     "quote": "consultant",
-    "name": "Consultant",
-    "kind": "user-class"
+    "name": "Consultant"
   },
   {
     "elementId": "paragraphs/13",
-    "quote": "app",
-    "name": "App",
-    "kind": "product"
+    "quote": "the app",
+    "name": "App"
   },
   {
     "elementId": "paragraphs/13",
     "quote": "competencies",
-    "name": "Competency",
-    "kind": "glossary-term"
+    "name": "Competency"
   },
   {
     "elementId": "paragraphs/13",
     "quote": "catalogue",
-    "name": "Catalogue",
-    "kind": "data-entity"
+    "name": "Catalogue"
   },
   {
     "elementId": "paragraphs/14",
     "quote": "Managers",
-    "name": "Manager",
-    "kind": "user-class"
+    "name": "Manager"
   },
   {
     "elementId": "paragraphs/14",
     "quote": "reviewers",
-    "name": "Reviewer",
-    "kind": "user-class"
+    "name": "Reviewer"
   },
   {
     "elementId": "paragraphs/14",
     "quote": "staffing",
-    "name": "Staffing",
-    "kind": "user-class"
+    "name": "Staffing"
   },
   {
     "elementId": "paragraphs/14",
-    "quote": "app",
-    "name": "App",
-    "kind": "product"
+    "quote": "users",
+    "name": "User"
   },
   {
     "elementId": "paragraphs/14",
-    "quote": "profile",
-    "name": "Profile",
-    "kind": "data-entity"
+    "quote": "claims",
+    "name": "Claim"
   },
   {
     "elementId": "paragraphs/17",
     "quote": "competency catalogue",
-    "name": "Competency Catalogue",
-    "kind": "data-entity"
+    "name": "Competency Catalogue"
   },
   {
     "elementId": "paragraphs/18",
     "quote": "level",
-    "name": "Level",
-    "kind": "glossary-term"
+    "name": "Level"
   },
   {
     "elementId": "paragraphs/19",
     "quote": "corporate SSO",
-    "name": "Corporate SSO",
-    "kind": "imposed-technology"
+    "name": "Corporate SSO"
+  },
+  {
+    "elementId": "paragraphs/21",
+    "quote": "Manager",
+    "name": "Manager"
+  },
+  {
+    "elementId": "paragraphs/21",
+    "quote": "reviewer",
+    "name": "Reviewer"
   },
   {
     "elementId": "paragraphs/22",
-    "quote": "self-declared",
-    "name": "Self-Declared",
-    "kind": "feature"
+    "quote": "claims",
+    "name": "Claim"
+  },
+  {
+    "elementId": "paragraphs/23",
+    "quote": "Types",
+    "name": "Type"
+  },
+  {
+    "elementId": "paragraphs/23",
+    "quote": "Areas",
+    "name": "Area"
   },
   {
     "elementId": "paragraphs/24",
     "quote": "Competencies",
-    "name": "Competency",
-    "kind": "glossary-term"
+    "name": "Competency"
   },
   {
-    "elementId": "paragraphs/24",
-    "quote": "app",
-    "name": "App",
-    "kind": "product"
+    "elementId": "paragraphs/25",
+    "quote": "Cross-employee search",
+    "name": "Cross-Employee Search"
+  },
+  {
+    "elementId": "paragraphs/25",
+    "quote": "reporting",
+    "name": "Reporting"
+  },
+  {
+    "elementId": "paragraphs/25",
+    "quote": "exports",
+    "name": "Export"
   },
   {
     "elementId": "paragraphs/25",
     "quote": "dashboards",
-    "name": "Dashboard",
-    "kind": "feature"
-  },
-  {
-    "elementId": "tables/0/cells/0",
-    "quote": "Skills Competencies",
-    "name": "Skill Competency",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "tables/0/cells/3",
-    "quote": "Type",
-    "name": "Type",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "tables/0/cells/4",
-    "quote": "Area",
-    "name": "Area",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "tables/0/cells/5",
-    "quote": "Skill Competency",
-    "name": "Skill Competency",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "tables/0/cells/6",
-    "quote": "Learner",
-    "name": "Learner",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "tables/0/cells/7",
-    "quote": "Pracunomer",
-    "name": "Pracunomer",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "tables/0/cells/8",
-    "quote": "Expert",
-    "name": "Expert",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "tables/0/cells/13",
-    "quote": "Competency Filter",
-    "name": "Competency Filter",
-    "kind": "feature"
-  },
-  {
-    "elementId": "tables/0/cells/14",
-    "quote": "Mine",
-    "name": "Mine",
-    "kind": "feature"
-  },
-  {
-    "elementId": "tables/0/cells/15",
-    "quote": "New",
-    "name": "New",
-    "kind": "feature"
-  },
-  {
-    "elementId": "tables/0/cells/17",
-    "quote": "Agility",
-    "name": "Agility",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "tables/0/cells/18",
-    "quote": "Agile and DevOps Coaching",
-    "name": "Agile and DevOps Coaching",
-    "kind": "glossary-term"
-  },
-  {
-    "elementId": "tables/0/cells/20",
-    "quote": "Atlassian / Bamboo",
-    "name": "Atlassian / Bamboo",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "tables/0/cells/28",
-    "quote": "Atlassian / Bitbucket",
-    "name": "Atlassian / Bitbucket",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "tables/0/cells/36",
-    "quote": "Atlassian / Confluence",
-    "name": "Atlassian / Confluence",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "tables/0/cells/44",
-    "quote": "Atlassian / Jira",
-    "name": "Atlassian / Jira",
-    "kind": "imposed-technology"
-  },
-  {
-    "elementId": "tables/0/cells/51",
-    "quote": "Atlassian / Jira Align",
-    "name": "Atlassian / Jira Align",
-    "kind": "imposed-technology"
+    "name": "Dashboard"
   },
   {
     "elementId": "paragraphs/76",
     "quote": "Type",
-    "name": "Type",
-    "kind": "glossary-term"
+    "name": "Type"
   },
   {
     "elementId": "paragraphs/76",
     "quote": "Area",
-    "name": "Area",
-    "kind": "glossary-term"
+    "name": "Area"
   },
   {
     "elementId": "paragraphs/76",
     "quote": "competency name",
-    "name": "Competency Name",
-    "kind": "glossary-term"
+    "name": "Competency Name"
   },
   {
     "elementId": "paragraphs/76",
     "quote": "grid",
-    "name": "Grid",
-    "kind": "feature"
+    "name": "Grid"
   },
   {
     "elementId": "tables/1/cells/1",
     "quote": "Competencies",
-    "name": "Competency",
-    "kind": "glossary-term"
+    "name": "Competency"
   },
   {
     "elementId": "tables/1/cells/1",
     "quote": "Skills",
-    "name": "Skill",
-    "kind": "glossary-term"
+    "name": "Skill"
   },
   {
     "elementId": "tables/1/cells/1",
     "quote": "Advanced",
-    "name": "Advanced",
-    "kind": "glossary-term"
+    "name": "Advanced"
   },
   {
     "elementId": "tables/1/cells/1",
     "quote": "Practitioner",
-    "name": "Practitioner",
-    "kind": "glossary-term"
+    "name": "Practitioner"
+  },
+  {
+    "elementId": "tables/1/cells/1",
+    "quote": "Learner",
+    "name": "Learner"
+  },
+  {
+    "elementId": "tables/1/cells/1",
+    "quote": "Expert",
+    "name": "Expert"
   },
   {
     "elementId": "tables/1/cells/3",
     "quote": "Mine",
-    "name": "Mine",
-    "kind": "feature"
+    "name": "Mine"
   },
   {
     "elementId": "tables/1/cells/3",
     "quote": "New",
-    "name": "New",
-    "kind": "feature"
+    "name": "New"
+  },
+  {
+    "elementId": "tables/1/cells/5",
+    "quote": "home icon",
+    "name": "Home Icon"
+  },
+  {
+    "elementId": "tables/1/cells/5",
+    "quote": "info icon",
+    "name": "Info Icon"
   },
   {
     "elementId": "tables/1/cells/5",
     "quote": "Save button",
-    "name": "Save Button",
-    "kind": "feature"
+    "name": "Save Button"
   }
 ]

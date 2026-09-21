@@ -1,6 +1,6 @@
 import type { Span } from "@dark-factory/parse";
 import { z } from "zod";
-import { CATEGORIES, NOUN_TYPES, TYPES, type AnnotateResult } from "./types.ts";
+import { CATEGORIES, TYPES, type AnnotateResult } from "./types.ts";
 
 /** What the model returns. Quotes, never offsets. */
 export const classificationSchema = z.object({
@@ -15,7 +15,6 @@ export const mentionSchema = z.object({
   elementId: z.string(),
   quote: z.string(),
   name: z.string(),
-  kind: z.enum(NOUN_TYPES),
 });
 export const outputSchema = z.object({
   classifications: z.array(classificationSchema),
@@ -24,14 +23,13 @@ export const outputSchema = z.object({
 export type ModelOutput = z.infer<typeof outputSchema>;
 
 const wordChar = /[\p{L}\p{N}]/u;
-
 /**
  * Model output in, grounded classifications and mentions out. A row survives only
  * if its element exists and its quote is found verbatim, on word boundaries,
  * inside that element's text; everything else becomes a warning. This is the
  * step boundary AI output must cross.
  */
-export function validate(
+export function ground(
   { classifications, mentions }: ModelOutput,
   anchors: Map<string, Span[]>,
   content: string,
@@ -41,22 +39,14 @@ export function validate(
     mentions: [],
     warnings: [],
   };
-  const seen = new Set<string>();
 
   /** Offset of `quote` inside element `elementId`, or -1 after pushing a warning. */
-  const ground = (elementId: string, quote: string, key: string): number => {
+  const locate = (elementId: string, quote: string): number => {
     const spans = anchors.get(elementId);
     if (!spans) {
       result.warnings.push(`${elementId}: unknown element`);
       return -1;
     }
-    if (seen.has(`${elementId}\0${quote}\0${key}`)) {
-      result.warnings.push(
-        `${elementId}: duplicate ${key} ${JSON.stringify(quote)}`,
-      );
-      return -1;
-    }
-    seen.add(`${elementId}\0${quote}\0${key}`);
     for (const s of spans) {
       const end = s.offset + s.length;
       for (
@@ -76,7 +66,7 @@ export function validate(
   };
 
   for (const row of classifications) {
-    const offset = ground(row.elementId, row.quote, row.type);
+    const offset = locate(row.elementId, row.quote);
     if (offset < 0) continue;
     result.classifications.push({
       id: `a${result.classifications.length + 1}`,
@@ -88,7 +78,7 @@ export function validate(
     });
   }
   for (const m of mentions) {
-    const offset = ground(m.elementId, m.quote, m.kind);
+    const offset = locate(m.elementId, m.quote);
     if (offset < 0) continue;
     result.mentions.push({
       id: `m${result.mentions.length + 1}`,
@@ -96,7 +86,6 @@ export function validate(
       span: { offset, length: m.quote.length },
       text: m.quote,
       name: m.name.trim() || m.quote,
-      kind: m.kind,
     });
   }
   return result;
