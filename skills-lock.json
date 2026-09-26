@@ -1,18 +1,6 @@
 {
   "version": 1,
   "skills": {
-    "ai-elements": {
-      "source": "vercel/ai-elements",
-      "sourceType": "github",
-      "skillPath": "skills/ai-elements/SKILL.md",
-      "computedHash": "6d7ccc65b98adb04d6c47632746dbfea55528903de9b027f6b39b80983d5aa55"
-    },
-    "cmux-cua": {
-      "source": "manaflow-ai/cmux",
-      "sourceType": "github",
-      "skillPath": "skills/cmux-cua/SKILL.md",
-      "computedHash": "c01c3b5c09553e40eb22107e8f841602c898eaa3768734f952eef2a319b65fee"
-    },
     "herdr": {
       "source": "herdrdev/herdr",
       "sourceType": "github",
