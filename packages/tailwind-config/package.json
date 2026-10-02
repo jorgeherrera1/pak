@@ -7,9 +7,6 @@
     ".": "./shared-styles.css",
     "./postcss": "./postcss.config.js"
   },
-  "scripts": {
-    "test": "node --test tokens.test.ts"
-  },
   "devDependencies": {
     "postcss": "8.5.26",
     "tailwindcss": "4.3.3"

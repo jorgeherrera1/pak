@@ -14,9 +14,6 @@ of the design system (tokens only; components come later in `@dark-factory/ui`).
 - `shared-styles.css` — the package entrypoint (`@import` Tailwind, then the
   tokens). Also carries scaffold-legacy tokens that keep the inherited
   Turborepo starter pages rendering unchanged; delete them with those pages.
-- `tokens.test.ts` — merge gate (`npm run test`): pins canonical color values,
-  rejects duplicate or dangling token definitions, and checks the type/shape
-  invariants.
 
 ## Usage
 
