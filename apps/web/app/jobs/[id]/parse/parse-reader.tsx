@@ -1,5 +1,6 @@
-import type { Cell, Element, ParsedDocument } from "@dark-factory/parse";
+import type { Element, ParsedDocument } from "@dark-factory/parse";
 import type { ReactNode } from "react";
+import { Figure, PageDivider, Table } from "../reader-parts";
 
 /** "sections/3" → "sections-3", usable as a DOM id and fragment. */
 const anchor = (id: string) => id.replace("/", "-");
@@ -79,15 +80,7 @@ function Elements({
     const p = page(e);
     if (p !== undefined && p > (currentPage ?? 0)) {
       currentPage = p;
-      out.push(
-        <div
-          key={`page-${p}`}
-          className="flex items-center gap-3 pt-4 font-display text-xs font-bold tracking-eyebrow text-muted-foreground uppercase"
-        >
-          Page {p}
-          <span className="h-px flex-1 bg-border" />
-        </div>,
-      );
+      out.push(<PageDivider key={`page-${p}`} page={p} />);
     }
     out.push(
       <Row key={e.id} e={e}>
@@ -128,63 +121,15 @@ function Body({ e, figureBase }: { e: Element; figureBase: string }) {
         return <p className="text-xs text-muted-foreground">{e.text}</p>;
       return <p className="text-body-lg leading-relaxed">{e.text}</p>;
     case "table":
-      return <Table rows={e.rows} cols={e.cols} cells={e.cells} />;
-    case "figure":
       return (
-        <figure className="flex flex-col gap-2">
-          {e.image && (
-            // eslint-disable-next-line @next/next/no-img-element -- blob-served png, size unknown
-            <img
-              src={figureBase + e.image}
-              alt={e.caption ?? e.id}
-              className="max-w-full rounded-sm border"
-            />
-          )}
-          {e.caption && (
-            <figcaption className="text-sm text-muted-foreground">
-              {e.caption}
-            </figcaption>
-          )}
-        </figure>
+        <Table
+          e={e}
+          className="w-full border-collapse text-sm"
+          cellClassName="border px-2 py-1 text-left align-top"
+          cell={(c) => c.text}
+        />
       );
+    case "figure":
+      return <Figure e={e} figureBase={figureBase} />;
   }
-}
-
-function Table({
-  rows,
-  cols,
-  cells,
-}: {
-  rows: number;
-  cols: number;
-  cells: Cell[];
-}) {
-  const grid: (Cell | undefined)[][] = Array.from({ length: rows }, () =>
-    Array.from({ length: cols }),
-  );
-  for (const c of cells) grid[c.row]![c.col] = c;
-  return (
-    <table className="w-full border-collapse text-sm">
-      <tbody>
-        {grid.map((row, r) => (
-          <tr key={r}>
-            {row.map((c, i) => {
-              if (!c) return null;
-              const Tag = c.kind === "columnHeader" ? "th" : "td";
-              return (
-                <Tag
-                  key={i}
-                  rowSpan={c.rowSpan}
-                  colSpan={c.colSpan}
-                  className="border px-2 py-1 text-left align-top"
-                >
-                  {c.text}
-                </Tag>
-              );
-            })}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
 }

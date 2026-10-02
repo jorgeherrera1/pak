@@ -7,9 +7,10 @@ import type {
   ClassificationType,
   Mention,
 } from "@dark-factory/annotate";
-import type { Cell, Element, ParsedDocument } from "@dark-factory/parse";
+import type { Element, ParsedDocument } from "@dark-factory/parse";
 import { useMemo, useState, type ReactNode } from "react";
 import { context, segments } from "@/lib/segments";
+import { Figure, PageDivider, Table } from "../reader-parts";
 
 type Mark = Classification | Mention;
 const isC = (m: Mark): m is Classification => "type" in m;
@@ -120,8 +121,6 @@ const CATEGORY: Record<Category, string> = {
 const anchor = (id: string) => id.replaceAll("/", "-");
 /** Marks on a table hang off its cells: "tables/2/cells/5" belongs to "tables/2". */
 const owner = (elementId: string) => elementId.replace(/\/cells\/\d+$/, "");
-const EYEBROW =
-  "font-display text-xs font-bold tracking-eyebrow text-muted-foreground uppercase";
 
 type Ctx = {
   visible: (elementId: string) => Mark[];
@@ -293,15 +292,7 @@ export function AnnotateReader({
     const p = e.region[0]?.page;
     if (p !== undefined && p > currentPage) {
       currentPage = p;
-      rows.push(
-        <div
-          key={`page-${p}`}
-          className={`flex items-center gap-3 pt-4 ${EYEBROW}`}
-        >
-          Page {p}
-          <span className="h-px flex-1 bg-border" />
-        </div>,
-      );
+      rows.push(<PageDivider key={`page-${p}`} page={p} />);
     }
     const ids = e.kind === "table" ? e.cells.map((c) => c.id) : [e.id];
     rows.push(
@@ -609,18 +600,24 @@ function Body({
       );
     }
     case "table":
-      return <Table rows={e.rows} cols={e.cols} cells={e.cells} ctx={ctx} />;
-    case "figure":
       return (
-        <figure className="flex flex-col gap-2">
-          {e.image && (
-            // eslint-disable-next-line @next/next/no-img-element -- blob-served png, size unknown
-            <img
-              src={figureBase + e.image}
-              alt={e.caption ?? e.id}
-              className="max-w-full rounded-sm border"
+        <Table
+          e={e}
+          className="w-full border-collapse self-start text-sm leading-[1.6]"
+          cellClassName="border px-2 py-1.5 text-left align-top"
+          cell={(c) => (
+            <Text
+              text={c.text}
+              base={c.span[0]?.offset}
+              marks={ctx.visible(c.id)}
+              ctx={ctx}
             />
           )}
+        />
+      );
+    case "figure":
+      return (
+        <Figure e={e} figureBase={figureBase}>
           {/* A figure has no text of its own; the words annotations point at exist only in content. */}
           {marks.length > 0 && span && (
             <p className="text-sm leading-[1.65] whitespace-pre-line text-muted-foreground">
@@ -632,60 +629,9 @@ function Body({
               />
             </p>
           )}
-          {e.caption && (
-            <figcaption className="text-sm text-muted-foreground">
-              {e.caption}
-            </figcaption>
-          )}
-        </figure>
+        </Figure>
       );
   }
-}
-
-function Table({
-  rows,
-  cols,
-  cells,
-  ctx,
-}: {
-  rows: number;
-  cols: number;
-  cells: Cell[];
-  ctx: Ctx;
-}) {
-  const grid: (Cell | undefined)[][] = Array.from({ length: rows }, () =>
-    Array.from({ length: cols }),
-  );
-  for (const c of cells) grid[c.row]![c.col] = c;
-  return (
-    <table className="w-full border-collapse self-start text-sm leading-[1.6]">
-      <tbody>
-        {grid.map((row, r) => (
-          <tr key={r}>
-            {row.map((c, i) => {
-              if (!c) return null;
-              const Tag = c.kind === "columnHeader" ? "th" : "td";
-              return (
-                <Tag
-                  key={i}
-                  rowSpan={c.rowSpan}
-                  colSpan={c.colSpan}
-                  className="border px-2 py-1.5 text-left align-top"
-                >
-                  <Text
-                    text={c.text}
-                    base={c.span[0]?.offset}
-                    marks={ctx.visible(c.id)}
-                    ctx={ctx}
-                  />
-                </Tag>
-              );
-            })}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
 }
 
 /** What Annotate said about this element: one chip per classification, the names it mentions. */
