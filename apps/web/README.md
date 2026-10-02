@@ -10,6 +10,7 @@ Set these in the root `.env` (gitignored):
 WORKFLOW_TARGET_WORLD=@workflow/world-postgres
 WORKFLOW_POSTGRES_URL=postgres://localhost:5432/motivus_dev
 AZURE_STORAGE_CONNECTION_STRING=<from the storage account>
+AZURE_DI_ENDPOINT=https://<resource>.cognitiveservices.azure.com/
 AZURE_FOUNDRY_ENDPOINT=https://<resource>.services.ai.azure.com/openai/v1
 AZURE_API_KEY=<from AI Foundry>
 ```
@@ -19,7 +20,8 @@ files; `WORKFLOW_POSTGRES_URL` is the connection string, read by both the SDK an
 worker dispatches work back to the app over HTTP and finds the app's port by itself. Files go
 to the `jobs` container. `AZURE_API_KEY` is the one key of the AI Foundry resource, read by
 both the parse step's Document Intelligence calls and the annotate step's model calls;
-`AZURE_FOUNDRY_ENDPOINT` is the URL the annotate step calls.
+`AZURE_DI_ENDPOINT` is the URL the parse step calls and `AZURE_FOUNDRY_ENDPOINT` the URL the
+annotate step calls.
 
 Next.js loads `.env` from `apps/web`, so for local dev symlink the root file:
 `ln -s ../../.env apps/web/.env` (it is gitignored).
