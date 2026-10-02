@@ -1,8 +1,8 @@
 /**
  * Live run against Azure AI Foundry, plus the eval: precision and recall per
  * annotation type and per mention name against `fixtures/expected.json`,
- * which is written by a human, never generated. Needs AZURE_API_KEY in the
- * repo-root .env.
+ * which is written by a human, never generated. Needs AZURE_FOUNDRY_ENDPOINT and
+ * AZURE_API_KEY in the repo-root .env.
  */
 import { existsSync, readFileSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";

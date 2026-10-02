@@ -27,6 +27,7 @@
   },
   "globalPassThroughEnv": [
     "AZURE_DI_ENDPOINT",
+    "AZURE_FOUNDRY_ENDPOINT",
     "AZURE_API_KEY",
     "WORKFLOW_TARGET_WORLD",
     "WORKFLOW_POSTGRES_URL",

@@ -18,16 +18,15 @@ const TASKS = {
 /** Azure AI Foundry deployment name. */
 const MODEL = "gpt-4o";
 
-const azure = createAzure({
-  baseURL: "https://aif-motivus.services.ai.azure.com/openai/v1",
-});
-
 async function run<T>(
   task: { instructions: string; schema: z.ZodType<T> },
   text: string,
 ): Promise<T[]> {
+  // Read per call, not at import: the integration test loads .env after importing this module.
+  const baseURL = process.env.AZURE_FOUNDRY_ENDPOINT;
+  if (!baseURL) throw new Error("AZURE_FOUNDRY_ENDPOINT is not set");
   const { output } = await generateText({
-    model: azure(MODEL),
+    model: createAzure({ baseURL })(MODEL),
     output: Output.array({ element: task.schema }),
     temperature: 0,
     instructions: task.instructions,

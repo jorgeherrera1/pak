@@ -2,6 +2,7 @@ export async function register() {
   for (const k of [
     "WORKFLOW_POSTGRES_URL",
     "AZURE_STORAGE_CONNECTION_STRING",
+    "AZURE_FOUNDRY_ENDPOINT",
     "AZURE_API_KEY",
   ])
     if (!process.env[k]) throw new Error(`${k} is not set`);

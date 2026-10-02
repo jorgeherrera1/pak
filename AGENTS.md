@@ -48,7 +48,7 @@ Run from the repo root:
 - `npm run pipeline <file.pdf> <outDir>` — parse then annotate
 - `npm run db:migrate -w apps/web` — apply our SQL migrations (`db:generate` after a schema change)
 
-Anything that touches Azure needs `AZURE_API_KEY`, the one key of the AI Foundry resource that serves both Document Intelligence and the model, and `AZURE_DI_ENDPOINT` (Document Intelligence), read from a gitignored `.env` at the repo root. `apps/web` also needs `WORKFLOW_TARGET_WORLD`, `WORKFLOW_POSTGRES_URL`, and `AZURE_STORAGE_CONNECTION_STRING` in the same `.env`. Never commit credentials.
+Anything that touches Azure needs `AZURE_API_KEY`, the one key of the AI Foundry resource that serves both Document Intelligence and the model, plus `AZURE_DI_ENDPOINT` (Document Intelligence) and `AZURE_FOUNDRY_ENDPOINT` (the model), read from a gitignored `.env` at the repo root. `apps/web` also needs `WORKFLOW_TARGET_WORLD`, `WORKFLOW_POSTGRES_URL`, and `AZURE_STORAGE_CONNECTION_STRING` in the same `.env`. Never commit credentials.
 
 `packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording (run `test:integration`, copy `test/out/<sha256>/{analysis,parsed}.json` into `fixtures/`), never by hand, and the diff is reviewed like code. The same rule applies to `packages/annotate/test/fixtures/annotate-responses/` and `annotate.json`. `packages/annotate/test/fixtures/expected.json` is the eval ground truth and is written by a human only.
 
