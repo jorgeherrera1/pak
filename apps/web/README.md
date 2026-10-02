@@ -8,7 +8,7 @@ Set these in the root `.env` (gitignored):
 
 ```
 WORKFLOW_TARGET_WORLD=@workflow/world-postgres
-WORKFLOW_POSTGRES_URL=postgres://localhost:5432/motivus
+WORKFLOW_POSTGRES_URL=postgres://localhost:5432/motivus_dev
 AZURE_STORAGE_CONNECTION_STRING=<from the storage account>
 AZURE_API_KEY=<from AI Foundry>
 ```
@@ -24,13 +24,13 @@ Next.js loads `.env` from `apps/web`, so for local dev symlink the root file:
 ## Setup
 
 ```bash
-createdb motivus
+createdb motivus_dev
 az storage container create --name jobs --connection-string "$AZURE_STORAGE_CONNECTION_STRING"
 npx --package=@workflow/world-postgres bootstrap
 npm run db:migrate -w apps/web
 ```
 
-Our tables live in schema `dark_factory` of the `motivus` database, created by the SQL
+Our tables live in schema `dark_factory` of the `motivus_dev` database, created by the SQL
 migrations in `apps/web/drizzle/` (after a schema change: `npm run db:generate -w apps/web`,
 commit the new file, then `db:migrate`). The SDK's bootstrap creates its
 own schemas there too: `workflow`, `workflow_drizzle`, and `graphile_worker`.
