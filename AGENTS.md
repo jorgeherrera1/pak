@@ -6,6 +6,10 @@ Instructions for AI coding agents working in this repository. Read this before d
 
 **Dark Factory** is a software **dark factory**: requirements documents (e.g. an RFP) go in one end of an assembly line and working software comes out the other, with humans supervising the factory rather than working the stations. The first station is **requirements engineering**, which turns source documents into a knowledge graph.
 
+## Stage: prototype
+
+Nothing here is in production: no users, no data to preserve, no backward compatibility. Existing code is the current best guess, not a constraint. Each iteration aims for the right design, not the smallest diff.
+
 ## The assembly line
 
 **Station 1 — Requirements engineering** (current focus). Turns a requirements document into a knowledge graph in three steps:
@@ -76,9 +80,11 @@ Report results honestly: if a gate fails, say so and show the output.
 
 ## How to work
 
-- **Plan before code.** For any non-trivial change, present a short plan and get human approval before implementing.
-- **Small, reviewable changes.** One concern per change; prefer incremental diffs over big-bang rewrites.
-- **No speculative abstraction.** Build only what the current station needs. No frameworks-in-waiting, no "we might need this later."
+- **Challenge the design first.** Before planning, ask whether the current architecture is right for the problem. If a task is awkward because of an earlier decision, say so and propose changing that decision, even if it means rewriting or deleting a package. A patch that works around a wrong design is a failure, not the safe choice.
+- **Plan before code.** For any non-trivial change, present a short plan and get human approval before implementing. The plan names the most radical alternative you considered and why you do or don't recommend it.
+- **Replace, don't layer.** When the design changes, rewrite the affected code to the new design. No compatibility shims, no migration paths, no old code kept alongside.
+- **Small commits, not small ideas.** Commits stay small and reviewable; the change itself is as big as the right design needs.
+- **No speculative abstraction.** Build only what the current station needs. No frameworks-in-waiting, no "we might need this later." This limits what you build, not what you question.
 
 <!-- BEGIN:turborepo-agent-rules -->
 
