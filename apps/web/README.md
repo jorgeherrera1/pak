@@ -16,7 +16,8 @@ AZURE_API_KEY=<from AI Foundry>
 `WORKFLOW_TARGET_WORLD` tells the Workflow SDK to keep run state in Postgres instead of local
 files; `WORKFLOW_POSTGRES_URL` is the connection string, read by both the SDK and Drizzle. The
 worker dispatches work back to the app over HTTP and finds the app's port by itself. Files go
-to the `jobs` container. `AZURE_API_KEY` is read by the annotate step's model calls.
+to the `jobs` container. `AZURE_API_KEY` is the one key of the AI Foundry resource, read by
+both the parse step's Document Intelligence calls and the annotate step's model calls.
 
 Next.js loads `.env` from `apps/web`, so for local dev symlink the root file:
 `ln -s ../../.env apps/web/.env` (it is gitignored).

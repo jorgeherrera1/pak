@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { expect, test } from "vitest";
 import { parse } from "../src/index.ts";
 
-// Calls the real service. Needs AZURE_DI_ENDPOINT and AZURE_DI_KEY, from the root .env or the environment.
+// Calls the real service. Needs AZURE_DI_ENDPOINT and AZURE_API_KEY, from the root .env or the environment.
 const env = fileURLToPath(new URL("../../../.env", import.meta.url));
 if (existsSync(env)) process.loadEnvFile(env);
 
