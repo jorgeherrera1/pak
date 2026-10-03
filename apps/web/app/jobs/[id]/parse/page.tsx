@@ -1,12 +1,11 @@
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { ParsedDocument } from "@dark-factory/parse";
-import { getBlob } from "@/lib/blob";
+import { readDocument } from "@dark-factory/knowledge-graph";
 import { db, isUuid, jobs } from "@/lib/db";
 import { ParseReader } from "./parse-reader";
 
-// Reads parsed.json straight from blob on the server: the job is done by the time this page has a link to it.
+// Reads the document from the knowledge graph on the server: the job is done by the time this page has a link to it.
 export default async function Page({
   params,
 }: {
@@ -15,9 +14,8 @@ export default async function Page({
   const { id } = await params;
   if (!isUuid(id)) notFound();
   const [job] = await db.select().from(jobs).where(eq(jobs.id, id));
-  const blob = job && (await getBlob(`${id}/parsed.json`));
-  if (!job || !blob) notFound();
-  const doc = JSON.parse(blob.toString("utf8")) as ParsedDocument;
+  const doc = job && (await readDocument(id));
+  if (!job || !doc) notFound();
   return (
     <main className="flex min-h-screen flex-col">
       <header className="flex items-center gap-5 border-b bg-card px-8 py-4">
@@ -35,12 +33,6 @@ export default async function Page({
             {doc.content.length.toLocaleString()} characters
           </span>
         </div>
-        <a
-          href={`/api/jobs/${id}/artifacts/parsed.json`}
-          className="ml-auto text-sm font-bold text-primary hover:text-action-hover"
-        >
-          parsed.json
-        </a>
       </header>
       <ParseReader doc={doc} figureBase={`/api/jobs/${id}/artifacts/`} />
     </main>
