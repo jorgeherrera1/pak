@@ -54,7 +54,9 @@ export function childrenOf(doc: ParsedDocument): Map<string, Element[]> {
   const out = new Map<string, Element[]>();
   for (const e of doc.elements) {
     const parent = e.parent ?? DOCUMENT;
-    out.set(parent, [...(out.get(parent) ?? []), e]);
+    const kids = out.get(parent);
+    if (kids) kids.push(e);
+    else out.set(parent, [e]);
   }
   return out;
 }
