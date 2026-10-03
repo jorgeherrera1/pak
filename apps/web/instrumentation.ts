@@ -8,5 +8,6 @@ export async function register() {
   ])
     if (!process.env[k]) throw new Error(`${k} is not set`);
   const { getWorld } = await import("workflow/runtime");
-  await getWorld().start?.();
+  const world = await getWorld();
+  await world.start?.();
 }
