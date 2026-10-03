@@ -774,7 +774,7 @@ Final assertion block: type `{ classifications: unknown[] }` and delete the `men
 
 - [ ] **Step 4: AGENTS.md**
 
-- Delete the line `3. **Resolve** _(code, AI for ambiguity)_ — ...`. After the Annotate line add: `Entity resolution (canonical entities and relations) is deferred; it returns as its own step with its own eval.`
+- The Resolve step was already removed from the assembly line (commit `0abab24`); nothing to do there.
 - Line 29: `grounded annotations out` → `grounded classifications out`.
 
 - [ ] **Step 5: Definition of done**

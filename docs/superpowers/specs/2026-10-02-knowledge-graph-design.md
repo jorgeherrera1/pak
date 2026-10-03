@@ -88,7 +88,7 @@ Requirements, from `Classification`:
 | Classification                   | AGE                                                                                                    |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | `type`                           | label: the `TYPES` entry in PascalCase (`functional-requirement` → `FunctionalRequirement`, 19 labels) |
-| `id`, `text`, `span`, `category` | properties; `category` only on `NonFunctionalRequirement`                                              |
+| `id`, `text`, `span`, `category` | properties, plus `jobId`; `category` only on `NonFunctionalRequirement`                                |
 | `elementId`                      | `(req)-[:FROM]->(element)` where element `id` matches within the job's subgraph                        |
 
 ### API
