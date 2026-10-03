@@ -8,11 +8,10 @@ Instructions for AI coding agents working in this repository. Read this before d
 
 ## The assembly line
 
-**Station 1 — Requirements engineering** (current focus). Turns a requirements document into a knowledge graph in three steps:
+**Station 1 — Requirements engineering** (current focus). Turns a requirements document into a knowledge graph. We have the following two steps today. That does not mean the code will remain like this necessarily:
 
 1. **Parse** _(code)_ — fully deterministic; the document becomes a structured tree: sections, tables, reading order, exact character spans. Nothing is interpreted yet.
-2. **Annotate** _(AI)_ — spans get tagged with what they are (functional requirement, actor, mockup, …). Every annotation points at the exact text that produced it. Annotations are evidence, not fact.
-3. **Resolve** _(code, AI for ambiguity)_ — annotations collapse into canonical entities and relations: the domain graph.
+2. **Annotate** _(AI)_ — spans get tagged with what they are (functional requirement, feature, …). Every annotation points at the exact text that produced it. Annotations are evidence, not fact.
 
 Later stations (design, implementation, …) are not yet defined. Don't build for them.
 
