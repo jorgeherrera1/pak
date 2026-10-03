@@ -1,8 +1,8 @@
 /**
  * Live run against Azure AI Foundry, plus the eval: precision and recall per
- * annotation type and per mention name against `fixtures/expected.json`,
- * which is written by a human, never generated. Needs AZURE_FOUNDRY_ENDPOINT and
- * AZURE_API_KEY in the repo-root .env.
+ * classification type against `fixtures/expected.json`, which is written by a
+ * human, never generated. Needs AZURE_FOUNDRY_ENDPOINT and AZURE_API_KEY in
+ * the repo-root .env.
  */
 import { existsSync, readFileSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -19,28 +19,24 @@ const expectedFile = new URL("./fixtures/expected.json", import.meta.url);
 
 type Expected = {
   classifications: { elementId: string; type: ClassificationType }[];
-  mentions: { elementId: string; name: string }[];
 };
+type Scored = { elementId: string; type: ClassificationType };
 
-/** Exact match on `key`, scored per `group`. */
-function score<T>(
-  got: T[],
-  want: T[],
-  key: (x: T) => string,
-  group: (x: T) => string,
-) {
+/** Exact match on element and type, scored per type. */
+function score(got: Scored[], want: Scored[]) {
+  const key = (x: Scored) => `${x.elementId}|${x.type}`;
   const g = new Set(got.map(key));
   const w = new Set(want.map(key));
   const table: Record<
     string,
     { tp: number; fp: number; fn: number; precision: number; recall: number }
   > = {};
-  for (const [name, items] of Map.groupBy([...got, ...want], group)) {
+  for (const [type, items] of Map.groupBy([...got, ...want], (x) => x.type)) {
     const keys = new Set(items.map(key));
     const tp = [...keys].filter((k) => g.has(k) && w.has(k)).length;
     const fp = [...keys].filter((k) => g.has(k) && !w.has(k)).length;
     const fn = [...keys].filter((k) => !g.has(k) && w.has(k)).length;
-    table[name] = {
+    table[type] = {
       tp,
       fp,
       fn,
@@ -56,9 +52,9 @@ const FLOOR = 0;
 
 test("live annotate and eval", { timeout: 300_000 }, async () => {
   rmSync(out, { recursive: true, force: true });
-  const { classifications, mentions, warnings } = await annotate(doc, out);
+  const { classifications, warnings } = await annotate(doc, out);
   console.log(
-    `${classifications.length} classifications, ${mentions.length} mentions, ${warnings.length} warnings`,
+    `${classifications.length} classifications, ${warnings.length} warnings`,
   );
   for (const w of warnings) console.log(`  ${w}`);
   if (!existsSync(expectedFile)) {
@@ -66,28 +62,10 @@ test("live annotate and eval", { timeout: 300_000 }, async () => {
     return;
   }
   const expected: Expected = JSON.parse(readFileSync(expectedFile, "utf8"));
-  const tables = {
-    classifications: score<{ elementId: string; type: ClassificationType }>(
-      classifications,
-      expected.classifications,
-      (x) => `${x.elementId}|${x.type}`,
-      (x) => x.type,
-    ),
-    mentions: score<{ elementId: string; name: string }>(
-      mentions,
-      expected.mentions,
-      (x) => `${x.elementId}|${x.name.toLowerCase()}`,
-      (x) => x.name.toLowerCase(),
-    ),
-  };
-  for (const [what, table] of Object.entries(tables)) {
-    console.log(what);
-    console.table(table);
-    for (const [name, { precision, recall }] of Object.entries(table)) {
-      expect(precision, `${what} ${name} precision`).toBeGreaterThanOrEqual(
-        FLOOR,
-      );
-      expect(recall, `${what} ${name} recall`).toBeGreaterThanOrEqual(FLOOR);
-    }
+  const table = score(classifications, expected.classifications);
+  console.table(table);
+  for (const [type, { precision, recall }] of Object.entries(table)) {
+    expect(precision, `${type} precision`).toBeGreaterThanOrEqual(FLOOR);
+    expect(recall, `${type} recall`).toBeGreaterThanOrEqual(FLOOR);
   }
 });
