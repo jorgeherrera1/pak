@@ -85,7 +85,7 @@ test("a node links to its reader only once every one of its operations is done",
   const running = toCanvas(job([op("upload", "done"), op("build", "running")]));
   expect(running.nodes[0]?.data.href).toBeUndefined();
   const annotated = toCanvas(
-    job([op("build", "done"), { ...op("classify", "done"), step: "annotate" }]),
+    job([op("build", "done"), { ...op("annotate", "done"), step: "annotate" }]),
   );
   expect(annotated.nodes[1]?.data.href).toBe("/jobs/j/annotate");
 });

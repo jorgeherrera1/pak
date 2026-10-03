@@ -1,6 +1,6 @@
 ## Vocabulary
 
-A **job** moves through the **station** (Requirements engineering), which runs in **steps** (Parse, Annotate, Resolve); each step is a sequence of **operations**: Parse: upload, analyze, build; Annotate: classify, mentions, validate.
+A **job** moves through the **station** (Requirements engineering), which runs in **steps** (Parse, Annotate); each step is a sequence of **operations**: Parse: upload, analyze, build; Annotate: annotate.
 
 ## Environment
 
@@ -59,7 +59,7 @@ curl -s -F file=@packages/parse/test/fixtures/prd-competencies.pdf http://localh
 curl -s http://localhost:3001/api/jobs/<id> | jq '.status, [.operations[] | {name, status}]'
 ```
 
-Expect 202 with an id; the job is done only once Annotate finishes too, so expect status `done` and all six operations `done` after a couple of minutes.
+Expect 202 with an id; the job is done only once Annotate finishes too, so expect status `done` and all four operations `done` after a couple of minutes.
 
 ## Integration test
 

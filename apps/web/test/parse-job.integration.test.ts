@@ -49,9 +49,7 @@ test(
       ["parse", "upload", "done"],
       ["parse", "analyze", "done"],
       ["parse", "build", "done"],
-      ["annotate", "classify", "done"],
-      ["annotate", "mentions", "done"],
-      ["annotate", "ground", "done"],
+      ["annotate", "annotate", "done"],
     ]);
 
     const parsed: ParsedDocument = await (
@@ -65,9 +63,8 @@ test(
 
     const annotated = (await (
       await fetch(`${base}/api/jobs/${id}/artifacts/annotate.json`)
-    ).json()) as { classifications: unknown[]; mentions: unknown[] };
+    ).json()) as { classifications: unknown[] };
     expect(annotated.classifications.length).toBeGreaterThan(0);
-    expect(annotated.mentions.length).toBeGreaterThan(0);
   },
 );
 
