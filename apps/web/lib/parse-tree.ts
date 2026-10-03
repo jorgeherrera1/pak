@@ -110,12 +110,15 @@ export function toTree(
     };
   };
 
+  const inside = holds(children.get(DOCUMENT) ?? []);
   place(DOCUMENT, 0, {
     kind: "document",
     label: "Document",
-    caption: plural(doc.source.pages, "page"),
-    openable: false,
-    open: false,
+    caption: [plural(doc.source.pages, "page"), inside]
+      .filter(Boolean)
+      .join(" · "),
+    openable: inside !== "",
+    open: open.has(DOCUMENT),
   });
   return { nodes, edges };
 }

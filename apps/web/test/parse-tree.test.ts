@@ -3,7 +3,7 @@ import { expect, test } from "vitest";
 import type { ParsedDocument } from "@dark-factory/parse";
 import { CARD, DOCUMENT, toTree } from "@/lib/parse-tree";
 
-const doc: ParsedDocument = JSON.parse(
+const parsed: ParsedDocument = JSON.parse(
   readFileSync(
     new URL(
       "../../../packages/parse/test/fixtures/parsed.json",
@@ -12,6 +12,22 @@ const doc: ParsedDocument = JSON.parse(
     "utf8",
   ),
 );
+/** The fixture plus a page footer: page furniture sits in no section, so its parent is null. */
+const doc: ParsedDocument = {
+  ...parsed,
+  elements: [
+    ...parsed.elements,
+    {
+      id: "paragraphs/999",
+      parent: null,
+      kind: "paragraph",
+      role: "pageFooter",
+      text: "Page 1",
+      region: [],
+      span: [],
+    },
+  ],
+};
 const byId = new Map(doc.elements.map((e) => [e.id, e]));
 const sections = doc.elements.filter((e) => e.kind === "section");
 
@@ -40,6 +56,21 @@ test("a card says what its section holds, and only sections holding content open
   });
 });
 
+test("the Document holds what no section reached, shown once it is open", () => {
+  const closed = toTree(doc, new Set());
+  expect(closed.nodes.map((n) => n.id)).not.toContain("paragraphs/999");
+  expect(closed.nodes.find((n) => n.id === DOCUMENT)!.data).toMatchObject({
+    caption: "5 pages · 1 paragraph",
+    openable: true,
+  });
+  const { edges } = toTree(doc, new Set([DOCUMENT]));
+  expect(edges).toContainEqual({
+    id: `paragraphs/999->${DOCUMENT}`,
+    source: "paragraphs/999",
+    target: DOCUMENT,
+  });
+});
+
 test("opening a section shows what it holds, top to bottom in reading order", () => {
   const { nodes, edges } = toTree(doc, new Set(["sections/3"]));
   const inside = edges.filter((e) => e.target === "sections/3");
@@ -56,7 +87,7 @@ test("opening a section shows what it holds, top to bottom in reading order", ()
 });
 
 test("with everything open, no two cards in a column overlap and each parent sits between its children", () => {
-  const open = new Set(doc.elements.map((e) => e.id));
+  const open = new Set([DOCUMENT, ...doc.elements.map((e) => e.id)]);
   const { nodes, edges } = toTree(doc, open);
   expect(nodes).toHaveLength(doc.elements.length + 1);
   for (const x of new Set(nodes.map((n) => n.position.x))) {
