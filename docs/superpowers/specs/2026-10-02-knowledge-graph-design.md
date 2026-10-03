@@ -11,15 +11,15 @@ the Resolve step, which this graph would otherwise have to model.
 One station, two steps, three operations. Every name below appears identically
 in code, the canvas, URLs and prose.
 
-| Concept              | Name                     | Code                                                 | Frontend                                             |
-| -------------------- | ------------------------ | ---------------------------------------------------- | ---------------------------------------------------- |
-| Station 1            | Requirements engineering | `apps/web`                                           | the whole app                                        |
-| Step 1               | Parse                    | `packages/parse`                                     | first node on the canvas, page `/jobs/:id/parse`     |
-| Step 2               | Annotate                 | `packages/annotate`                                  | second node on the canvas, page `/jobs/:id/annotate` |
-| Parse's operations   | `upload`, `parse`        | `OPERATIONS.parse`                                   | rows inside the Parse node                           |
-| Annotate's operation | `annotate`               | `OPERATIONS.annotate`                                | row inside the Annotate node                         |
-| The knowledge graph  | the knowledge graph      | `packages/knowledge-graph`, AGE graph `dark_factory` | not shown yet                                        |
-| Canvas layout        | the canvas               | `apps/web/lib/canvas.ts` (today `graph.ts`)          | `/jobs/:id`                                          |
+| Concept              | Name                     | Code                                                    | Frontend                                             |
+| -------------------- | ------------------------ | ------------------------------------------------------- | ---------------------------------------------------- |
+| Station 1            | Requirements engineering | `apps/web`                                              | the whole app                                        |
+| Step 1               | Parse                    | `packages/parse`                                        | first node on the canvas, page `/jobs/:id/parse`     |
+| Step 2               | Annotate                 | `packages/annotate`                                     | second node on the canvas, page `/jobs/:id/annotate` |
+| Parse's operations   | `upload`, `parse`        | `OPERATIONS.parse`                                      | rows inside the Parse node                           |
+| Annotate's operation | `annotate`               | `OPERATIONS.annotate`                                   | row inside the Annotate node                         |
+| The knowledge graph  | the knowledge graph      | `packages/knowledge-graph`, AGE graph `knowledge_graph` | not shown yet                                        |
+| Canvas layout        | the canvas               | `apps/web/lib/canvas.ts` (today `graph.ts`)             | `/jobs/:id`                                          |
 
 The knowledge graph is not a step. Steps compute; the knowledge-graph package
 stores, the way Blob does today. Each step's main operation carries the step's
@@ -35,7 +35,7 @@ page shows that step's result to a human.
 | In-memory form    | `ParsedDocument` is already a graph (ids, `parent`, order, spans into `content`). It stays the in-memory form; the package maps it to AGE and back. No second graph type.      |
 | Node labels       | The IEEE 29148 ontology, never the process that produced a node. No `Classification` or `Annotation` label.                                                                    |
 | Provenance        | Every requirement node has a `FROM` edge to the element it was quoted from, with its span. Elements have `IN` edges up to the `Document`.                                      |
-| Graph layout      | One AGE graph `dark_factory`; one `(:Document {jobId})` roots each job's subgraph. No per-job graphs.                                                                          |
+| Graph layout      | One AGE graph `knowledge_graph`; one `(:Document {jobId})` roots each job's subgraph. No per-job graphs.                                                                       |
 | AGE loading       | Belongs to the database, never to app code: `shared_preload_libraries = 'age'` on the server and `search_path` set on the database. The package runs plain `cypher()` SQL.     |
 | Mention detection | Deleted. Nothing consumes it. Entity resolution returns later as its own step with its own eval.                                                                               |
 | Resolve step      | Deleted from the canvas and from `STEPS`.                                                                                                                                      |
@@ -115,7 +115,7 @@ One-time, documented in the web README Setup, both local and Azure:
 1. `shared_preload_libraries = 'age'` on the server (Azure already has it).
 2. `ALTER DATABASE motivus_dev SET search_path = ag_catalog, "$user", public;`
 
-One hand-written Drizzle migration: `SELECT create_graph('dark_factory');`.
+One hand-written Drizzle migration: `SELECT create_graph('knowledge_graph');`.
 The extension already exists on both servers; the migration does not create it.
 
 ## Workflow and operations

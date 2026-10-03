@@ -13,16 +13,16 @@ are `classify`, `mentions`, `validate`.
 
 ## Decisions
 
-| Topic | Decision |
-|---|---|
-| Trigger | Automatic. Annotate's operations run in the same workflow right after Parse's `build`. |
-| Granularity | Three operations: `classify` and `mentions` (one model task each, all chunks), `validate` (code). |
-| Parse `publish` | Removed. It only set the job to done; the job is done when the last step's last operation finishes. |
-| Rows | The create handler inserts all six operation rows up front, `upload` done, the rest pending, so the canvas shows the whole line from the start. |
-| Job status | `running` from workflow start, `done` after `validate`, `failed` on any exhausted throw. |
-| Annotate package | Same refactor as Parse: model calls stop writing files; the CLI composes the pieces and keeps writing `<outDir>/<sha256>/annotate/…`. |
-| Prompts | The two markdown prompts ship with the built package and the web app loads the package unbundled (`serverExternalPackages`), so `import.meta.url` reads keep working. |
-| Eval | The annotate integration test is the eval and needs the human-written `packages/annotate/test/fixtures/expected.json`, which does not exist yet. This task adds orchestration, not AI behavior; the PR states the eval status plainly. |
+| Topic            | Decision                                                                                                                                                                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Trigger          | Automatic. Annotate's operations run in the same workflow right after Parse's `build`.                                                                                                                                                 |
+| Granularity      | Three operations: `classify` and `mentions` (one model task each, all chunks), `validate` (code).                                                                                                                                      |
+| Parse `publish`  | Removed. It only set the job to done; the job is done when the last step's last operation finishes.                                                                                                                                    |
+| Rows             | The create handler inserts all six operation rows up front, `upload` done, the rest pending, so the canvas shows the whole line from the start.                                                                                        |
+| Job status       | `running` from workflow start, `done` after `validate`, `failed` on any exhausted throw.                                                                                                                                               |
+| Annotate package | Same refactor as Parse: model calls stop writing files; the CLI composes the pieces and keeps writing `<outDir>/<sha256>/annotate/…`.                                                                                                  |
+| Prompts          | The two markdown prompts ship with the built package and the web app loads the package unbundled (`serverExternalPackages`), so `import.meta.url` reads keep working.                                                                  |
+| Eval             | The annotate integration test is the eval and needs the human-written `packages/annotate/test/fixtures/expected.json`, which does not exist yet. This task adds orchestration, not AI behavior; the PR states the eval status plainly. |
 
 ## Package refactor
 

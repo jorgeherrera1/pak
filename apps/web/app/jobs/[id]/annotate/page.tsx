@@ -1,14 +1,11 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { AnnotateResult } from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
-import { getBlob } from "@/lib/blob";
-import { db, isUuid, jobs } from "@/lib/db";
+import { readDocument, readRequirements } from "@dark-factory/knowledge-graph";
+import { db, isUuid, jobs, operations } from "@/lib/db";
 import { AnnotateReader } from "./annotate-reader";
 
-// The document as Annotate read it: parsed.json with annotate.json laid over it.
-// Reads parsed.json straight from blob on the server: the job is done by the time this page has a link to it.
+// The document as Annotate read it, with its requirements laid over it, both from the knowledge graph.
 export default async function Page({
   params,
 }: {
@@ -17,15 +14,23 @@ export default async function Page({
   const { id } = await params;
   if (!isUuid(id)) notFound();
   const [job] = await db.select().from(jobs).where(eq(jobs.id, id));
-  const [blob, annBlob] = job
-    ? await Promise.all([
-        getBlob(`${id}/parsed.json`),
-        getBlob(`${id}/annotate.json`),
-      ])
-    : [];
-  if (!job || !blob || !annBlob) notFound();
-  const doc = JSON.parse(blob.toString("utf8")) as ParsedDocument;
-  const ann = JSON.parse(annBlob.toString("utf8")) as AnnotateResult;
+  if (!job) notFound();
+  const [doc, classifications, [op]] = await Promise.all([
+    readDocument(id),
+    readRequirements(id),
+    db
+      .select()
+      .from(operations)
+      .where(
+        and(
+          eq(operations.jobId, id),
+          eq(operations.step, "annotate"),
+          eq(operations.name, "annotate"),
+        ),
+      ),
+  ]);
+  if (!doc || op?.status !== "done") notFound();
+  const ann = { classifications, warnings: op.warnings ?? [] };
   return (
     <main className="flex min-h-screen flex-col">
       <header className="flex items-center gap-5 border-b bg-card px-8 py-4">
@@ -39,7 +44,7 @@ export default async function Page({
         <div className="flex flex-col">
           <span className="font-display text-sm font-bold">{job.filename}</span>
           <span className="text-xs text-muted-foreground">
-            Annotate · {ann.classifications.length} classifications ·{" "}
+            Annotate · {ann.classifications.length} requirements ·{" "}
             {ann.warnings.length} warnings
           </span>
         </div>
@@ -49,12 +54,6 @@ export default async function Page({
         >
           Parse
         </Link>
-        <a
-          href={`/api/jobs/${id}/artifacts/annotate.json`}
-          className="text-sm font-bold text-primary hover:text-action-hover"
-        >
-          annotate.json
-        </a>
       </header>
       <AnnotateReader
         doc={doc}

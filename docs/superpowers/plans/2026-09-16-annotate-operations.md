@@ -27,31 +27,33 @@
 
 ## File structure
 
-| File | Responsibility |
-|---|---|
-| `packages/annotate/src/annotate.ts` | `runClassify`, `runMentions` (model calls, no IO); `annotate(doc, outDir)` for the CLI. |
-| `packages/annotate/src/index.ts` | Exports `annotate`, `runClassify`, `runMentions`, `chunk`, `anchors`, `validate`, types. |
-| `packages/annotate/package.json` | `build` copies `src/*.md` into `dist/`. |
-| `scripts/pipeline.mts` | Reads `classifications`/`mentions` from the result. |
-| `apps/web/lib/operations.ts` | `OPERATIONS` per step, `initialOperations(jobId)`, `setOperation`, `runOperation` (step-aware). |
-| `apps/web/test/operations.test.ts` | Tests for `initialOperations` and `runOperation`. |
-| `apps/web/workflows/job.ts` | `runJob(jobId)`: Parse's `analyze`, `build`, then Annotate's `classify` + `mentions` in parallel, then `validate`. Replaces `workflows/parse.ts`. |
-| `apps/web/app/api/jobs/route.ts` | Inserts `initialOperations(id)`, starts `runJob`. |
-| `apps/web/app/api/jobs/[id]/artifacts/[...path]/route.ts` | Allowlist gains the three annotate shapes. |
-| `apps/web/instrumentation.ts` | Asserts `AZURE_API_KEY` too. |
-| `apps/web/next.config.ts` | `serverExternalPackages: ["@dark-factory/annotate"]`. |
-| `apps/web/test/parse-job.integration.test.ts` | Six operations, `annotate.json`, 300 s timeout. |
-| `apps/web/README.md`, `AGENTS.md` | Annotate operations and env var mentioned. |
+| File                                                      | Responsibility                                                                                                                                    |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `packages/annotate/src/annotate.ts`                       | `runClassify`, `runMentions` (model calls, no IO); `annotate(doc, outDir)` for the CLI.                                                           |
+| `packages/annotate/src/index.ts`                          | Exports `annotate`, `runClassify`, `runMentions`, `chunk`, `anchors`, `validate`, types.                                                          |
+| `packages/annotate/package.json`                          | `build` copies `src/*.md` into `dist/`.                                                                                                           |
+| `scripts/pipeline.mts`                                    | Reads `classifications`/`mentions` from the result.                                                                                               |
+| `apps/web/lib/operations.ts`                              | `OPERATIONS` per step, `initialOperations(jobId)`, `setOperation`, `runOperation` (step-aware).                                                   |
+| `apps/web/test/operations.test.ts`                        | Tests for `initialOperations` and `runOperation`.                                                                                                 |
+| `apps/web/workflows/job.ts`                               | `runJob(jobId)`: Parse's `analyze`, `build`, then Annotate's `classify` + `mentions` in parallel, then `validate`. Replaces `workflows/parse.ts`. |
+| `apps/web/app/api/jobs/route.ts`                          | Inserts `initialOperations(id)`, starts `runJob`.                                                                                                 |
+| `apps/web/app/api/jobs/[id]/artifacts/[...path]/route.ts` | Allowlist gains the three annotate shapes.                                                                                                        |
+| `apps/web/instrumentation.ts`                             | Asserts `AZURE_API_KEY` too.                                                                                                                      |
+| `apps/web/next.config.ts`                                 | `serverExternalPackages: ["@dark-factory/annotate"]`.                                                                                             |
+| `apps/web/test/parse-job.integration.test.ts`             | Six operations, `annotate.json`, 300 s timeout.                                                                                                   |
+| `apps/web/README.md`, `AGENTS.md`                         | Annotate operations and env var mentioned.                                                                                                        |
 
 ---
 
 ### Task 1: Annotate package: model calls return output, CLI writes files
 
 **Files:**
+
 - Modify: `packages/annotate/src/annotate.ts`, `packages/annotate/src/index.ts`, `packages/annotate/package.json`, `scripts/pipeline.mts`
 - Test: existing `packages/annotate/test/*.test.ts` (unchanged, must stay green)
 
 **Interfaces:**
+
 - Produces, from `@dark-factory/annotate`: `runClassify(text: string): Promise<ModelOutput["classifications"]>`, `runMentions(text: string): Promise<ModelOutput["mentions"]>`, `chunk(doc: ParsedDocument): string[]`, `anchors(doc: ParsedDocument): Map<string, Span[]>`, `validate(output: ModelOutput, anchors, content): AnnotateResult`, types `ModelOutput`, `AnnotateResult`, `Classification`, `Mention`. `annotate(doc, outDir)` unchanged in signature and files written.
 
 - [ ] **Step 1: Split the model call out of `annotate()`**
@@ -93,7 +95,10 @@ export async function annotate(
   for (const t of Object.keys(TASKS))
     await mkdir(join(dir, "annotate", t), { recursive: true });
   const write = (t: string, i: number, data: unknown) =>
-    writeFile(join(dir, "annotate", t, `${i}.json`), JSON.stringify(data, null, 2));
+    writeFile(
+      join(dir, "annotate", t, `${i}.json`),
+      JSON.stringify(data, null, 2),
+    );
   // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
   const outputs = await Promise.all(
     chunk(doc).map(async (text, i) => {
@@ -176,10 +181,12 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ### Task 2: Step-aware operations and six rows per job
 
 **Files:**
+
 - Modify: `apps/web/lib/operations.ts`, `apps/web/app/api/jobs/route.ts`
 - Test: `apps/web/test/operations.test.ts`
 
 **Interfaces:**
+
 - Produces:
 
 ```ts
@@ -189,9 +196,23 @@ export const OPERATIONS = {
 } as const;
 export type StepName = keyof typeof OPERATIONS;
 export type OperationName = (typeof OPERATIONS)[StepName][number];
-export function initialOperations(jobId: string, now: Date): (typeof operations.$inferInsert)[];
-export async function setOperation(jobId: string, step: StepName, name: OperationName, patch: OperationPatch): Promise<void>;
-export async function runOperation<T>(jobId: string, step: StepName, name: OperationName, fn: () => Promise<T>, set = setOperation): Promise<T>;
+export function initialOperations(
+  jobId: string,
+  now: Date,
+): (typeof operations.$inferInsert)[];
+export async function setOperation(
+  jobId: string,
+  step: StepName,
+  name: OperationName,
+  patch: OperationPatch,
+): Promise<void>;
+export async function runOperation<T>(
+  jobId: string,
+  step: StepName,
+  name: OperationName,
+  fn: () => Promise<T>,
+  set = setOperation,
+): Promise<T>;
 ```
 
 - [ ] **Step 1: Failing tests**
@@ -208,7 +229,12 @@ import {
 
 const recorder = () => {
   const calls: { step: string; name: string; patch: OperationPatch }[] = [];
-  const set = async (_job: string, step: string, name: string, patch: OperationPatch) => {
+  const set = async (
+    _job: string,
+    step: string,
+    name: string,
+    patch: OperationPatch,
+  ) => {
     calls.push({ step, name, patch });
   };
   return { calls, set };
@@ -225,13 +251,23 @@ test("initialOperations lists every operation of every step, upload done", () =>
     ["annotate", "mentions", 1, "pending"],
     ["annotate", "validate", 2, "pending"],
   ]);
-  expect(rows[0]).toMatchObject({ jobId: "j", startedAt: now, finishedAt: now });
+  expect(rows[0]).toMatchObject({
+    jobId: "j",
+    startedAt: now,
+    finishedAt: now,
+  });
   expect(rows[1]?.startedAt).toBeNull();
 });
 
 test("marks running then done and returns the value", async () => {
   const { calls, set } = recorder();
-  const out = await runOperation("j", "annotate", "classify", async () => 42, set);
+  const out = await runOperation(
+    "j",
+    "annotate",
+    "classify",
+    async () => 42,
+    set,
+  );
   expect(out).toBe(42);
   expect(calls.map((c) => [c.step, c.name, c.patch.status])).toEqual([
     ["annotate", "classify", "running"],
@@ -244,7 +280,15 @@ test("marks running then done and returns the value", async () => {
 test("marks failed with the message and rethrows", async () => {
   const { calls, set } = recorder();
   await expect(
-    runOperation("j", "parse", "analyze", async () => { throw new Error("boom"); }, set),
+    runOperation(
+      "j",
+      "parse",
+      "analyze",
+      async () => {
+        throw new Error("boom");
+      },
+      set,
+    ),
   ).rejects.toThrow("boom");
   expect(calls[1]?.patch).toMatchObject({ status: "failed", error: "boom" });
 });
@@ -266,7 +310,10 @@ export const OPERATIONS = {
 export type StepName = keyof typeof OPERATIONS;
 export type OperationName = (typeof OPERATIONS)[StepName][number];
 export type OperationPatch = Partial<
-  Pick<typeof operations.$inferInsert, "status" | "error" | "startedAt" | "finishedAt">
+  Pick<
+    typeof operations.$inferInsert,
+    "status" | "error" | "startedAt" | "finishedAt"
+  >
 >;
 
 /** The rows a new job starts with: upload already done by the create handler, everything else pending. */
@@ -296,7 +343,13 @@ export async function setOperation(
   await db
     .update(operations)
     .set(patch)
-    .where(and(eq(operations.jobId, jobId), eq(operations.step, step), eq(operations.name, name)));
+    .where(
+      and(
+        eq(operations.jobId, jobId),
+        eq(operations.step, step),
+        eq(operations.name, name),
+      ),
+    );
 }
 
 /** Runs one operation body and records running, done, or failed around it. Rethrows so the SDK can retry. */
@@ -307,14 +360,22 @@ export async function runOperation<T>(
   fn: () => Promise<T>,
   set: typeof setOperation = setOperation,
 ): Promise<T> {
-  await set(jobId, step, name, { status: "running", startedAt: new Date(), error: null });
+  await set(jobId, step, name, {
+    status: "running",
+    startedAt: new Date(),
+    error: null,
+  });
   try {
     const out = await fn();
     await set(jobId, step, name, { status: "done", finishedAt: new Date() });
     return out;
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
-    await set(jobId, step, name, { status: "failed", finishedAt: new Date(), error });
+    await set(jobId, step, name, {
+      status: "failed",
+      finishedAt: new Date(),
+      error,
+    });
     throw err;
   }
 }
@@ -354,11 +415,13 @@ Expected: `npm test -w apps/web` shows 3 operations tests plus the existing uplo
 ### Task 3: `runJob`: Parse then Annotate operations
 
 **Files:**
+
 - Create: `apps/web/workflows/job.ts` (moved from `workflows/parse.ts`, which is deleted)
 - Modify: `apps/web/app/api/jobs/route.ts` (import), `apps/web/app/api/jobs/[id]/artifacts/[...path]/route.ts`, `apps/web/instrumentation.ts`, `apps/web/next.config.ts`, `apps/web/package.json` (dependency)
 - Test: `apps/web/test/parse-job.integration.test.ts`
 
 **Interfaces:**
+
 - Consumes: `runClassify`, `runMentions`, `chunk`, `anchors`, `validate`, `ModelOutput` from `@dark-factory/annotate` (Task 1); `runOperation(jobId, step, name, fn)` (Task 2); `getBlob`, `putBlob`; `FatalError`.
 - Produces: `runJob(jobId: string)`, a `"use workflow"` function.
 
@@ -390,7 +453,11 @@ export default withWorkflow(nextConfig);
 `git mv apps/web/workflows/parse.ts apps/web/workflows/job.ts`, then make the file:
 
 ```ts
-import { analyze, toParsedDocument, type ParsedDocument } from "@dark-factory/parse";
+import {
+  analyze,
+  toParsedDocument,
+  type ParsedDocument,
+} from "@dark-factory/parse";
 import {
   anchors,
   chunk,
@@ -441,7 +508,9 @@ async function buildOperation(jobId: string) {
   return runOperation(jobId, "parse", "build", async () => {
     const [job] = await db.select().from(jobs).where(eq(jobs.id, jobId));
     if (!job) throw new FatalError("job missing");
-    const result = await readJson<AnalyzeResultOutput>(`${jobId}/analysis.json`);
+    const result = await readJson<AnalyzeResultOutput>(
+      `${jobId}/analysis.json`,
+    );
     const doc = toParsedDocument(result, job.sha256);
     await putBlob(`${jobId}/parsed.json`, json(doc), "application/json");
     return { elements: doc.elements.length, warnings: doc.warnings.length };
@@ -457,7 +526,11 @@ async function classifyOperation(jobId: string) {
     await Promise.all(
       chunks.map(async (text, i) => {
         const rows = await runClassify(text);
-        await putBlob(`${jobId}/annotate/classify/${i}.json`, json(rows), "application/json");
+        await putBlob(
+          `${jobId}/annotate/classify/${i}.json`,
+          json(rows),
+          "application/json",
+        );
       }),
     );
     return { chunks: chunks.length };
@@ -472,7 +545,11 @@ async function mentionsOperation(jobId: string) {
     await Promise.all(
       chunks.map(async (text, i) => {
         const rows = await runMentions(text);
-        await putBlob(`${jobId}/annotate/mentions/${i}.json`, json(rows), "application/json");
+        await putBlob(
+          `${jobId}/annotate/mentions/${i}.json`,
+          json(rows),
+          "application/json",
+        );
       }),
     );
     return { chunks: chunks.length };
@@ -486,8 +563,20 @@ async function validateOperation(jobId: string) {
     const n = chunk(doc).length;
     const indexes = Array.from({ length: n }, (_, i) => i);
     const [classifications, mentions] = await Promise.all([
-      Promise.all(indexes.map((i) => readJson<ModelOutput["classifications"]>(`${jobId}/annotate/classify/${i}.json`))),
-      Promise.all(indexes.map((i) => readJson<ModelOutput["mentions"]>(`${jobId}/annotate/mentions/${i}.json`))),
+      Promise.all(
+        indexes.map((i) =>
+          readJson<ModelOutput["classifications"]>(
+            `${jobId}/annotate/classify/${i}.json`,
+          ),
+        ),
+      ),
+      Promise.all(
+        indexes.map((i) =>
+          readJson<ModelOutput["mentions"]>(
+            `${jobId}/annotate/mentions/${i}.json`,
+          ),
+        ),
+      ),
     ]);
     const result = validate(
       { classifications: classifications.flat(), mentions: mentions.flat() },
@@ -591,6 +680,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ### Task 4: Docs, full gates, PR
 
 **Files:**
+
 - Modify: `apps/web/README.md`, `AGENTS.md`
 
 - [ ] **Step 1: Docs**

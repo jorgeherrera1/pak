@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vitest";
 import type { ParsedDocument } from "@dark-factory/parse";
+import { readDocument, readRequirements } from "@dark-factory/knowledge-graph";
 
 const env = fileURLToPath(new URL("../../../.env", import.meta.url));
 if (existsSync(env)) process.loadEnvFile(env);
@@ -36,7 +37,12 @@ test(
     let job: {
       status: string;
       error: string | null;
-      operations: { step: string; name: string; status: string }[];
+      operations: {
+        step: string;
+        name: string;
+        status: string;
+        warnings: string[] | null;
+      }[];
     };
     do {
       await new Promise((r) => setTimeout(r, 2000));
@@ -47,24 +53,21 @@ test(
     expect(job.status).toBe("done");
     expect(job.operations.map((o) => [o.step, o.name, o.status])).toEqual([
       ["parse", "upload", "done"],
-      ["parse", "analyze", "done"],
-      ["parse", "build", "done"],
+      ["parse", "parse", "done"],
       ["annotate", "annotate", "done"],
     ]);
+    // Grounding warnings live on the annotate operation row, as a list even when empty.
+    expect(Array.isArray(job.operations[2]?.warnings)).toBe(true);
 
-    const parsed: ParsedDocument = await (
-      await fetch(`${base}/api/jobs/${id}/artifacts/parsed.json`)
-    ).json();
+    const parsed = await readDocument(id);
     // Azure OCR is not byte-stable (stray glyphs differ between calls), so exact text
     // is parse's integration test's concern; here the structure and identity must match.
-    expect(parsed.source.pages).toBe(golden.source.pages);
-    expect(parsed.elements.length).toBe(golden.elements.length);
-    expect(parsed.source.sha256).toBe(golden.source.sha256);
+    expect(parsed?.source.pages).toBe(golden.source.pages);
+    expect(parsed?.elements.length).toBe(golden.elements.length);
+    expect(parsed?.source.sha256).toBe(golden.source.sha256);
 
-    const annotated = (await (
-      await fetch(`${base}/api/jobs/${id}/artifacts/annotate.json`)
-    ).json()) as { classifications: unknown[] };
-    expect(annotated.classifications.length).toBeGreaterThan(0);
+    const requirements = await readRequirements(id);
+    expect(requirements.length).toBeGreaterThan(0);
   },
 );
 

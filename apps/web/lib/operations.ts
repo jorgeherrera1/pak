@@ -3,7 +3,7 @@ import { db, operations } from "./db";
 
 /** Every step's operations, in assembly-line order. Only this file knows them. */
 export const OPERATIONS = {
-  parse: ["upload", "analyze", "build"],
+  parse: ["upload", "parse"],
   annotate: ["annotate"],
 } as const;
 export type StepName = keyof typeof OPERATIONS;
@@ -11,7 +11,7 @@ export type OperationName = (typeof OPERATIONS)[StepName][number];
 export type OperationPatch = Partial<
   Pick<
     typeof operations.$inferInsert,
-    "status" | "error" | "startedAt" | "finishedAt"
+    "status" | "error" | "warnings" | "startedAt" | "finishedAt"
   >
 >;
 

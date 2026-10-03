@@ -23,8 +23,7 @@ test("initialOperations lists every operation of every step, upload done", () =>
   const rows = initialOperations("j", now);
   expect(rows.map((r) => [r.step, r.name, r.position, r.status])).toEqual([
     ["parse", "upload", 0, "done"],
-    ["parse", "analyze", 1, "pending"],
-    ["parse", "build", 2, "pending"],
+    ["parse", "parse", 1, "pending"],
     ["annotate", "annotate", 0, "pending"],
   ]);
   expect(rows[0]).toMatchObject({
@@ -59,7 +58,7 @@ test("marks failed with the message and rethrows", async () => {
     runOperation(
       "j",
       "parse",
-      "analyze",
+      "parse",
       async () => {
         throw new Error("boom");
       },

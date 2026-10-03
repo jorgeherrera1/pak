@@ -2,7 +2,7 @@ import { streamBlob } from "@/lib/blob";
 import { isUuid } from "@/lib/db";
 
 const ALLOWED =
-  /^(source\.pdf|analysis\.json|parsed\.json|annotate\.json|figures\/[\w.-]+\.png)$/;
+  /^(source\.pdf|figures\/[\w.-]+\.png)$/;
 
 export async function GET(
   _req: Request,

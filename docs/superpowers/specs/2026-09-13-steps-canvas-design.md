@@ -43,14 +43,14 @@ Above the canvas: filename, size, and the job's `error` when the job failed.
 
 ## Components
 
-| Where | What |
-|---|---|
+| Where                                                        | What                                                                                                                         |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
 | `packages/ui/src/components/{canvas,node,edge,controls}.tsx` | ai-elements components installed through the package's existing shadcn setup (`components.json`); brings in `@xyflow/react`. |
-| `apps/web/lib/graph.ts` | `toGraph(job)`: pure, job response in, `{ nodes, edges }` out. Unit tested. |
-| `apps/web/app/jobs/[id]/page.tsx` | Server page that renders the client canvas with the id. |
-| `apps/web/app/jobs/[id]/use-job.ts` | Polling hook: `{ job, error }`. |
-| `apps/web/app/jobs/[id]/steps-canvas.tsx` | Client component: header plus canvas from `toGraph`. |
-| `apps/web/app/intake.tsx` | Single file, submit handler, inline error. |
+| `apps/web/lib/graph.ts`                                      | `toGraph(job)`: pure, job response in, `{ nodes, edges }` out. Unit tested.                                                  |
+| `apps/web/app/jobs/[id]/page.tsx`                            | Server page that renders the client canvas with the id.                                                                      |
+| `apps/web/app/jobs/[id]/use-job.ts`                          | Polling hook: `{ job, error }`.                                                                                              |
+| `apps/web/app/jobs/[id]/steps-canvas.tsx`                    | Client component: header plus canvas from `toGraph`.                                                                         |
+| `apps/web/app/intake.tsx`                                    | Single file, submit handler, inline error.                                                                                   |
 
 The step list `["parse", "annotate", "resolve"]` and their labels live in
 `graph.ts`; nothing else knows the step names.
