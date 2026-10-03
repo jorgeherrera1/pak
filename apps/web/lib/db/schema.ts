@@ -40,6 +40,7 @@ export const operations = darkFactory.table(
       .notNull()
       .default("pending"),
     error: text("error"),
+    warnings: text("warnings").array(),
     startedAt: timestamp("started_at", { withTimezone: true }),
     finishedAt: timestamp("finished_at", { withTimezone: true }),
   },

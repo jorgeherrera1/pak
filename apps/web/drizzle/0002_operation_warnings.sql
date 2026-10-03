@@ -1,0 +1,1 @@
+ALTER TABLE "dark_factory"."operations" ADD COLUMN "warnings" text[];
