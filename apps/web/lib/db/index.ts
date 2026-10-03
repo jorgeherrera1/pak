@@ -1,7 +1,6 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import * as schema from "./schema";
 
-export const db = drizzle(process.env.WORKFLOW_POSTGRES_URL!, { schema });
+export const db = drizzle({ connection: process.env.WORKFLOW_POSTGRES_URL! });
 export { jobs, operations } from "./schema";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
