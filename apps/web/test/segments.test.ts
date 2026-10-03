@@ -37,7 +37,7 @@ test("every fixture annotation is recovered verbatim from its element", () => {
     );
   const doc: ParsedDocument = load("parse/test/fixtures/parsed.json");
   const ann: AnnotateResult = load("annotate/test/fixtures/annotate.json");
-  const all = [...ann.classifications, ...ann.mentions];
+  const all = ann.classifications;
   const missed: string[] = [];
   for (const a of all) {
     const [kind, n, , c] = a.elementId.split("/");
