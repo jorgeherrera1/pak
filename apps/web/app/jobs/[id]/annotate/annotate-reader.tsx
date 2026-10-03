@@ -136,7 +136,7 @@ export function AnnotateReader({
 }) {
   /** Layers whose occurrences are folded away; everything starts open. */
   const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
-  /** What is switched off: layer keys ("m:catalogue") and single mark ids ("a5"). */
+  /** What is switched off: layer keys ("c:feature") and single mark ids ("a5"). */
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
 
