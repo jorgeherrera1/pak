@@ -10,14 +10,11 @@ import { ChevronRight } from "lucide-react";
 import { cn } from "@dark-factory/ui/lib/utils";
 import { CARD, type TreeNodeData } from "@/lib/parse-tree";
 
-export type ElementNodeData = TreeNodeData & {
-  selected: boolean;
-  onToggle: () => void;
-};
+export type ElementNodeData = TreeNodeData & { onToggle: () => void };
 export type ElementFlowNode = FlowNode<ElementNodeData, "element">;
 
 /** One card in the tree. IN edges leave a child on its left and arrive at its parent on the right. */
-export function ElementNode({ data }: NodeProps<ElementFlowNode>) {
+export function ElementNode({ data, selected }: NodeProps<ElementFlowNode>) {
   const heading = data.kind === "document" || data.kind === "section";
   return (
     <div
@@ -26,7 +23,7 @@ export function ElementNode({ data }: NodeProps<ElementFlowNode>) {
         "flex cursor-pointer items-center gap-2 rounded-sm border bg-card px-3 text-sm",
         data.kind === "document" &&
           "border-foreground bg-foreground text-background",
-        data.selected && "border-2 border-primary bg-secondary text-foreground",
+        selected && "border-2 border-primary bg-secondary text-foreground",
       )}
     >
       <Handle
@@ -46,7 +43,7 @@ export function ElementNode({ data }: NodeProps<ElementFlowNode>) {
           title={data.caption}
           className={cn(
             "truncate text-[11px]",
-            data.kind === "document" && !data.selected
+            data.kind === "document" && !selected
               ? "opacity-70"
               : "text-muted-foreground",
           )}
