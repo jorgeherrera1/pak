@@ -28,8 +28,14 @@ Next.js loads `.env` from `apps/web`, so for local dev symlink the root file:
 
 ## Setup
 
+Results live in the knowledge graph, an Apache AGE graph named `knowledge_graph` in the same
+database (AGE gives it a schema of that name). AGE must be loaded by the server, not by the app:
+set `shared_preload_libraries = 'age'` in `postgresql.conf` (the Azure dev server already has it)
+and restart before the steps below.
+
 ```bash
 createdb motivus_dev
+psql motivus_dev -c 'CREATE EXTENSION IF NOT EXISTS age' -c 'ALTER DATABASE motivus_dev SET search_path = ag_catalog, "$user", public'
 az storage container create --name jobs --connection-string "$AZURE_STORAGE_CONNECTION_STRING"
 npx --package=@workflow/world-postgres bootstrap
 npm run db:migrate -w apps/web
@@ -40,16 +46,8 @@ migrations in `apps/web/drizzle/` (after a schema change: `npm run db:generate -
 commit the new file, then `db:migrate`). The SDK's bootstrap creates its
 own schemas there too: `workflow`, `workflow_drizzle`, and `graphile_worker`.
 
-Results live in the knowledge graph, an Apache AGE graph named `knowledge_graph` in the same
-database (AGE gives it a schema of that name). AGE must be loaded by the server, not by the app:
-set `shared_preload_libraries = 'age'` in `postgresql.conf` (the Azure dev server already has it)
-and restart, then once per database:
-
-```sql
-ALTER DATABASE motivus_dev SET search_path = ag_catalog, "$user", public;
-```
-
-The migration creates the graph; the extension must already exist (`CREATE EXTENSION age`).
+The migration `0001_knowledge_graph` creates the graph; it needs the extension and the
+search_path from the `psql` line above.
 
 ## Run
 

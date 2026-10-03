@@ -32,14 +32,14 @@ test("step status derivation", () => {
 
 test("two step nodes in order, parse carrying its operations", () => {
   const { nodes } = toCanvas(
-    job([op("upload", "done"), op("analyze", "running", null)]),
+    job([op("upload", "done"), op("parse", "running", null)]),
   );
   expect(nodes.map((n) => n.id)).toEqual(["parse", "annotate"]);
   expect(nodes.map((n) => n.data.label)).toEqual(["Parse", "Annotate"]);
   expect(nodes[0]?.data.status).toBe("running");
   expect(nodes[0]?.data.operations.map((o) => o.name)).toEqual([
     "upload",
-    "analyze",
+    "parse",
   ]);
   expect(nodes[1]?.data.operations).toEqual([]);
   expect(nodes[1]?.data.status).toBe("pending");
@@ -53,15 +53,15 @@ test("two step nodes in order, parse carrying its operations", () => {
 test("operations are ordered by position and keep their error", () => {
   const { nodes } = toCanvas(
     job([
-      { ...op("build", "failed", "boom"), position: 2 },
+      { ...op("parse", "failed", "boom"), position: 2 },
       { ...op("upload", "done"), position: 0 },
-      { ...op("analyze", "done"), position: 1 },
+      { ...op("parse", "done"), position: 1 },
     ]),
   );
   expect(nodes[0]?.data.operations.map((o) => o.name)).toEqual([
     "upload",
-    "analyze",
-    "build",
+    "parse",
+    "parse",
   ]);
   expect(nodes[0]?.data.operations[2]?.error).toBe("boom");
   expect(nodes[0]?.data.status).toBe("failed");
@@ -79,13 +79,13 @@ test("the edge into a running step is animated, others plain", () => {
 });
 
 test("a node links to its reader only once every one of its operations is done", () => {
-  const done = toCanvas(job([op("upload", "done"), op("build", "done")]));
+  const done = toCanvas(job([op("upload", "done"), op("parse", "done")]));
   expect(done.nodes[0]?.data.href).toBe("/jobs/j/parse");
   expect(done.nodes[1]?.data.href).toBeUndefined();
-  const running = toCanvas(job([op("upload", "done"), op("build", "running")]));
+  const running = toCanvas(job([op("upload", "done"), op("parse", "running")]));
   expect(running.nodes[0]?.data.href).toBeUndefined();
   const annotated = toCanvas(
-    job([op("build", "done"), { ...op("annotate", "done"), step: "annotate" }]),
+    job([op("parse", "done"), { ...op("annotate", "done"), step: "annotate" }]),
   );
   expect(annotated.nodes[1]?.data.href).toBe("/jobs/j/annotate");
 });
