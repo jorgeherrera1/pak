@@ -1,3 +1,7 @@
+import type {
+  Classification,
+  ClassificationType,
+} from "@dark-factory/annotate";
 import type { Cell, Element, ParsedDocument } from "@dark-factory/parse";
 import pg from "pg";
 
@@ -169,4 +173,76 @@ export async function readDocument(
       if (el.kind === "table") el.cells = cells.get(el.id) ?? [];
     return { source: { sha256, pages }, content, elements, warnings };
   });
+}
+
+/** "non-functional-requirement" → "NonFunctionalRequirement", and back. The ontology names the labels. */
+const toLabel = (type: string) =>
+  type.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase());
+const toType = (label: string) =>
+  label
+    .replace(/(?<!^)[A-Z]/g, (c) => `-${c}`)
+    .toLowerCase() as ClassificationType;
+
+/** Replaces the job's requirement nodes: one node per row, labeled by its type, with a FROM edge to the element it was quoted from. */
+export async function writeRequirements(
+  jobId: string,
+  rows: Classification[],
+): Promise<void> {
+  const byLabel = new Map<string, Row[]>();
+  for (const c of rows) {
+    const label = toLabel(c.type);
+    // Flat, with the element id alongside the node's own properties: AGE's SET takes a whole map, not a nested one.
+    const row: Row = {
+      elementId: c.elementId,
+      jobId,
+      id: c.id,
+      text: c.text,
+      span: c.span,
+    };
+    if (c.category) row.category = c.category;
+    byLabel.set(label, [...(byLabel.get(label) ?? []), row]);
+  }
+  await transaction(async (client) => {
+    await cypher(
+      client,
+      `MATCH (r {jobId: $jobId})-[:FROM]->() DETACH DELETE r`,
+      { jobId },
+    );
+    for (const [label, list] of byLabel)
+      await cypher(
+        client,
+        `UNWIND $rows AS r MATCH (e {jobId: $jobId, id: r.elementId}) CREATE (n:${label})-[:FROM]->(e) SET n = r REMOVE n.elementId`,
+        { jobId, rows: list },
+      );
+  });
+}
+
+/** The job's requirements in id order, each with the id of the element it came FROM. */
+export async function readRequirements(
+  jobId: string,
+): Promise<Classification[]> {
+  const rows = await transaction((client) =>
+    cypher<[string, Row, string]>(
+      client,
+      `MATCH (r {jobId: $jobId})-[:FROM]->(e) RETURN label(r), properties(r), e.id`,
+      { jobId },
+      ["label", "props", "elementId"],
+    ),
+  );
+  return rows
+    .map(([label, props, elementId]) => {
+      const { id, text, span, category } = props as Pick<
+        Classification,
+        "id" | "text" | "span" | "category"
+      >;
+      return {
+        id,
+        type: toType(label),
+        elementId,
+        span,
+        text,
+        ...(category && { category }),
+      };
+    })
+    .sort((a, b) => parseInt(a.id.slice(1)) - parseInt(b.id.slice(1)));
 }
