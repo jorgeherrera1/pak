@@ -3,6 +3,7 @@
 import type { Element, ParsedDocument } from "@dark-factory/parse";
 import { ChevronRight, X } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@dark-factory/ui/lib/utils";
 import { useMemo, type ReactNode } from "react";
 import { bounds, pageOutlines, type Outline } from "@/lib/page-outline";
 import { childrenOf, DOCUMENT, holds, label, subtree } from "@/lib/parse-tree";
@@ -129,7 +130,12 @@ export function ElementPanel({
             )}
           </Facts>
           {outlines.map((o) => (
-            <PageOutline key={o.page} outline={o} id={e.id} />
+            <PageOutline
+              key={o.page}
+              outline={o}
+              id={e.id}
+              figureBase={`/api/jobs/${jobId}/artifacts/`}
+            />
           ))}
         </section>
       )}
@@ -203,42 +209,61 @@ function Fact({ term, children }: { term: string; children: ReactNode }) {
   );
 }
 
-/** Every paragraph, table and figure on the page as a box, the selection's filled in. */
-function PageOutline({ outline, id }: { outline: Outline; id: string }) {
+/** The page rebuilt from the parse: every element's text or image in the box it was found in, the selection highlighted. */
+function PageOutline({
+  outline,
+  id,
+  figureBase,
+}: {
+  outline: Outline;
+  id: string;
+  figureBase: string;
+}) {
   const { frame } = outline;
-  // Marked last, so they paint over their neighbours.
-  const boxes = [...outline.boxes].sort(
-    (a, b) => Number(a.marked) - Number(b.marked),
-  );
+  const pct = (n: number, of: number) => `${(n / of) * 100}%`;
   return (
     <figure className="flex flex-col gap-2">
       <figcaption className="text-xs text-muted-foreground">
         Page {outline.page}
       </figcaption>
-      <svg
+      <div
         role="img"
         aria-label={`Where ${id} sits on page ${outline.page}`}
-        viewBox={`${frame.x} ${frame.y} ${frame.width} ${frame.height}`}
-        className="w-full rounded-sm border bg-background"
+        className="relative w-full overflow-hidden rounded-sm border bg-background @container"
+        style={{ aspectRatio: `${frame.width} / ${frame.height}` }}
       >
-        {boxes.map((b, i) => (
-          <rect
+        {outline.boxes.map((b, i) => (
+          <div
             key={i}
-            x={b.x}
-            y={b.y}
-            width={b.width}
-            height={b.height}
-            vectorEffect="non-scaling-stroke"
-            className={
+            title={b.id}
+            className={cn(
+              "absolute overflow-hidden leading-[1.2] break-words",
+              b.heading && "font-bold",
               b.marked
-                ? "fill-primary/20 stroke-primary stroke-2"
-                : "fill-muted stroke-muted-foreground/40"
-            }
+                ? "z-10 bg-primary/10 text-foreground outline-2 outline-offset-1 outline-primary"
+                : "text-muted-foreground",
+            )}
+            style={{
+              left: pct(b.x - frame.x, frame.width),
+              top: pct(b.y - frame.y, frame.height),
+              width: pct(b.width, frame.width),
+              height: pct(b.height, frame.height),
+              fontSize: `${(b.fontSize / frame.width) * 100}cqw`,
+            }}
           >
-            <title>{b.id}</title>
-          </rect>
+            {b.image ? (
+              // eslint-disable-next-line @next/next/no-img-element -- blob-served png, size unknown
+              <img
+                src={figureBase + b.image}
+                alt=""
+                className="size-full object-contain"
+              />
+            ) : (
+              b.text
+            )}
+          </div>
         ))}
-      </svg>
+      </div>
     </figure>
   );
 }

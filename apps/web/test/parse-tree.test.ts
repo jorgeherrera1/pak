@@ -102,3 +102,36 @@ test("a section's outlines are every page its content sits on", () => {
   const marked = subtree(childrenOf(doc), "sections/12");
   expect(pageOutlines(doc, marked).map((o) => o.page)).toEqual([3, 4, 5]);
 });
+
+test("a table is drawn as its cells' text where the parse found it, and outlined once when selected", () => {
+  const table = doc.elements.find((e) => e.id === "tables/0")!;
+  if (table.kind !== "table") throw new Error("tables/0 is not a table");
+  const [outline] = pageOutlines(doc, new Set(["tables/0"]));
+  expect(outline!.boxes.filter((b) => b.marked).map((b) => b.id)).toEqual([
+    "tables/0",
+  ]);
+  const cells = new Map(table.cells.map((c) => [c.id, c.text]));
+  const drawn = outline!.boxes.filter((b) => cells.has(b.id));
+  expect(drawn.map((b) => [b.id, b.text])).toEqual([...cells]);
+});
+
+test("no text on a page is set larger than its body paragraphs, except the title", () => {
+  const [outline] = pageOutlines(doc, new Set(["paragraphs/4"]));
+  const size = (id: string) =>
+    outline!.boxes.find((b) => b.id === id)!.fontSize;
+  const body = ["paragraphs/2", "paragraphs/4", "paragraphs/5"].map(size);
+  const largestBody = Math.max(...body);
+  for (const b of outline!.boxes)
+    if (b.id !== "paragraphs/1")
+      expect(b.fontSize).toBeLessThanOrEqual(largestBody);
+  expect(size("paragraphs/1")).toBeGreaterThan(largestBody);
+});
+
+test("a paragraph's text is sized to fit the box the parse found it in", () => {
+  const [outline] = pageOutlines(doc, new Set(["paragraphs/5"]));
+  const box = outline!.boxes.find((b) => b.id === "paragraphs/5")!;
+  expect(box.text).toMatch(/^Today that data lives in a Power Apps screen/);
+  const perLine = box.width / (0.55 * box.fontSize);
+  const lines = Math.ceil(box.text.length / perLine);
+  expect(lines * 1.2 * box.fontSize).toBeLessThanOrEqual(box.height * 1.05);
+});
