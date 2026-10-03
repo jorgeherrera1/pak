@@ -25,9 +25,7 @@ test("initialOperations lists every operation of every step, upload done", () =>
     ["parse", "upload", 0, "done"],
     ["parse", "analyze", 1, "pending"],
     ["parse", "build", 2, "pending"],
-    ["annotate", "classify", 0, "pending"],
-    ["annotate", "mentions", 1, "pending"],
-    ["annotate", "ground", 2, "pending"],
+    ["annotate", "annotate", 0, "pending"],
   ]);
   expect(rows[0]).toMatchObject({
     jobId: "j",
@@ -42,14 +40,14 @@ test("marks running then done and returns the value", async () => {
   const out = await runOperation(
     "j",
     "annotate",
-    "classify",
+    "annotate",
     async () => 42,
     set,
   );
   expect(out).toBe(42);
   expect(calls.map((c) => [c.step, c.name, c.patch.status])).toEqual([
-    ["annotate", "classify", "running"],
-    ["annotate", "classify", "done"],
+    ["annotate", "annotate", "running"],
+    ["annotate", "annotate", "done"],
   ]);
   expect(calls[0]?.patch.startedAt).toBeInstanceOf(Date);
   expect(calls[1]?.patch.finishedAt).toBeInstanceOf(Date);

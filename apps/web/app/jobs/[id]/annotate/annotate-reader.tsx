@@ -5,19 +5,15 @@ import type {
   Category,
   Classification,
   ClassificationType,
-  Mention,
 } from "@dark-factory/annotate";
 import type { Element, ParsedDocument } from "@dark-factory/parse";
 import { useMemo, useState, type ReactNode } from "react";
-import { context, segments } from "@/lib/segments";
+import { segments } from "@/lib/segments";
 import { Figure, PageDivider, Table } from "../reader-parts";
 
-type Mark = Classification | Mention;
-const isC = (m: Mark): m is Classification => "type" in m;
-/** Layer key: a classification toggles by its type, a mention by the thing it names. */
-// ponytail: "Save Button" and "Save button" share a layer by lowercasing; real merging is resolve's job.
-const layer = (m: Mark) =>
-  isC(m) ? `c:${m.type}` : `m:${m.name.toLowerCase()}`;
+type Mark = Classification;
+/** Layer key: a classification toggles by its type. */
+const layer = (m: Mark) => `c:${m.type}`;
 
 /** The vocabulary in its own order. The package exports the types only, so the list is repeated here. */
 const ORDER: ClassificationType[] = [
@@ -107,7 +103,6 @@ const FAMILIES = [
 const familyOf = (t: string) =>
   FAMILIES.find((f) => (f.types as string[]).includes(t)) ?? FAMILIES[3]!;
 
-const MENTION_LINE = "border-bright-cyan";
 const CATEGORY: Record<Category, string> = {
   PER: "performance, capacity",
   REL: "reliability, availability",
@@ -139,18 +134,14 @@ export function AnnotateReader({
   annotations: AnnotateResult;
   figureBase: string;
 }) {
-  const [tab, setTab] = useState<"c" | "m">("c");
   /** Layers whose occurrences are folded away; everything starts open. */
   const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
-  /** What is switched off: layer keys ("m:catalogue") and single mark ids ("a5"). */
+  /** What is switched off: layer keys ("c:feature") and single mark ids ("a5"). */
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
 
-  const { byElement, byLayer, byId, parity, names, where } = useMemo(() => {
-    const all: Mark[] = [
-      ...annotations.classifications,
-      ...annotations.mentions,
-    ];
+  const { byElement, byLayer, byId, parity, where } = useMemo(() => {
+    const all: Mark[] = annotations.classifications;
     const byId = new Map(all.map((m) => [m.id, m]));
     const byElement = new Map<string, Mark[]>();
     for (const m of all)
@@ -168,17 +159,6 @@ export function AnnotateReader({
       parity.set(c.id, n % 2);
       seen.set(c.elementId, n + 1);
     }
-    // The things the document names, most mentioned first, labelled as first written.
-    const labels = new Map<string, string>();
-    for (const m of annotations.mentions)
-      if (!labels.has(layer(m))) labels.set(layer(m), m.name);
-    const names = [...labels]
-      .map(([key, label]) => ({
-        key,
-        label,
-        count: byLayer.get(key)!.length,
-      }))
-      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
     const els = new Map(doc.elements.map((e) => [e.id, e]));
     /** "p5 · What we store" */
     const where = (elementId: string) => {
@@ -193,7 +173,7 @@ export function AnnotateReader({
         .filter(Boolean)
         .join(" · ");
     };
-    return { byElement, byLayer, byId, parity, names, where };
+    return { byElement, byLayer, byId, parity, where };
   }, [annotations, doc]);
 
   const ctx: Ctx = {
@@ -213,13 +193,12 @@ export function AnnotateReader({
     if (!next.delete(key)) next.add(key);
     return next;
   };
-  /** Something picked in the document shows up in the pane: right tab, group open, row in view. */
+  /** Something picked in the document shows up in the pane: group open, row in view. */
   const reveal = (id: string) => {
     const m = byId.get(id);
     if (!m) return;
-    setTab(isC(m) ? "c" : "m");
     setCollapsed((c) => new Set([...c].filter((k) => k !== layer(m))));
-    // The row only exists once the tab and the group have opened.
+    // The row only exists once the group has opened.
     requestAnimationFrame(() =>
       document
         .querySelector(`[data-row="${id}"]`)
@@ -234,15 +213,11 @@ export function AnnotateReader({
   };
 
   // What is listed: the labels that have occurrences.
-  const layers = (
-    tab === "c"
-      ? ORDER.map((t) => ({
-          key: `c:${t}`,
-          label: t as string,
-          accent: familyOf(t).accent,
-        }))
-      : names.map((n) => ({ ...n, accent: "accent-bright-cyan" }))
-  ).filter((l) => byLayer.has(l.key));
+  const layers = ORDER.map((t) => ({
+    key: `c:${t}`,
+    label: t as string,
+    accent: familyOf(t).accent,
+  })).filter((l) => byLayer.has(l.key));
   const group = (l: (typeof layers)[number]) => (
     <Group
       key={l.key}
@@ -256,7 +231,6 @@ export function AnnotateReader({
       onHide={(key) => setHidden(flip(key))}
       onToggle={() => setCollapsed(flip(l.key))}
       onGo={go}
-      content={doc.content}
       where={where}
     />
   );
@@ -271,7 +245,7 @@ export function AnnotateReader({
       }
       return next;
     });
-  // Select all and collapse all act on what is listed: this tab.
+  // Select all and collapse all act on what is listed.
   const allOn = layers.every((l) => !hidden.has(l.key));
   const setAll = (on: boolean) =>
     setLayers(
@@ -281,9 +255,6 @@ export function AnnotateReader({
 
   const allOpen = layers.every((l) => !collapsed.has(l.key));
   const empty = ORDER.filter((t) => !byLayer.has(`c:${t}`));
-  // Most names come up once; folded so the recurring ones stay readable.
-  const once =
-    tab === "m" ? layers.filter((l) => byLayer.get(l.key)!.length === 1) : [];
 
   const rows: ReactNode[] = [];
   let currentPage = 0;
@@ -305,7 +276,7 @@ export function AnnotateReader({
         <Margin
           e={e}
           marks={ids.flatMap(ctx.visible)}
-          classified={ids.some((id) => byElement.get(id)?.some(isC))}
+          classified={ids.some((id) => (byElement.get(id)?.length ?? 0) > 0)}
           ctx={ctx}
         />
       </div>,
@@ -316,27 +287,9 @@ export function AnnotateReader({
     <div className="flex flex-1">
       <nav className="sticky top-0 flex h-screen w-[440px] shrink-0 flex-col border-r bg-card text-sm">
         <div className="flex flex-col gap-2.5 p-4">
-          <div className="grid grid-cols-2 gap-1 rounded-md bg-muted p-1">
-            {(
-              [
-                ["c", `Classifications ${annotations.classifications.length}`],
-                [
-                  "m",
-                  `Mentions ${annotations.mentions.length} · ${names.length} names`,
-                ],
-              ] as const
-            ).map(([t, label]) => (
-              <button
-                key={t}
-                type="button"
-                aria-pressed={tab === t}
-                onClick={() => setTab(t)}
-                className={`h-10 rounded-sm font-bold ${tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary"}`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+          <p className="px-3 font-display text-sm font-bold">
+            Classifications {annotations.classifications.length}
+          </p>
           <div className="flex items-center justify-between px-3 text-muted-foreground">
             <label className="flex items-center gap-2.5">
               <input
@@ -361,18 +314,8 @@ export function AnnotateReader({
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-4 pb-4">
-          {layers.filter((l) => !once.includes(l)).map(group)}
-          {once.length > 0 && (
-            <details
-              open={once.some((l) => byLayer.get(l.key)![0]!.id === selected)}
-            >
-              <summary className="cursor-pointer rounded-sm px-3 py-1.5 text-muted-foreground hover:bg-secondary">
-                {once.length} mentioned once
-              </summary>
-              <div className="flex flex-col gap-0.5">{once.map(group)}</div>
-            </details>
-          )}
-          {tab === "c" && empty.length > 0 && (
+          {layers.map(group)}
+          {empty.length > 0 && (
             <p className="px-3 pt-2 text-xs leading-normal text-muted-foreground">
               Nothing found for {empty.join(", ")}.
             </p>
@@ -400,7 +343,6 @@ function Group({
   onHide,
   onToggle,
   onGo,
-  content,
   where,
 }: {
   label: string;
@@ -415,7 +357,6 @@ function Group({
   onHide: (key: string) => void;
   onToggle: () => void;
   onGo: (m: Mark) => void;
-  content: string;
   where: (elementId: string) => string;
 }) {
   const at = marks.findIndex((m) => m.id === selected);
@@ -447,7 +388,6 @@ function Group({
       </div>
       {open &&
         marks.map((m) => {
-          const c = isC(m) ? undefined : context(content, m.span, 24);
           const shown = on && !hidden.has(m.id);
           return (
             <div
@@ -472,18 +412,8 @@ function Group({
                 className="flex h-full min-w-0 flex-1 items-center gap-2 px-2.5 text-left text-[13px] disabled:opacity-50"
               >
                 <span className="min-w-0 flex-1 truncate text-muted-foreground">
-                  {c ? (
-                    <>
-                      …{c.pre}
-                      <b className="text-foreground">{c.hit}</b>
-                      {c.post}…
-                    </>
-                  ) : (
-                    <>
-                      <code className="pr-1.5 text-[11px]">{m.id}</code>
-                      <span className="text-foreground">{m.text}</span>
-                    </>
-                  )}
+                  <code className="pr-1.5 text-[11px]">{m.id}</code>
+                  <span className="text-foreground">{m.text}</span>
                 </span>
                 <span className="max-w-[9rem] shrink-0 truncate text-[11px] text-muted-foreground">
                   {where(m.elementId)}
@@ -496,7 +426,7 @@ function Group({
   );
 }
 
-/** Text with classifications as tints and mentions as underlines. `skip` is drawn elsewhere. */
+/** Text with classifications as tints. `skip` is drawn elsewhere. */
 function Text({
   text,
   base,
@@ -513,27 +443,21 @@ function Text({
   const drawn = marks.filter((m) => m !== skip);
   if (!drawn.length || base === undefined) return text;
   return segments(text, base, drawn).map((s, i) => {
-    const cls = s.marks.find(isC);
-    const men = s.marks.find((m): m is Mention => !isC(m));
-    if (!cls && !men) return s.text;
+    const cls = s.marks[0];
+    if (!cls) return s.text;
     const on = cls?.id === ctx.selected;
     return (
       <span
         key={i}
         data-marks={s.marks.map((m) => m.id).join(" ")}
-        title={s.marks
-          .map((m) => `${m.id} ${isC(m) ? m.type : m.name}`)
-          .join("\n")}
+        title={s.marks.map((m) => `${m.id} ${m.type}`).join("\n")}
         // The margin chip is the keyboard path to the same selection.
-        onClick={() => ctx.select((cls ?? men)!.id)}
+        onClick={() => ctx.select(cls.id)}
         className={[
           "box-decoration-clone py-[3px]",
           "cursor-pointer",
-          cls && familyOf(cls.type).tint[on ? 1 : ctx.parity.get(cls.id)!],
-          on && `ring-2 ${familyOf(cls!.type).ring}`,
-          men && `border-b-2 ${MENTION_LINE}`,
-          men?.id === ctx.selected &&
-            "rounded-[3px] bg-bright-cyan text-deepest",
+          familyOf(cls.type).tint[on ? 1 : ctx.parity.get(cls.id)!],
+          on && `ring-2 ${familyOf(cls.type).ring}`,
         ]
           .filter(Boolean)
           .join(" ")}
@@ -579,13 +503,10 @@ function Body({
           </h2>
         );
       if (e.role) return <p className="text-xs text-muted-foreground">{t()}</p>;
-      // A classification that is the whole element becomes a side rule, so the mentions inside stay legible.
-      const whole = marks
-        .filter(isC)
-        .find(
-          (c) =>
-            c.span.offset === span?.offset && c.span.length === span.length,
-        );
+      // A classification that is the whole element becomes a side rule, so the text stays legible.
+      const whole = marks.find(
+        (c) => c.span.offset === span?.offset && c.span.length === span.length,
+      );
       if (!whole) return <p className="leading-[1.65]">{t()}</p>;
       const on = whole.id === ctx.selected;
       const f = familyOf(whole.type);
@@ -634,7 +555,7 @@ function Body({
   }
 }
 
-/** What Annotate said about this element: one chip per classification, the names it mentions. */
+/** What Annotate said about this element: one chip per classification. */
 function Margin({
   e,
   marks,
@@ -646,14 +567,12 @@ function Margin({
   classified: boolean;
   ctx: Ctx;
 }) {
-  const mentions = marks.filter((m): m is Mention => !isC(m));
-  const names = [...new Set(mentions.map((m) => m.name))];
   const isBody = e.kind !== "paragraph" || !e.role;
   return (
     <div className="flex flex-col items-start gap-1.5 text-xs text-muted-foreground">
-      {marks.filter(isC).map((c) =>
+      {marks.map((c) =>
         c.id === ctx.selected ? (
-          <Inspector key={c.id} c={c} mentions={mentions} ctx={ctx} />
+          <Inspector key={c.id} c={c} ctx={ctx} />
         ) : (
           <button
             key={c.id}
@@ -672,33 +591,12 @@ function Margin({
           not classified
         </span>
       )}
-      {mentions.length > 0 && (
-        <span>
-          {mentions.length} {mentions.length === 1 ? "mention" : "mentions"} ·{" "}
-          {names.join(", ")}
-        </span>
-      )}
     </div>
   );
 }
 
-function Inspector({
-  c,
-  mentions,
-  ctx,
-}: {
-  c: Classification;
-  mentions: Mention[];
-  ctx: Ctx;
-}) {
+function Inspector({ c, ctx }: { c: Classification; ctx: Ctx }) {
   const f = familyOf(c.type);
-  const end = c.span.offset + c.span.length;
-  const inside = mentions.filter(
-    (m) =>
-      m.elementId === c.elementId &&
-      m.span.offset >= c.span.offset &&
-      m.span.offset + m.span.length <= end,
-  );
   return (
     <button
       type="button"
@@ -729,12 +627,6 @@ function Inspector({
         <span>quote</span>
         <span className="font-bold text-success">found verbatim</span>
       </span>
-      {inside.length > 0 && (
-        <span>
-          {inside.length} inside ·{" "}
-          {[...new Set(inside.map((m) => m.name))].join(", ")}
-        </span>
-      )}
     </button>
   );
 }

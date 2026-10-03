@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { JobResponse } from "@/lib/graph";
+import type { JobResponse } from "@/lib/canvas";
 
 const INTERVAL_MS = 2000;
 

@@ -26,7 +26,7 @@ export type Analysis = {
 export async function analyze(pdf: Buffer): Promise<Analysis> {
   const client = DocumentIntelligence(
     env("AZURE_DI_ENDPOINT"),
-    { key: env("AZURE_DI_KEY") },
+    { key: env("AZURE_API_KEY") },
     { apiVersion: API_VERSION },
   );
 

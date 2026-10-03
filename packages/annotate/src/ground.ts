@@ -11,34 +11,19 @@ export const classificationSchema = z.object({
 });
 export type ClassificationRow = z.infer<typeof classificationSchema>;
 
-export const mentionSchema = z.object({
-  elementId: z.string(),
-  quote: z.string(),
-  name: z.string(),
-});
-export const outputSchema = z.object({
-  classifications: z.array(classificationSchema),
-  mentions: z.array(mentionSchema),
-});
-export type ModelOutput = z.infer<typeof outputSchema>;
-
 const wordChar = /[\p{L}\p{N}]/u;
 /**
- * Model output in, grounded classifications and mentions out. A row survives only
- * if its element exists and its quote is found verbatim, on word boundaries,
- * inside that element's text; everything else becomes a warning. This is the
- * step boundary AI output must cross.
+ * Model rows in, grounded classifications out. A row survives only if its
+ * element exists and its quote is found verbatim, on word boundaries, inside
+ * that element's text; everything else becomes a warning. This is the step
+ * boundary AI output must cross.
  */
 export function ground(
-  { classifications, mentions }: ModelOutput,
+  rows: ClassificationRow[],
   anchors: Map<string, Span[]>,
   content: string,
 ): AnnotateResult {
-  const result: AnnotateResult = {
-    classifications: [],
-    mentions: [],
-    warnings: [],
-  };
+  const result: AnnotateResult = { classifications: [], warnings: [] };
 
   /** Offset of `quote` inside element `elementId`, or -1 after pushing a warning. */
   const locate = (elementId: string, quote: string): number => {
@@ -65,7 +50,7 @@ export function ground(
     return -1;
   };
 
-  for (const row of classifications) {
+  for (const row of rows) {
     const offset = locate(row.elementId, row.quote);
     if (offset < 0) continue;
     result.classifications.push({
@@ -75,17 +60,6 @@ export function ground(
       span: { offset, length: row.quote.length },
       text: row.quote,
       ...(row.category && { category: row.category }),
-    });
-  }
-  for (const m of mentions) {
-    const offset = locate(m.elementId, m.quote);
-    if (offset < 0) continue;
-    result.mentions.push({
-      id: `m${result.mentions.length + 1}`,
-      elementId: m.elementId,
-      span: { offset, length: m.quote.length },
-      text: m.quote,
-      name: m.name.trim() || m.quote,
     });
   }
   return result;

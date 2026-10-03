@@ -40,7 +40,7 @@ export default async function Page({
           <span className="font-display text-sm font-bold">{job.filename}</span>
           <span className="text-xs text-muted-foreground">
             Annotate · {ann.classifications.length} classifications ·{" "}
-            {ann.mentions.length} mentions · {ann.warnings.length} warnings
+            {ann.warnings.length} warnings
           </span>
         </div>
         <Link

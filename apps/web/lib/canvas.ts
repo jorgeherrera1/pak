@@ -44,7 +44,6 @@ export type StepEdge = {
 export const STEPS = [
   { id: "parse", label: "Parse" },
   { id: "annotate", label: "Annotate" },
-  { id: "resolve", label: "Resolve" },
 ] as const;
 
 const NODE_GAP = 420;
@@ -56,7 +55,7 @@ export function stepStatus(ops: OperationRow[]): StepStatus {
   return "pending";
 }
 
-export function toGraph(job: JobResponse): {
+export function toCanvas(job: JobResponse): {
   nodes: StepNode[];
   edges: StepEdge[];
 } {
@@ -73,11 +72,9 @@ export function toGraph(job: JobResponse): {
         status: stepStatus(operations),
         operations,
         handles: { target: i > 0, source: i < STEPS.length - 1 },
-        // ponytail: Resolve has no reader; drop the condition when every step does.
-        ...(step.id !== "resolve" &&
-          stepStatus(operations) === "done" && {
-            href: `/jobs/${job.id}/${step.id}`,
-          }),
+        ...(stepStatus(operations) === "done" && {
+          href: `/jobs/${job.id}/${step.id}`,
+        }),
       },
     };
   });

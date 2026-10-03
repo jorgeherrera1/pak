@@ -1,10 +1,10 @@
 import { expect, test } from "vitest";
 import {
   stepStatus,
-  toGraph,
+  toCanvas,
   type JobResponse,
   type OperationRow,
-} from "@/lib/graph";
+} from "@/lib/canvas";
 
 const op = (
   name: string,
@@ -30,16 +30,12 @@ test("step status derivation", () => {
   expect(stepStatus([op("a", "running"), op("b", "failed")])).toBe("failed");
 });
 
-test("three step nodes in order, parse carrying its operations", () => {
-  const { nodes } = toGraph(
+test("two step nodes in order, parse carrying its operations", () => {
+  const { nodes } = toCanvas(
     job([op("upload", "done"), op("analyze", "running", null)]),
   );
-  expect(nodes.map((n) => n.id)).toEqual(["parse", "annotate", "resolve"]);
-  expect(nodes.map((n) => n.data.label)).toEqual([
-    "Parse",
-    "Annotate",
-    "Resolve",
-  ]);
+  expect(nodes.map((n) => n.id)).toEqual(["parse", "annotate"]);
+  expect(nodes.map((n) => n.data.label)).toEqual(["Parse", "Annotate"]);
   expect(nodes[0]?.data.status).toBe("running");
   expect(nodes[0]?.data.operations.map((o) => o.name)).toEqual([
     "upload",
@@ -50,13 +46,12 @@ test("three step nodes in order, parse carrying its operations", () => {
   expect(nodes[0]?.position.x).toBeLessThan(nodes[1]?.position.x ?? 0);
   expect(nodes.map((n) => n.data.handles)).toEqual([
     { target: false, source: true },
-    { target: true, source: true },
     { target: true, source: false },
   ]);
 });
 
 test("operations are ordered by position and keep their error", () => {
-  const { nodes } = toGraph(
+  const { nodes } = toCanvas(
     job([
       { ...op("build", "failed", "boom"), position: 2 },
       { ...op("upload", "done"), position: 0 },
@@ -73,26 +68,24 @@ test("operations are ordered by position and keep their error", () => {
 });
 
 test("the edge into a running step is animated, others plain", () => {
-  const running = toGraph(
+  const running = toCanvas(
     job([{ ...op("x", "running"), step: "annotate" }, op("upload", "done")]),
   );
   expect(running.edges.map((e) => [e.source, e.target, e.type])).toEqual([
     ["parse", "annotate", "animated"],
-    ["annotate", "resolve", undefined],
   ]);
-  const idle = toGraph(job([op("upload", "done")]));
+  const idle = toCanvas(job([op("upload", "done")]));
   expect(idle.edges.every((e) => e.type === undefined)).toBe(true);
 });
 
 test("a node links to its reader only once every one of its operations is done", () => {
-  const done = toGraph(job([op("upload", "done"), op("build", "done")]));
+  const done = toCanvas(job([op("upload", "done"), op("build", "done")]));
   expect(done.nodes[0]?.data.href).toBe("/jobs/j/parse");
   expect(done.nodes[1]?.data.href).toBeUndefined();
-  const running = toGraph(job([op("upload", "done"), op("build", "running")]));
+  const running = toCanvas(job([op("upload", "done"), op("build", "running")]));
   expect(running.nodes[0]?.data.href).toBeUndefined();
-  const annotated = toGraph(
-    job([op("build", "done"), { ...op("classify", "done"), step: "annotate" }]),
+  const annotated = toCanvas(
+    job([op("build", "done"), { ...op("annotate", "done"), step: "annotate" }]),
   );
   expect(annotated.nodes[1]?.data.href).toBe("/jobs/j/annotate");
-  expect(annotated.nodes[2]?.data.href).toBeUndefined();
 });

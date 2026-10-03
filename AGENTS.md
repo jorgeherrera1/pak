@@ -8,11 +8,10 @@ Instructions for AI coding agents working in this repository. Read this before d
 
 ## The assembly line
 
-**Station 1 — Requirements engineering** (current focus). Turns a requirements document into a knowledge graph in three steps:
+**Station 1 — Requirements engineering** (current focus). Turns a requirements document into a knowledge graph. We have the following two steps today. That does not mean the code will remain like this necessarily:
 
-1. **Parse** _(code)_ — the document becomes a structured tree: sections, tables, reading order, exact character spans. Nothing is interpreted yet.
-2. **Annotate** _(AI)_ — spans get tagged with what they are (functional requirement, actor, mockup, …). Every annotation points at the exact text that produced it. Annotations are evidence, not fact.
-3. **Resolve** _(code, AI for ambiguity)_ — annotations collapse into canonical entities and relations: the domain graph.
+1. **Parse** _(code)_ — fully deterministic; the document becomes a structured tree: sections, tables, reading order, exact character spans. Nothing is interpreted yet.
+2. **Annotate** _(AI)_ — spans get tagged with what they are (functional requirement, feature, …). Every annotation points at the exact text that produced it. Annotations are evidence, not fact.
 
 Later stations (design, implementation, …) are not yet defined. Don't build for them.
 
@@ -27,7 +26,7 @@ Turborepo monorepo, npm workspaces (`apps/*`, `packages/*`), 100% TypeScript. No
 
 `packages/parse` is station 1, step 1 (Parse): PDF in, `ParsedDocument` out, via Azure Document Intelligence. It is real code, not scaffold.
 
-`packages/annotate` is station 1, step 2 (Annotate): `ParsedDocument` in, grounded annotations out, via a `gpt-4o` deployment on Azure AI Foundry through the Vercel AI SDK. The vocabulary follows the IEEE 29148 SRS template. Every annotation is grounded in code against the source text before it is emitted.
+`packages/annotate` is station 1, step 2 (Annotate): `ParsedDocument` in, grounded classifications out, via a `gpt-4o` deployment on Azure AI Foundry through the Vercel AI SDK. The vocabulary follows the IEEE 29148 SRS template. Every annotation is grounded in code against the source text before it is emitted.
 
 `apps/web` is Station 1's host: the Next.js app that receives a job (one requirements PDF), runs its Parse and Annotate operations durably on the Vercel Workflow SDK with a Postgres world, stores artifacts in Azure Blob, and exposes `/api/jobs`. `packages/ui` and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter — do not invest effort in them beyond keeping the build green.
 
@@ -47,10 +46,6 @@ Run from the repo root:
 - `npm run annotate <parsed.json> <outDir>` — run the annotate step on a parsed document
 - `npm run pipeline <file.pdf> <outDir>` — parse then annotate
 - `npm run db:migrate -w apps/web` — apply our SQL migrations (`db:generate` after a schema change)
-
-Anything that touches Azure needs `AZURE_DI_ENDPOINT` and `AZURE_DI_KEY` (Document Intelligence) and `AZURE_API_KEY` (AI Foundry), read from a gitignored `.env` at the repo root. `apps/web` also needs `WORKFLOW_TARGET_WORLD`, `WORKFLOW_POSTGRES_URL`, and `AZURE_STORAGE_CONNECTION_STRING` in the same `.env`. Never commit credentials.
-
-`packages/parse/test/fixtures/analysis.json` and `parsed.json` are recorded Azure output. They change only by re-recording (run `test:integration`, copy `test/out/<sha256>/{analysis,parsed}.json` into `fixtures/`), never by hand, and the diff is reviewed like code. The same rule applies to `packages/annotate/test/fixtures/annotate-responses/` and `annotate.json`. `packages/annotate/test/fixtures/expected.json` is the eval ground truth and is written by a human only.
 
 ## Definition of done
 
@@ -76,9 +71,12 @@ Report results honestly: if a gate fails, say so and show the output.
 
 ## How to work
 
-- **Plan before code.** For any non-trivial change, present a short plan and get human approval before implementing.
-- **Small, reviewable changes.** One concern per change; prefer incremental diffs over big-bang rewrites.
-- **No speculative abstraction.** Build only what the current station needs. No frameworks-in-waiting, no "we might need this later."
+- **This is a prototype.** No users, no data to preserve, no backward compatibility. Existing code is the current best guess, not a constraint; each iteration aims for the right design, not the smallest diff.
+- **Challenge the design first.** Before planning, ask whether the current architecture is right for the problem. If a task is awkward because of an earlier decision, say so and propose changing that decision, even if it means rewriting or deleting a package. A patch that works around a wrong design is a failure, not the safe choice.
+- **Plan before code.** For any non-trivial change, present a short plan and get human approval before implementing. The plan names the most radical alternative you considered and why you do or don't recommend it.
+- **Replace, don't layer.** When the design changes, rewrite the affected code to the new design. No compatibility shims, no migration paths, no old code kept alongside.
+- **Small commits, not small ideas.** Commits stay small and reviewable; the change itself is as big as the right design needs.
+- **No speculative abstraction.** Build only what the current station needs. No frameworks-in-waiting, no "we might need this later." This limits what you build, not what you question.
 
 <!-- BEGIN:turborepo-agent-rules -->
 

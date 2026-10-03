@@ -3,9 +3,9 @@ import { readFile } from "node:fs/promises";
 import { annotate } from "./annotate.ts";
 
 export type * from "./types.ts";
-export { annotate, runClassify, runMentions } from "./annotate.ts";
+export { annotate, runAnnotate } from "./annotate.ts";
 export { anchors, chunk } from "./chunk.ts";
-export { ground, type ModelOutput } from "./ground.ts";
+export { ground, type ClassificationRow } from "./ground.ts";
 
 if (import.meta.main) {
   const [parsedPath, outDir] = process.argv.slice(2);
@@ -14,8 +14,8 @@ if (import.meta.main) {
     process.exit(1);
   }
   const doc: ParsedDocument = JSON.parse(await readFile(parsedPath, "utf8"));
-  const { classifications, mentions, warnings } = await annotate(doc, outDir);
+  const { classifications, warnings } = await annotate(doc, outDir);
   console.log(
-    `${classifications.length} classifications, ${mentions.length} mentions, ${warnings.length} warnings`,
+    `${classifications.length} classifications, ${warnings.length} warnings`,
   );
 }

@@ -2,7 +2,7 @@
 
 import { Canvas } from "@dark-factory/ui/components/canvas";
 import { Edge } from "@dark-factory/ui/components/edge";
-import { toGraph } from "@/lib/graph";
+import { toCanvas } from "@/lib/canvas";
 import { formatSize } from "@/lib/format";
 import { StepNode } from "./step-node";
 import { useJob } from "./use-job";
@@ -19,7 +19,7 @@ export function StepsCanvas({ id }: { id: string }) {
       </p>
     );
   if (!job) return <p className="text-muted-foreground">Loading…</p>;
-  const { nodes, edges } = toGraph(job);
+  const { nodes, edges } = toCanvas(job);
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1">

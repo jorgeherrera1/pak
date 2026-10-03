@@ -10,7 +10,7 @@ const doc = await parse(pdfPath, outDir);
 console.log(
   `parse: ${doc.elements.length} elements, ${doc.warnings.length} warnings`,
 );
-const { classifications, mentions, warnings } = await annotate(doc, outDir);
+const { classifications, warnings } = await annotate(doc, outDir);
 console.log(
-  `annotate: ${classifications.length} classifications, ${mentions.length} mentions, ${warnings.length} warnings`,
+  `annotate: ${classifications.length} classifications, ${warnings.length} warnings`,
 );

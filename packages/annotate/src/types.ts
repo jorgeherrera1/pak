@@ -50,25 +50,7 @@ export type Classification = {
   category?: Category;
 };
 
-/**
- * A term: a place the text names a thing in the document's domain. One per
- * element a thing appears in. A mention says which thing, never what the
- * thing is: that is decided once per thing in resolve, not once per occurrence.
- * `name` is what the chunk that produced it called the thing; a hint for
- * resolve to merge on, not a fact.
- */
-export type Mention = {
-  id: string;
-  elementId: string;
-  span: Span;
-  /** Verbatim quote from the source, e.g. "skill". */
-  text: string;
-  /** The document's own label for the thing, singular, e.g. "Competency". */
-  name: string;
-};
-
 export type AnnotateResult = {
   classifications: Classification[];
-  mentions: Mention[];
   warnings: string[];
 };

@@ -18,7 +18,7 @@ import {
   NodeHeader,
   NodeTitle,
 } from "@dark-factory/ui/components/node";
-import type { OperationStatus, StepNodeData } from "@/lib/graph";
+import type { OperationStatus, StepNodeData } from "@/lib/canvas";
 
 const ICON: Record<OperationStatus, ReactNode> = {
   pending: <CircleDashed className="size-4 text-muted-foreground" />,
