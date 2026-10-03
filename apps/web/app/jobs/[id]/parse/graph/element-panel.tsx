@@ -4,7 +4,7 @@ import type { Element, ParsedDocument } from "@dark-factory/parse";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { useMemo, type ReactNode } from "react";
-import { childrenOf, DOCUMENT, holds, label } from "@/lib/parse-tree";
+import { childrenOf, DOCUMENT, label, plural } from "@/lib/parse-tree";
 import { anchor, Figure, Table } from "../../reader-parts";
 
 const KIND = {
@@ -77,11 +77,7 @@ export function ElementPanel({
 
       {e ? (
         <>
-          <Content
-            e={e}
-            inside={holds(children.get(e.id) ?? [])}
-            jobId={jobId}
-          />
+          <Content e={e} kids={children.get(e.id) ?? []} jobId={jobId} />
           <Facts>
             <Fact term="IN">
               <button
@@ -154,27 +150,61 @@ export function ElementPanel({
   );
 }
 
+/** How many body paragraphs a section's excerpt shows before sending the reader on. */
+const EXCERPT = 10;
+
 function Content({
   e,
-  inside,
+  kids,
   jobId,
 }: {
   e: Element;
-  inside: string;
+  kids: Element[];
   jobId: string;
 }) {
   switch (e.kind) {
-    case "section":
+    case "section": {
+      // Title and heading paragraphs repeat the section's own heading.
+      const body = kids.filter(
+        (k) =>
+          k.kind === "paragraph" &&
+          k.role !== "title" &&
+          k.role !== "sectionHeading",
+      );
+      const count = (kind: Element["kind"]) =>
+        kids.filter((k) => k.kind === kind).length;
+      const rest = (
+        [
+          [body.length - EXCERPT, "more paragraph"],
+          [count("table"), "table"],
+          [count("figure"), "figure"],
+          [count("section"), "subsection"],
+        ] as const
+      )
+        .filter(([n]) => n > 0)
+        .map(([n, word]) => plural(n, word));
       return (
-        <div className="flex flex-col gap-1">
-          <p className="font-display text-body-lg font-bold">
-            {e.heading ?? "Untitled"}
-          </p>
-          {inside && (
-            <p className="text-sm text-muted-foreground">Holds {inside}</p>
+        <div className="flex flex-col gap-2">
+          <div className="relative flex max-h-[460px] flex-col gap-3 overflow-hidden rounded-sm bg-muted p-4 text-body leading-relaxed text-pretty">
+            <p className="font-display font-bold">{e.heading ?? "Untitled"}</p>
+            {body
+              .slice(0, EXCERPT)
+              .map((p) => p.kind === "paragraph" && <p key={p.id}>{p.text}</p>)}
+            {rest.length > 0 && (
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent to-muted" />
+            )}
+          </div>
+          {rest.length > 0 && (
+            <Link
+              href={`/jobs/${jobId}/parse#${anchor(e.id)}`}
+              className="text-sm text-primary hover:text-action-hover"
+            >
+              Continue in reader · {rest.join(", ")}
+            </Link>
           )}
         </div>
       );
+    }
     case "paragraph":
       return (
         <p className="rounded-sm bg-muted p-4 text-body leading-relaxed text-pretty">

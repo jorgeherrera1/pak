@@ -26,7 +26,8 @@ export type TreeNode = {
 /** An IN edge: from the child to the element (or Document) it sits in. */
 export type TreeEdge = { id: string; source: string; target: string };
 
-const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
+export const plural = (n: number, word: string) =>
+  `${n} ${word}${n === 1 ? "" : "s"}`;
 
 /** "4 paragraphs · 1 table" for what an element holds, sections left out: they are always drawn. */
 export function holds(children: Element[]): string {
