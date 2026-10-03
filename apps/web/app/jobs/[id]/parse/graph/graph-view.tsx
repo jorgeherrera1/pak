@@ -47,11 +47,8 @@ export function GraphView({
     });
   const nodes: ElementFlowNode[] = tree.nodes.map((n) => ({
     ...n,
-    data: {
-      ...n.data,
-      selected: n.id === selected,
-      onToggle: () => toggle(n.id),
-    },
+    selected: n.id === selected,
+    data: { ...n.data, onToggle: () => toggle(n.id) },
   }));
   const edges: Edge[] = tree.edges.map((e) => ({
     ...e,
@@ -70,8 +67,10 @@ export function GraphView({
           panOnDrag
           nodesDraggable={false}
           nodesConnectable={false}
-          elementsSelectable={false}
-          onNodeClick={(_, n) => setSelected(n.id)}
+          onNodesChange={(changes) => {
+            for (const c of changes)
+              if (c.type === "select" && c.selected) setSelected(c.id);
+          }}
         >
           <Controls showInteractive={false} />
         </Canvas>
