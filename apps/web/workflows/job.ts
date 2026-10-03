@@ -3,14 +3,7 @@ import {
   toParsedDocument,
   type ParsedDocument,
 } from "@dark-factory/parse";
-import {
-  anchors,
-  chunk,
-  runClassify,
-  runMentions,
-  ground,
-  type ModelOutput,
-} from "@dark-factory/annotate";
+import { anchors, chunk, ground, runAnnotate } from "@dark-factory/annotate";
 import type { AnalyzeResultOutput } from "@azure-rest/ai-document-intelligence";
 import { eq } from "drizzle-orm";
 import { FatalError } from "workflow";
@@ -62,72 +55,16 @@ async function buildOperation(jobId: string) {
   });
 }
 
-async function annotateChunks(
-  jobId: string,
-  name: "classify" | "mentions",
-  run: (text: string) => Promise<unknown>,
-) {
-  const doc = await readJson<ParsedDocument>(`${jobId}/parsed.json`);
-  const chunks = chunk(doc);
-  // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
-  await Promise.all(
-    chunks.map(async (text, i) => {
-      const rows = await run(text);
-      await putBlob(
-        `${jobId}/annotate/${name}/${i}.json`,
-        json(rows),
-        "application/json",
-      );
-    }),
-  );
-  return { chunks: chunks.length };
-}
-
-async function classifyOperation(jobId: string) {
+async function annotateOperation(jobId: string) {
   "use step";
-  return runOperation(jobId, "annotate", "classify", () =>
-    annotateChunks(jobId, "classify", runClassify),
-  );
-}
-
-async function mentionsOperation(jobId: string) {
-  "use step";
-  return runOperation(jobId, "annotate", "mentions", () =>
-    annotateChunks(jobId, "mentions", runMentions),
-  );
-}
-
-async function groundOperation(jobId: string) {
-  "use step";
-  return runOperation(jobId, "annotate", "ground", async () => {
+  return runOperation(jobId, "annotate", "annotate", async () => {
     const doc = await readJson<ParsedDocument>(`${jobId}/parsed.json`);
-    const n = chunk(doc).length;
-    const indexes = Array.from({ length: n }, (_, i) => i);
-    const [classifications, mentions] = await Promise.all([
-      Promise.all(
-        indexes.map((i) =>
-          readJson<ModelOutput["classifications"]>(
-            `${jobId}/annotate/classify/${i}.json`,
-          ),
-        ),
-      ),
-      Promise.all(
-        indexes.map((i) =>
-          readJson<ModelOutput["mentions"]>(
-            `${jobId}/annotate/mentions/${i}.json`,
-          ),
-        ),
-      ),
-    ]);
-    const result = ground(
-      { classifications: classifications.flat(), mentions: mentions.flat() },
-      anchors(doc),
-      doc.content,
-    );
+    // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
+    const rows = (await Promise.all(chunk(doc).map(runAnnotate))).flat();
+    const result = ground(rows, anchors(doc), doc.content);
     await putBlob(`${jobId}/annotate.json`, json(result), "application/json");
     return {
       classifications: result.classifications.length,
-      mentions: result.mentions.length,
       warnings: result.warnings.length,
     };
   });
@@ -140,8 +77,7 @@ export async function runJob(jobId: string) {
   try {
     await analyzeOperation(jobId);
     await buildOperation(jobId);
-    await Promise.all([classifyOperation(jobId), mentionsOperation(jobId)]);
-    const counts = await groundOperation(jobId);
+    const counts = await annotateOperation(jobId);
     await setJob(jobId, { status: "done", finishedAt: new Date() });
     return counts;
   } catch (err) {
