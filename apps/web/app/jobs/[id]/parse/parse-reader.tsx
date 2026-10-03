@@ -1,9 +1,6 @@
 import type { Element, ParsedDocument } from "@dark-factory/parse";
 import type { ReactNode } from "react";
-import { Figure, PageDivider, Table } from "../reader-parts";
-
-/** "sections/3" → "sections-3", usable as a DOM id and fragment. */
-const anchor = (id: string) => id.replace("/", "-");
+import { anchor, Figure, PageDivider, Table } from "../reader-parts";
 const page = (e: Element) => e.region[0]?.page;
 
 /** Depth of a section under the root, for outline indentation. */

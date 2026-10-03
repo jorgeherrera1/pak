@@ -3,6 +3,9 @@ import type { ReactNode } from "react";
 
 // No "use client" and no hooks: the Parse reader is a server component and hands `Table` a function.
 
+/** "sections/3" → "sections-3": the reader's DOM id for an element, usable as a fragment. */
+export const anchor = (id: string) => id.replace("/", "-");
+
 export function PageDivider({ page }: { page: number }) {
   return (
     <div className="flex items-center gap-3 pt-4 font-display text-xs font-bold tracking-eyebrow text-muted-foreground uppercase">
