@@ -22,6 +22,23 @@ export function GraphView({
   const [selected, setSelected] = useState<string | null>(null);
   const tree = useMemo(() => toTree(doc, open), [doc, open]);
 
+  const byId = useMemo(
+    () => new Map(doc.elements.map((e) => [e.id, e])),
+    [doc],
+  );
+
+  /** Selects `id` and opens what hides its card: sections are always drawn, anything else needs its parent open. */
+  const select = (id: string) => {
+    setOpen((prev) => {
+      const next = new Set(prev);
+      for (let e = byId.get(id); e?.parent && e.kind !== "section";) {
+        next.add(e.parent);
+        e = byId.get(e.parent);
+      }
+      return next;
+    });
+    setSelected(id);
+  };
   const toggle = (id: string) =>
     setOpen((prev) => {
       const next = new Set(prev);
@@ -64,7 +81,7 @@ export function GraphView({
           doc={doc}
           jobId={jobId}
           id={selected}
-          onSelect={setSelected}
+          onSelect={select}
           onClose={() => setSelected(null)}
         />
       )}

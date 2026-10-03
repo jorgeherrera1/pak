@@ -1,12 +1,10 @@
 "use client";
 
 import type { Element, ParsedDocument } from "@dark-factory/parse";
-import { ChevronRight, X } from "lucide-react";
+import { X } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@dark-factory/ui/lib/utils";
 import { useMemo, type ReactNode } from "react";
-import { bounds, pageOutlines, type Outline } from "@/lib/page-outline";
-import { childrenOf, DOCUMENT, holds, label, subtree } from "@/lib/parse-tree";
+import { childrenOf, DOCUMENT, holds, label } from "@/lib/parse-tree";
 import { anchor, Figure, Table } from "../../reader-parts";
 
 const KIND = {
@@ -18,7 +16,21 @@ const KIND = {
 
 const fixed = (n: number) => n.toFixed(2);
 
-/** What the selected node holds and where it came from: its parent, its place in the text, and its place on the page. */
+/** "1st", "2nd", "3rd", "9th", "11th", "22nd". */
+function ordinal(n: number): string {
+  const teen = n % 100 >= 11 && n % 100 <= 13;
+  const suffix = teen ? "th" : (["th", "st", "nd", "rd"][n % 10] ?? "th");
+  return `${n}${suffix}`;
+}
+
+/** The corners of the box around a region's polygon: "0.77, 2.86 → 7.44, 3.26". */
+function corners(polygon: number[]): string {
+  const xs = polygon.filter((_, i) => i % 2 === 0);
+  const ys = polygon.filter((_, i) => i % 2 === 1);
+  return `${fixed(Math.min(...xs))}, ${fixed(Math.min(...ys))} → ${fixed(Math.max(...xs))}, ${fixed(Math.max(...ys))}`;
+}
+
+/** The selected node: what it says, where it sits in the graph and the text, and where it was found on the page. */
 export function ElementPanel({
   doc,
   jobId,
@@ -35,26 +47,21 @@ export function ElementPanel({
   const children = useMemo(() => childrenOf(doc), [doc]);
   const index = doc.elements.findIndex((e) => e.id === id);
   const e = doc.elements[index];
-  const outlines = useMemo(
-    () => (e ? pageOutlines(doc, subtree(children, e.id)) : []),
-    [doc, children, e],
-  );
   const parent = e?.parent ? doc.elements.find((p) => p.id === e.parent) : null;
-  const eyebrow = e
-    ? KIND[e.kind] + (e.kind === "paragraph" && e.role ? ` · ${e.role}` : "")
-    : "Document";
+  // The Document comes before every element, so its next is the first one.
+  const next = doc.elements[index + 1];
 
   return (
     <aside
       aria-label={`Selected: ${id}`}
-      className="flex w-[420px] shrink-0 flex-col gap-6 overflow-y-auto border-l bg-card p-6 *:shrink-0"
+      className="flex w-[420px] shrink-0 flex-col gap-6 overflow-y-auto border-l bg-card p-8 *:shrink-0"
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex min-w-0 flex-col gap-1">
           <span className="font-display text-eyebrow tracking-eyebrow text-primary uppercase">
-            {eyebrow}
+            {e ? KIND[e.kind] : "Document"}
           </span>
-          <h2 className="font-display text-h5 font-bold break-all">
+          <h2 className="font-display text-h4 font-bold break-all">
             {e ? e.id : "Document"}
           </h2>
         </div>
@@ -69,7 +76,43 @@ export function ElementPanel({
       </div>
 
       {e ? (
-        <Content e={e} inside={holds(children.get(e.id) ?? [])} jobId={jobId} />
+        <>
+          <Content
+            e={e}
+            inside={holds(children.get(e.id) ?? [])}
+            jobId={jobId}
+          />
+          <Facts>
+            <Fact term="IN">
+              <button
+                type="button"
+                onClick={() => onSelect(parent?.id ?? DOCUMENT)}
+                className="text-left text-primary hover:text-action-hover"
+              >
+                {parent ? `${parent.id} · ${label(parent)}` : "Document"}
+              </button>
+            </Fact>
+            <Fact term="Position">
+              {ordinal(index + 1)} of {doc.elements.length} in reading order
+            </Fact>
+            <Fact term="Span">
+              {e.span.map((s) => (
+                <code key={s.offset} className="block text-[13px]">
+                  offset {s.offset} · length {s.length}
+                </code>
+              ))}
+            </Fact>
+            {e.region.length > 0 && (
+              <Fact term="Region">
+                {e.region.map((r, i) => (
+                  <code key={i} className="block text-[13px]">
+                    page {r.page} · {corners(r.polygon)}
+                  </code>
+                ))}
+              </Fact>
+            )}
+          </Facts>
+        </>
       ) : (
         <Facts>
           <Fact term="Pages">{doc.source.pages}</Fact>
@@ -90,63 +133,23 @@ export function ElementPanel({
         </Facts>
       )}
 
-      {e && (
-        <section className="flex flex-col gap-3">
-          <h3 className="font-display text-xs font-bold tracking-eyebrow text-muted-foreground uppercase">
-            Provenance
-          </h3>
-          <Facts>
-            <Fact term="IN">
-              <button
-                type="button"
-                onClick={() => onSelect(parent?.id ?? DOCUMENT)}
-                className="text-left font-bold text-primary hover:text-action-hover"
-              >
-                {parent ? `${parent.id} · ${label(parent)}` : "Document"}
-              </button>
-            </Fact>
-            <Fact term="Reading order">
-              {index + 1} of {doc.elements.length}
-            </Fact>
-            <Fact term="Span">
-              {e.span.map((s) => (
-                <code key={s.offset} className="block text-xs">
-                  offset {s.offset} · length {s.length}
-                </code>
-              ))}
-            </Fact>
-            {e.region.length > 0 && (
-              <Fact term="Region">
-                {e.region.map((r, i) => {
-                  const b = bounds(r.polygon);
-                  return (
-                    <code key={i} className="block text-xs">
-                      page {r.page} · {fixed(b.x)}, {fixed(b.y)} →{" "}
-                      {fixed(b.x + b.width)}, {fixed(b.y + b.height)}
-                    </code>
-                  );
-                })}
-              </Fact>
-            )}
-          </Facts>
-          {outlines.map((o) => (
-            <PageOutline
-              key={o.page}
-              outline={o}
-              id={e.id}
-              figureBase={`/api/jobs/${jobId}/artifacts/`}
-            />
-          ))}
-        </section>
-      )}
-
-      <Link
-        href={`/jobs/${jobId}/parse${e ? `#${anchor(e.id)}` : ""}`}
-        className="flex items-center gap-1 self-start text-sm font-bold text-primary hover:text-action-hover"
-      >
-        Show in reader
-        <ChevronRight className="size-4" />
-      </Link>
+      <div className="flex flex-wrap gap-3">
+        <Link
+          href={`/jobs/${jobId}/parse${e ? `#${anchor(e.id)}` : ""}`}
+          className="flex h-11 items-center rounded-sm bg-primary px-4 text-sm font-bold text-primary-foreground hover:bg-action-hover"
+        >
+          Show in reader
+        </Link>
+        {next && (
+          <button
+            type="button"
+            onClick={() => onSelect(next.id)}
+            className="flex h-11 items-center rounded-sm border px-4 text-sm font-bold text-primary hover:bg-secondary"
+          >
+            Next in order →
+          </button>
+        )}
+      </div>
     </aside>
   );
 }
@@ -174,7 +177,9 @@ function Content({
       );
     case "paragraph":
       return (
-        <p className="rounded-sm bg-muted p-4 leading-relaxed">{e.text}</p>
+        <p className="rounded-sm bg-muted p-4 text-body leading-relaxed text-pretty">
+          {e.text}
+        </p>
       );
     case "table":
       return (
@@ -194,7 +199,7 @@ function Content({
 
 function Facts({ children }: { children: ReactNode }) {
   return (
-    <dl className="grid grid-cols-[112px_minmax(0,1fr)] gap-x-4 gap-y-2 text-sm">
+    <dl className="grid grid-cols-[88px_minmax(0,1fr)] gap-x-4 gap-y-3 text-sm">
       {children}
     </dl>
   );
@@ -206,64 +211,5 @@ function Fact({ term, children }: { term: string; children: ReactNode }) {
       <dt className="text-muted-foreground">{term}</dt>
       <dd>{children}</dd>
     </>
-  );
-}
-
-/** The page rebuilt from the parse: every element's text or image in the box it was found in, the selection highlighted. */
-function PageOutline({
-  outline,
-  id,
-  figureBase,
-}: {
-  outline: Outline;
-  id: string;
-  figureBase: string;
-}) {
-  const { frame } = outline;
-  const pct = (n: number, of: number) => `${(n / of) * 100}%`;
-  return (
-    <figure className="flex flex-col gap-2">
-      <figcaption className="text-xs text-muted-foreground">
-        Page {outline.page}
-      </figcaption>
-      <div
-        role="img"
-        aria-label={`Where ${id} sits on page ${outline.page}`}
-        className="relative w-full overflow-hidden rounded-sm border bg-background @container"
-        style={{ aspectRatio: `${frame.width} / ${frame.height}` }}
-      >
-        {outline.boxes.map((b, i) => (
-          <div
-            key={i}
-            title={b.id}
-            className={cn(
-              "absolute overflow-hidden leading-[1.2] break-words",
-              b.heading && "font-bold",
-              b.marked
-                ? "z-10 bg-primary/10 text-foreground outline-2 outline-offset-1 outline-primary"
-                : "text-muted-foreground",
-            )}
-            style={{
-              left: pct(b.x - frame.x, frame.width),
-              top: pct(b.y - frame.y, frame.height),
-              width: pct(b.width, frame.width),
-              height: pct(b.height, frame.height),
-              fontSize: `${(b.fontSize / frame.width) * 100}cqw`,
-            }}
-          >
-            {b.image ? (
-              // eslint-disable-next-line @next/next/no-img-element -- blob-served png, size unknown
-              <img
-                src={figureBase + b.image}
-                alt=""
-                className="size-full object-contain"
-              />
-            ) : (
-              b.text
-            )}
-          </div>
-        ))}
-      </div>
-    </figure>
   );
 }

@@ -59,17 +59,6 @@ export function childrenOf(doc: ParsedDocument): Map<string, Element[]> {
   return out;
 }
 
-/** `id` and every element under it. */
-export function subtree(
-  children: Map<string, Element[]>,
-  id: string,
-): Set<string> {
-  const out = new Set([id]);
-  for (const c of children.get(id) ?? [])
-    for (const d of subtree(children, c.id)) out.add(d);
-  return out;
-}
-
 /**
  * The parse graph as a left-to-right tree: one column per depth, Document first.
  * Sections are always drawn; an element's paragraphs, tables and figures only
