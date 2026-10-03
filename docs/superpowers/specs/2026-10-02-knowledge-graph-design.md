@@ -51,7 +51,7 @@ Two PRs, in order.
 - `packages/annotate`: delete `mentions.ts`, `runMentions`, the `Mention`
   type, the mentions half of `ground` and its schema, the
   `annotate-responses/mentions` fixtures and the mentions tests. Rename
-  `classify.ts` to `annotate.ts` (the prompt), `runClassify` to `runAnnotate`,
+  `classify.ts` to `prompt.ts` (the prompt; `annotate.ts` already holds the orchestration), `runClassify` to `runAnnotate`,
   `annotate-responses/classify` to `annotate-responses/annotate`.
   `AnnotateResult` becomes `{ classifications, warnings }`.
 - `apps/web`: `OPERATIONS.annotate = ["annotate"]`; the workflow runs one
@@ -74,14 +74,14 @@ No new environment variable, no session setup.
 
 Structure, from `ParsedDocument`:
 
-| ParsedDocument                  | AGE                                                                             |
-| ------------------------------- | ------------------------------------------------------------------------------- |
-| `source`, `content`, `warnings` | `(:Document {jobId, sha256, pages, content, warnings})`                         |
-| `Element` by `kind`             | `(:Section)`, `(:Paragraph)`, `(:Table)`, `(:Figure)`                           |
-| `Cell`                          | `(:Cell)`                                                                       |
-| element and cell fields         | properties, minus `parent` and `kind`, plus `order` (position in reading order) |
-| `parent`                        | `(child)-[:IN]->(parent)`; root elements `-[:IN]->(:Document)`                  |
-| cell in table                   | `(cell)-[:IN]->(table)`                                                         |
+| ParsedDocument                  | AGE                                                                                                                            |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `source`, `content`, `warnings` | `(:Document {jobId, sha256, pages, content, warnings})`                                                                        |
+| `Element` by `kind`             | `(:Section)`, `(:Paragraph)`, `(:Table)`, `(:Figure)`                                                                          |
+| `Cell`                          | `(:Cell)`                                                                                                                      |
+| element and cell fields         | properties, minus `parent` and `kind`, plus `jobId` and `position` (index in reading order; `order` is a Cypher reserved word) |
+| `parent`                        | `(child)-[:IN]->(parent)`; root elements `-[:IN]->(:Document)`                                                                 |
+| cell in table                   | `(cell)-[:IN]->(table)`                                                                                                        |
 
 Requirements, from `Classification`:
 
@@ -103,7 +103,7 @@ readRequirements(jobId: string): Promise<Classification[]>
 - Writes are parameterized `UNWIND $rows` Cypher in one transaction.
 - Each write first deletes the job's existing nodes of its layer
   (`DETACH DELETE`), so a Workflow retry cannot duplicate.
-- `readDocument` returns elements ordered by `order`, `parent` from the `IN`
+- `readDocument` returns elements ordered by `position`, `parent` from the `IN`
   edge, cells nested in their table, and is the inverse of `writeDocument`:
   write then read yields a deep-equal `ParsedDocument`.
 - `readRequirements` maps the label back to its kebab-case `type`.
