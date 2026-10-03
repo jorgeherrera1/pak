@@ -46,7 +46,7 @@ async function annotateOperation(jobId: string) {
       warnings: result.warnings,
     });
     return {
-      requirements: result.classifications.length,
+      classifications: result.classifications.length,
       warnings: result.warnings.length,
     };
   });

@@ -217,7 +217,7 @@ export async function writeRequirements(
   });
 }
 
-/** The job's requirements in id order, each with the id of the element it came FROM. */
+/** The job's requirements in reading order, each with the id of the element it came FROM. */
 export async function readRequirements(
   jobId: string,
 ): Promise<Classification[]> {
@@ -244,5 +244,5 @@ export async function readRequirements(
         ...(category && { category }),
       };
     })
-    .sort((a, b) => parseInt(a.id.slice(1)) - parseInt(b.id.slice(1)));
+    .sort((a, b) => a.span.offset - b.span.offset);
 }

@@ -44,7 +44,7 @@ export default async function Page({
         <div className="flex flex-col">
           <span className="font-display text-sm font-bold">{job.filename}</span>
           <span className="text-xs text-muted-foreground">
-            Annotate · {ann.classifications.length} requirements ·{" "}
+            Annotate · {ann.classifications.length} classifications ·{" "}
             {ann.warnings.length} warnings
           </span>
         </div>
