@@ -2,9 +2,9 @@
 
 import type { ParsedDocument } from "@dark-factory/parse";
 import { Canvas } from "@dark-factory/ui/components/canvas";
-import { Controls, MarkerType, type Edge } from "@xyflow/react";
+import { Controls, MarkerType, useReactFlow, type Edge } from "@xyflow/react";
 import { useMemo, useState } from "react";
-import { toTree } from "@/lib/parse-tree";
+import { CARD, toTree } from "@/lib/parse-tree";
 import { ElementNode, type ElementFlowNode } from "./element-node";
 import { ElementPanel } from "./element-panel";
 
@@ -20,12 +20,24 @@ export function GraphView({
 }) {
   const [open, setOpen] = useState<ReadonlySet<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
+  const { fitView, getZoom } = useReactFlow();
   const tree = useMemo(() => toTree(doc, open), [doc, open]);
 
   const byId = useMemo(
     () => new Map(doc.elements.map((e) => [e.id, e])),
     [doc],
   );
+
+  /** Centres `id` at the current zoom. */
+  const focus = (id: string) => {
+    const zoom = getZoom();
+    void fitView({
+      nodes: [{ id }],
+      minZoom: zoom,
+      maxZoom: zoom,
+      duration: 300,
+    });
+  };
 
   /** Selects `id` and opens what hides its card: sections are always drawn, anything else needs its parent open. */
   const select = (id: string) => {
@@ -38,6 +50,7 @@ export function GraphView({
       return next;
     });
     setSelected(id);
+    focus(id);
   };
   const toggle = (id: string) =>
     setOpen((prev) => {
@@ -47,6 +60,8 @@ export function GraphView({
     });
   const nodes: ElementFlowNode[] = tree.nodes.map((n) => ({
     ...n,
+    // Every card is CARD-sized; without `measured` on these controlled nodes, fitView finds nothing to fit.
+    measured: CARD,
     data: {
       ...n.data,
       selected: n.id === selected,
@@ -71,7 +86,10 @@ export function GraphView({
           nodesDraggable={false}
           nodesConnectable={false}
           elementsSelectable={false}
-          onNodeClick={(_, n) => setSelected(n.id)}
+          onNodeClick={(_, n) => {
+            setSelected(n.id);
+            focus(n.id);
+          }}
         >
           <Controls showInteractive={false} />
         </Canvas>

@@ -1,3 +1,4 @@
+import { ReactFlowProvider } from "@xyflow/react";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { readDocument } from "@dark-factory/knowledge-graph";
@@ -20,7 +21,9 @@ export default async function Page({
     // The window minus the layout's h-16 header: the canvas fills the rest and the page never scrolls.
     <main className="flex h-[calc(100dvh-4rem)] flex-col">
       <ParseHeader jobId={id} filename={job.filename} doc={doc} view="graph" />
-      <GraphView doc={doc} jobId={id} />
+      <ReactFlowProvider>
+        <GraphView doc={doc} jobId={id} />
+      </ReactFlowProvider>
     </main>
   );
 }
