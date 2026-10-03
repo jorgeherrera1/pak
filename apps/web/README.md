@@ -1,6 +1,6 @@
 ## Vocabulary
 
-A **job** moves through the **station** (Requirements engineering), which runs in **steps** (Parse, Annotate); each step is a sequence of **operations**: Parse: upload, analyze, build; Annotate: annotate.
+A **job** moves through the **station** (Requirements engineering), which runs in **steps** (Parse, Annotate); each step is a sequence of **operations**: Parse: upload, parse; Annotate: annotate.
 
 ## Environment
 
@@ -40,6 +40,17 @@ migrations in `apps/web/drizzle/` (after a schema change: `npm run db:generate -
 commit the new file, then `db:migrate`). The SDK's bootstrap creates its
 own schemas there too: `workflow`, `workflow_drizzle`, and `graphile_worker`.
 
+Results live in the knowledge graph, an Apache AGE graph named `knowledge_graph` in the same
+database (AGE gives it a schema of that name). AGE must be loaded by the server, not by the app:
+set `shared_preload_libraries = 'age'` in `postgresql.conf` (the Azure dev server already has it)
+and restart, then once per database:
+
+```sql
+ALTER DATABASE motivus_dev SET search_path = ag_catalog, "$user", public;
+```
+
+The migration creates the graph; the extension must already exist (`CREATE EXTENSION age`).
+
 ## Run
 
 Run `npm run build` from the repo root once first, so `@dark-factory/parse` has a `dist/` to resolve.
@@ -59,8 +70,8 @@ curl -s -F file=@packages/parse/test/fixtures/prd-competencies.pdf http://localh
 curl -s http://localhost:3001/api/jobs/<id> | jq '.status, [.operations[] | {name, status}]'
 ```
 
-Expect 202 with an id; the job is done only once Annotate finishes too, so expect status `done` and all four operations `done` after a couple of minutes.
+Expect 202 with an id; the job is done only once Annotate finishes too, so expect status `done` and all three operations `done` after a couple of minutes. Open `/jobs/<id>/parse` and `/jobs/<id>/annotate` to read the results.
 
 ## Integration test
 
-`npm run test:integration -w apps/web` needs the dev server running on port 3001, plus Postgres, the storage account, and Azure credentials in `.env`; the root `npm run test:integration` now runs it too.
+`npm run test:integration -w apps/web` needs the dev server running on port 3001, plus Postgres, the storage account, and Azure credentials in `.env`; the root `npm run test:integration` now runs it too. `npm run test:integration -w packages/knowledge-graph` needs only Postgres: it round-trips the recorded fixtures through the graph.

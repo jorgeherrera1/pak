@@ -28,7 +28,9 @@ Turborepo monorepo, npm workspaces (`apps/*`, `packages/*`), 100% TypeScript. No
 
 `packages/annotate` is station 1, step 2 (Annotate): `ParsedDocument` in, grounded classifications out, via a `gpt-4o` deployment on Azure AI Foundry through the Vercel AI SDK. The vocabulary follows the IEEE 29148 SRS template. Every annotation is grounded in code against the source text before it is emitted.
 
-`apps/web` is Station 1's host: the Next.js app that receives a job (one requirements PDF), runs its Parse and Annotate operations durably on the Vercel Workflow SDK with a Postgres world, stores artifacts in Azure Blob, and exposes `/api/jobs`. `packages/ui` and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter — do not invest effort in them beyond keeping the build green.
+`packages/knowledge-graph` is where both steps store their results: an Apache AGE graph `knowledge_graph` in the same Postgres. `ParsedDocument` is the in-memory form; `writeDocument`/`readDocument` map it to structure nodes (`Document`, `Section`, `Paragraph`, `Table`, `Cell`, `Figure`) with `IN` edges, and `writeRequirements`/`readRequirements` map grounded classifications to nodes labeled by the IEEE 29148 type (`FunctionalRequirement`, `UserClass`, ...) with a `FROM` edge to the element they quote. Nothing is labeled by the process that produced it. AGE is loaded by the database, never by app code.
+
+`apps/web` is Station 1's host: the Next.js app that receives a job (one requirements PDF), runs its Parse and Annotate operations durably on the Vercel Workflow SDK with a Postgres world, stores the PDF and figure images in Azure Blob and the results in the knowledge graph, and exposes `/api/jobs`. `packages/ui` and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter — do not invest effort in them beyond keeping the build green.
 
 ## Commands
 
@@ -55,7 +57,7 @@ Work is not complete until all of these pass:
 2. `npm run lint`
 3. `npm run build`
 4. `npm test`, including tests for the behavior you added or changed. If the package you touched has no test setup yet, standing one up is part of your task — not a reason to skip tests.
-5. `npm run test:integration` when you changed `packages/parse`, `packages/annotate`, or their fixtures. It needs credentials, so it is not a CI gate; run it locally and report the result. For annotate this is also the eval: paste the precision/recall table in the PR.
+5. `npm run test:integration` when you changed `packages/parse`, `packages/annotate`, `packages/knowledge-graph`, or their fixtures. It needs credentials (the knowledge-graph one needs only local Postgres), so it is not a CI gate; run it locally and report the result. For annotate this is also the eval: paste the precision/recall table in the PR.
 
 Report results honestly: if a gate fails, say so and show the output.
 
