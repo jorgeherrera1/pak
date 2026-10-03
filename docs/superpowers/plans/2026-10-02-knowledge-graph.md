@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- Vocabulary is fixed by the spec's table: steps Parse and Annotate; operations `upload`, `parse`, `annotate`; package `@dark-factory/knowledge-graph`; AGE graph `dark_factory`; canvas code in `apps/web/lib/canvas.ts`. Every name appears identically in code, canvas, URLs and prose.
+- Vocabulary is fixed by the spec's table: steps Parse and Annotate; operations `upload`, `parse`, `annotate`; package `@dark-factory/knowledge-graph`; AGE graph `knowledge_graph`; canvas code in `apps/web/lib/canvas.ts`. Every name appears identically in code, canvas, URLs and prose.
 - No caches and no intermediate JSON in Blob. Blob holds only `source.pdf` and `figures/<id>.png`.
 - Graph nodes are labeled by the ontology (`FunctionalRequirement`, `UserClass`, ...) or by structure (`Document`, `Section`, `Paragraph`, `Table`, `Cell`, `Figure`). Never `Classification` or `Annotation`.
 - No `LOAD 'age'` and no `SET search_path` in app code. The database is configured for that (done locally on 2026-10-02; the README documents it).
@@ -866,7 +866,7 @@ cd apps/web && npx drizzle-kit generate --custom --name=knowledge_graph
 This adds an empty `drizzle/0001_knowledge_graph.sql` and a journal entry. Put one line in the file:
 
 ```sql
-SELECT create_graph('dark_factory');
+SELECT create_graph('knowledge_graph');
 ```
 
 Then apply it:
@@ -876,7 +876,7 @@ npm run db:migrate -w apps/web
 psql postgres://localhost:5432/motivus_dev -Atc "select name from ag_graph;"
 ```
 
-Expected: `dark_factory`.
+Expected: `knowledge_graph`.
 
 - [ ] **Step 3: Write the failing round-trip test**
 
@@ -884,7 +884,7 @@ Expected: `dark_factory`.
 
 ```ts
 /**
- * Needs local Postgres with AGE preloaded and the `dark_factory` graph
+ * Needs local Postgres with AGE preloaded and the `knowledge_graph` graph
  * (apps/web's migration). Reads WORKFLOW_POSTGRES_URL from the repo-root .env.
  */
 import { existsSync, readFileSync } from "node:fs";
@@ -946,7 +946,7 @@ import type { Cell, Element, ParsedDocument } from "@dark-factory/parse";
 import pg from "pg";
 
 /** The one AGE graph; created by apps/web's migration. */
-const GRAPH = "dark_factory";
+const GRAPH = "knowledge_graph";
 
 let pool: pg.Pool | undefined;
 // Opened on first use, not at import: tests load .env after importing this module.
@@ -1620,7 +1620,7 @@ Add `warnings: string[] | null` to the `operations` element type in the `job` de
 - After the `createdb motivus_dev` line in Setup, add a paragraph:
 
 ```
-Results live in the knowledge graph, an Apache AGE graph named `dark_factory` in the same
+Results live in the knowledge graph, an Apache AGE graph named `knowledge_graph` in the same
 database. AGE must be loaded by the server, not by the app: set
 `shared_preload_libraries = 'age'` in `postgresql.conf` (the Azure dev server already has it)
 and restart, then once per database:
@@ -1638,7 +1638,7 @@ The migration creates the graph; the extension must already exist (`CREATE EXTEN
 - After the `packages/annotate` paragraph add:
 
 ```
-`packages/knowledge-graph` is where both steps store their results: an Apache AGE graph `dark_factory` in the same Postgres. `ParsedDocument` is the in-memory form; `writeDocument`/`readDocument` map it to structure nodes (`Document`, `Section`, `Paragraph`, `Table`, `Cell`, `Figure`) with `IN` edges, and `writeRequirements`/`readRequirements` map grounded classifications to nodes labeled by the IEEE 29148 type (`FunctionalRequirement`, `UserClass`, ...) with a `FROM` edge to the element they quote. Nothing is labeled by the process that produced it. AGE is loaded by the database, never by app code.
+`packages/knowledge-graph` is where both steps store their results: an Apache AGE graph `knowledge_graph` in the same Postgres. `ParsedDocument` is the in-memory form; `writeDocument`/`readDocument` map it to structure nodes (`Document`, `Section`, `Paragraph`, `Table`, `Cell`, `Figure`) with `IN` edges, and `writeRequirements`/`readRequirements` map grounded classifications to nodes labeled by the IEEE 29148 type (`FunctionalRequirement`, `UserClass`, ...) with a `FROM` edge to the element they quote. Nothing is labeled by the process that produced it. AGE is loaded by the database, never by app code.
 ```
 
 - `apps/web` paragraph: `stores artifacts in Azure Blob` → `stores the PDF and figure images in Azure Blob, the results in the knowledge graph`.

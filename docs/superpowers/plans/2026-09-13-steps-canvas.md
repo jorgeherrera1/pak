@@ -28,30 +28,32 @@
 
 ## File structure
 
-| File | Responsibility |
-|---|---|
-| `packages/ui/src/components/canvas.tsx` | ai-elements Canvas: React Flow with defaults, imports React Flow CSS. |
-| `packages/ui/src/components/node.tsx` | ai-elements Node + NodeHeader/Title/Description/Content built on Card. |
-| `packages/ui/src/components/edge.tsx` | ai-elements `Edge.Animated` and `Edge.Temporary`. |
-| `apps/web/lib/graph.ts` | Types for the job response; `STEPS`; `stepStatus(ops)`; `toGraph(job)`. Pure. |
-| `apps/web/test/graph.test.ts` | Unit tests for `graph.ts`. |
-| `apps/web/app/jobs/[id]/use-job.ts` | `useJob(id)` polling hook. |
-| `apps/web/app/jobs/[id]/step-node.tsx` | React Flow custom node rendering one step and its operations. |
-| `apps/web/app/jobs/[id]/steps-canvas.tsx` | Client component: header + Canvas wired to `toGraph`. |
-| `apps/web/app/jobs/[id]/page.tsx` | Server page rendering `StepsCanvas` with the id. |
-| `apps/web/app/layout.tsx` | Gains the site header (moved from `page.tsx`) so both pages share it. |
-| `apps/web/app/page.tsx` | Header removed; copy made singular. |
-| `apps/web/app/intake.tsx` | One file, submit handler, inline error, navigation. |
+| File                                      | Responsibility                                                                |
+| ----------------------------------------- | ----------------------------------------------------------------------------- |
+| `packages/ui/src/components/canvas.tsx`   | ai-elements Canvas: React Flow with defaults, imports React Flow CSS.         |
+| `packages/ui/src/components/node.tsx`     | ai-elements Node + NodeHeader/Title/Description/Content built on Card.        |
+| `packages/ui/src/components/edge.tsx`     | ai-elements `Edge.Animated` and `Edge.Temporary`.                             |
+| `apps/web/lib/graph.ts`                   | Types for the job response; `STEPS`; `stepStatus(ops)`; `toGraph(job)`. Pure. |
+| `apps/web/test/graph.test.ts`             | Unit tests for `graph.ts`.                                                    |
+| `apps/web/app/jobs/[id]/use-job.ts`       | `useJob(id)` polling hook.                                                    |
+| `apps/web/app/jobs/[id]/step-node.tsx`    | React Flow custom node rendering one step and its operations.                 |
+| `apps/web/app/jobs/[id]/steps-canvas.tsx` | Client component: header + Canvas wired to `toGraph`.                         |
+| `apps/web/app/jobs/[id]/page.tsx`         | Server page rendering `StepsCanvas` with the id.                              |
+| `apps/web/app/layout.tsx`                 | Gains the site header (moved from `page.tsx`) so both pages share it.         |
+| `apps/web/app/page.tsx`                   | Header removed; copy made singular.                                           |
+| `apps/web/app/intake.tsx`                 | One file, submit handler, inline error, navigation.                           |
 
 ---
 
 ### Task 1: Install the ai-elements canvas components into `packages/ui`
 
 **Files:**
+
 - Create: `packages/ui/src/components/canvas.tsx`, `packages/ui/src/components/node.tsx`, `packages/ui/src/components/edge.tsx`
 - Modify: `packages/ui/package.json` (dependency `@xyflow/react`)
 
 **Interfaces:**
+
 - Produces: `Canvas` (props: `ReactFlowProps & { children? }`); `Node` (props: Card props plus `handles: { target: boolean; source: boolean }`), `NodeHeader`, `NodeTitle`, `NodeDescription`, `NodeContent`, `NodeFooter`; `Edge.Animated` and `Edge.Temporary` (React Flow `EdgeProps`). All importable as `@dark-factory/ui/components/canvas`, `.../node`, `.../edge`.
 
 - [ ] **Step 1: Install through shadcn using the package's own `components.json`**
@@ -67,13 +69,13 @@ The CLI rewrites imports to the aliases in `packages/ui/components.json` (`@dark
 `packages/ui/src/components/canvas.tsx`:
 
 ```tsx
-"use client"
+"use client";
 
-import { Background, ReactFlow, type ReactFlowProps } from "@xyflow/react"
-import type { ReactNode } from "react"
-import "@xyflow/react/dist/style.css"
+import { Background, ReactFlow, type ReactFlowProps } from "@xyflow/react";
+import type { ReactNode } from "react";
+import "@xyflow/react/dist/style.css";
 
-type CanvasProps = ReactFlowProps & { children?: ReactNode }
+type CanvasProps = ReactFlowProps & { children?: ReactNode };
 
 export const Canvas = ({ children, ...props }: CanvasProps) => (
   <ReactFlow
@@ -88,16 +90,16 @@ export const Canvas = ({ children, ...props }: CanvasProps) => (
     <Background bgColor="var(--sidebar)" />
     {children}
   </ReactFlow>
-)
+);
 ```
 
 `packages/ui/src/components/node.tsx`:
 
 ```tsx
-"use client"
+"use client";
 
-import { Handle, Position } from "@xyflow/react"
-import type { ComponentProps } from "react"
+import { Handle, Position } from "@xyflow/react";
+import type { ComponentProps } from "react";
 
 import {
   Card,
@@ -107,18 +109,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@dark-factory/ui/components/card"
-import { cn } from "@dark-factory/ui/lib/utils"
+} from "@dark-factory/ui/components/card";
+import { cn } from "@dark-factory/ui/lib/utils";
 
 export type NodeProps = ComponentProps<typeof Card> & {
-  handles: { target: boolean; source: boolean }
-}
+  handles: { target: boolean; source: boolean };
+};
 
 export const Node = ({ handles, className, ...props }: NodeProps) => (
   <Card
     className={cn(
       "node-container relative size-full h-auto w-sm gap-0 rounded-md p-0",
-      className
+      className,
     )}
     {...props}
   >
@@ -126,7 +128,7 @@ export const Node = ({ handles, className, ...props }: NodeProps) => (
     {handles.source && <Handle position={Position.Right} type="source" />}
     {props.children}
   </Card>
-)
+);
 
 export const NodeHeader = ({
   className,
@@ -136,22 +138,22 @@ export const NodeHeader = ({
     className={cn("gap-0.5 rounded-t-md border-b bg-secondary p-3!", className)}
     {...props}
   />
-)
+);
 export const NodeTitle = (props: ComponentProps<typeof CardTitle>) => (
   <CardTitle {...props} />
-)
+);
 export const NodeDescription = (
-  props: ComponentProps<typeof CardDescription>
-) => <CardDescription {...props} />
+  props: ComponentProps<typeof CardDescription>,
+) => <CardDescription {...props} />;
 export const NodeAction = (props: ComponentProps<typeof CardAction>) => (
   <CardAction {...props} />
-)
+);
 export const NodeContent = ({
   className,
   ...props
 }: ComponentProps<typeof CardContent>) => (
   <CardContent className={cn("p-3", className)} {...props} />
-)
+);
 export const NodeFooter = ({
   className,
   ...props
@@ -160,7 +162,7 @@ export const NodeFooter = ({
     className={cn("rounded-b-md border-t bg-secondary p-3!", className)}
     {...props}
   />
-)
+);
 ```
 
 `packages/ui/src/components/edge.tsx`: the registry file verbatim (a `Temporary` dashed edge using `getSimpleBezierPath`, an `Animated` edge using `useInternalNode`, `getBezierPath`, and an SVG `<circle>` with `<animateMotion>`, exported as `export const Edge = { Temporary, Animated }`), with `"use client"` as its first line.
@@ -187,24 +189,56 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ### Task 2: `toGraph`: job response to nodes and edges
 
 **Files:**
+
 - Create: `apps/web/lib/graph.ts`
 - Test: `apps/web/test/graph.test.ts`
 
 **Interfaces:**
+
 - Produces:
 
 ```ts
 export type OperationStatus = "pending" | "running" | "done" | "failed";
 export type JobStatus = "queued" | "running" | "done" | "failed";
-export type OperationRow = { step: string; name: string; position: number; status: OperationStatus; error: string | null };
-export type JobResponse = { id: string; filename: string; size: number; status: JobStatus; error: string | null; operations: OperationRow[] };
+export type OperationRow = {
+  step: string;
+  name: string;
+  position: number;
+  status: OperationStatus;
+  error: string | null;
+};
+export type JobResponse = {
+  id: string;
+  filename: string;
+  size: number;
+  status: JobStatus;
+  error: string | null;
+  operations: OperationRow[];
+};
 export type StepStatus = OperationStatus;
-export type StepNodeData = { label: string; status: StepStatus; operations: OperationRow[] };
-export type StepNode = { id: string; type: "step"; position: { x: number; y: number }; data: StepNodeData };
-export type StepEdge = { id: string; source: string; target: string; type?: "animated" };
+export type StepNodeData = {
+  label: string;
+  status: StepStatus;
+  operations: OperationRow[];
+};
+export type StepNode = {
+  id: string;
+  type: "step";
+  position: { x: number; y: number };
+  data: StepNodeData;
+};
+export type StepEdge = {
+  id: string;
+  source: string;
+  target: string;
+  type?: "animated";
+};
 export const STEPS: readonly { id: string; label: string }[];
 export function stepStatus(ops: OperationRow[]): StepStatus;
-export function toGraph(job: JobResponse): { nodes: StepNode[]; edges: StepEdge[] };
+export function toGraph(job: JobResponse): {
+  nodes: StepNode[];
+  edges: StepEdge[];
+};
 ```
 
 - [ ] **Step 1: Write the failing tests**
@@ -405,10 +439,12 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ### Task 3: The `/jobs/[id]` page: polling hook, step node, canvas
 
 **Files:**
+
 - Create: `apps/web/app/jobs/[id]/use-job.ts`, `apps/web/app/jobs/[id]/step-node.tsx`, `apps/web/app/jobs/[id]/steps-canvas.tsx`, `apps/web/app/jobs/[id]/page.tsx`
 - Modify: `apps/web/app/layout.tsx` (header moved in), `apps/web/app/page.tsx` (header removed)
 
 **Interfaces:**
+
 - Consumes: `toGraph`, `JobResponse`, `StepNodeData`, `OperationStatus` from `@/lib/graph` (Task 2); `Canvas`, `Node`, `NodeHeader`, `NodeTitle`, `NodeDescription`, `NodeContent`, `Edge` from `@dark-factory/ui/components/{canvas,node,edge}` (Task 1).
 - Produces: route `/jobs/[id]`.
 
@@ -647,9 +683,11 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ### Task 4: Wire the intake screen
 
 **Files:**
+
 - Modify: `apps/web/app/intake.tsx`
 
 **Interfaces:**
+
 - Consumes: `POST /api/jobs`; route `/jobs/[id]` (Task 3).
 
 - [ ] **Step 1: Rewrite `intake.tsx` for one file and a real Start run**
@@ -720,7 +758,9 @@ export function Intake() {
       <FileUpload
         accept=".pdf,application/pdf"
         title={
-          file ? "Drop another document to replace it" : "Drop a requirements document here"
+          file
+            ? "Drop another document to replace it"
+            : "Drop a requirements document here"
         }
         description="PDF only for now"
         onFiles={(added) => {
@@ -747,7 +787,9 @@ export function Intake() {
                 <FileText />
               </ItemMedia>
               <ItemContent className="min-w-0">
-                <ItemTitle className="max-w-full truncate">{file.name}</ItemTitle>
+                <ItemTitle className="max-w-full truncate">
+                  {file.name}
+                </ItemTitle>
                 <ItemDescription>{formatSize(file.size)}</ItemDescription>
               </ItemContent>
               <ItemActions>
