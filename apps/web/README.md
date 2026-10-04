@@ -43,10 +43,10 @@ npm run db:migrate -w apps/web
 
 Our tables live in schema `dark_factory` of the `motivus_dev` database, created by the SQL
 migrations in `apps/web/drizzle/` (after a schema change: `npm run db:generate -w apps/web`,
-commit the new file, then `db:migrate`). The SDK's bootstrap creates its
+commit the new folder, then `db:migrate`). The SDK's bootstrap creates its
 own schemas there too: `workflow`, `workflow_drizzle`, and `graphile_worker`.
 
-The migration `0001_knowledge_graph` creates the graph; it needs the extension and the
+The migration `20261003062430_knowledge_graph` creates the graph; it needs the extension and the
 search_path from the `psql` line above.
 
 ## Run
