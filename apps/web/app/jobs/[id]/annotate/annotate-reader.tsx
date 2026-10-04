@@ -5,13 +5,11 @@ import type { Element, ParsedDocument } from "@dark-factory/parse";
 import { useMemo, useState, type ReactNode } from "react";
 import { segments } from "@/lib/segments";
 import { CATEGORY, familyOf, ORDER, owner } from "@/lib/vocabulary";
-import { Figure, PageDivider, Table } from "../reader-parts";
+import { anchor, Figure, PageDivider, Table } from "../reader-parts";
 
 type Mark = Classification;
 /** Layer key: a classification toggles by its type. */
 const layer = (m: Mark) => `c:${m.type}`;
-
-const anchor = (id: string) => id.replaceAll("/", "-");
 
 type Ctx = {
   visible: (elementId: string) => Mark[];
