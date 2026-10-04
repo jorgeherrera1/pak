@@ -70,7 +70,9 @@ export function toOutline(
     const section =
       ancestry(owner(r.elementId)).find((e) => e.kind === "section")?.id ??
       DOCUMENT;
-    beside.set(section, [...(beside.get(section) ?? []), r]);
+    const list = beside.get(section);
+    if (list) list.push(r);
+    else beside.set(section, [r]);
   }
   const path = (id: string) =>
     ancestry(id)
