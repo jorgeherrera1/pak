@@ -1,9 +1,7 @@
 import type { Element, ParsedDocument } from "@dark-factory/parse";
 import type { ReactNode } from "react";
-import { Figure, PageDivider, Table } from "../reader-parts";
-
-/** "sections/3" → "sections-3", usable as a DOM id and fragment. */
-const anchor = (id: string) => id.replace("/", "-");
+import { anchor, Figure, PageDivider, Table } from "../reader-parts";
+import { FlashTarget } from "./flash-target";
 const page = (e: Element) => e.region[0]?.page;
 
 /** Depth of a section under the root, for outline indentation. */
@@ -55,7 +53,8 @@ export function ParseReader({
               </ul>
             </div>
           )}
-          <Elements doc={doc} figureBase={figureBase} />
+          <Elements doc={doc} byId={byId} figureBase={figureBase} />
+          <FlashTarget />
         </article>
       </div>
     </div>
@@ -64,9 +63,11 @@ export function ParseReader({
 
 function Elements({
   doc,
+  byId,
   figureBase,
 }: {
   doc: ParsedDocument;
+  byId: Map<string, Element>;
   figureBase: string;
 }) {
   const out: ReactNode[] = [];
@@ -83,7 +84,7 @@ function Elements({
       out.push(<PageDivider key={`page-${p}`} page={p} />);
     }
     out.push(
-      <Row key={e.id} e={e}>
+      <Row key={e.id} e={e} byId={byId}>
         <Body e={e} figureBase={figureBase} />
       </Row>,
     );
@@ -91,11 +92,29 @@ function Elements({
   return out;
 }
 
-/** Content on the left, the element id and role in a muted margin on the right. */
-function Row({ e, children }: { e: Element; children: ReactNode }) {
+/**
+ * Content on the left, the element id and role in a muted margin on the right.
+ * `data-anchors` lists the anchors that land on it: its own and every section it sits in.
+ */
+function Row({
+  e,
+  byId,
+  children,
+}: {
+  e: Element;
+  byId: Map<string, Element>;
+  children: ReactNode;
+}) {
   const meta = e.kind === "paragraph" && e.role ? `${e.id} · ${e.role}` : e.id;
+  const anchors = [anchor(e.id)];
+  for (let p = e.parent; p; p = byId.get(p)?.parent ?? null)
+    anchors.push(anchor(p));
   return (
-    <div id={anchor(e.id)} className="grid grid-cols-[1fr_150px] gap-4">
+    <div
+      id={anchor(e.id)}
+      data-anchors={anchors.join(" ")}
+      className="grid grid-cols-[1fr_150px] gap-4"
+    >
       <div className="min-w-0">{children}</div>
       <code className="pt-1 text-right text-[11px] leading-tight text-muted-foreground">
         {meta}
