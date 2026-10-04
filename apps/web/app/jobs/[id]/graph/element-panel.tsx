@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import { useMemo, type ReactNode } from "react";
 import { childrenOf, DOCUMENT, label, plural } from "@/lib/parse-tree";
-import { anchor, Figure, Table } from "../../reader-parts";
+import { anchor, Figure, Table } from "../reader-parts";
 
 const KIND = {
   section: "Section",

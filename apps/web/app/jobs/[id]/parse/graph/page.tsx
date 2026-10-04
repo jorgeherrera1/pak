@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { readDocument } from "@dark-factory/knowledge-graph";
 import { db, isUuid, jobs } from "@/lib/db";
 import { ParseHeader } from "../parse-header";
-import { GraphView } from "./graph-view";
+import { GraphView } from "../../graph/graph-view";
 
 // The same document as the reader, drawn as the graph it is stored as.
 export default async function Page({
