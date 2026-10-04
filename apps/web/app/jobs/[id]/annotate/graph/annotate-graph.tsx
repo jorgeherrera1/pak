@@ -163,7 +163,7 @@ export function AnnotateGraph({
                 key={c.r.id}
                 type="button"
                 aria-pressed={c === picked}
-                onClick={() => setSelected(c.r.id)}
+                onClick={() => setSelected(c === picked ? null : c.r.id)}
                 style={{ left: c.x, top: c.y, width: c.w, height: HEIGHT }}
                 className={cn(
                   "absolute flex items-center gap-2.5 rounded-sm border bg-card pr-3 pl-2 text-left text-sm",
