@@ -227,7 +227,7 @@ function Content({
   }
 }
 
-function Facts({ children }: { children: ReactNode }) {
+export function Facts({ children }: { children: ReactNode }) {
   return (
     <dl className="grid grid-cols-[88px_minmax(0,1fr)] gap-x-4 gap-y-3 text-sm">
       {children}
@@ -235,7 +235,13 @@ function Facts({ children }: { children: ReactNode }) {
   );
 }
 
-function Fact({ term, children }: { term: string; children: ReactNode }) {
+export function Fact({
+  term,
+  children,
+}: {
+  term: string;
+  children: ReactNode;
+}) {
   return (
     <>
       <dt className="text-muted-foreground">{term}</dt>
