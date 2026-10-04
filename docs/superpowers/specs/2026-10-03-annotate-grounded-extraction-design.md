@@ -28,17 +28,18 @@ written guidelines, and the eval scores a run against a human answer key.
 
 ## Decisions
 
-| Topic               | Decision                                                                                                                                                        |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Unit of a finding   | Unchanged: the requirement statement, quoted verbatim, on one element. The AI rewrites nothing at this step.                                                    |
-| Alignment           | Exact, then normalized, then the whole element. A finding is dropped only when its element does not exist.                                                      |
-| Ontology            | One guideline per type (definition, when to label, what it is not, examples), all loaded into the instructions on every call.                                   |
-| Selection marks     | Left in place; Parse is not changed (Jorge, 2026-10-03). The normalized alignment step ignores them.                                                            |
-| Eval                | Unchanged scoring (element plus type, precision and recall per type). Jorge supplies `expected.json`.                                                           |
-| Output type         | `AnnotateResult` is unchanged, so the knowledge graph and the reader page are untouched.                                                                        |
-| Agent               | Not built. Considered a self-correcting tool loop (AI SDK `ToolLoopAgent`) and Vercel eve. With tolerant alignment there is nothing left for a loop to correct. |
-| Element-only labels | Not adopted as the unit: one label per bullet cannot separate two requirements in the same bullet. It is the fallback when a quote cannot be located.           |
-| Most radical option | Replace `packages/annotate` with LangExtract. Rejected: it is Python in a 100% TypeScript repo, and the parts we lack are small.                                |
+| Topic               | Decision                                                                                                                                                                            |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unit of a finding   | Unchanged: the requirement statement, quoted verbatim, on one element. The AI rewrites nothing at this step.                                                                        |
+| Alignment           | Exact, then normalized, then the whole element. A finding is dropped only when its element does not exist.                                                                          |
+| Ontology            | One guideline per type (definition, when to label, what it is not, examples), all loaded into the instructions on every call.                                                       |
+| Selection marks     | Left in place; Parse is not changed (Jorge, 2026-10-03). The normalized alignment step ignores them.                                                                                |
+| Eval                | Unchanged scoring (element plus type, precision and recall per type). Jorge supplies `expected.json`.                                                                               |
+| Output type         | `AnnotateResult` is unchanged, so the knowledge graph and the reader page are untouched.                                                                                            |
+| Agent               | Not built (Jorge agreed, 2026-10-03). Considered a self-correcting tool loop (AI SDK `ToolLoopAgent`) and Vercel eve. With tolerant alignment a loop has almost nothing to correct. |
+| Offsets             | The model never returns character offsets; models cannot count characters reliably. It returns the element id it reads off the page and the quote; code computes the span.          |
+| Element-only labels | Not adopted as the unit: one label per bullet cannot separate two requirements in the same bullet. It is the fallback when a quote cannot be located.                               |
+| Most radical option | Replace `packages/annotate` with LangExtract. Rejected: it is Python in a 100% TypeScript repo, and the parts we lack are small.                                                    |
 
 ## 1. Alignment (`packages/annotate/src/ground.ts`)
 
@@ -140,8 +141,10 @@ Definition of done includes `npm run test:integration` for `annotate` and
 - A retry when the model returns an unknown element, and a second pass for
   missed findings. Both are standard; neither is justified until the eval
   shows the need.
-- Fuzzy token alignment between the normalized step and the whole-element
-  fallback. Add it if the eval shows many fallbacks.
+- Three ways to cut whole-element fallbacks, if the eval shows many: fuzzy
+  token alignment; numbering the sentences inside each element so the model
+  points at a sentence id instead of copying text; a loop that asks the model
+  to re-quote.
 - Findings that span two elements. A sentence Parse split in two is labeled on
   one of its halves.
 - New types for the template sections that have none (in-scope items,
