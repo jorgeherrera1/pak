@@ -5,7 +5,7 @@ import type { Element, ParsedDocument } from "@dark-factory/parse";
 import { useMemo, useState, type ReactNode } from "react";
 import { segments } from "@/lib/segments";
 import { CATEGORY, familyOf, ORDER, owner } from "@/lib/vocabulary";
-import { anchor, Figure, PageDivider, Table } from "../reader-parts";
+import { anchor, Figure, flip, PageDivider, Table } from "../reader-parts";
 
 type Mark = Classification;
 /** Layer key: a classification toggles by its type. */
@@ -81,11 +81,6 @@ export function AnnotateReader({
       reveal(id);
     },
     parity,
-  };
-  const flip = (key: string) => (set: ReadonlySet<string>) => {
-    const next = new Set(set);
-    if (!next.delete(key)) next.add(key);
-    return next;
   };
   /** Something picked in the document shows up in the pane: group open, row in view. */
   const reveal = (id: string) => {

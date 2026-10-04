@@ -6,6 +6,13 @@ import type { ReactNode } from "react";
 /** "sections/3" → "sections-3": the reader's DOM id for an element, usable as a fragment. */
 export const anchor = (id: string) => id.replaceAll("/", "-");
 
+/** A state updater that adds `key` to a set, or removes it if present. */
+export const flip = (key: string) => (set: ReadonlySet<string>) => {
+  const next = new Set(set);
+  if (!next.delete(key)) next.add(key);
+  return next;
+};
+
 export function PageDivider({ page }: { page: number }) {
   return (
     <div className="flex items-center gap-3 pt-4 font-display text-xs font-bold tracking-eyebrow text-muted-foreground uppercase">

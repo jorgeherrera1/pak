@@ -9,13 +9,7 @@ import { useMemo, useState } from "react";
 import { HEIGHT, toOutline, type OutlineCard } from "@/lib/outline";
 import { DOCUMENT } from "@/lib/parse-tree";
 import { CATEGORY, familyOf, ORDER, owner } from "@/lib/vocabulary";
-import { anchor } from "../../reader-parts";
-
-const flip = (key: string) => (set: ReadonlySet<string>) => {
-  const next = new Set(set);
-  if (!next.delete(key)) next.add(key);
-  return next;
-};
+import { anchor, flip } from "../../reader-parts";
 
 /** A type in its family's colour, as the reader's margin chips show it. */
 function TypeChip({ r }: { r: Classification }) {
