@@ -70,6 +70,12 @@ Each guideline has four parts: definition, when to label, what it is not
 (naming the neighbouring type), and examples. Non-functional requirement
 categories live inside that type's guideline.
 
+A guideline holds only what helps decide a label. It says nothing about how an
+SRS is laid out or written: no section numbers, no identifier prefixes, no
+authoring rules. Annotate labels the source; it does not build the SRS. The
+"Becomes a FEAT", "Becomes an FR" phrases in today's prompt go for the same
+reason.
+
 Examples come from the SRS template for now and are marked as SRS-side
 wording. Source-side examples (how an RFP phrases it) are added when Jorge
 supplies them from a document other than the eval fixture; examples taken from
