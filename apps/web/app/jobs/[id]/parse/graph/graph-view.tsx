@@ -1,6 +1,5 @@
 "use client";
 
-import type { Classification } from "@dark-factory/annotate";
 import type { ParsedDocument } from "@dark-factory/parse";
 import { Canvas } from "@dark-factory/ui/components/canvas";
 import { Controls, MarkerType, useReactFlow, type Edge } from "@xyflow/react";
@@ -8,32 +7,21 @@ import { useMemo, useState } from "react";
 import { CARD, DOCUMENT, toTree } from "@/lib/parse-tree";
 import { ElementNode, type ElementFlowNode } from "./element-node";
 import { ElementPanel } from "./element-panel";
-import { RequirementNode, type RequirementFlowNode } from "./requirement-node";
-import { RequirementPanel } from "./requirement-panel";
 
-const nodeTypes = { element: ElementNode, requirement: RequirementNode };
+const nodeTypes = { element: ElementNode };
 
-/** The tree on the left; whatever is clicked opens in the panel on the right. Given requirements, they hang off what they quote. */
+/** The tree on the left; whatever is clicked opens in the panel on the right. */
 export function GraphView({
   doc,
   jobId,
-  requirements,
 }: {
   doc: ParsedDocument;
   jobId: string;
-  requirements?: Classification[];
 }) {
-  // Requirements are what the Annotate graph is for, so it opens with every one of them showing.
-  const [open, setOpen] = useState<ReadonlySet<string>>(
-    () =>
-      new Set(requirements ? [DOCUMENT, ...doc.elements.map((e) => e.id)] : []),
-  );
+  const [open, setOpen] = useState<ReadonlySet<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
   const { fitView, getZoom } = useReactFlow();
-  const tree = useMemo(
-    () => toTree(doc, open, requirements),
-    [doc, open, requirements],
-  );
+  const tree = useMemo(() => toTree(doc, open), [doc, open]);
 
   const byId = useMemo(
     () => new Map(doc.elements.map((e) => [e.id, e])),
@@ -70,14 +58,13 @@ export function GraphView({
       if (!next.delete(id)) next.add(id);
       return next;
     });
-  const nodes = tree.nodes.map((n): ElementFlowNode | RequirementFlowNode => {
+  const nodes: ElementFlowNode[] = tree.nodes.map((n) => ({
+    ...n,
     // Every card is CARD-sized; without `measured` on these controlled nodes, fitView finds nothing to fit.
-    const flow = { measured: CARD, selected: n.id === selected };
-    return n.type === "element"
-      ? { ...n, ...flow, data: { ...n.data, onToggle: () => toggle(n.id) } }
-      : { ...n, ...flow };
-  });
-  const requirement = requirements?.find((r) => r.id === selected);
+    measured: CARD,
+    selected: n.id === selected,
+    data: { ...n.data, onToggle: () => toggle(n.id) },
+  }));
   const edges: Edge[] = tree.edges.map((e) => ({
     ...e,
     type: "smoothstep",
@@ -106,23 +93,14 @@ export function GraphView({
           <Controls showInteractive={false} />
         </Canvas>
       </div>
-      {requirement ? (
-        <RequirementPanel
+      {selected && (
+        <ElementPanel
+          doc={doc}
           jobId={jobId}
-          r={requirement}
+          id={selected}
           onSelect={select}
           onClose={() => setSelected(null)}
         />
-      ) : (
-        selected && (
-          <ElementPanel
-            doc={doc}
-            jobId={jobId}
-            id={selected}
-            onSelect={select}
-            onClose={() => setSelected(null)}
-          />
-        )
       )}
     </div>
   );

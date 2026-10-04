@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import { useMemo, type ReactNode } from "react";
 import { childrenOf, DOCUMENT, label, plural } from "@/lib/parse-tree";
-import { anchor, Figure, Table } from "../reader-parts";
+import { anchor, Figure, Table } from "../../reader-parts";
 
 const KIND = {
   section: "Section",
@@ -227,7 +227,7 @@ function Content({
   }
 }
 
-export function Facts({ children }: { children: ReactNode }) {
+function Facts({ children }: { children: ReactNode }) {
   return (
     <dl className="grid grid-cols-[88px_minmax(0,1fr)] gap-x-4 gap-y-3 text-sm">
       {children}
@@ -235,13 +235,7 @@ export function Facts({ children }: { children: ReactNode }) {
   );
 }
 
-export function Fact({
-  term,
-  children,
-}: {
-  term: string;
-  children: ReactNode;
-}) {
+function Fact({ term, children }: { term: string; children: ReactNode }) {
   return (
     <>
       <dt className="text-muted-foreground">{term}</dt>
