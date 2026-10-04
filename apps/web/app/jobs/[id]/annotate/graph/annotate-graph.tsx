@@ -250,7 +250,7 @@ function Picked({ c, jobId }: { c: OutlineCard; jobId: string }) {
           <code className="text-xs">{r.elementId}</code>
         </dd>
         <dt className="text-muted-foreground">Section</dt>
-        <dd>{c.path || "Untitled"}</dd>
+        <dd>{c.section === DOCUMENT ? "None" : c.path || "Untitled"}</dd>
       </dl>
       <Link
         href={`/jobs/${jobId}/annotate#${anchor(owner(r.elementId))}`}
