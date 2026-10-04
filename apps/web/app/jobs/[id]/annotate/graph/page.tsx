@@ -2,7 +2,7 @@ import { AnnotateHeader } from "../annotate-header";
 import { load } from "../load";
 import { AnnotateGraph } from "./annotate-graph";
 
-// The document's sections as an outline, each requirement beside the section holding what it quotes.
+// The document's sections as an outline, each classification beside the section holding what it quotes.
 export default async function Page({
   params,
 }: {
@@ -19,7 +19,11 @@ export default async function Page({
         ann={ann}
         view="graph"
       />
-      <AnnotateGraph doc={doc} requirements={ann.classifications} jobId={id} />
+      <AnnotateGraph
+        doc={doc}
+        classifications={ann.classifications}
+        jobId={id}
+      />
     </main>
   );
 }

@@ -10,7 +10,7 @@ const fixture = (path: string) =>
 const doc: ParsedDocument = fixture(
   "../../../packages/parse/test/fixtures/parsed.json",
 );
-const { classifications: requirements }: AnnotateResult = fixture(
+const { classifications }: AnnotateResult = fixture(
   "../../../packages/annotate/test/fixtures/annotate.json",
 );
 const sections = Array.from({ length: 18 }, (_, i) => `sections/${i}`);
@@ -18,15 +18,15 @@ const everything = new Set([DOCUMENT, ...sections]);
 const none = new Set<string>();
 
 test("the rows are the Document, then every section in reading order, each indented under its parent", () => {
-  const { rows } = toOutline(doc, requirements, everything, none);
+  const { rows } = toOutline(doc, classifications, everything, none);
   expect(rows.map((r) => r.id)).toEqual([DOCUMENT, ...sections]);
   const x = (id: string) => rows.find((r) => r.id === id)!.x;
   expect(x("sections/7")).toBeGreaterThan(x("sections/6"));
   expect(x("sections/6")).toBe(x("sections/2"));
 });
 
-test("each annotation sits beside the section holding what it quotes, a cell's beside its table's", () => {
-  const { rows, cards } = toOutline(doc, requirements, everything, none);
+test("each classification sits beside the section holding what it quotes, a cell's beside its table's", () => {
+  const { rows, cards } = toOutline(doc, classifications, everything, none);
   expect(cards).toHaveLength(49);
   const beside = (id: string) =>
     cards.filter((c) => c.section === id).map((c) => c.r.id);
@@ -55,7 +55,7 @@ test("each annotation sits beside the section holding what it quotes, a cell's b
 
 test("a folded section keeps its count, draws no cards and takes one line", () => {
   const open = new Set([...everything].filter((id) => id !== "sections/3"));
-  const { rows, cards } = toOutline(doc, requirements, open, none);
+  const { rows, cards } = toOutline(doc, classifications, open, none);
   const row = (id: string) => rows.find((r) => r.id === id)!;
   expect(row("sections/3")).toMatchObject({ count: 2, open: false });
   expect(cards.map((c) => c.r.id)).not.toContain("a2");
@@ -67,7 +67,7 @@ test("a folded section keeps its count, draws no cards and takes one line", () =
 test("a hidden type leaves both the cards and the counts", () => {
   const { rows, cards } = toOutline(
     doc,
-    requirements,
+    classifications,
     everything,
     new Set(["business-goal"]),
   );
@@ -77,7 +77,7 @@ test("a hidden type leaves both the cards and the counts", () => {
 });
 
 test("a card names the headed sections above what it quotes, top down", () => {
-  const { cards } = toOutline(doc, requirements, everything, none);
+  const { cards } = toOutline(doc, classifications, everything, none);
   const path = (id: string) => cards.find((c) => c.r.id === id)!.path;
   expect(path("a23")).toBe("HOW IT BEHAVES");
   expect(path("a13")).toBe(

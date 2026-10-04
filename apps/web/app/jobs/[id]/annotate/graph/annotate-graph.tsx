@@ -23,14 +23,14 @@ function TypeChip({ r }: { r: Classification }) {
   );
 }
 
-/** Sections on the left, the annotations they hold on the right; beside them, the one picked and every type. */
+/** Sections on the left, the classifications they hold on the right; beside them, the one picked and every type. */
 export function AnnotateGraph({
   doc,
-  requirements,
+  classifications,
   jobId,
 }: {
   doc: ParsedDocument;
-  requirements: Classification[];
+  classifications: Classification[];
   jobId: string;
 }) {
   const everything = useMemo(
@@ -46,12 +46,12 @@ export function AnnotateGraph({
   const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
   const outline = useMemo(
-    () => toOutline(doc, requirements, open, hidden),
-    [doc, requirements, open, hidden],
+    () => toOutline(doc, classifications, open, hidden),
+    [doc, classifications, open, hidden],
   );
   const picked = outline.cards.find((c) => c.r.id === selected);
   const counts = new Map<string, number>();
-  for (const r of requirements)
+  for (const r of classifications)
     counts.set(r.type, (counts.get(r.type) ?? 0) + 1);
 
   return (
@@ -62,8 +62,8 @@ export function AnnotateGraph({
       >
         <div className="flex items-center justify-between gap-4 border-b px-4 py-2.5">
           <span className="text-sm text-muted-foreground">
-            Sections on the left, the annotations they hold on the right. Click
-            a section to fold it.
+            Sections on the left, the classifications they hold on the right.
+            Click a section to fold it.
           </span>
           <div className="flex gap-2">
             <button
@@ -182,7 +182,7 @@ export function AnnotateGraph({
           <Picked c={picked} jobId={jobId} />
         ) : (
           <p className="rounded-lg border bg-card p-5 text-sm text-muted-foreground">
-            Pick an annotation to see the exact text it quotes.
+            Pick a classification to see the exact text it quotes.
           </p>
         )}
         <div className="flex flex-col gap-1 rounded-lg border bg-card p-4">
@@ -224,7 +224,7 @@ export function AnnotateGraph({
   );
 }
 
-/** The picked annotation: its type, the words it quotes, and where they are. */
+/** The picked classification: its type, the words it quotes, and where they are. */
 function Picked({ c, jobId }: { c: OutlineCard; jobId: string }) {
   const { r } = c;
   return (

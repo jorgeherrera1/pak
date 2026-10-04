@@ -19,7 +19,7 @@ export type OutlineRow = {
   x: number;
   y: number;
   w: number;
-  /** Annotations beside it, hidden types left out. */
+  /** Classifications beside it, hidden types left out. */
   count: number;
   open: boolean;
 };
@@ -39,12 +39,12 @@ export type OutlineCard = {
 /**
  * The Document and its sections as an outline, top to bottom in reading order and
  * indented by depth. Beside each open section, stacked from its own line down, the
- * annotations quoting what it holds: a cell's count as its table's. `tree` draws
+ * classifications quoting what it holds: a cell's count as its table's. `tree` draws
  * the outline's elbows. A section with nothing beside it never opens.
  */
 export function toOutline(
   doc: ParsedDocument,
-  requirements: Classification[],
+  classifications: Classification[],
   open: ReadonlySet<string>,
   hidden: ReadonlySet<string>,
 ): {
@@ -64,9 +64,9 @@ export function toOutline(
     return out;
   };
   const beside = new Map<string, Classification[]>();
-  for (const r of requirements) {
+  for (const r of classifications) {
     if (hidden.has(r.type)) continue;
-    // Page furniture sits in no section: its annotations go beside the Document.
+    // Page furniture sits in no section: its classifications go beside the Document.
     const section =
       ancestry(owner(r.elementId)).find((e) => e.kind === "section")?.id ??
       DOCUMENT;
