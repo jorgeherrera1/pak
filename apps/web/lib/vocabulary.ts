@@ -24,9 +24,8 @@ export const ORDER: ClassificationType[] = [
 ];
 
 // Class names are spelled out so Tailwind can see them.
-export const FAMILIES = [
+const FAMILIES = [
   {
-    label: "Requirements",
     types: [
       "functional-requirement",
       "data-requirement",
@@ -42,7 +41,6 @@ export const FAMILIES = [
     ring: "ring-electric-blue",
   },
   {
-    label: "Things",
     types: [
       "data-entity",
       "integration",
@@ -59,7 +57,6 @@ export const FAMILIES = [
     ring: "ring-moss-500",
   },
   {
-    label: "Constraints",
     types: [
       "dependency",
       "assumption",
@@ -75,7 +72,6 @@ export const FAMILIES = [
     ring: "ring-indigo-500",
   },
   {
-    label: "Context",
     types: ["business-goal", "out-of-scope", "glossary-term"],
     ink: "text-lime-700 dark:text-lime-400",
     swatch: "bg-lime-600",
