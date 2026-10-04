@@ -102,7 +102,8 @@ starting point (2026-10-03), to be hardened once the eval runs:
 ## 3. Eval
 
 `annotate.integration.test.ts` keeps its scoring. It additionally prints how
-many findings aligned exactly, by normalization, and by whole-element fallback.
+many findings were located, how many fell back to the whole element, and how
+many rows were dropped.
 The baseline is 4 of 45 rows discarded.
 
 The gate needs `packages/annotate/test/fixtures/expected.json`, a list of
