@@ -2,7 +2,7 @@ import type { AnnotateResult } from "@dark-factory/annotate";
 import Link from "next/link";
 import { ViewSwitch } from "../view-switch";
 
-/** The Annotate pages' header: back to the job, what Annotate found, the switch between its two views, and on to Parse. */
+/** The Annotate pages' header: back to the job, what Annotate found, and the switch between its two views. */
 export function AnnotateHeader({
   jobId,
   filename,
@@ -31,12 +31,6 @@ export function AnnotateHeader({
         </span>
       </div>
       <ViewSwitch jobId={jobId} step="annotate" view={view} />
-      <Link
-        href={`/jobs/${jobId}/parse`}
-        className="text-sm font-bold text-primary hover:text-action-hover"
-      >
-        Parse
-      </Link>
     </header>
   );
 }
