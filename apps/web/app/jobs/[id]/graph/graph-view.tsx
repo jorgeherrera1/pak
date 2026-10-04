@@ -23,7 +23,11 @@ export function GraphView({
   jobId: string;
   requirements?: Classification[];
 }) {
-  const [open, setOpen] = useState<ReadonlySet<string>>(new Set());
+  // Requirements are what the Annotate graph is for, so it opens with every one of them showing.
+  const [open, setOpen] = useState<ReadonlySet<string>>(
+    () =>
+      new Set(requirements ? [DOCUMENT, ...doc.elements.map((e) => e.id)] : []),
+  );
   const [selected, setSelected] = useState<string | null>(null);
   const { fitView, getZoom } = useReactFlow();
   const tree = useMemo(
