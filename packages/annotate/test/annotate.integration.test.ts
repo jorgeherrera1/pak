@@ -53,8 +53,14 @@ const FLOOR = 0;
 test("live annotate and eval", { timeout: 300_000 }, async () => {
   rmSync(out, { recursive: true, force: true });
   const { classifications, warnings } = await annotate(doc, out);
+  const whole = warnings.filter((w) =>
+    w.includes(": quote not located, labeled the whole element: "),
+  ).length;
+  const dropped = warnings.filter((w) =>
+    w.endsWith(": unknown element"),
+  ).length;
   console.log(
-    `${classifications.length} classifications, ${warnings.length} warnings`,
+    `${classifications.length} classifications: ${classifications.length - whole} located, ${whole} whole-element; ${dropped} rows dropped`,
   );
   for (const w of warnings) console.log(`  ${w}`);
   if (!existsSync(expectedFile)) {

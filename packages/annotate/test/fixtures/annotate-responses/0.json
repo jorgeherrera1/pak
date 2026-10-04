@@ -7,7 +7,7 @@
   },
   {
     "elementId": "paragraphs/4",
-    "quote": "We cannot answer \"who knows Jira?\" without asking people. The competency data we do have is stale, and the app that holds it is the reason why.",
+    "quote": "We cannot answer \"who knows Jira?\" without asking people.",
     "type": "business-goal",
     "category": null
   },
@@ -30,21 +30,15 @@
     "category": "REL"
   },
   {
-    "elementId": "paragraphs/11",
-    "quote": "The words on the screen match the words the business uses, so nobody has to translate practitioner into advanced in their head.",
-    "type": "ux-requirement",
-    "category": null
-  },
-  {
     "elementId": "paragraphs/13",
-    "quote": "One audience, and only one: the consultant assessing themselves.",
+    "quote": "Around a thousand people have accounts; expect fifty or so on the app at the same time on a busy day.",
     "type": "user-class",
     "category": null
   },
   {
     "elementId": "paragraphs/18",
     "quote": "Recording, changing and clearing your own level",
-    "type": "feature",
+    "type": "functional-requirement",
     "category": null
   },
   {
@@ -55,32 +49,32 @@
   },
   {
     "elementId": "paragraphs/22",
-    "quote": "Claims are self-declared and unmoderated",
-    "type": "assumption",
+    "quote": "self-declared and unmoderated",
+    "type": "out-of-scope",
     "category": null
   },
   {
     "elementId": "paragraphs/24",
     "quote": "Types, Areas and Competencies are maintained elsewhere and this app only reads them",
-    "type": "dependency",
+    "type": "out-of-scope",
     "category": null
   },
   {
     "elementId": "paragraphs/25",
-    "quote": "No \"who knows X\", no exports, no dashboards",
+    "quote": "no \"who knows X\", no exports, no dashboards",
     "type": "out-of-scope",
     "category": null
   },
   {
     "elementId": "paragraphs/76",
-    "quote": "One flat grid, one row per competency, showing its Type, its Area and its name, with three tick columns for the level.",
-    "type": "mockup",
+    "quote": "Rows come out sorted by Type, then Area, then competency name, so the grid reads the same way every time.",
+    "type": "ux-requirement",
     "category": null
   },
   {
-    "elementId": "tables/1/cells/1",
-    "quote": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner.",
-    "type": "standard",
+    "elementId": "tables/1/cells/0",
+    "quote": "The screen is titled Competencies, not Skills.",
+    "type": "ux-requirement",
     "category": null
   }
 ]
