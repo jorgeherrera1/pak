@@ -20,7 +20,7 @@
     "@dark-factory/knowledge-graph": "*",
     "@dark-factory/parse": "*",
     "@dark-factory/ui": "*",
-    "@workflow/world-postgres": "^4.3.6",
+    "@workflow/world-postgres": "^5.0.1",
     "@xyflow/react": "^12.11.6",
     "drizzle-orm": "^1.0.0-rc.4",
     "lucide-react": "^1.44.0",
@@ -28,7 +28,7 @@
     "pg": "^8.23.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "workflow": "^4.8.8"
+    "workflow": "^5.0.1"
   },
   "devDependencies": {
     "@azure-rest/ai-document-intelligence": "^1.1.0",
