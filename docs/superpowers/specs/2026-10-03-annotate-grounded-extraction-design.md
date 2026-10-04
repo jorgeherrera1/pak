@@ -3,7 +3,7 @@
 Design for bringing Annotate in line with the industry pattern for turning a
 document into typed, traceable findings: schema-guided extraction with source
 grounding (Google LangExtract, Microsoft GraphRAG, Neo4j's graph builder).
-The current shape already follows that pattern. This closes the four places
+The current shape already follows that pattern. This closes the three places
 where it does not.
 
 ## Intent
@@ -24,8 +24,7 @@ What the investigation found:
   exists; its answer key does not.
 
 Success: no finding is discarded for a wording mismatch, every type has
-written guidelines, running text reaches Annotate without checkbox noise, and
-the eval scores a run against a human answer key.
+written guidelines, and the eval scores a run against a human answer key.
 
 ## Decisions
 
@@ -34,7 +33,7 @@ the eval scores a run against a human answer key.
 | Unit of a finding   | Unchanged: the requirement statement, quoted verbatim, on one element. The AI rewrites nothing at this step.                                                    |
 | Alignment           | Exact, then normalized, then the whole element. A finding is dropped only when its element does not exist.                                                      |
 | Ontology            | One guideline per type (definition, when to label, what it is not, examples), all loaded into the instructions on every call.                                   |
-| Selection marks     | Parse removes them from running text and keeps them inside tables and figures.                                                                                  |
+| Selection marks     | Left in place; Parse is not changed (Jorge, 2026-10-03). The normalized alignment step ignores them.                                                            |
 | Eval                | Unchanged scoring (element plus type, precision and recall per type). Jorge supplies `expected.json`.                                                           |
 | Output type         | `AnnotateResult` is unchanged, so the knowledge graph and the reader page are untouched.                                                                        |
 | Agent               | Not built. Considered a self-correcting tool loop (AI SDK `ToolLoopAgent`) and Vercel eve. With tolerant alignment there is nothing left for a loop to correct. |
@@ -47,9 +46,9 @@ Today a row survives only if its quote is found character for character.
 `ground` becomes a three-step alignment, tried in order:
 
 1. **Exact.** As today: verbatim, on word boundaries, inside the element.
-2. **Normalized.** Compare after folding case, collapsing whitespace, and
-   unifying typographic quotes and dashes. The match must still sit on word
-   boundaries.
+2. **Normalized.** Compare after folding case, collapsing whitespace,
+   unifying typographic quotes and dashes, and ignoring Azure's `:selected:`
+   and `:unselected:` tokens. The match must still sit on word boundaries.
 3. **Whole element.** The quote cannot be located, so the finding covers the
    element: its span is the element's span (the first, when it has several).
 
@@ -86,8 +85,8 @@ single home of the guidelines.
 
 ### Boundary rules
 
-The template leaves four boundaries open. Proposed rules, for Jorge to
-confirm or change at review:
+The template leaves four boundaries open. Jorge accepted these rules as a
+starting point (2026-10-03), to be hardened once the eval runs:
 
 1. **Identity provider.** `imposed-technology` when the source mandates it,
    `integration` when the source describes the exchange. One statement can
@@ -99,24 +98,7 @@ confirm or change at review:
 4. **A binding standard and the requirement it imposes.** Two labels on the
    same statement: `standard` and the requirement's type.
 
-## 3. Selection marks (`packages/parse/src/toParsedDocument.ts`)
-
-Azure Document Intelligence writes `:selected:` and `:unselected:` into
-`content` wherever it sees a checkbox-like glyph, and reports each one's span
-in `pages[].selectionMarks`. In the fixture, 45 of 64 sit in running text,
-where they are misread bullet glyphs, and 19 sit inside tables, where they are
-real checkboxes of a screen mock.
-
-`toParsedDocument` removes every selection-mark token whose span is not inside
-a table or a figure, together with one following space. Every span in the
-document is shifted to match, and paragraph `text` is the slice of the new
-`content`. Marks inside tables and figures stay, because there a tick can be
-the cell's whole content.
-
-This is mechanical: positions come from the vendor's own output, not from
-pattern matching on text.
-
-## 4. Eval
+## 3. Eval
 
 `annotate.integration.test.ts` keeps its scoring. It additionally prints how
 many findings aligned exactly, by normalization, and by whole-element fallback.
@@ -133,26 +115,25 @@ Unit tests, no network:
   is the source's wording.
 - A quote that cannot be located yields a whole-element classification and a
   warning; nothing is dropped.
-- A selection mark in running text is removed and every span still slices to
-  its element's text; a mark in a table cell is kept.
+- A quote that skips a `:selected:` token sitting mid-sentence in the source is
+  located.
 
-The existing grounding, chunking and replay tests stay. Fixtures are
-re-recorded: `parsed.json` from Parse's integration test, then the annotate
-responses and `annotate.json` from Annotate's.
+The existing grounding, chunking and replay tests stay. The annotate responses
+and `annotate.json` are re-recorded from Annotate's integration test.
 
-Definition of done includes `npm run test:integration` for `parse`,
-`annotate` and `knowledge-graph`, since their fixtures change.
+Definition of done includes `npm run test:integration` for `annotate` and
+`knowledge-graph`, since `annotate.json` changes.
 
 ## Needs from Jorge
 
 1. **The answer key.** `expected.json` for the fixture document. Two ways to
    produce it: write it from scratch, or correct a run's output while reading
    the whole document in the reader page. The second is faster and is common
-   practice; its risk is anchoring on what the model found.
+   practice; its risk is anchoring on what the model found. Jorge decides
+   which later. Until the file exists the eval reports "recorded, not scored".
 2. **The eval floor.** `FLOOR` is 0. A human raises it after the first scored
    run.
-3. **The four boundary rules** in section 2.
-4. **Source-side examples**, when a second requirements document is available.
+3. **Source-side examples**, when a second requirements document is available.
 
 ## Out of scope
 
@@ -165,4 +146,5 @@ Definition of done includes `npm run test:integration` for `parse`,
   one of its halves.
 - New types for the template sections that have none (in-scope items,
   acronyms, priority, release, project gates, sample data).
-- Stray glyphs OCR leaves next to a removed mark (`/`, `"`).
+- Removing selection-mark tokens in Parse. They are noise in running text but
+  break nothing once alignment tolerates them.
