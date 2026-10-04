@@ -93,6 +93,46 @@
     },
     {
       "id": "a10",
+      "type": "assumption",
+      "elementId": "paragraphs/22",
+      "span": {
+        "offset": 2529,
+        "length": 40
+      },
+      "text": ":selected: self-declared and unmoderated"
+    },
+    {
+      "id": "a11",
+      "type": "dependency",
+      "elementId": "paragraphs/24",
+      "span": {
+        "offset": 2623,
+        "length": 81
+      },
+      "text": ":selected: and Competencies are maintained elsewhere and this app only reads them"
+    },
+    {
+      "id": "a12",
+      "type": "out-of-scope",
+      "elementId": "paragraphs/25",
+      "span": {
+        "offset": 2744,
+        "length": 54
+      },
+      "text": "no \"who :selected: knows X\", no exports, no dashboards"
+    },
+    {
+      "id": "a13",
+      "type": "mockup",
+      "elementId": "paragraphs/76",
+      "span": {
+        "offset": 3734,
+        "length": 118
+      },
+      "text": "one flat grid, one row per competency, showing its Type, its Area and its name, with three tick columns for the level."
+    },
+    {
+      "id": "a14",
       "type": "standard",
       "elementId": "tables/1/cells/1",
       "span": {
@@ -102,7 +142,7 @@
       "text": "The screen is titled Competencies, not Skills. The third column is Competency, not Skill. The middle level is Advanced, not Practitioner."
     },
     {
-      "id": "a11",
+      "id": "a15",
       "type": "functional-requirement",
       "elementId": "paragraphs/87",
       "span": {
@@ -112,7 +152,7 @@
       "text": "As a consultant, I want to drill into one family of competencies, so I am not scrolling past a thousand rows to reach the ten that describe me."
     },
     {
-      "id": "a12",
+      "id": "a16",
       "type": "functional-requirement",
       "elementId": "paragraphs/88",
       "span": {
@@ -122,7 +162,7 @@
       "text": "Picking a Type narrows the Area dropdown to that Type's Areas and the grid to that Type's rows. The two dropdowns are a hierarchy, so Areas from other Types never appear."
     },
     {
-      "id": "a13",
+      "id": "a17",
       "type": "functional-requirement",
       "elementId": "paragraphs/92",
       "span": {
@@ -132,7 +172,7 @@
       "text": "As a consultant, I want to type the name of the thing I know, because that is faster than navigating to it."
     },
     {
-      "id": "a14",
+      "id": "a18",
       "type": "functional-requirement",
       "elementId": "paragraphs/93",
       "span": {
@@ -142,7 +182,7 @@
       "text": "Typing in the competency box leaves only the rows whose competency name contains what was typed, ignoring case and accents."
     },
     {
-      "id": "a15",
+      "id": "a19",
       "type": "functional-requirement",
       "elementId": "paragraphs/97",
       "span": {
@@ -152,7 +192,7 @@
       "text": "As a consultant, I want to review what I have already claimed, because correcting an old profile is a different job from filling a new one."
     },
     {
-      "id": "a16",
+      "id": "a20",
       "type": "functional-requirement",
       "elementId": "paragraphs/98",
       "span": {
@@ -162,7 +202,7 @@
       "text": "With Mine switched on, the grid shows only competencies where this person has a level recorded. Everything else drops away."
     },
     {
-      "id": "a17",
+      "id": "a21",
       "type": "functional-requirement",
       "elementId": "paragraphs/102",
       "span": {
@@ -172,7 +212,7 @@
       "text": "As a consultant, I want to see only what is new since I was last here, so a two-month gap does not mean re-reading the whole catalogue."
     },
     {
-      "id": "a18",
+      "id": "a22",
       "type": "functional-requirement",
       "elementId": "paragraphs/103",
       "span": {
@@ -182,7 +222,7 @@
       "text": "With New switched on, the grid shows only competencies that were added to the catalogue after the last time this person changed any of their own levels. \"New\" is personal and relative - it is not a fixed window like \"the last 30 days\". Someone who last touched their levels forty-five days ago sees exactly what the catalogue gained in those forty-five days. Someone who has never recorded a level sees everything, because all of it is new to them."
     },
     {
-      "id": "a19",
+      "id": "a23",
       "type": "functional-requirement",
       "elementId": "paragraphs/109",
       "span": {
@@ -192,7 +232,7 @@
       "text": "As a consultant, I want one level per competency, because \"I am a Learner and an Expert at Jira\" is not a thing a person can be."
     },
     {
-      "id": "a20",
+      "id": "a24",
       "type": "functional-requirement",
       "elementId": "paragraphs/110",
       "span": {
@@ -202,7 +242,7 @@
       "text": "Ticking a level on a row that already holds a different one records the new level and clears the old, leaving exactly one of Learner, Advanced, Expert ticked on that row. Re-ticking the level you already hold is a no-op - it should not generate a second write."
     },
     {
-      "id": "a21",
+      "id": "a25",
       "type": "functional-requirement",
       "elementId": "paragraphs/114",
       "span": {
@@ -212,7 +252,7 @@
       "text": "As a consultant, I want to take a claim back, because a mis-click should not become a permanent statement about me."
     },
     {
-      "id": "a22",
+      "id": "a26",
       "type": "functional-requirement",
       "elementId": "paragraphs/115",
       "span": {
@@ -222,7 +262,7 @@
       "text": "Unticking the level a row currently holds deletes the claim outright and returns the row to unrated - which is a real state, distinct from \"Learner\"."
     },
     {
-      "id": "a23",
+      "id": "a27",
       "type": "functional-requirement",
       "elementId": "paragraphs/119",
       "span": {
@@ -232,7 +272,7 @@
       "text": "As a consultant, I want my click to be the whole interaction, so I never lose work by closing a tab."
     },
     {
-      "id": "a24",
+      "id": "a28",
       "type": "functional-requirement",
       "elementId": "paragraphs/120",
       "span": {
@@ -242,7 +282,7 @@
       "text": "Every level change is written as it happens, with no further action from the person. There is no Save button, no counter, no \"you have unsaved changes\" prompt."
     },
     {
-      "id": "a25",
+      "id": "a29",
       "type": "functional-requirement",
       "elementId": "paragraphs/124",
       "span": {
@@ -252,7 +292,7 @@
       "text": "As a consultant, I want to be told when a click did not land, because silence would let me believe something false was recorded about me."
     },
     {
-      "id": "a26",
+      "id": "a30",
       "type": "functional-requirement",
       "elementId": "paragraphs/125",
       "span": {
@@ -262,7 +302,7 @@
       "text": "If a level change fails to write, the row goes back to its last saved level and a non-blocking message names the competency and says it was not saved. The person is never left looking at a tick that does not exist in the database. A write that is merely slow, but succeeds, is left alone."
     },
     {
-      "id": "a27",
+      "id": "a31",
       "type": "functional-requirement",
       "elementId": "paragraphs/130",
       "span": {
@@ -272,7 +312,7 @@
       "text": "As a consultant, I want to just be signed in, because this is an internal tool and I already have a corporate identity."
     },
     {
-      "id": "a28",
+      "id": "a32",
       "type": "functional-requirement",
       "elementId": "paragraphs/131",
       "span": {
@@ -282,7 +322,7 @@
       "text": "Opening any page unauthenticated sends the person to Microsoft Entra ID and brings them back to the page they asked for, signed in as their directory identity. Whose assessments are read and written is resolved from that session - never from anything the browser sends."
     },
     {
-      "id": "a29",
+      "id": "a33",
       "type": "integration",
       "elementId": "figures/0",
       "span": {
@@ -292,7 +332,7 @@
       "text": "Microsoft Entra ID external corporate identity"
     },
     {
-      "id": "a30",
+      "id": "a34",
       "type": "integration",
       "elementId": "figures/0",
       "span": {
@@ -302,7 +342,7 @@
       "text": "Power Apps \"Skills\" - retired one-time migration source"
     },
     {
-      "id": "a31",
+      "id": "a35",
       "type": "integration",
       "elementId": "paragraphs/147",
       "span": {
@@ -312,7 +352,7 @@
       "text": "The app stands alone. It owns its own PostgreSQL database and has exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC with the authorization-code flow and PKCE. The dashed line is a one-time load of the catalogue and the existing assessments out of the old Power Apps app; after go-live there is no connection between the two."
     },
     {
-      "id": "a32",
+      "id": "a36",
       "type": "data-entity",
       "elementId": "tables/2/cells/0",
       "span": {
@@ -322,7 +362,7 @@
       "text": "The catalogue Type - Area - Competency"
     },
     {
-      "id": "a33",
+      "id": "a37",
       "type": "assumption",
       "elementId": "tables/2/cells/1",
       "span": {
@@ -332,7 +372,7 @@
       "text": "Read-only to this app - it is maintained elsewhere and loaded in."
     },
     {
-      "id": "a34",
+      "id": "a38",
       "type": "data-entity",
       "elementId": "tables/2/cells/3",
       "span": {
@@ -342,7 +382,7 @@
       "text": "A directory identity, keyed on their Entra object id, created the first time they sign in."
     },
     {
-      "id": "a35",
+      "id": "a39",
       "type": "data-requirement",
       "elementId": "tables/2/cells/3",
       "span": {
@@ -352,7 +392,7 @@
       "text": "It also carries the moment they last changed any level."
     },
     {
-      "id": "a36",
+      "id": "a40",
       "type": "data-entity",
       "elementId": "tables/2/cells/5",
       "span": {
@@ -362,7 +402,7 @@
       "text": "One person, one competency, one level: Learner, Advanced or Expert."
     },
     {
-      "id": "a37",
+      "id": "a41",
       "type": "data-requirement",
       "elementId": "tables/2/cells/5",
       "span": {
@@ -372,7 +412,7 @@
       "text": "This is personal data: we keep it until twelve months after the person's account is disabled, and it never goes into logs."
     },
     {
-      "id": "a38",
+      "id": "a42",
       "type": "assumption",
       "elementId": "paragraphs/156",
       "span": {
@@ -382,7 +422,7 @@
       "text": "The catalogue keeps being maintained outside this app."
     },
     {
-      "id": "a39",
+      "id": "a43",
       "type": "assumption",
       "elementId": "paragraphs/157",
       "span": {
@@ -392,7 +432,7 @@
       "text": "Everyone who needs the app already has a corporate Entra ID account."
     },
     {
-      "id": "a40",
+      "id": "a44",
       "type": "dependency",
       "elementId": "paragraphs/158",
       "span": {
@@ -402,7 +442,7 @@
       "text": "Before launch we need an export of the current catalogue and everyone's existing assessments out of Power Apps, from whoever owns that app."
     },
     {
-      "id": "a41",
+      "id": "a45",
       "type": "dependency",
       "elementId": "paragraphs/159",
       "span": {
@@ -413,9 +453,7 @@
     }
   ],
   "warnings": [
-    "paragraphs/22: quote not found: \"Claims are self-declared and unmoderated\"",
-    "paragraphs/24: quote not found: \"Types, Areas and Competencies are maintained elsewhere and this app only reads them\"",
-    "paragraphs/25: quote not found: \"No \\\"who knows X\\\", no exports, no dashboards\"",
-    "paragraphs/76: quote not found: \"One flat grid, one row per competency, showing its Type, its Area and its name, with three tick columns for the level.\""
+    "paragraphs/22: quote not located, labeled the whole element: \"Claims are self-declared and unmoderated\"",
+    "paragraphs/24: quote not located, labeled the whole element: \"Types, Areas and Competencies are maintained elsewhere and this app only reads them\""
   ]
 }
