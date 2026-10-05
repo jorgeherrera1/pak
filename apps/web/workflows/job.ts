@@ -33,7 +33,6 @@ async function parseOperation(jobId: string) {
       await putBlob(`${jobId}/figures/${id}.png`, png, "image/png");
     const doc = toParsedDocument(result, job.sha256);
     await writeDocument(jobId, doc);
-    return { elements: doc.elements.length, warnings: doc.warnings.length };
   });
 }
 
@@ -50,10 +49,6 @@ async function annotateOperation(jobId: string) {
     await setOperation(jobId, "annotate", "annotate", {
       warnings: result.warnings,
     });
-    return {
-      classifications: result.classifications.length,
-      warnings: result.warnings.length,
-    };
   });
 }
 
@@ -68,11 +63,6 @@ async function resolveOperation(jobId: string) {
     await setOperation(jobId, "resolve", "resolve", {
       warnings: result.warnings,
     });
-    return {
-      entities: result.entities.length,
-      mentions: result.entities.reduce((sum, e) => sum + e.mentions.length, 0),
-      warnings: result.warnings.length,
-    };
   });
 }
 
@@ -88,7 +78,6 @@ async function linkOperation(jobId: string) {
     const result = await link(doc, classifications, entities);
     await writeLinks(jobId, result.links);
     await setOperation(jobId, "resolve", "link", { warnings: result.warnings });
-    return { links: result.links.length, warnings: result.warnings.length };
   });
 }
 
@@ -100,9 +89,8 @@ export async function runJob(jobId: string) {
     await parseOperation(jobId);
     await annotateOperation(jobId);
     await resolveOperation(jobId);
-    const counts = await linkOperation(jobId);
+    await linkOperation(jobId);
     await setJob(jobId, { status: "done", finishedAt: new Date() });
-    return counts;
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
     await setJob(jobId, { status: "failed", error, finishedAt: new Date() });
