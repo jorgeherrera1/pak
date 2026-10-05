@@ -15,6 +15,7 @@
   "dependencies": {
     "@dark-factory/annotate": "*",
     "@dark-factory/parse": "*",
+    "@dark-factory/resolve": "*",
     "pg": "^8.23.0"
   },
   "devDependencies": {

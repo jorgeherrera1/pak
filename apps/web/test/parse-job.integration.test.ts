@@ -2,7 +2,12 @@ import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vitest";
 import type { ParsedDocument } from "@dark-factory/parse";
-import { readDocument, readRequirements } from "@dark-factory/knowledge-graph";
+import {
+  readDocument,
+  readEntities,
+  readLinks,
+  readRequirements,
+} from "@dark-factory/knowledge-graph";
 
 const env = fileURLToPath(new URL("../../../.env", import.meta.url));
 if (existsSync(env)) process.loadEnvFile(env);
@@ -16,7 +21,7 @@ const golden: ParsedDocument = JSON.parse(
 );
 
 test(
-  "a posted PDF runs Parse and Annotate and yields the recorded parse",
+  "a posted PDF runs Parse, Annotate and Resolve and yields the recorded parse",
   { timeout: 300_000 },
   async () => {
     const form = new FormData();
@@ -55,6 +60,8 @@ test(
       ["parse", "upload", "done"],
       ["parse", "parse", "done"],
       ["annotate", "annotate", "done"],
+      ["resolve", "resolve", "done"],
+      ["resolve", "link", "done"],
     ]);
     // Grounding warnings live on the annotate operation row, as a list even when empty.
     expect(Array.isArray(job.operations[2]?.warnings)).toBe(true);
@@ -68,6 +75,10 @@ test(
 
     const requirements = await readRequirements(id);
     expect(requirements.length).toBeGreaterThan(0);
+
+    const { entities } = await readEntities(id);
+    expect(entities.length).toBeGreaterThan(0);
+    expect((await readLinks(id)).length).toBeGreaterThan(0);
   },
 );
 
