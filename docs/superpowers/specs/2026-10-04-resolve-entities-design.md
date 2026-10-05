@@ -235,7 +235,8 @@ entities it is about, using only ids from the list; an entity counts when the
 classification names it, refers to it by a pronoun, or sits under a heading
 that names it; an empty list is a valid answer.
 
-**Code check, `groundLinks(rows, classifications, entities)`.**
+**Code check, `groundLinks(answers, entities)`.** Each answer pairs one chunk's
+classifications with the rows the model returned for it.
 
 1. A row whose classification was not in that chunk's list is dropped with a
    warning.
