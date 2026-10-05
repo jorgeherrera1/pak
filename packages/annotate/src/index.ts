@@ -2,7 +2,7 @@ import type { ParsedDocument } from "@dark-factory/parse";
 import { readFile } from "node:fs/promises";
 import { annotate } from "./annotate.ts";
 
-export type * from "./types.ts";
+export * from "./types.ts";
 export { annotate, runAnnotate } from "./annotate.ts";
 export { anchors, chunk } from "./chunk.ts";
 export { ground, type ClassificationRow } from "./ground.ts";

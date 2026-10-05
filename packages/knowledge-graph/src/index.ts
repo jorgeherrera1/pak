@@ -1,6 +1,7 @@
-import type {
-  Classification,
-  ClassificationType,
+import {
+  ENTITY_KINDS,
+  type Classification,
+  type ClassificationType,
 } from "@dark-factory/annotate";
 import type { Cell, Element, ParsedDocument } from "@dark-factory/parse";
 import pg from "pg";
@@ -183,14 +184,16 @@ const toType = (label: string) =>
     .replace(/(?<!^)[A-Z]/g, (c) => `-${c}`)
     .toLowerCase() as ClassificationType;
 
-/** Replaces the job's requirement nodes: one node per row, labeled by its type, with a FROM edge to the element it was quoted from. */
+/** Replaces the job's requirement nodes: one node per row with a FROM edge to the element it was quoted from, labeled by its type, or `Description` when the type is an entity kind. */
 export async function writeRequirements(
   jobId: string,
   rows: Classification[],
 ): Promise<void> {
   const byLabel = new Map<string, Row[]>();
   for (const c of rows) {
-    const label = toLabel(c.type);
+    // A sentence about an entity is a Description; the kind's own label belongs to the entity.
+    const describes = (ENTITY_KINDS as readonly string[]).includes(c.type);
+    const label = describes ? "Description" : toLabel(c.type);
     // Flat, with the element id alongside the node's own properties: AGE's SET takes a whole map, not a nested one.
     const row: Row = {
       elementId: c.elementId,
@@ -199,6 +202,7 @@ export async function writeRequirements(
       text: c.text,
       span: c.span,
     };
+    if (describes) row.kind = c.type;
     if (c.category) row.category = c.category;
     byLabel.set(label, [...(byLabel.get(label) ?? []), row]);
   }
@@ -231,13 +235,14 @@ export async function readRequirements(
   );
   return rows
     .map(([label, props, elementId]) => {
-      const { id, text, span, category } = props as Pick<
+      const { id, text, span, category, kind } = props as Pick<
         Classification,
         "id" | "text" | "span" | "category"
-      >;
+      > & { kind?: ClassificationType };
       return {
         id,
-        type: toType(label),
+        // A Description carries its type as `kind`; every other label is the type.
+        type: kind ?? toType(label),
         elementId,
         span,
         text,
