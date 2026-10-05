@@ -209,9 +209,7 @@ model's output must cross:
    whitespace, typographic quotes and dashes, selection marks) and on word
    boundaries, with annotate's existing functions. Each hit is a mention.
 3. Where two hits overlap, the longer wins, so "account holder" is never also
-   a mention of "account". Where the same characters belong to two elements,
-   the smaller element gets the mention, and of two the same size the later
-   one.
+   a mention of "account".
 4. A name with no hit is dropped with a warning. An entity left with no
    mention is dropped with a warning.
 5. `name` is the source text of the first mention of the model's `name`, or,
@@ -247,7 +245,6 @@ classifications with the rows the model returned for it.
 4. A classification whose type is an entity kind and that has no link to an
    entity of that kind adds a warning. Annotate and Resolve disagree there,
    and a human should know.
-5. A classification the model returned no row for adds a warning.
 
 ### CLI
 

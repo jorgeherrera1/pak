@@ -5,7 +5,6 @@ import { db, operations } from "./db";
 export const OPERATIONS = {
   parse: ["upload", "parse"],
   annotate: ["annotate"],
-  resolve: ["resolve", "link"],
 } as const;
 export type StepName = keyof typeof OPERATIONS;
 export type OperationName = (typeof OPERATIONS)[StepName][number];
