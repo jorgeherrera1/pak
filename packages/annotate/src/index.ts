@@ -4,10 +4,8 @@ import { annotate } from "./annotate.ts";
 
 export * from "./types.ts";
 export { annotate, runAnnotate } from "./annotate.ts";
-export { runModel } from "./annotate.ts";
 export { anchors, chunk } from "./chunk.ts";
-export { find, fold, ground, type ClassificationRow } from "./ground.ts";
-export { GUIDELINES } from "./guidelines.ts";
+export { ground, type ClassificationRow } from "./ground.ts";
 
 if (import.meta.main) {
   const [parsedPath, outDir] = process.argv.slice(2);

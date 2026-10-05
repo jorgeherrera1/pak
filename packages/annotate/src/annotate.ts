@@ -3,7 +3,6 @@ import type { ParsedDocument } from "@dark-factory/parse";
 import { Output, generateText } from "ai";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { z } from "zod";
 import { anchors, chunk } from "./chunk.ts";
 import {
   classificationSchema,
@@ -16,28 +15,20 @@ import type { AnnotateResult } from "./types.ts";
 /** Azure AI Foundry deployment name. */
 const MODEL = "gpt-4o";
 
-/** Instructions and text in, the model's rows of `element` out. Calls the model every time. Resolve uses it too. */
-export async function runModel<T>(
-  instructions: string,
-  text: string,
-  element: z.ZodType<T>,
-): Promise<T[]> {
+/** One chunk of document text in, the model's rows out. Calls the model every time. */
+export async function runAnnotate(text: string): Promise<ClassificationRow[]> {
   // Read per call, not at import: the integration test loads .env after importing this module.
   const baseURL = process.env.AZURE_FOUNDRY_ENDPOINT;
   if (!baseURL) throw new Error("AZURE_FOUNDRY_ENDPOINT is not set");
   const { output } = await generateText({
     model: createAzure({ baseURL })(MODEL),
-    output: Output.array({ element }),
+    output: Output.array({ element: classificationSchema }),
     temperature: 0,
-    instructions,
+    instructions: prompt,
     prompt: text,
   });
   return output;
 }
-
-/** One chunk of document text in, the model's rows out. Calls the model every time. */
-export const runAnnotate = (text: string): Promise<ClassificationRow[]> =>
-  runModel(prompt, text, classificationSchema);
 
 /**
  * ParsedDocument in, grounded classifications out. Every run calls the model;

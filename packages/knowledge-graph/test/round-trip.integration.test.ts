@@ -6,21 +6,12 @@ import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 import { expect, test } from "vitest";
-import {
-  ENTITY_KINDS,
-  isEntityKind,
-  type AnnotateResult,
-} from "@dark-factory/annotate";
+import { ENTITY_KINDS, type AnnotateResult } from "@dark-factory/annotate";
 import type { ParsedDocument } from "@dark-factory/parse";
-import type { Link, ResolveResult } from "@dark-factory/resolve";
 import {
   readDocument,
-  readEntities,
-  readLinks,
   readRequirements,
   writeDocument,
-  writeEntities,
-  writeLinks,
   writeRequirements,
 } from "../src/index.ts";
 
@@ -36,9 +27,6 @@ const golden: AnnotateResult = JSON.parse(
     new URL("annotate/test/fixtures/annotate.json", packages),
     "utf8",
   ),
-);
-const resolved: ResolveResult & { links: Link[] } = JSON.parse(
-  readFileSync(new URL("resolve/test/fixtures/resolve.json", packages), "utf8"),
 );
 
 /** Fixed ids, so re-runs overwrite instead of piling up. */
@@ -92,7 +80,9 @@ test("a classification of an entity kind is stored as a Description, and the kin
     kind: r.kind === null ? null : (JSON.parse(r.kind) as string | null),
   }));
 
-  const kinds = golden.classifications.map((c) => c.type).filter(isEntityKind);
+  const kinds = golden.classifications
+    .map((c) => c.type)
+    .filter((type) => (ENTITY_KINDS as readonly string[]).includes(type));
   expect(kinds.length).toBeGreaterThan(0);
   expect(
     stored
@@ -105,28 +95,4 @@ test("a classification of an entity kind is stored as a Description, and the kin
     kind.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase()),
   );
   expect(stored.filter((s) => entityLabels.includes(s.label))).toEqual([]);
-});
-
-test("the recorded entities and links survive a round trip", async () => {
-  const { entities, links } = resolved;
-  // The recorded run reported no doubt, so the pairs are made here from its own entities.
-  const possiblySameAs: [string, string][] = [
-    [entities[0]!.id, entities[1]!.id],
-    [entities[0]!.id, entities[2]!.id],
-  ];
-  await writeDocument(jobId, doc);
-  await writeRequirements(jobId, golden.classifications);
-
-  await writeEntities(jobId, { entities, possiblySameAs });
-  await writeEntities(jobId, { entities, possiblySameAs }); // a retried step must not duplicate
-  expect(await readEntities(jobId)).toEqual({ entities, possiblySameAs });
-
-  await writeLinks(jobId, links);
-  await writeLinks(jobId, links); // a retried step must not duplicate
-  expect(await readLinks(jobId)).toEqual(links);
-
-  // Resolving again replaces the entities; a link to an old one must not survive it.
-  await writeEntities(jobId, { entities, possiblySameAs });
-  expect(await readLinks(jobId)).toEqual([]);
-  expect(await readRequirements(jobId)).toEqual(golden.classifications);
 });
