@@ -4,15 +4,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "./resolve.ts";
 
 export type * from "./types.ts";
-export {
-  groundEntities,
-  groundLinks,
-  type EntityRow,
-  type LinkAnswer,
-  type LinkRow,
-} from "./ground.ts";
-export { linkInputs, resolveInput } from "./inputs.ts";
-export { resolve, runLink, runResolve } from "./resolve.ts";
+export { link, resolve, resolveEntities } from "./resolve.ts";
 
 if (import.meta.main) {
   const [parsedPath, annotatePath, outDir] = process.argv.slice(2);

@@ -8,25 +8,42 @@ import {
   groundLinks,
   linkSchema,
   type EntityRow,
-  type LinkRow,
+  type LinkAnswer,
 } from "./ground.ts";
 import { linkInputs, resolveInput } from "./inputs.ts";
 import { linkPrompt, resolvePrompt } from "./prompts.ts";
-import type { Link, ResolveResult } from "./types.ts";
+import type { Entity, Link, LinkResult, ResolveResult } from "./types.ts";
 
-/** The whole document in, the model's entity rows out. Calls the model every time. */
-export const runResolve = (text: string): Promise<EntityRow[]> =>
-  runModel(resolvePrompt, text, entitySchema);
+/** Operation `resolve`: the document in, grounded entities out, with the model's raw rows. */
+export async function resolveEntities(
+  doc: ParsedDocument,
+): Promise<ResolveResult & { rows: EntityRow[] }> {
+  const rows = await runModel(resolvePrompt, resolveInput(doc), entitySchema);
+  return { rows, ...groundEntities(rows, anchors(doc), doc.content) };
+}
 
-/** One link input in, the model's link rows out. Calls the model every time. */
-export const runLink = (text: string): Promise<LinkRow[]> =>
-  runModel(linkPrompt, text, linkSchema);
+/** Operation `link`: classifications and entities in, grounded links out, with the model's raw answers. */
+export async function link(
+  doc: ParsedDocument,
+  classifications: Classification[],
+  entities: Entity[],
+): Promise<LinkResult & { answers: LinkAnswer[] }> {
+  // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
+  const answers = await Promise.all(
+    linkInputs(doc, classifications, entities).map(async ({ asked, text }) => ({
+      asked,
+      rows: await runModel(linkPrompt, text, linkSchema),
+    })),
+  );
+  return { answers, ...groundLinks(answers, entities) };
+}
 
 /**
- * ParsedDocument and its classifications in, entities and links out. Every
- * run calls the model; nothing is reused between runs. Everything lands in
- * `<outDir>/<sha256>/`: the raw responses in `resolve/entities.json` and
- * `resolve/link/<i>.json`, the grounded result in `resolve.json`.
+ * ParsedDocument and its classifications in, entities and links out: both
+ * operations, as a job runs them. Every run calls the model; nothing is
+ * reused between runs. Everything lands in `<outDir>/<sha256>/`: the raw
+ * responses in `resolve/entities.json` and `resolve/link/<i>.json`, the
+ * grounded result in `resolve.json`.
  */
 export async function resolve(
   doc: ParsedDocument,
@@ -35,30 +52,21 @@ export async function resolve(
 ): Promise<ResolveResult & { links: Link[] }> {
   const dir = join(outDir, doc.source.sha256);
   await mkdir(join(dir, "resolve", "link"), { recursive: true });
-  const rows = await runResolve(resolveInput(doc));
+  const { rows, entities, possiblySameAs, warnings } =
+    await resolveEntities(doc);
   await writeFile(
     join(dir, "resolve", "entities.json"),
     JSON.stringify(rows, null, 2),
   );
-  const { entities, possiblySameAs, warnings } = groundEntities(
-    rows,
-    anchors(doc),
-    doc.content,
-  );
-  // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
-  const answers = await Promise.all(
-    linkInputs(doc, classifications, entities).map(
-      async ({ asked, text }, i) => {
-        const rows = await runLink(text);
-        await writeFile(
-          join(dir, "resolve", "link", `${i}.json`),
-          JSON.stringify(rows, null, 2),
-        );
-        return { asked, rows };
-      },
+  const linked = await link(doc, classifications, entities);
+  await Promise.all(
+    linked.answers.map(({ rows }, i) =>
+      writeFile(
+        join(dir, "resolve", "link", `${i}.json`),
+        JSON.stringify(rows, null, 2),
+      ),
     ),
   );
-  const linked = groundLinks(answers, entities);
   const result = {
     entities,
     possiblySameAs,

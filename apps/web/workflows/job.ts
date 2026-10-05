@@ -1,13 +1,6 @@
 import { analyze, toParsedDocument } from "@dark-factory/parse";
 import { anchors, chunk, ground, runAnnotate } from "@dark-factory/annotate";
-import {
-  groundEntities,
-  groundLinks,
-  linkInputs,
-  resolveInput,
-  runLink,
-  runResolve,
-} from "@dark-factory/resolve";
+import { link, resolveEntities } from "@dark-factory/resolve";
 import {
   readDocument,
   readEntities,
@@ -69,11 +62,7 @@ async function resolveOperation(jobId: string) {
   return runOperation(jobId, "resolve", "resolve", async () => {
     const doc = await readDocument(jobId);
     if (!doc) throw new FatalError("document missing from the knowledge graph");
-    const result = groundEntities(
-      await runResolve(resolveInput(doc)),
-      anchors(doc),
-      doc.content,
-    );
+    const result = await resolveEntities(doc);
     await writeEntities(jobId, result);
     // Like grounding warnings, these describe this run; runOperation's done patch leaves them in place.
     await setOperation(jobId, "resolve", "resolve", {
@@ -96,13 +85,7 @@ async function linkOperation(jobId: string) {
       readRequirements(jobId),
       readEntities(jobId),
     ]);
-    // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
-    const answers = await Promise.all(
-      linkInputs(doc, classifications, entities).map(
-        async ({ asked, text }) => ({ asked, rows: await runLink(text) }),
-      ),
-    );
-    const result = groundLinks(answers, entities);
+    const result = await link(doc, classifications, entities);
     await writeLinks(jobId, result.links);
     await setOperation(jobId, "resolve", "link", { warnings: result.warnings });
     return { links: result.links.length, warnings: result.warnings.length };
