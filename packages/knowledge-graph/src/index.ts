@@ -2,8 +2,10 @@ import {
   ENTITY_KINDS,
   type Classification,
   type ClassificationType,
+  type EntityKind,
 } from "@dark-factory/annotate";
-import type { Cell, Element, ParsedDocument } from "@dark-factory/parse";
+import type { Cell, Element, ParsedDocument, Span } from "@dark-factory/parse";
+import type { Entity, Link, ResolveResult } from "@dark-factory/resolve";
 import pg from "pg";
 
 /** The one AGE graph; created by apps/web's migration. */
@@ -250,4 +252,118 @@ export async function readRequirements(
       };
     })
     .sort((a, b) => a.span.offset - b.span.offset);
+}
+
+/** What Resolve stores about a job's entities. */
+type Entities = Pick<ResolveResult, "entities" | "possiblySameAs">;
+
+/** "e12" → 12, "a3" → 3: ids sort by their number. */
+const num = (id: string) => Number(id.slice(1));
+
+/** Replaces the job's entities: one node per entity labeled by its kind, a MENTIONED_IN edge per mention to the element it sits in, a POSSIBLY_SAME_AS edge per pair. Deleting an entity takes its ABOUT edges with it. */
+export async function writeEntities(
+  jobId: string,
+  { entities, possiblySameAs }: Entities,
+): Promise<void> {
+  const byLabel = new Map<string, Row[]>();
+  for (const e of entities) {
+    const label = toLabel(e.kind);
+    const row: Row = { jobId, id: e.id, name: e.name };
+    byLabel.set(label, [...(byLabel.get(label) ?? []), row]);
+  }
+  const mentions = entities.flatMap((e) =>
+    e.mentions.map((m) => ({ entityId: e.id, ...m })),
+  );
+  await transaction(async (client) => {
+    await cypher(
+      client,
+      `MATCH (e {jobId: $jobId})-[:MENTIONED_IN]->() DETACH DELETE e`,
+      { jobId },
+    );
+    for (const [label, rows] of byLabel)
+      await cypher(client, `UNWIND $rows AS r CREATE (n:${label}) SET n = r`, {
+        rows,
+      });
+    await cypher(
+      client,
+      `UNWIND $rows AS r MATCH (e {jobId: $jobId, id: r.entityId}), (el {jobId: $jobId, id: r.elementId}) CREATE (e)-[:MENTIONED_IN {span: r.span, text: r.text}]->(el)`,
+      { jobId, rows: mentions },
+    );
+    await cypher(
+      client,
+      `UNWIND $pairs AS p MATCH (x {jobId: $jobId, id: p.a}), (y {jobId: $jobId, id: p.b}) CREATE (x)-[:POSSIBLY_SAME_AS]->(y)`,
+      { jobId, pairs: possiblySameAs.map(([a, b]) => ({ a, b })) },
+    );
+  });
+}
+
+/** The inverse of writeEntities: entities in id order, each with its mentions in reading order. */
+export async function readEntities(jobId: string): Promise<Entities> {
+  return transaction(async (client) => {
+    const rows = await cypher<[string, string, string, Span, string, string]>(
+      client,
+      `MATCH (e {jobId: $jobId})-[m:MENTIONED_IN]->(el) RETURN label(e), e.id, e.name, m.span, m.text, el.id`,
+      { jobId },
+      ["label", "id", "name", "span", "text", "elementId"],
+    );
+    const byId = new Map<string, Entity>();
+    for (const [label, id, name, span, text, elementId] of rows) {
+      const entity = byId.get(id) ?? {
+        id,
+        kind: toType(label) as EntityKind,
+        name,
+        mentions: [],
+      };
+      entity.mentions.push({ elementId, span, text });
+      byId.set(id, entity);
+    }
+    const entities = [...byId.values()].sort((a, b) => num(a.id) - num(b.id));
+    for (const e of entities)
+      e.mentions.sort((a, b) => a.span.offset - b.span.offset);
+    const pairs = await cypher<[string, string]>(
+      client,
+      `MATCH (x {jobId: $jobId})-[:POSSIBLY_SAME_AS]->(y) RETURN x.id, y.id`,
+      { jobId },
+      ["a", "b"],
+    );
+    return {
+      entities,
+      possiblySameAs: pairs.sort(
+        (x, y) => num(x[0]) - num(y[0]) || num(x[1]) - num(y[1]),
+      ),
+    };
+  });
+}
+
+/** Replaces the job's ABOUT edges: one per link, from a requirement node to an entity. */
+export async function writeLinks(jobId: string, links: Link[]): Promise<void> {
+  await transaction(async (client) => {
+    await cypher(client, `MATCH (c {jobId: $jobId})-[r:ABOUT]->() DELETE r`, {
+      jobId,
+    });
+    await cypher(
+      client,
+      `UNWIND $rows AS r MATCH (c {jobId: $jobId, id: r.classificationId}), (e {jobId: $jobId, id: r.entityId}) CREATE (c)-[:ABOUT]->(e)`,
+      { jobId, rows: links },
+    );
+  });
+}
+
+/** The inverse of writeLinks, ordered by classification, then entity. */
+export async function readLinks(jobId: string): Promise<Link[]> {
+  const rows = await transaction((client) =>
+    cypher<[string, string]>(
+      client,
+      `MATCH (c {jobId: $jobId})-[:ABOUT]->(e) RETURN c.id, e.id`,
+      { jobId },
+      ["classificationId", "entityId"],
+    ),
+  );
+  return rows
+    .map(([classificationId, entityId]) => ({ classificationId, entityId }))
+    .sort(
+      (a, b) =>
+        num(a.classificationId) - num(b.classificationId) ||
+        num(a.entityId) - num(b.entityId),
+    );
 }

@@ -8,10 +8,15 @@ import pg from "pg";
 import { expect, test } from "vitest";
 import { ENTITY_KINDS, type AnnotateResult } from "@dark-factory/annotate";
 import type { ParsedDocument } from "@dark-factory/parse";
+import type { Link, ResolveResult } from "@dark-factory/resolve";
 import {
   readDocument,
+  readEntities,
+  readLinks,
   readRequirements,
   writeDocument,
+  writeEntities,
+  writeLinks,
   writeRequirements,
 } from "../src/index.ts";
 
@@ -27,6 +32,9 @@ const golden: AnnotateResult = JSON.parse(
     new URL("annotate/test/fixtures/annotate.json", packages),
     "utf8",
   ),
+);
+const resolved: ResolveResult & { links: Link[] } = JSON.parse(
+  readFileSync(new URL("resolve/test/fixtures/resolve.json", packages), "utf8"),
 );
 
 /** Fixed ids, so re-runs overwrite instead of piling up. */
@@ -96,3 +104,26 @@ test("a classification of an entity kind is stored as a Description, and the kin
   );
   expect(stored.filter((s) => entityLabels.includes(s.label))).toEqual([]);
 });
+
+test(
+  "the recorded entities and links survive a round trip",
+  { timeout: 30_000 },
+  async () => {
+    const { entities, possiblySameAs, links } = resolved;
+    await writeDocument(jobId, doc);
+    await writeRequirements(jobId, golden.classifications);
+
+    await writeEntities(jobId, { entities, possiblySameAs });
+    await writeEntities(jobId, { entities, possiblySameAs }); // a retried step must not duplicate
+    expect(await readEntities(jobId)).toEqual({ entities, possiblySameAs });
+
+    await writeLinks(jobId, links);
+    await writeLinks(jobId, links); // a retried step must not duplicate
+    expect(await readLinks(jobId)).toEqual(links);
+
+    // Resolving again replaces the entities; a link to an old one must not survive it.
+    await writeEntities(jobId, { entities, possiblySameAs });
+    expect(await readLinks(jobId)).toEqual([]);
+    expect(await readRequirements(jobId)).toEqual(golden.classifications);
+  },
+);
