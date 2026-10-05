@@ -121,15 +121,17 @@ export async function writeDocument(
       await cypher(client, `UNWIND $rows AS r CREATE (n:${label}) SET n = r`, {
         rows,
       });
-    // ponytail: property matches with no index; add indexes on jobId and id when a write is measurably slow.
+    // Lookups by row are WHERE equalities, never property maps: a map compiles to a containment test, which
+    // Postgres can only check row by row against every vertex; an equality lets it hash join the rows to one scan.
+    // ponytail: that one scan reads every job's vertices; index jobId and id when many jobs make it slow.
     await cypher(
       client,
-      `MATCH (d:Document {jobId: $jobId}) UNWIND $roots AS r MATCH (c {jobId: $jobId, id: r}) CREATE (c)-[:IN]->(d)`,
+      `MATCH (d:Document {jobId: $jobId}) UNWIND $roots AS r MATCH (c) WHERE c.jobId = $jobId AND c.id = r CREATE (c)-[:IN]->(d)`,
       { jobId, roots },
     );
     await cypher(
       client,
-      `UNWIND $edges AS e MATCH (c {jobId: $jobId, id: e.child}), (p {jobId: $jobId, id: e.parent}) CREATE (c)-[:IN]->(p)`,
+      `UNWIND $edges AS e MATCH (c), (p) WHERE c.jobId = $jobId AND c.id = e.child AND p.jobId = $jobId AND p.id = e.parent CREATE (c)-[:IN]->(p)`,
       { jobId, edges },
     );
   });
@@ -218,7 +220,7 @@ export async function writeRequirements(
     for (const [label, list] of byLabel)
       await cypher(
         client,
-        `UNWIND $rows AS r MATCH (e {jobId: $jobId, id: r.elementId}) CREATE (n:${label})-[:FROM]->(e) SET n = r REMOVE n.elementId`,
+        `UNWIND $rows AS r MATCH (e) WHERE e.jobId = $jobId AND e.id = r.elementId CREATE (n:${label})-[:FROM]->(e) SET n = r REMOVE n.elementId`,
         { jobId, rows: list },
       );
   });
@@ -287,12 +289,12 @@ export async function writeEntities(
       });
     await cypher(
       client,
-      `UNWIND $rows AS r MATCH (e {jobId: $jobId, id: r.entityId}), (el {jobId: $jobId, id: r.elementId}) CREATE (e)-[:MENTIONED_IN {span: r.span, text: r.text}]->(el)`,
+      `UNWIND $rows AS r MATCH (e), (el) WHERE e.jobId = $jobId AND e.id = r.entityId AND el.jobId = $jobId AND el.id = r.elementId CREATE (e)-[:MENTIONED_IN {span: r.span, text: r.text}]->(el)`,
       { jobId, rows: mentions },
     );
     await cypher(
       client,
-      `UNWIND $pairs AS p MATCH (x {jobId: $jobId, id: p.a}), (y {jobId: $jobId, id: p.b}) CREATE (x)-[:POSSIBLY_SAME_AS]->(y)`,
+      `UNWIND $pairs AS p MATCH (x), (y) WHERE x.jobId = $jobId AND x.id = p.a AND y.jobId = $jobId AND y.id = p.b CREATE (x)-[:POSSIBLY_SAME_AS]->(y)`,
       { jobId, pairs: possiblySameAs.map(([a, b]) => ({ a, b })) },
     );
   });
@@ -344,7 +346,7 @@ export async function writeLinks(jobId: string, links: Link[]): Promise<void> {
     });
     await cypher(
       client,
-      `UNWIND $rows AS r MATCH (c {jobId: $jobId, id: r.classificationId}), (e {jobId: $jobId, id: r.entityId}) CREATE (c)-[:ABOUT]->(e)`,
+      `UNWIND $rows AS r MATCH (c), (e) WHERE c.jobId = $jobId AND c.id = r.classificationId AND e.jobId = $jobId AND e.id = r.entityId CREATE (c)-[:ABOUT]->(e)`,
       { jobId, rows: links },
     );
   });
