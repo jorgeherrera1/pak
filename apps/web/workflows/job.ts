@@ -1,8 +1,20 @@
 import { analyze, toParsedDocument } from "@dark-factory/parse";
 import { anchors, chunk, ground, runAnnotate } from "@dark-factory/annotate";
 import {
+  groundEntities,
+  groundLinks,
+  linkInputs,
+  resolveInput,
+  runLink,
+  runResolve,
+} from "@dark-factory/resolve";
+import {
   readDocument,
+  readEntities,
+  readRequirements,
   writeDocument,
+  writeEntities,
+  writeLinks,
   writeRequirements,
 } from "@dark-factory/knowledge-graph";
 import { eq } from "drizzle-orm";
@@ -52,13 +64,60 @@ async function annotateOperation(jobId: string) {
   });
 }
 
-/** One job down Station 1: Parse, then Annotate. The knowledge graph is the only thing that crosses a step boundary. */
+async function resolveOperation(jobId: string) {
+  "use step";
+  return runOperation(jobId, "resolve", "resolve", async () => {
+    const doc = await readDocument(jobId);
+    if (!doc) throw new FatalError("document missing from the knowledge graph");
+    const result = groundEntities(
+      await runResolve(resolveInput(doc)),
+      anchors(doc),
+      doc.content,
+    );
+    await writeEntities(jobId, result);
+    // Like grounding warnings, these describe this run; runOperation's done patch leaves them in place.
+    await setOperation(jobId, "resolve", "resolve", {
+      warnings: result.warnings,
+    });
+    return {
+      entities: result.entities.length,
+      mentions: result.entities.reduce((sum, e) => sum + e.mentions.length, 0),
+      warnings: result.warnings.length,
+    };
+  });
+}
+
+async function linkOperation(jobId: string) {
+  "use step";
+  return runOperation(jobId, "resolve", "link", async () => {
+    const doc = await readDocument(jobId);
+    if (!doc) throw new FatalError("document missing from the knowledge graph");
+    const [classifications, { entities }] = await Promise.all([
+      readRequirements(jobId),
+      readEntities(jobId),
+    ]);
+    // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
+    const answers = await Promise.all(
+      linkInputs(doc, classifications, entities).map(
+        async ({ asked, text }) => ({ asked, rows: await runLink(text) }),
+      ),
+    );
+    const result = groundLinks(answers, entities);
+    await writeLinks(jobId, result.links);
+    await setOperation(jobId, "resolve", "link", { warnings: result.warnings });
+    return { links: result.links.length, warnings: result.warnings.length };
+  });
+}
+
+/** One job down Station 1: Parse, Annotate, then Resolve. The knowledge graph is the only thing that crosses a step boundary. */
 export async function runJob(jobId: string) {
   "use workflow";
   await setJob(jobId, { status: "running" });
   try {
     await parseOperation(jobId);
-    const counts = await annotateOperation(jobId);
+    await annotateOperation(jobId);
+    await resolveOperation(jobId);
+    const counts = await linkOperation(jobId);
     await setJob(jobId, { status: "done", finishedAt: new Date() });
     return counts;
   } catch (err) {
