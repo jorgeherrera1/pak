@@ -35,7 +35,7 @@ export async function link(
       rows: await runModel(linkPrompt, text, linkSchema),
     })),
   );
-  return { answers, ...groundLinks(answers, entities) };
+  return { answers, ...groundLinks(answers, entities, classifications) };
 }
 
 /**

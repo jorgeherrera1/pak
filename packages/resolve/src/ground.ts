@@ -200,6 +200,7 @@ export type LinkAnswer = { asked: Classification[]; rows: LinkRow[] };
 export function groundLinks(
   answers: LinkAnswer[],
   entities: Entity[],
+  classifications: Classification[],
 ): LinkResult {
   const warnings: string[] = [];
   const kindOf = new Map<string, string>(entities.map((e) => [e.id, e.kind]));
@@ -231,19 +232,19 @@ export function groundLinks(
     for (const c of asked)
       if (!answered.has(c.id))
         warnings.push(`${c.id}: the model returned no row for it`);
-    // Annotate says this sentence describes an entity of a kind; Resolve linked none of that kind.
-    for (const c of asked) {
-      if (!(ENTITY_KINDS as readonly string[]).includes(c.type)) continue;
-      if (
-        !links.some(
-          (l) =>
-            l.classificationId === c.id && kindOf.get(l.entityId) === c.type,
-        )
+  }
+  // Annotate says this sentence describes an entity of a kind; Resolve linked none of that kind.
+  // Over every classification, not only the asked ones: with no entity, nothing is asked.
+  for (const c of classifications) {
+    if (!(ENTITY_KINDS as readonly string[]).includes(c.type)) continue;
+    if (
+      !links.some(
+        (l) => l.classificationId === c.id && kindOf.get(l.entityId) === c.type,
       )
-        warnings.push(
-          `${c.id}: labeled ${c.type}, linked to no ${c.type} entity`,
-        );
-    }
+    )
+      warnings.push(
+        `${c.id}: labeled ${c.type}, linked to no ${c.type} entity`,
+      );
   }
   links.sort(
     (a, b) =>

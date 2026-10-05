@@ -33,7 +33,7 @@ test("replayed entities and links match the recording", () => {
       rows: fixture(`resolve-responses/link/${i}.json`),
     }),
   );
-  const linked = groundLinks(answers, entities);
+  const linked = groundLinks(answers, entities, classifications);
   expect({
     entities,
     possiblySameAs,
