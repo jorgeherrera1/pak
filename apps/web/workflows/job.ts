@@ -79,12 +79,12 @@ async function resolveOperation(jobId: string) {
 async function linkOperation(jobId: string) {
   "use step";
   return runOperation(jobId, "resolve", "link", async () => {
-    const doc = await readDocument(jobId);
-    if (!doc) throw new FatalError("document missing from the knowledge graph");
-    const [classifications, { entities }] = await Promise.all([
+    const [doc, classifications, { entities }] = await Promise.all([
+      readDocument(jobId),
       readRequirements(jobId),
       readEntities(jobId),
     ]);
+    if (!doc) throw new FatalError("document missing from the knowledge graph");
     const result = await link(doc, classifications, entities);
     await writeLinks(jobId, result.links);
     await setOperation(jobId, "resolve", "link", { warnings: result.warnings });
