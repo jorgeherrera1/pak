@@ -59,6 +59,7 @@ test("a link to a classification of another chunk, or to an entity that does not
   expect(links).toEqual([{ classificationId: "a3", entityId: "e2" }]);
   expect(warnings).toEqual([
     "a3: not a classification of this chunk, its links dropped",
+    "a1: the model returned no row for it",
     "a3: unknown entity e9, link dropped",
   ]);
 });
@@ -82,6 +83,7 @@ test("a sentence Annotate labeled with an entity kind but Resolve linked to no e
   );
   expect(links).toHaveLength(2);
   expect(warnings).toEqual([
+    "a3: the model returned no row for it",
     "a1: labeled data-entity, linked to no data-entity entity",
     "a3: labeled standard, linked to no standard entity",
   ]);

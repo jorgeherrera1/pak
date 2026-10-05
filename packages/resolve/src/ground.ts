@@ -58,9 +58,16 @@ export function groundEntities(
   });
 
   // Every occurrence of every name in every quotable element.
-  type Hit = Mention & { row: number; name: string; size: number };
+  type Hit = Mention & {
+    row: number;
+    name: string;
+    size: number;
+    order: number;
+  };
   const hits: Hit[] = [];
+  let order = 0;
   for (const [elementId, spans] of anchors) {
+    order++;
     const size = spans.reduce((sum, s) => sum + s.length, 0);
     for (const s of spans) {
       const { folded, at } = fold(
@@ -80,6 +87,7 @@ export function groundEntities(
             row,
             name,
             size,
+            order,
             elementId,
             span: { offset, length },
             text,
@@ -90,12 +98,16 @@ export function groundEntities(
 
   // Longest first, so "account holder" is never also a mention of "account";
   // then the smallest element, so text a figure shares with the paragraphs
-  // inside it is mentioned once, on the paragraph.
+  // inside it is mentioned once, on the paragraph; of two elements the same
+  // size the later one, because Parse lists a container before what it holds.
   const taken = new Uint8Array(content.length);
   const kept = hits
     .toSorted(
       (a, b) =>
-        b.span.length - a.span.length || a.size - b.size || a.row - b.row,
+        b.span.length - a.span.length ||
+        a.size - b.size ||
+        b.order - a.order ||
+        a.row - b.row,
     )
     .filter(({ span }) => {
       const range = taken.subarray(span.offset, span.offset + span.length);
@@ -104,11 +116,12 @@ export function groundEntities(
       return true;
     });
 
-  const found = new Set(kept.map((h) => h.name));
+  const found = new Set(hits.map((h) => h.name));
+  const mentioned = new Set(kept.map((h) => h.name));
   for (const [name, { row, spelled }] of owner)
-    if (!found.has(name))
+    if (!mentioned.has(name))
       warnings.push(
-        `${quoted(spelled)}: no mention in the text, dropped from ${quoted(rows[row]!.name)}`,
+        `${quoted(spelled)}: ${found.has(name) ? "found only inside a longer name" : "not in the text"}, dropped from ${quoted(rows[row]!.name)}`,
       );
 
   const mentionsOf = Map.groupBy(kept, (h) => h.row);
@@ -120,7 +133,7 @@ export function groundEntities(
     );
     if (!mine.length) {
       warnings.push(
-        `${quoted(row.name)}: no mention in the text, entity dropped`,
+        `${quoted(row.name)}: no mention of its own, entity dropped`,
       );
       return;
     }
@@ -214,6 +227,10 @@ export function groundLinks(
         links.push({ classificationId, entityId });
       }
     }
+    const answered = new Set(rows.map((r) => r.classificationId));
+    for (const c of asked)
+      if (!answered.has(c.id))
+        warnings.push(`${c.id}: the model returned no row for it`);
     // Annotate says this sentence describes an entity of a kind; Resolve linked none of that kind.
     for (const c of asked) {
       if (!(ENTITY_KINDS as readonly string[]).includes(c.type)) continue;

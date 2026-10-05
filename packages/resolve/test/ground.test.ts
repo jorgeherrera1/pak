@@ -84,6 +84,33 @@ test("text a figure shares with the paragraph inside it is mentioned once, on th
   ]);
 });
 
+test("a figure that is exactly one paragraph gives the mention to the paragraph", () => {
+  const same = span("the account holder signs");
+  const { entities } = groundEntities(
+    [holder],
+    // Parse lists the figure first, then the paragraph inside it.
+    new Map([
+      ["figures/9", same],
+      ["paragraphs/9", same],
+    ]),
+    content,
+  );
+  expect(where(entities[0]!)).toEqual([["paragraphs/9", "account holder"]]);
+});
+
+test("a name found only inside a longer name is dropped, and the warning says so", () => {
+  const { entities, warnings } = groundEntities(
+    [holder, row("glossary-term", "holder")],
+    anchors,
+    content,
+  );
+  expect(entities.map((e) => e.name)).toEqual(["account holder"]);
+  expect(warnings).toEqual([
+    '"holder": found only inside a longer name, dropped from "holder"',
+    '"holder": no mention of its own, entity dropped',
+  ]);
+});
+
 test("a name that never occurs is dropped, and so is an entity left with no mention", () => {
   const { entities, warnings } = groundEntities(
     [
@@ -99,9 +126,9 @@ test("a name that never occurs is dropped, and so is an entity left with no ment
     ["e2", "ledger"],
   ]);
   expect(warnings).toEqual([
-    '"ISO 9001": no mention in the text, dropped from "ISO 9001"',
-    '"general ledger": no mention in the text, dropped from "ledger"',
-    '"ISO 9001": no mention in the text, entity dropped',
+    '"ISO 9001": not in the text, dropped from "ISO 9001"',
+    '"general ledger": not in the text, dropped from "ledger"',
+    '"ISO 9001": no mention of its own, entity dropped',
   ]);
 });
 
@@ -119,7 +146,7 @@ test("a name two rows claim stays with the first, and a row that repeats an enti
     '"Account": already a name of "account", dropped from "Account"',
     '"account": already a name of "account", dropped from "Account"',
     '"Accounts": already a name of "account", dropped from "Account"',
-    '"Account": no mention in the text, entity dropped',
+    '"Account": no mention of its own, entity dropped',
   ]);
 });
 

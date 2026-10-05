@@ -40,6 +40,27 @@ test("every classification is asked about in exactly one link input, beside the 
   }
 });
 
+test("a name found across a line break is listed on one line, once", () => {
+  const wrapped: Entity = {
+    ...entity,
+    name: "Whole\nThing",
+    mentions: [
+      {
+        elementId: "figures/0",
+        span: { offset: 0, length: 11 },
+        text: "Whole\nThing",
+      },
+      {
+        elementId: "paragraphs/1",
+        span: { offset: 20, length: 11 },
+        text: "Whole Thing",
+      },
+    ],
+  };
+  const [first] = linkInputs(doc, classifications, [wrapped]);
+  expect(first!.text).toContain("# Entities\ne1 | data-entity | Whole Thing\n");
+});
+
 test("a chunk with no classification, and a document with no entity, cost no model call", () => {
   expect(linkInputs(doc, classifications.slice(0, 1), [entity])).toHaveLength(
     1,

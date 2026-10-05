@@ -15,7 +15,12 @@ export function linkInputs(
 ): { asked: Classification[]; text: string }[] {
   if (!entities.length) return [];
   const list = entities.map((e) => {
-    const names = new Set([e.name, ...e.mentions.map((m) => m.text)]);
+    // A name found across a line break keeps the break; the list is one entity per line.
+    const names = new Set(
+      [e.name, ...e.mentions.map((m) => m.text)].map((name) =>
+        name.replace(/\s+/g, " "),
+      ),
+    );
     return `${e.id} | ${e.kind} | ${[...names].join("; ")}`;
   });
   return chunk(doc).flatMap((text) => {

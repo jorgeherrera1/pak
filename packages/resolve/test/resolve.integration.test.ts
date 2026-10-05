@@ -58,8 +58,9 @@ test("live resolve and eval", { timeout: 600_000 }, async () => {
       )
       .map((e) => `${c.id} names ${JSON.stringify(e.name)}`),
   );
+  const dropped = warnings.filter((w) => w.includes(", dropped from ")).length;
   console.log(
-    `${entities.length} entities, ${mentions} mentions, ${possiblySameAs.length} possibly-same pairs; ${links.length} links, ${unlinked.length} named but not linked; ${warnings.length} warnings`,
+    `${entities.length} entities, ${mentions} mentions, ${dropped} names dropped, ${possiblySameAs.length} possibly-same pairs; ${links.length} links, ${unlinked.length} named but not linked; ${warnings.length} warnings`,
   );
   for (const e of entities)
     console.log(`  ${e.id} ${e.kind}: ${namesOf.get(e.id)!.join("; ")}`);
