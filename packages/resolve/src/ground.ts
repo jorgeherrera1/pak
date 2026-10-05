@@ -2,6 +2,7 @@ import {
   ENTITY_KINDS,
   find,
   fold,
+  isEntityKind,
   type Classification,
 } from "@dark-factory/annotate";
 import type { Span } from "@dark-factory/parse";
@@ -236,7 +237,7 @@ export function groundLinks(
   // Annotate says this sentence describes an entity of a kind; Resolve linked none of that kind.
   // Over every classification, not only the asked ones: with no entity, nothing is asked.
   for (const c of classifications) {
-    if (!(ENTITY_KINDS as readonly string[]).includes(c.type)) continue;
+    if (!isEntityKind(c.type)) continue;
     if (
       !links.some(
         (l) => l.classificationId === c.id && kindOf.get(l.entityId) === c.type,
