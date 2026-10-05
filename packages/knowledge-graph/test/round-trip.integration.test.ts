@@ -109,7 +109,12 @@ test(
   "the recorded entities and links survive a round trip",
   { timeout: 30_000 },
   async () => {
-    const { entities, possiblySameAs, links } = resolved;
+    const { entities, links } = resolved;
+    // The recorded run reported no doubt, so the pairs are made here from its own entities.
+    const possiblySameAs: [string, string][] = [
+      [entities[0]!.id, entities[1]!.id],
+      [entities[0]!.id, entities[2]!.id],
+    ];
     await writeDocument(jobId, doc);
     await writeRequirements(jobId, golden.classifications);
 
