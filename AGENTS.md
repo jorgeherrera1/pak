@@ -8,10 +8,11 @@ Instructions for AI coding agents working in this repository. Read this before d
 
 ## The assembly line
 
-**Station 1 — Requirements engineering** (current focus). Turns a requirements document into a knowledge graph. We have the following two steps today. That does not mean the code will remain like this necessarily:
+**Station 1 — Requirements engineering** (current focus). Turns a requirements document into a knowledge graph. We have the following three steps today. That does not mean the code will remain like this necessarily:
 
 1. **Parse** _(code)_ — fully deterministic; the document becomes a structured tree: sections, tables, reading order, exact character spans. Nothing is interpreted yet.
 2. **Annotate** _(AI)_ — spans get tagged with what they are (functional requirement, feature, …). Every annotation points at the exact text that produced it. Annotations are evidence, not fact.
+3. **Resolve** _(AI)_ — the things the document refers to by name become entities, each located in the text by code, and every classification is linked to the entities it is about. Doubt about whether two names are one thing is stored, never guessed.
 
 Later stations (design, implementation, …) are not yet defined. Don't build for them.
 
@@ -28,9 +29,11 @@ Turborepo monorepo, npm workspaces (`apps/*`, `packages/*`), 100% TypeScript. No
 
 `packages/annotate` is station 1, step 2 (Annotate): `ParsedDocument` in, grounded classifications out, via a `gpt-4o` deployment on Azure AI Foundry through the Vercel AI SDK. The vocabulary follows the IEEE 29148 SRS template. Every annotation is grounded in code against the source text before it is emitted.
 
-`packages/knowledge-graph` is where both steps store their results: an Apache AGE graph `knowledge_graph` in the same Postgres. `ParsedDocument` is the in-memory form; `writeDocument`/`readDocument` map it to structure nodes (`Document`, `Section`, `Paragraph`, `Table`, `Cell`, `Figure`) with `IN` edges, and `writeRequirements`/`readRequirements` map grounded classifications to nodes with a `FROM` edge to the element they quote, labeled by the IEEE 29148 type (`FunctionalRequirement`, `Assumption`, ...), or `Description` (with the type as its `kind`) when the type is one of the seven entity kinds: a sentence about a user class is not a user class. Nothing is labeled by the process that produced it. AGE is loaded by the database, never by app code.
+`packages/resolve` is station 1, step 3 (Resolve): a `ParsedDocument` and its classifications in, entities with their mentions and classification-to-entity links out, via the same `gpt-4o` deployment. The seven entity kinds are a subset of annotate's types. The model supplies names and judgments; code locates every mention and validates every link before it is emitted.
 
-`apps/web` is Station 1's host: the Next.js app that receives a job (one requirements PDF), runs its Parse and Annotate operations durably on the Vercel Workflow SDK with a Postgres world, stores the PDF and figure images in Azure Blob and the results in the knowledge graph, and exposes `/api/jobs`. `packages/ui` and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter — do not invest effort in them beyond keeping the build green.
+`packages/knowledge-graph` is where the steps store their results: an Apache AGE graph `knowledge_graph` in the same Postgres. `ParsedDocument` is the in-memory form; `writeDocument`/`readDocument` map it to structure nodes (`Document`, `Section`, `Paragraph`, `Table`, `Cell`, `Figure`) with `IN` edges, and `writeRequirements`/`readRequirements` map grounded classifications to nodes with a `FROM` edge to the element they quote, labeled by the IEEE 29148 type (`FunctionalRequirement`, `Assumption`, ...), or `Description` (with the type as its `kind`) when the type is one of the seven entity kinds: a sentence about a user class is not a user class. `writeEntities`/`readEntities` map entities to nodes labeled by their kind (`UserClass`, `DataEntity`, ...) with a `MENTIONED_IN` edge to each element that names them and `POSSIBLY_SAME_AS` edges between entities that may be one thing; `writeLinks`/`readLinks` map links to `ABOUT` edges from a requirement node to an entity. Nothing is labeled by the process that produced it. AGE is loaded by the database, never by app code.
+
+`apps/web` is Station 1's host: the Next.js app that receives a job (one requirements PDF), runs its Parse, Annotate and Resolve operations durably on the Vercel Workflow SDK with a Postgres world, stores the PDF and figure images in Azure Blob and the results in the knowledge graph, and exposes `/api/jobs`. `packages/ui` and the Tailwind/ESLint/TS config packages are scaffold inherited from the Turborepo starter — do not invest effort in them beyond keeping the build green.
 
 ## Commands
 
@@ -46,7 +49,8 @@ Run from the repo root:
 - `npm run test:integration` — parse the fixture PDF against live Azure and compare with the recording; `npm run test:integration -w apps/web` additionally needs the dev server running on port 3001, Postgres, the storage account, and Azure credentials in `.env`
 - `npm run parse <file.pdf> <outDir>` — run the parse step on a PDF
 - `npm run annotate <parsed.json> <outDir>` — run the annotate step on a parsed document
-- `npm run pipeline <file.pdf> <outDir>` — parse then annotate
+- `npm run resolve <parsed.json> <annotate.json> <outDir>` — run the resolve step on a parsed document and its classifications
+- `npm run pipeline <file.pdf> <outDir>` — parse, annotate, then resolve
 - `npm run db:migrate -w apps/web` — apply our SQL migrations (`db:generate` after a schema change)
 
 ## Definition of done
@@ -57,7 +61,7 @@ Work is not complete until all of these pass:
 2. `npm run lint`
 3. `npm run build`
 4. `npm test`, including tests for the behavior you added or changed. If the package you touched has no test setup yet, standing one up is part of your task — not a reason to skip tests.
-5. `npm run test:integration` when you changed `packages/parse`, `packages/annotate`, `packages/knowledge-graph`, or their fixtures. It needs credentials (the knowledge-graph one needs only local Postgres), so it is not a CI gate; run it locally and report the result. For annotate this is also the eval: paste the precision/recall table in the PR.
+5. `npm run test:integration` when you changed `packages/parse`, `packages/annotate`, `packages/resolve`, `packages/knowledge-graph`, or their fixtures. It needs credentials (the knowledge-graph one needs only local Postgres), so it is not a CI gate; run it locally and report the result. For annotate and resolve this is also the eval: paste the score tables in the PR.
 
 Report results honestly: if a gate fails, say so and show the output.
 
