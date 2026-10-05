@@ -1,0 +1,127 @@
+[
+  {
+    "classificationId": "a14",
+    "entityIds": [
+      "e2",
+      "e3"
+    ]
+  },
+  {
+    "classificationId": "a15",
+    "entityIds": []
+  },
+  {
+    "classificationId": "a16",
+    "entityIds": [
+      "e2"
+    ]
+  },
+  {
+    "classificationId": "a17",
+    "entityIds": [
+      "e3"
+    ]
+  },
+  {
+    "classificationId": "a18",
+    "entityIds": [
+      "e2"
+    ]
+  },
+  {
+    "classificationId": "a19",
+    "entityIds": [
+      "e3",
+      "e4"
+    ]
+  },
+  {
+    "classificationId": "a20",
+    "entityIds": [
+      "e2"
+    ]
+  },
+  {
+    "classificationId": "a21",
+    "entityIds": [
+      "e3",
+      "e4"
+    ]
+  },
+  {
+    "classificationId": "a22",
+    "entityIds": [
+      "e2",
+      "e3",
+      "e4"
+    ]
+  },
+  {
+    "classificationId": "a23",
+    "entityIds": [
+      "e3",
+      "e4",
+      "e8",
+      "e9",
+      "e10"
+    ]
+  },
+  {
+    "classificationId": "a24",
+    "entityIds": [
+      "e2"
+    ]
+  },
+  {
+    "classificationId": "a25",
+    "entityIds": [
+      "e3",
+      "e4",
+      "e8"
+    ]
+  },
+  {
+    "classificationId": "a26",
+    "entityIds": [
+      "e2"
+    ]
+  },
+  {
+    "classificationId": "a27",
+    "entityIds": []
+  },
+  {
+    "classificationId": "a28",
+    "entityIds": [
+      "e2"
+    ]
+  },
+  {
+    "classificationId": "a29",
+    "entityIds": [
+      "e3"
+    ]
+  },
+  {
+    "classificationId": "a30",
+    "entityIds": [
+      "e2",
+      "e5"
+    ]
+  },
+  {
+    "classificationId": "a31",
+    "entityIds": [
+      "e5"
+    ]
+  },
+  {
+    "classificationId": "a32",
+    "entityIds": [
+      "e1",
+      "e5",
+      "e6",
+      "e7"
+    ]
+  }
+]

@@ -1,0 +1,1174 @@
+{
+  "entities": [
+    {
+      "id": "e1",
+      "kind": "product",
+      "name": "small Next.js/React app",
+      "mentions": [
+        {
+          "elementId": "paragraphs/6",
+          "span": {
+            "offset": 880,
+            "length": 23
+          },
+          "text": "small Next.js/React app"
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "kind": "user-class",
+      "name": "consultant",
+      "mentions": [
+        {
+          "elementId": "paragraphs/2",
+          "span": {
+            "offset": 70,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/5",
+          "span": {
+            "offset": 629,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/8",
+          "span": {
+            "offset": 1068,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/13",
+          "span": {
+            "offset": 1737,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/87",
+          "span": {
+            "offset": 5111,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/92",
+          "span": {
+            "offset": 5625,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/97",
+          "span": {
+            "offset": 6061,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/102",
+          "span": {
+            "offset": 6491,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/109",
+          "span": {
+            "offset": 7545,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/114",
+          "span": {
+            "offset": 8102,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/119",
+          "span": {
+            "offset": 8518,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/124",
+          "span": {
+            "offset": 8935,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/130",
+          "span": {
+            "offset": 9545,
+            "length": 10
+          },
+          "text": "consultant"
+        },
+        {
+          "elementId": "paragraphs/137",
+          "span": {
+            "offset": 10264,
+            "length": 10
+          },
+          "text": "Consultant"
+        }
+      ]
+    },
+    {
+      "id": "e3",
+      "kind": "data-entity",
+      "name": "competency",
+      "mentions": [
+        {
+          "elementId": "paragraphs/1",
+          "span": {
+            "offset": 38,
+            "length": 12
+          },
+          "text": "Competencies"
+        },
+        {
+          "elementId": "paragraphs/4",
+          "span": {
+            "offset": 225,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/5",
+          "span": {
+            "offset": 525,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/8",
+          "span": {
+            "offset": 1106,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/13",
+          "span": {
+            "offset": 1998,
+            "length": 12
+          },
+          "text": "competencies"
+        },
+        {
+          "elementId": "paragraphs/17",
+          "span": {
+            "offset": 2309,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/24",
+          "span": {
+            "offset": 2638,
+            "length": 12
+          },
+          "text": "Competencies"
+        },
+        {
+          "elementId": "tables/0/cells/0",
+          "span": {
+            "offset": 2834,
+            "length": 12
+          },
+          "text": "Competencies"
+        },
+        {
+          "elementId": "tables/0/cells/5",
+          "span": {
+            "offset": 2865,
+            "length": 10
+          },
+          "text": "Competency"
+        },
+        {
+          "elementId": "tables/0/cells/13",
+          "span": {
+            "offset": 2928,
+            "length": 10
+          },
+          "text": "Competency"
+        },
+        {
+          "elementId": "paragraphs/76",
+          "span": {
+            "offset": 3761,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/76",
+          "span": {
+            "offset": 3949,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/76",
+          "span": {
+            "offset": 4012,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "tables/1/cells/1",
+          "span": {
+            "offset": 4116,
+            "length": 12
+          },
+          "text": "Competencies"
+        },
+        {
+          "elementId": "tables/1/cells/1",
+          "span": {
+            "offset": 4162,
+            "length": 10
+          },
+          "text": "Competency"
+        },
+        {
+          "elementId": "paragraphs/87",
+          "span": {
+            "offset": 5158,
+            "length": 12
+          },
+          "text": "competencies"
+        },
+        {
+          "elementId": "paragraphs/93",
+          "span": {
+            "offset": 5742,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/93",
+          "span": {
+            "offset": 5784,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/96",
+          "span": {
+            "offset": 5997,
+            "length": 12
+          },
+          "text": "competencies"
+        },
+        {
+          "elementId": "paragraphs/98",
+          "span": {
+            "offset": 6239,
+            "length": 12
+          },
+          "text": "competencies"
+        },
+        {
+          "elementId": "paragraphs/100",
+          "span": {
+            "offset": 6338,
+            "length": 12
+          },
+          "text": "competencies"
+        },
+        {
+          "elementId": "paragraphs/101",
+          "span": {
+            "offset": 6449,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/103",
+          "span": {
+            "offset": 6664,
+            "length": 12
+          },
+          "text": "competencies"
+        },
+        {
+          "elementId": "paragraphs/105",
+          "span": {
+            "offset": 7146,
+            "length": 12
+          },
+          "text": "competencies"
+        },
+        {
+          "elementId": "paragraphs/109",
+          "span": {
+            "offset": 7578,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/125",
+          "span": {
+            "offset": 9181,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/127",
+          "span": {
+            "offset": 9432,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/138",
+          "span": {
+            "offset": 10281,
+            "length": 12
+          },
+          "text": "competencies"
+        },
+        {
+          "elementId": "paragraphs/139",
+          "span": {
+            "offset": 10294,
+            "length": 12
+          },
+          "text": "Competencies"
+        },
+        {
+          "elementId": "tables/2/cells/0",
+          "span": {
+            "offset": 10938,
+            "length": 10
+          },
+          "text": "Competency"
+        },
+        {
+          "elementId": "tables/2/cells/1",
+          "span": {
+            "offset": 11020,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "tables/2/cells/5",
+          "span": {
+            "offset": 11482,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "tables/2/cells/5",
+          "span": {
+            "offset": 11570,
+            "length": 10
+          },
+          "text": "competency"
+        },
+        {
+          "elementId": "paragraphs/158",
+          "span": {
+            "offset": 12284,
+            "length": 10
+          },
+          "text": "competency"
+        }
+      ]
+    },
+    {
+      "id": "e4",
+      "kind": "data-entity",
+      "name": "level",
+      "mentions": [
+        {
+          "elementId": "paragraphs/6",
+          "span": {
+            "offset": 941,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/8",
+          "span": {
+            "offset": 1153,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/18",
+          "span": {
+            "offset": 2407,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/76",
+          "span": {
+            "offset": 3846,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "tables/1/cells/1",
+          "span": {
+            "offset": 4196,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/98",
+          "span": {
+            "offset": 6276,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/103",
+          "span": {
+            "offset": 6767,
+            "length": 6
+          },
+          "text": "levels"
+        },
+        {
+          "elementId": "paragraphs/103",
+          "span": {
+            "offset": 6889,
+            "length": 6
+          },
+          "text": "levels"
+        },
+        {
+          "elementId": "paragraphs/103",
+          "span": {
+            "offset": 7014,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/106",
+          "span": {
+            "offset": 7222,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/107",
+          "span": {
+            "offset": 7315,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/109",
+          "span": {
+            "offset": 7568,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/110",
+          "span": {
+            "offset": 7679,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/110",
+          "span": {
+            "offset": 7745,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/110",
+          "span": {
+            "offset": 7855,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/113",
+          "span": {
+            "offset": 8042,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/115",
+          "span": {
+            "offset": 8227,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/120",
+          "span": {
+            "offset": 8620,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/122",
+          "span": {
+            "offset": 8788,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/122",
+          "span": {
+            "offset": 8843,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/125",
+          "span": {
+            "offset": 9073,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/125",
+          "span": {
+            "offset": 9138,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "paragraphs/141",
+          "span": {
+            "offset": 10382,
+            "length": 6
+          },
+          "text": "levels"
+        },
+        {
+          "elementId": "tables/2/cells/3",
+          "span": {
+            "offset": 11277,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "tables/2/cells/3",
+          "span": {
+            "offset": 11378,
+            "length": 5
+          },
+          "text": "level"
+        },
+        {
+          "elementId": "tables/2/cells/5",
+          "span": {
+            "offset": 11498,
+            "length": 5
+          },
+          "text": "level"
+        }
+      ]
+    },
+    {
+      "id": "e5",
+      "kind": "integration",
+      "name": "Microsoft Entra ID",
+      "mentions": [
+        {
+          "elementId": "paragraphs/131",
+          "span": {
+            "offset": 9713,
+            "length": 18
+          },
+          "text": "Microsoft Entra ID"
+        },
+        {
+          "elementId": "paragraphs/142",
+          "span": {
+            "offset": 10389,
+            "length": 18
+          },
+          "text": "Microsoft Entra ID"
+        },
+        {
+          "elementId": "paragraphs/147",
+          "span": {
+            "offset": 10644,
+            "length": 18
+          },
+          "text": "Microsoft Entra ID"
+        },
+        {
+          "elementId": "paragraphs/157",
+          "span": {
+            "offset": 12041,
+            "length": 18
+          },
+          "text": "corporate Entra ID"
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "kind": "imposed-technology",
+      "name": "PostgreSQL",
+      "mentions": [
+        {
+          "elementId": "paragraphs/139",
+          "span": {
+            "offset": 10338,
+            "length": 10
+          },
+          "text": "PostgreSQL"
+        },
+        {
+          "elementId": "paragraphs/147",
+          "span": {
+            "offset": 10586,
+            "length": 19
+          },
+          "text": "PostgreSQL database"
+        }
+      ]
+    },
+    {
+      "id": "e7",
+      "kind": "imposed-technology",
+      "name": "OIDC",
+      "mentions": [
+        {
+          "elementId": "paragraphs/144",
+          "span": {
+            "offset": 10451,
+            "length": 4
+          },
+          "text": "OIDC"
+        },
+        {
+          "elementId": "paragraphs/147",
+          "span": {
+            "offset": 10682,
+            "length": 4
+          },
+          "text": "OIDC"
+        },
+        {
+          "elementId": "paragraphs/147",
+          "span": {
+            "offset": 10696,
+            "length": 32
+          },
+          "text": "authorization-code flow and PKCE"
+        }
+      ]
+    },
+    {
+      "id": "e8",
+      "kind": "glossary-term",
+      "name": "Learner",
+      "mentions": [
+        {
+          "elementId": "tables/0/cells/6",
+          "span": {
+            "offset": 2876,
+            "length": 7
+          },
+          "text": "Learner"
+        },
+        {
+          "elementId": "tables/1/cells/1",
+          "span": {
+            "offset": 4233,
+            "length": 7
+          },
+          "text": "Learner"
+        },
+        {
+          "elementId": "paragraphs/109",
+          "span": {
+            "offset": 7606,
+            "length": 7
+          },
+          "text": "Learner"
+        },
+        {
+          "elementId": "paragraphs/110",
+          "span": {
+            "offset": 7794,
+            "length": 7
+          },
+          "text": "Learner"
+        },
+        {
+          "elementId": "paragraphs/112",
+          "span": {
+            "offset": 7951,
+            "length": 7
+          },
+          "text": "Learner"
+        },
+        {
+          "elementId": "paragraphs/115",
+          "span": {
+            "offset": 8353,
+            "length": 7
+          },
+          "text": "Learner"
+        },
+        {
+          "elementId": "tables/2/cells/5",
+          "span": {
+            "offset": 11505,
+            "length": 7
+          },
+          "text": "Learner"
+        }
+      ]
+    },
+    {
+      "id": "e9",
+      "kind": "glossary-term",
+      "name": "advanced",
+      "mentions": [
+        {
+          "elementId": "paragraphs/5",
+          "span": {
+            "offset": 540,
+            "length": 8
+          },
+          "text": "advanced"
+        },
+        {
+          "elementId": "paragraphs/11",
+          "span": {
+            "offset": 1665,
+            "length": 8
+          },
+          "text": "advanced"
+        },
+        {
+          "elementId": "tables/1/cells/1",
+          "span": {
+            "offset": 4205,
+            "length": 8
+          },
+          "text": "Advanced"
+        },
+        {
+          "elementId": "paragraphs/110",
+          "span": {
+            "offset": 7803,
+            "length": 8
+          },
+          "text": "Advanced"
+        },
+        {
+          "elementId": "tables/2/cells/5",
+          "span": {
+            "offset": 11514,
+            "length": 8
+          },
+          "text": "Advanced"
+        }
+      ]
+    },
+    {
+      "id": "e10",
+      "kind": "glossary-term",
+      "name": "Expert",
+      "mentions": [
+        {
+          "elementId": "tables/0/cells/8",
+          "span": {
+            "offset": 2895,
+            "length": 6
+          },
+          "text": "Expert"
+        },
+        {
+          "elementId": "tables/1/cells/1",
+          "span": {
+            "offset": 4245,
+            "length": 6
+          },
+          "text": "Expert"
+        },
+        {
+          "elementId": "paragraphs/109",
+          "span": {
+            "offset": 7621,
+            "length": 6
+          },
+          "text": "Expert"
+        },
+        {
+          "elementId": "paragraphs/110",
+          "span": {
+            "offset": 7813,
+            "length": 6
+          },
+          "text": "Expert"
+        },
+        {
+          "elementId": "paragraphs/112",
+          "span": {
+            "offset": 7971,
+            "length": 6
+          },
+          "text": "Expert"
+        },
+        {
+          "elementId": "paragraphs/112",
+          "span": {
+            "offset": 7994,
+            "length": 6
+          },
+          "text": "Expert"
+        },
+        {
+          "elementId": "paragraphs/112",
+          "span": {
+            "offset": 8012,
+            "length": 6
+          },
+          "text": "Expert"
+        },
+        {
+          "elementId": "tables/2/cells/5",
+          "span": {
+            "offset": 11526,
+            "length": 6
+          },
+          "text": "Expert"
+        }
+      ]
+    }
+  ],
+  "possiblySameAs": [],
+  "links": [
+    {
+      "classificationId": "a1",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a2",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a3",
+      "entityId": "e1"
+    },
+    {
+      "classificationId": "a4",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a4",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a4",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a6",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a7",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a8",
+      "entityId": "e5"
+    },
+    {
+      "classificationId": "a10",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a12",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a13",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a13",
+      "entityId": "e8"
+    },
+    {
+      "classificationId": "a13",
+      "entityId": "e9"
+    },
+    {
+      "classificationId": "a13",
+      "entityId": "e10"
+    },
+    {
+      "classificationId": "a14",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a14",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a16",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a17",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a18",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a19",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a19",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a20",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a21",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a21",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a22",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a22",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a22",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a23",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a23",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a23",
+      "entityId": "e8"
+    },
+    {
+      "classificationId": "a23",
+      "entityId": "e9"
+    },
+    {
+      "classificationId": "a23",
+      "entityId": "e10"
+    },
+    {
+      "classificationId": "a24",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a25",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a25",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a25",
+      "entityId": "e8"
+    },
+    {
+      "classificationId": "a26",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a28",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a29",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a30",
+      "entityId": "e2"
+    },
+    {
+      "classificationId": "a30",
+      "entityId": "e5"
+    },
+    {
+      "classificationId": "a31",
+      "entityId": "e5"
+    },
+    {
+      "classificationId": "a32",
+      "entityId": "e1"
+    },
+    {
+      "classificationId": "a32",
+      "entityId": "e5"
+    },
+    {
+      "classificationId": "a32",
+      "entityId": "e6"
+    },
+    {
+      "classificationId": "a32",
+      "entityId": "e7"
+    },
+    {
+      "classificationId": "a33",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a35",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a36",
+      "entityId": "e5"
+    },
+    {
+      "classificationId": "a37",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a38",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a39",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a39",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a39",
+      "entityId": "e8"
+    },
+    {
+      "classificationId": "a39",
+      "entityId": "e9"
+    },
+    {
+      "classificationId": "a39",
+      "entityId": "e10"
+    },
+    {
+      "classificationId": "a40",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a40",
+      "entityId": "e4"
+    },
+    {
+      "classificationId": "a43",
+      "entityId": "e5"
+    },
+    {
+      "classificationId": "a44",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a45",
+      "entityId": "e3"
+    },
+    {
+      "classificationId": "a46",
+      "entityId": "e5"
+    },
+    {
+      "classificationId": "a49",
+      "entityId": "e3"
+    }
+  ],
+  "warnings": [
+    "\"Next.js/React app\": no mention in the text, dropped from \"Next.js/React app\"",
+    "\"consultants\": no mention in the text, dropped from \"consultant\"",
+    "\"GDPR\": no mention in the text, dropped from \"GDPR\"",
+    "\"GDPR\": no mention in the text, entity dropped",
+    "a3: labeled imposed-technology, linked to no imposed-technology entity",
+    "a34: labeled integration, linked to no integration entity",
+    "a36: labeled data-entity, linked to no data-entity entity"
+  ]
+}
