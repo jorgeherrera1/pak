@@ -1,5 +1,6 @@
 import { annotate } from "../packages/annotate/src/index.ts";
 import { parse } from "../packages/parse/src/index.ts";
+import { resolve } from "../packages/resolve/src/index.ts";
 
 const [pdfPath, outDir] = process.argv.slice(2);
 if (!pdfPath || !outDir) {
@@ -13,4 +14,8 @@ console.log(
 const { classifications, warnings } = await annotate(doc, outDir);
 console.log(
   `annotate: ${classifications.length} classifications, ${warnings.length} warnings`,
+);
+const resolved = await resolve(doc, classifications, outDir);
+console.log(
+  `resolve: ${resolved.entities.length} entities, ${resolved.links.length} links, ${resolved.warnings.length} warnings`,
 );
