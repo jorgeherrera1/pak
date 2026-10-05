@@ -1,121 +1,15 @@
 "use client";
 
-import type {
-  AnnotateResult,
-  Category,
-  Classification,
-  ClassificationType,
-} from "@dark-factory/annotate";
+import type { AnnotateResult, Classification } from "@dark-factory/annotate";
 import type { Element, ParsedDocument } from "@dark-factory/parse";
 import { useMemo, useState, type ReactNode } from "react";
 import { segments } from "@/lib/segments";
-import { Figure, PageDivider, Table } from "../reader-parts";
+import { CATEGORY, familyOf, ORDER, owner } from "@/lib/vocabulary";
+import { anchor, Figure, flip, PageDivider, Table } from "../reader-parts";
 
 type Mark = Classification;
 /** Layer key: a classification toggles by its type. */
 const layer = (m: Mark) => `c:${m.type}`;
-
-/** The vocabulary in its own order. The package exports the types only, so the list is repeated here. */
-const ORDER: ClassificationType[] = [
-  "product",
-  "business-goal",
-  "feature",
-  "functional-requirement",
-  "mockup",
-  "integration",
-  "data-entity",
-  "data-requirement",
-  "ux-requirement",
-  "non-functional-requirement",
-  "operational-requirement",
-  "assumption",
-  "dependency",
-  "user-class",
-  "imposed-technology",
-  "configurable-item",
-  "out-of-scope",
-  "standard",
-  "glossary-term",
-];
-
-// Class names are spelled out so Tailwind can see them.
-const FAMILIES = [
-  {
-    label: "Requirements",
-    types: [
-      "functional-requirement",
-      "data-requirement",
-      "ux-requirement",
-      "non-functional-requirement",
-      "operational-requirement",
-    ],
-    ink: "text-blue-800 dark:text-blue-400",
-    swatch: "bg-electric-blue",
-    accent: "accent-electric-blue",
-    tint: ["bg-electric-blue/15", "bg-electric-blue/30"],
-    line: "border-electric-blue",
-    ring: "ring-electric-blue",
-  },
-  {
-    label: "Things",
-    types: [
-      "data-entity",
-      "integration",
-      "feature",
-      "user-class",
-      "product",
-      "mockup",
-    ],
-    ink: "text-moss-700 dark:text-moss-300",
-    swatch: "bg-moss-500",
-    accent: "accent-moss-500",
-    tint: ["bg-moss-500/15", "bg-moss-500/30"],
-    line: "border-moss-500",
-    ring: "ring-moss-500",
-  },
-  {
-    label: "Constraints",
-    types: [
-      "dependency",
-      "assumption",
-      "imposed-technology",
-      "standard",
-      "configurable-item",
-    ],
-    ink: "text-indigo-700 dark:text-indigo-400",
-    swatch: "bg-indigo-500",
-    accent: "accent-indigo-500",
-    tint: ["bg-indigo-500/15", "bg-indigo-500/30"],
-    line: "border-indigo-500",
-    ring: "ring-indigo-500",
-  },
-  {
-    label: "Context",
-    types: ["business-goal", "out-of-scope", "glossary-term"],
-    ink: "text-lime-700 dark:text-lime-400",
-    swatch: "bg-lime-600",
-    accent: "accent-lime-600",
-    tint: ["bg-lime-600/20", "bg-lime-600/35"],
-    line: "border-lime-600",
-    ring: "ring-lime-600",
-  },
-] satisfies { types: ClassificationType[]; [k: string]: unknown }[];
-const familyOf = (t: string) =>
-  FAMILIES.find((f) => (f.types as string[]).includes(t)) ?? FAMILIES[3]!;
-
-const CATEGORY: Record<Category, string> = {
-  PER: "performance, capacity",
-  REL: "reliability, availability",
-  SEC: "security",
-  PRV: "privacy",
-  SCA: "scalability",
-  MNT: "maintainability",
-  CMP: "compatibility, portability",
-};
-
-const anchor = (id: string) => id.replaceAll("/", "-");
-/** Marks on a table hang off its cells: "tables/2/cells/5" belongs to "tables/2". */
-const owner = (elementId: string) => elementId.replace(/\/cells\/\d+$/, "");
 
 type Ctx = {
   visible: (elementId: string) => Mark[];
@@ -187,11 +81,6 @@ export function AnnotateReader({
       reveal(id);
     },
     parity,
-  };
-  const flip = (key: string) => (set: ReadonlySet<string>) => {
-    const next = new Set(set);
-    if (!next.delete(key)) next.add(key);
-    return next;
   };
   /** Something picked in the document shows up in the pane: group open, row in view. */
   const reveal = (id: string) => {
