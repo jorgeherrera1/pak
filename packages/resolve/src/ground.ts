@@ -1,7 +1,18 @@
-import { ENTITY_KINDS, find, fold } from "@dark-factory/annotate";
+import {
+  ENTITY_KINDS,
+  find,
+  fold,
+  type Classification,
+} from "@dark-factory/annotate";
 import type { Span } from "@dark-factory/parse";
 import { z } from "zod";
-import type { Entity, Mention, ResolveResult } from "./types.ts";
+import type {
+  Entity,
+  Link,
+  LinkResult,
+  Mention,
+  ResolveResult,
+} from "./types.ts";
 
 /** What the model returns for `resolve`. Names, never offsets. */
 export const entitySchema = z.object({
@@ -156,4 +167,71 @@ export function groundEntities(
     ),
     warnings,
   };
+}
+
+/** What the model returns for `link`. */
+export const linkSchema = z.object({
+  classificationId: z.string(),
+  entityIds: z.array(z.string()),
+});
+export type LinkRow = z.infer<typeof linkSchema>;
+
+/** One chunk's exchange with the model: the classifications it was asked about, and its answer. */
+export type LinkAnswer = { asked: Classification[]; rows: LinkRow[] };
+
+/**
+ * Model rows in, links out. A link survives only when the model was asked
+ * about that classification in that chunk and the entity exists: ids are
+ * sequential, so an invented one is often a real one from elsewhere.
+ */
+export function groundLinks(
+  answers: LinkAnswer[],
+  entities: Entity[],
+): LinkResult {
+  const warnings: string[] = [];
+  const kindOf = new Map<string, string>(entities.map((e) => [e.id, e.kind]));
+  const seen = new Set<string>();
+  const links: Link[] = [];
+  for (const { asked, rows } of answers) {
+    const ids = new Set(asked.map((c) => c.id));
+    for (const { classificationId, entityIds } of rows) {
+      if (!ids.has(classificationId)) {
+        warnings.push(
+          `${classificationId}: not a classification of this chunk, its links dropped`,
+        );
+        continue;
+      }
+      for (const entityId of entityIds) {
+        if (!kindOf.has(entityId)) {
+          warnings.push(
+            `${classificationId}: unknown entity ${entityId}, link dropped`,
+          );
+          continue;
+        }
+        const k = `${classificationId}|${entityId}`;
+        if (seen.has(k)) continue;
+        seen.add(k);
+        links.push({ classificationId, entityId });
+      }
+    }
+    // Annotate says this sentence describes an entity of a kind; Resolve linked none of that kind.
+    for (const c of asked) {
+      if (!(ENTITY_KINDS as readonly string[]).includes(c.type)) continue;
+      if (
+        !links.some(
+          (l) =>
+            l.classificationId === c.id && kindOf.get(l.entityId) === c.type,
+        )
+      )
+        warnings.push(
+          `${c.id}: labeled ${c.type}, linked to no ${c.type} entity`,
+        );
+    }
+  }
+  links.sort(
+    (a, b) =>
+      num(a.classificationId) - num(b.classificationId) ||
+      num(a.entityId) - num(b.entityId),
+  );
+  return { links, warnings };
 }
