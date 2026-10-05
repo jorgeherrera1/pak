@@ -40,6 +40,8 @@ export const ENTITY_KINDS = [
   "glossary-term",
 ] as const satisfies readonly ClassificationType[];
 export type EntityKind = (typeof ENTITY_KINDS)[number];
+export const isEntityKind = (type: string): type is EntityKind =>
+  (ENTITY_KINDS as readonly string[]).includes(type);
 
 /** Non-functional requirement categories. */
 export const CATEGORIES = [

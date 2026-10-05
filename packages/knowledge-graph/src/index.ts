@@ -1,9 +1,10 @@
+// The vocabulary alone: the package's entry loads the model SDK.
 import {
-  ENTITY_KINDS,
+  isEntityKind,
   type Classification,
   type ClassificationType,
   type EntityKind,
-} from "@dark-factory/annotate";
+} from "@dark-factory/annotate/types";
 import type { Cell, Element, ParsedDocument, Span } from "@dark-factory/parse";
 import type { Entity, Link, ResolveResult } from "@dark-factory/resolve";
 import pg from "pg";
@@ -194,7 +195,7 @@ export async function writeRequirements(
   const byLabel = new Map<string, Row[]>();
   for (const c of rows) {
     // A sentence about an entity is a Description; the kind's own label belongs to the entity.
-    const describes = (ENTITY_KINDS as readonly string[]).includes(c.type);
+    const describes = isEntityKind(c.type);
     const label = describes ? "Description" : toLabel(c.type);
     // Flat, with the element id alongside the node's own properties: AGE's SET takes a whole map, not a nested one.
     const row: Row = {

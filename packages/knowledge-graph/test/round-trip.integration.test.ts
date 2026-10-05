@@ -6,7 +6,11 @@ import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 import { expect, test } from "vitest";
-import { ENTITY_KINDS, type AnnotateResult } from "@dark-factory/annotate";
+import {
+  ENTITY_KINDS,
+  isEntityKind,
+  type AnnotateResult,
+} from "@dark-factory/annotate";
 import type { ParsedDocument } from "@dark-factory/parse";
 import type { Link, ResolveResult } from "@dark-factory/resolve";
 import {
@@ -88,9 +92,7 @@ test("a classification of an entity kind is stored as a Description, and the kin
     kind: r.kind === null ? null : (JSON.parse(r.kind) as string | null),
   }));
 
-  const kinds = golden.classifications
-    .map((c) => c.type)
-    .filter((type) => (ENTITY_KINDS as readonly string[]).includes(type));
+  const kinds = golden.classifications.map((c) => c.type).filter(isEntityKind);
   expect(kinds.length).toBeGreaterThan(0);
   expect(
     stored
