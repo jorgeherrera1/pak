@@ -21,8 +21,7 @@
     "classificationId": "a4",
     "entityIds": [
       "e2",
-      "e3",
-      "e4"
+      "e3"
     ]
   },
   {
@@ -38,13 +37,13 @@
   {
     "classificationId": "a7",
     "entityIds": [
-      "e4"
+      "e3"
     ]
   },
   {
     "classificationId": "a8",
     "entityIds": [
-      "e5"
+      "e7"
     ]
   },
   {
@@ -69,11 +68,6 @@
   },
   {
     "classificationId": "a13",
-    "entityIds": [
-      "e3",
-      "e8",
-      "e9",
-      "e10"
-    ]
+    "entityIds": []
   }
 ]

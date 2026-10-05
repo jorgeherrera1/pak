@@ -27,20 +27,11 @@
     "possiblySameAs": []
   },
   {
-    "kind": "data-entity",
-    "name": "level",
-    "names": [
-      "level",
-      "levels"
-    ],
-    "possiblySameAs": []
-  },
-  {
     "kind": "integration",
     "name": "Microsoft Entra ID",
     "names": [
       "Microsoft Entra ID",
-      "corporate Entra ID"
+      "Entra ID"
     ],
     "possiblySameAs": []
   },
@@ -64,9 +55,9 @@
   },
   {
     "kind": "standard",
-    "name": "GDPR",
+    "name": "corporate SSO",
     "names": [
-      "GDPR"
+      "corporate SSO"
     ],
     "possiblySameAs": []
   },

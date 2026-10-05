@@ -31,8 +31,7 @@
   {
     "classificationId": "a19",
     "entityIds": [
-      "e3",
-      "e4"
+      "e3"
     ]
   },
   {
@@ -44,23 +43,19 @@
   {
     "classificationId": "a21",
     "entityIds": [
-      "e3",
-      "e4"
+      "e3"
     ]
   },
   {
     "classificationId": "a22",
     "entityIds": [
       "e2",
-      "e3",
-      "e4"
+      "e3"
     ]
   },
   {
     "classificationId": "a23",
     "entityIds": [
-      "e3",
-      "e4",
       "e8",
       "e9",
       "e10"
@@ -75,8 +70,6 @@
   {
     "classificationId": "a25",
     "entityIds": [
-      "e3",
-      "e4",
       "e8"
     ]
   },
@@ -106,13 +99,14 @@
     "classificationId": "a30",
     "entityIds": [
       "e2",
-      "e5"
+      "e7"
     ]
   },
   {
     "classificationId": "a31",
     "entityIds": [
-      "e5"
+      "e4",
+      "e6"
     ]
   },
   {
@@ -120,8 +114,8 @@
     "entityIds": [
       "e1",
       "e5",
-      "e6",
-      "e7"
+      "e4",
+      "e6"
     ]
   }
 ]
