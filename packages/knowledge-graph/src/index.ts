@@ -260,20 +260,17 @@ export async function readRequirements(
 /** What Resolve stores about a job's entities. */
 type Entities = Pick<ResolveResult, "entities" | "possiblySameAs">;
 
-/** "e12" → 12, "a3" → 3: ids sort by their number. */
-const num = (id: string) => Number(id.slice(1));
-
-/** Replaces the job's entities: one node per entity labeled by its kind, a MENTIONED_IN edge per mention to the element it sits in, a POSSIBLY_SAME_AS edge per pair. Deleting an entity takes its ABOUT edges with it. */
+/** Replaces the job's entities: one node per entity labeled by its kind, a MENTIONED_IN edge per mention to the element it sits in, a POSSIBLY_SAME_AS edge per pair. Entities and pairs keep their `position` in the lists. Deleting an entity takes its ABOUT edges with it. */
 export async function writeEntities(
   jobId: string,
   { entities, possiblySameAs }: Entities,
 ): Promise<void> {
   const byLabel = new Map<string, Row[]>();
-  for (const e of entities) {
+  entities.forEach((e, position) => {
     const label = toLabel(e.kind);
-    const row: Row = { jobId, id: e.id, name: e.name };
+    const row: Row = { jobId, id: e.id, name: e.name, position };
     byLabel.set(label, [...(byLabel.get(label) ?? []), row]);
-  }
+  });
   const mentions = entities.flatMap((e) =>
     e.mentions.map((m) => ({ entityId: e.id, ...m })),
   );
@@ -294,18 +291,21 @@ export async function writeEntities(
     );
     await cypher(
       client,
-      `UNWIND $pairs AS p MATCH (x), (y) WHERE x.jobId = $jobId AND x.id = p.a AND y.jobId = $jobId AND y.id = p.b CREATE (x)-[:POSSIBLY_SAME_AS]->(y)`,
-      { jobId, pairs: possiblySameAs.map(([a, b]) => ({ a, b })) },
+      `UNWIND $pairs AS p MATCH (x), (y) WHERE x.jobId = $jobId AND x.id = p.a AND y.jobId = $jobId AND y.id = p.b CREATE (x)-[:POSSIBLY_SAME_AS {position: p.position}]->(y)`,
+      {
+        jobId,
+        pairs: possiblySameAs.map(([a, b], position) => ({ a, b, position })),
+      },
     );
   });
 }
 
-/** The inverse of writeEntities: entities in id order, each with its mentions in reading order. */
+/** The inverse of writeEntities: entities and pairs in the order written, each entity with its mentions in reading order. */
 export async function readEntities(jobId: string): Promise<Entities> {
   return transaction(async (client) => {
     const rows = await cypher<[string, string, string, Span, string, string]>(
       client,
-      `MATCH (e {jobId: $jobId})-[m:MENTIONED_IN]->(el) RETURN label(e), e.id, e.name, m.span, m.text, el.id`,
+      `MATCH (e {jobId: $jobId})-[m:MENTIONED_IN]->(el) RETURN label(e), e.id, e.name, m.span, m.text, el.id ORDER BY e.position, m.span.offset`,
       { jobId },
       ["label", "id", "name", "span", "text", "elementId"],
     );
@@ -320,25 +320,17 @@ export async function readEntities(jobId: string): Promise<Entities> {
       entity.mentions.push({ elementId, span, text });
       byId.set(id, entity);
     }
-    const entities = [...byId.values()].sort((a, b) => num(a.id) - num(b.id));
-    for (const e of entities)
-      e.mentions.sort((a, b) => a.span.offset - b.span.offset);
     const pairs = await cypher<[string, string]>(
       client,
-      `MATCH (x {jobId: $jobId})-[:POSSIBLY_SAME_AS]->(y) RETURN x.id, y.id`,
+      `MATCH (x {jobId: $jobId})-[p:POSSIBLY_SAME_AS]->(y) RETURN x.id, y.id ORDER BY p.position`,
       { jobId },
       ["a", "b"],
     );
-    return {
-      entities,
-      possiblySameAs: pairs.sort(
-        (x, y) => num(x[0]) - num(y[0]) || num(x[1]) - num(y[1]),
-      ),
-    };
+    return { entities: [...byId.values()], possiblySameAs: pairs };
   });
 }
 
-/** Replaces the job's ABOUT edges: one per link, from a requirement node to an entity. */
+/** Replaces the job's ABOUT edges: one per link, from a requirement node to an entity, with its `position` in the list. */
 export async function writeLinks(jobId: string, links: Link[]): Promise<void> {
   await transaction(async (client) => {
     await cypher(client, `MATCH (c {jobId: $jobId})-[r:ABOUT]->() DELETE r`, {
@@ -346,27 +338,24 @@ export async function writeLinks(jobId: string, links: Link[]): Promise<void> {
     });
     await cypher(
       client,
-      `UNWIND $rows AS r MATCH (c), (e) WHERE c.jobId = $jobId AND c.id = r.classificationId AND e.jobId = $jobId AND e.id = r.entityId CREATE (c)-[:ABOUT]->(e)`,
-      { jobId, rows: links },
+      `UNWIND $rows AS r MATCH (c), (e) WHERE c.jobId = $jobId AND c.id = r.classificationId AND e.jobId = $jobId AND e.id = r.entityId CREATE (c)-[:ABOUT {position: r.position}]->(e)`,
+      { jobId, rows: links.map((l, position) => ({ ...l, position })) },
     );
   });
 }
 
-/** The inverse of writeLinks, ordered by classification, then entity. */
+/** The inverse of writeLinks, in the order written. */
 export async function readLinks(jobId: string): Promise<Link[]> {
   const rows = await transaction((client) =>
     cypher<[string, string]>(
       client,
-      `MATCH (c {jobId: $jobId})-[:ABOUT]->(e) RETURN c.id, e.id`,
+      `MATCH (c {jobId: $jobId})-[a:ABOUT]->(e) RETURN c.id, e.id ORDER BY a.position`,
       { jobId },
       ["classificationId", "entityId"],
     ),
   );
-  return rows
-    .map(([classificationId, entityId]) => ({ classificationId, entityId }))
-    .sort(
-      (a, b) =>
-        num(a.classificationId) - num(b.classificationId) ||
-        num(a.entityId) - num(b.entityId),
-    );
+  return rows.map(([classificationId, entityId]) => ({
+    classificationId,
+    entityId,
+  }));
 }
