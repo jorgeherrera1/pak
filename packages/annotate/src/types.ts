@@ -25,6 +25,22 @@ export const TYPES = [
 ] as const;
 export type ClassificationType = (typeof TYPES)[number];
 
+/**
+ * The types that name a kind of thing the document refers to by name. The
+ * other twelve name a kind of claim. A classification of one of these types
+ * is a sentence about an entity, not the entity.
+ */
+export const ENTITY_KINDS = [
+  "product",
+  "user-class",
+  "data-entity",
+  "integration",
+  "imposed-technology",
+  "standard",
+  "glossary-term",
+] as const satisfies readonly ClassificationType[];
+export type EntityKind = (typeof ENTITY_KINDS)[number];
+
 /** Non-functional requirement categories. */
 export const CATEGORIES = [
   "PER",

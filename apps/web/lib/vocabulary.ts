@@ -1,6 +1,6 @@
 import type { Category, ClassificationType } from "@dark-factory/annotate";
 
-/** The vocabulary in its own order. The package exports the types only, so the list is repeated here. */
+/** The vocabulary in its own order. Client components cannot import the package at runtime (its entry pulls in the model SDK), so the list is repeated here. */
 export const ORDER: ClassificationType[] = [
   "product",
   "business-goal",
