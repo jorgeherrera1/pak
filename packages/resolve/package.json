@@ -1,0 +1,31 @@
+{
+  "name": "@dark-factory/resolve",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "check-types": "tsc -p tsconfig.test.json",
+    "lint": "eslint src test --max-warnings 0",
+    "test": "vitest run --exclude \"**/*.integration.test.ts\"",
+    "test:integration": "vitest run test/resolve.integration.test.ts --silent=false"
+  },
+  "dependencies": {
+    "@ai-sdk/azure": "^4.0.63",
+    "@dark-factory/annotate": "*",
+    "@dark-factory/parse": "*",
+    "ai": "^7.0.93",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@dark-factory/eslint-config": "*",
+    "@dark-factory/typescript-config": "*",
+    "@types/node": "26.6.4",
+    "eslint": "10.12.0",
+    "typescript": "6.0.3",
+    "vitest": "^5.0.0"
+  }
+}
