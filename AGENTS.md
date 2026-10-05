@@ -46,11 +46,12 @@ Run from the repo root:
 - `npm run check-types` — typecheck all workspaces
 - `npm run format` — format with Prettier
 - `npm test` — unit tests, no network
-- `npm run test:integration` — parse the fixture PDF against live Azure and compare with the recording; `npm run test:integration -w apps/web` additionally needs the dev server running on port 3001, Postgres, the storage account, and Azure credentials in `.env`
+- `npm run test:integration` — run every workspace's integration tests: parse, annotate and resolve call live Azure (for annotate and resolve this is also the eval), knowledge-graph needs local Postgres, and `apps/web` additionally needs the dev server running on port 3001, the storage account, and Azure credentials in `.env`
 - `npm run parse <file.pdf> <outDir>` — run the parse step on a PDF
 - `npm run annotate <parsed.json> <outDir>` — run the annotate step on a parsed document
 - `npm run resolve <parsed.json> <annotate.json> <outDir>` — run the resolve step on a parsed document and its classifications
 - `npm run pipeline <file.pdf> <outDir>` — parse, annotate, then resolve
+- `npm run resolve` and `npm run pipeline` first build `packages/annotate`, because Resolve imports it at runtime through its `dist/`
 - `npm run db:migrate -w apps/web` — apply our SQL migrations (`db:generate` after a schema change)
 
 ## Definition of done
