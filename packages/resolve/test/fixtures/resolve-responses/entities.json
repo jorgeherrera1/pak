@@ -1,0 +1,88 @@
+[
+  {
+    "kind": "product",
+    "name": "Next.js/React app",
+    "names": [
+      "Next.js/React app",
+      "small Next.js/React app"
+    ],
+    "possiblySameAs": []
+  },
+  {
+    "kind": "user-class",
+    "name": "consultant",
+    "names": [
+      "consultant",
+      "consultants"
+    ],
+    "possiblySameAs": []
+  },
+  {
+    "kind": "data-entity",
+    "name": "competency",
+    "names": [
+      "competency",
+      "competencies"
+    ],
+    "possiblySameAs": []
+  },
+  {
+    "kind": "integration",
+    "name": "Microsoft Entra ID",
+    "names": [
+      "Microsoft Entra ID",
+      "Entra ID"
+    ],
+    "possiblySameAs": []
+  },
+  {
+    "kind": "imposed-technology",
+    "name": "PostgreSQL",
+    "names": [
+      "PostgreSQL",
+      "PostgreSQL database"
+    ],
+    "possiblySameAs": []
+  },
+  {
+    "kind": "imposed-technology",
+    "name": "OIDC",
+    "names": [
+      "OIDC",
+      "authorization-code flow and PKCE"
+    ],
+    "possiblySameAs": []
+  },
+  {
+    "kind": "standard",
+    "name": "corporate SSO",
+    "names": [
+      "corporate SSO"
+    ],
+    "possiblySameAs": []
+  },
+  {
+    "kind": "glossary-term",
+    "name": "Learner",
+    "names": [
+      "Learner"
+    ],
+    "possiblySameAs": []
+  },
+  {
+    "kind": "glossary-term",
+    "name": "Advanced",
+    "names": [
+      "Advanced"
+    ],
+    "possiblySameAs": []
+  },
+  {
+    "kind": "glossary-term",
+    "name": "Expert",
+    "names": [
+      "Expert"
+    ],
+    "possiblySameAs": []
+  }
+]

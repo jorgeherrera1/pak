@@ -28,7 +28,7 @@ const PUNCT: Record<string, string> = {
  * marks as one space, typographic quotes and dashes as ASCII. `at[i]` is the
  * offset in `content` of the source character behind `folded[i]`.
  */
-function fold(text: string, base = 0): { folded: string; at: number[] } {
+export function fold(text: string, base = 0): { folded: string; at: number[] } {
   let folded = "";
   const at: number[] = [];
   for (let i = 0; i < text.length;) {
@@ -46,7 +46,12 @@ function fold(text: string, base = 0): { folded: string; at: number[] } {
 }
 
 /** First occurrence of `needle` in `hay[from, end)` that sits on word boundaries, or -1. */
-function find(hay: string, needle: string, from = 0, end = hay.length): number {
+export function find(
+  hay: string,
+  needle: string,
+  from = 0,
+  end = hay.length,
+): number {
   for (
     let i = hay.indexOf(needle, from);
     i >= 0 && i + needle.length <= end;
