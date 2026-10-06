@@ -30,12 +30,16 @@ test("step status derivation", () => {
   expect(stepStatus([op("a", "running"), op("b", "failed")])).toBe("failed");
 });
 
-test("two step nodes in order, parse carrying its operations", () => {
+test("three step nodes in order, parse carrying its operations", () => {
   const { nodes } = toCanvas(
     job([op("upload", "done"), op("parse", "running", null)]),
   );
-  expect(nodes.map((n) => n.id)).toEqual(["parse", "annotate"]);
-  expect(nodes.map((n) => n.data.label)).toEqual(["Parse", "Annotate"]);
+  expect(nodes.map((n) => n.id)).toEqual(["parse", "annotate", "resolve"]);
+  expect(nodes.map((n) => n.data.label)).toEqual([
+    "Parse",
+    "Annotate",
+    "Resolve",
+  ]);
   expect(nodes[0]?.data.status).toBe("running");
   expect(nodes[0]?.data.operations.map((o) => o.name)).toEqual([
     "upload",
@@ -44,8 +48,10 @@ test("two step nodes in order, parse carrying its operations", () => {
   expect(nodes[1]?.data.operations).toEqual([]);
   expect(nodes[1]?.data.status).toBe("pending");
   expect(nodes[0]?.position.x).toBeLessThan(nodes[1]?.position.x ?? 0);
+  expect(nodes[1]?.position.x).toBeLessThan(nodes[2]?.position.x ?? 0);
   expect(nodes.map((n) => n.data.handles)).toEqual([
     { target: false, source: true },
+    { target: true, source: true },
     { target: true, source: false },
   ]);
 });
@@ -73,6 +79,7 @@ test("the edge into a running step is animated, others plain", () => {
   );
   expect(running.edges.map((e) => [e.source, e.target, e.type])).toEqual([
     ["parse", "annotate", "animated"],
+    ["annotate", "resolve", undefined],
   ]);
   const idle = toCanvas(job([op("upload", "done")]));
   expect(idle.edges.every((e) => e.type === undefined)).toBe(true);
@@ -88,4 +95,13 @@ test("a node links to its reader only once every one of its operations is done",
     job([op("parse", "done"), { ...op("annotate", "done"), step: "annotate" }]),
   );
   expect(annotated.nodes[1]?.data.href).toBe("/jobs/j/annotate");
+  // Resolve has no page yet, so its node links nowhere even when it is done.
+  const resolved = toCanvas(
+    job([
+      { ...op("resolve", "done"), step: "resolve" },
+      { ...op("link", "done"), step: "resolve" },
+    ]),
+  );
+  expect(resolved.nodes[2]?.data.status).toBe("done");
+  expect(resolved.nodes[2]?.data.href).toBeUndefined();
 });

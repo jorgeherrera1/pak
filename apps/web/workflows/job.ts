@@ -1,8 +1,13 @@
 import { analyze, toParsedDocument } from "@dark-factory/parse";
 import { anchors, chunk, ground, runAnnotate } from "@dark-factory/annotate";
+import { link, resolveEntities } from "@dark-factory/resolve";
 import {
   readDocument,
+  readEntities,
+  readRequirements,
   writeDocument,
+  writeEntities,
+  writeLinks,
   writeRequirements,
 } from "@dark-factory/knowledge-graph";
 import { eq } from "drizzle-orm";
@@ -28,7 +33,6 @@ async function parseOperation(jobId: string) {
       await putBlob(`${jobId}/figures/${id}.png`, png, "image/png");
     const doc = toParsedDocument(result, job.sha256);
     await writeDocument(jobId, doc);
-    return { elements: doc.elements.length, warnings: doc.warnings.length };
   });
 }
 
@@ -45,22 +49,48 @@ async function annotateOperation(jobId: string) {
     await setOperation(jobId, "annotate", "annotate", {
       warnings: result.warnings,
     });
-    return {
-      classifications: result.classifications.length,
-      warnings: result.warnings.length,
-    };
   });
 }
 
-/** One job down Station 1: Parse, then Annotate. The knowledge graph is the only thing that crosses a step boundary. */
+async function resolveOperation(jobId: string) {
+  "use step";
+  return runOperation(jobId, "resolve", "resolve", async () => {
+    const doc = await readDocument(jobId);
+    if (!doc) throw new FatalError("document missing from the knowledge graph");
+    const result = await resolveEntities(doc);
+    await writeEntities(jobId, result);
+    // Like grounding warnings, these describe this run; runOperation's done patch leaves them in place.
+    await setOperation(jobId, "resolve", "resolve", {
+      warnings: result.warnings,
+    });
+  });
+}
+
+async function linkOperation(jobId: string) {
+  "use step";
+  return runOperation(jobId, "resolve", "link", async () => {
+    const [doc, classifications, { entities }] = await Promise.all([
+      readDocument(jobId),
+      readRequirements(jobId),
+      readEntities(jobId),
+    ]);
+    if (!doc) throw new FatalError("document missing from the knowledge graph");
+    const result = await link(doc, classifications, entities);
+    await writeLinks(jobId, result.links);
+    await setOperation(jobId, "resolve", "link", { warnings: result.warnings });
+  });
+}
+
+/** One job down Station 1: Parse, Annotate, then Resolve. The knowledge graph is the only thing that crosses a step boundary. */
 export async function runJob(jobId: string) {
   "use workflow";
   await setJob(jobId, { status: "running" });
   try {
     await parseOperation(jobId);
-    const counts = await annotateOperation(jobId);
+    await annotateOperation(jobId);
+    await resolveOperation(jobId);
+    await linkOperation(jobId);
     await setJob(jobId, { status: "done", finishedAt: new Date() });
-    return counts;
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
     await setJob(jobId, { status: "failed", error, finishedAt: new Date() });
