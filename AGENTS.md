@@ -61,7 +61,7 @@ Work is not complete until all of these pass:
 1. `npm run check-types`
 2. `npm run lint`
 3. `npm run build`
-4. `npm test`, including tests for the behavior you added or changed. If the package you touched has no test setup yet, standing one up is part of your task — not a reason to skip tests.
+4. `npm test`. Write tests only for behavior that carries the product's business value: parsing, grounding, annotation, resolution, the job pipeline. No tests for coverage's sake: env-var guards, config checks and wiring get none, and a missing one is not a review finding.
 5. `npm run test:integration` when you changed `packages/parse`, `packages/annotate`, `packages/resolve`, `packages/knowledge-graph`, or their fixtures. It needs credentials (the knowledge-graph one needs only local Postgres), so it is not a CI gate; run it locally and report the result. For annotate and resolve this is also the eval: paste the score tables in the PR.
 
 Report results honestly: if a gate fails, say so and show the output.

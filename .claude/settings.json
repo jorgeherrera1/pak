@@ -1,4 +1,7 @@
 {
+  "permissions": {
+    "deny": ["Read(**/.env)", "Read(**/.env.*)"]
+  },
   "enabledPlugins": {
     "ponytail@ponytail": true,
     "superpowers@claude-plugins-official": true,
