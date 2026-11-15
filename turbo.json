@@ -1,0 +1,14 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "tasks": {
+    "//#typecheck": {
+      "description": "Typechecks with tsc."
+    },
+    "//#lint": {
+      "description": "Checks lint and format with Biome."
+    },
+    "//#test": {
+      "description": "Runs the Vitest tests."
+    }
+  }
+}
