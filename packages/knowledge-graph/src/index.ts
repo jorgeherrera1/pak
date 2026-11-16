@@ -1,9 +1,9 @@
 // The vocabulary alone: the package's entry loads the model SDK.
 import {
-  isEntityKind,
   type Classification,
   type ClassificationType,
   type EntityKind,
+  isEntityKind,
 } from "@dark-factory/annotate/types";
 import type { Cell, Element, ParsedDocument, Span } from "@dark-factory/parse";
 import type { Entity, Link, ResolveResult } from "@dark-factory/resolve";

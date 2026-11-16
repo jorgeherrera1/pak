@@ -9,19 +9,19 @@
   "scripts": {
     "build": "tsc",
     "check-types": "tsc -p tsconfig.test.json",
-    "lint": "eslint src test --max-warnings 0",
+    "lint": "biome check --error-on-warnings .",
     "test": "vitest run --exclude \"**/*.integration.test.ts\"",
     "test:integration": "vitest run test/parse.integration.test.ts"
   },
   "dependencies": {
-    "@azure-rest/ai-document-intelligence": "^1.0.0"
+    "@azure-rest/ai-document-intelligence": "^1.1.0"
   },
   "devDependencies": {
-    "@dark-factory/eslint-config": "*",
-    "@dark-factory/typescript-config": "*",
-    "@types/node": "26.6.4",
-    "eslint": "10.12.0",
-    "typescript": "6.0.3",
-    "vitest": "^5.0.0"
+    "@biomejs/biome": "2.6.8",
+    "@dark-factory/typescript-config": "workspace:*",
+    "@types/node": "26.6.6",
+    "typescript": "7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
   }
 }

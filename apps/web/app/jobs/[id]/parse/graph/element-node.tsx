@@ -1,13 +1,13 @@
 "use client";
 
+import { cn } from "@dark-factory/ui/lib/utils";
 import {
-  Handle,
-  Position,
   type Node as FlowNode,
+  Handle,
   type NodeProps,
+  Position,
 } from "@xyflow/react";
 import { ChevronRight } from "lucide-react";
-import { cn } from "@dark-factory/ui/lib/utils";
 import { CARD, type TreeNodeData } from "@/lib/parse-tree";
 
 export type ElementNodeData = TreeNodeData & { onToggle: () => void };

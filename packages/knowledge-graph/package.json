@@ -9,22 +9,22 @@
   "scripts": {
     "build": "tsc",
     "check-types": "tsc -p tsconfig.test.json",
-    "lint": "eslint src test --max-warnings 0",
+    "lint": "biome check --error-on-warnings .",
     "test:integration": "vitest run test/round-trip.integration.test.ts"
   },
   "dependencies": {
-    "@dark-factory/annotate": "*",
-    "@dark-factory/parse": "*",
-    "@dark-factory/resolve": "*",
-    "pg": "^8.23.0"
+    "@dark-factory/annotate": "workspace:*",
+    "@dark-factory/parse": "workspace:*",
+    "@dark-factory/resolve": "workspace:*",
+    "pg": "^8.23.1"
   },
   "devDependencies": {
-    "@dark-factory/eslint-config": "*",
-    "@dark-factory/typescript-config": "*",
-    "@types/node": "26.6.4",
+    "@biomejs/biome": "2.6.8",
+    "@dark-factory/typescript-config": "workspace:*",
+    "@types/node": "26.6.6",
     "@types/pg": "^8.23.1",
-    "eslint": "10.12.0",
-    "typescript": "6.0.3",
-    "vitest": "^5.0.0"
+    "typescript": "7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
   }
 }

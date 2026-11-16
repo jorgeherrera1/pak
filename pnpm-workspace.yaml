@@ -1,0 +1,16 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Fail install on a Node version outside engines.
+engineStrict: true
+
+# Native packages. Without these scripts Next, Vite, and cbor-x do not load.
+allowBuilds:
+  "@swc/core": true
+  cbor-extract: true
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - "@xyflow/react@13.0.1"
+  - "@xyflow/system@1.0.0"

@@ -37,17 +37,23 @@ export function Table({
     Array.from({ length: e.cols }),
   );
   for (const c of e.cells) grid[c.row]![c.col] = c;
+  let blank = 0;
+  const rows = grid.map((row) => {
+    const head = row.find((c) => c !== undefined);
+    const key = head ? `r${head.row}` : `blank-${blank++}`;
+    return { row, key };
+  });
   return (
     <table className={className}>
       <tbody>
-        {grid.map((row, r) => (
-          <tr key={r}>
-            {row.map((c, i) => {
+        {rows.map(({ row, key }) => (
+          <tr key={key}>
+            {row.map((c) => {
               if (!c) return null;
               const Tag = c.kind === "columnHeader" ? "th" : "td";
               return (
                 <Tag
-                  key={i}
+                  key={c.id}
                   rowSpan={c.rowSpan}
                   colSpan={c.colSpan}
                   className={cellClassName}
@@ -75,7 +81,7 @@ export function Figure({
   return (
     <figure className="flex flex-col gap-2">
       {e.image && (
-        // eslint-disable-next-line @next/next/no-img-element -- blob-served png, size unknown
+        // biome-ignore lint/performance/noImgElement: blob-served png, size unknown
         <img
           src={figureBase + e.image}
           alt={e.caption ?? e.id}

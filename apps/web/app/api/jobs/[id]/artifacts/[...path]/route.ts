@@ -1,8 +1,7 @@
 import { streamBlob } from "@/lib/blob";
 import { isUuid } from "@/lib/db";
 
-const ALLOWED =
-  /^(source\.pdf|figures\/[\w.-]+\.png)$/;
+const ALLOWED = /^(source\.pdf|figures\/[\w.-]+\.png)$/;
 
 export async function GET(
   _req: Request,

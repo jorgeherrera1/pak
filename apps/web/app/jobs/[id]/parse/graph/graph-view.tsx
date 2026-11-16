@@ -2,10 +2,10 @@
 
 import type { ParsedDocument } from "@dark-factory/parse";
 import { Canvas } from "@dark-factory/ui/components/canvas";
-import { Controls, MarkerType, useReactFlow, type Edge } from "@xyflow/react";
+import { Controls, type Edge, MarkerType, useReactFlow } from "@xyflow/react";
 import { useMemo, useState } from "react";
 import { CARD, DOCUMENT, toTree } from "@/lib/parse-tree";
-import { ElementNode, type ElementFlowNode } from "./element-node";
+import { type ElementFlowNode, ElementNode } from "./element-node";
 import { ElementPanel } from "./element-panel";
 
 const nodeTypes = { element: ElementNode };
@@ -43,7 +43,7 @@ export function GraphView({
   const select = (id: string) => {
     setOpen((prev) => {
       const next = new Set(prev);
-      for (let e = byId.get(id); e && e.kind !== "section";) {
+      for (let e = byId.get(id); e && e.kind !== "section"; ) {
         next.add(e.parent ?? DOCUMENT);
         e = byId.get(e.parent ?? DOCUMENT);
       }

@@ -1,9 +1,9 @@
 import {
+  type Classification,
   ENTITY_KINDS,
   find,
   fold,
   isEntityKind,
-  type Classification,
 } from "@dark-factory/annotate";
 import type { Span } from "@dark-factory/parse";
 import { z } from "zod";

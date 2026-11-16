@@ -5,9 +5,9 @@ import { analyze } from "./analyze.ts";
 import { toParsedDocument } from "./toParsedDocument.ts";
 import type { ParsedDocument } from "./types.ts";
 
-export type * from "./types.ts";
-export { analyze, type Analysis } from "./analyze.ts";
+export { type Analysis, analyze } from "./analyze.ts";
 export { toParsedDocument } from "./toParsedDocument.ts";
+export type * from "./types.ts";
 
 /**
  * PDF in, ParsedDocument out. Every run calls Azure; nothing is reused between

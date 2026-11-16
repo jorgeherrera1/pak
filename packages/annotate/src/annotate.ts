@@ -1,14 +1,14 @@
-import { createAzure } from "@ai-sdk/azure";
-import type { ParsedDocument } from "@dark-factory/parse";
-import { Output, generateText } from "ai";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { createAzure } from "@ai-sdk/azure";
+import type { ParsedDocument } from "@dark-factory/parse";
+import { generateText, Output } from "ai";
 import type { z } from "zod";
 import { anchors, chunk } from "./chunk.ts";
 import {
+  type ClassificationRow,
   classificationSchema,
   ground,
-  type ClassificationRow,
 } from "./ground.ts";
 import prompt from "./prompt.ts";
 import type { AnnotateResult } from "./types.ts";

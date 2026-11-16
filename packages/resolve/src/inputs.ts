@@ -1,4 +1,4 @@
-import { chunk, type Classification } from "@dark-factory/annotate";
+import { type Classification, chunk } from "@dark-factory/annotate";
 import type { ParsedDocument } from "@dark-factory/parse";
 import type { Entity } from "./types.ts";
 
