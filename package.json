@@ -6,6 +6,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "test:protect": "node --test scripts/protect-tests.test.mjs",
     "check-types": "turbo run check-types",
     "format": "biome check --write .",
     "parse": "node --env-file-if-exists=.env packages/parse/src/index.ts",
