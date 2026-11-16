@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { linkInputs } from "../src/inputs.ts";
-import type { Entity } from "../src/types.ts";
+import type { Entity } from "@dark-factory/contracts";
 import { classifications, doc } from "./doc.ts";
 
 const entity: Entity = {

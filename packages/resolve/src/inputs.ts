@@ -1,6 +1,9 @@
-import { type Classification, chunk } from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
-import type { Entity } from "./types.ts";
+import {
+  type Classification,
+  chunk,
+  type Entity,
+  type ParsedDocument,
+} from "@dark-factory/contracts";
 
 /** What `runResolve` reads: the document as the anchored lines Annotate reads, in one piece. */
 // ponytail: the whole document in one model call; a per-chunk candidate pass and one merge call when a real document outgrows the context window.

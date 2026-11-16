@@ -4,7 +4,7 @@
  * `test/fixtures/resolve-responses/` and `resolve.json` into `test/fixtures/`,
  * and review the diff like code.
  */
-import { anchors } from "@dark-factory/annotate";
+import { anchors } from "@dark-factory/contracts";
 import { readFileSync } from "node:fs";
 import { expect, test } from "vitest";
 import { groundEntities, groundLinks } from "../src/ground.ts";

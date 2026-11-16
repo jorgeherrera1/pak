@@ -10,9 +10,10 @@ import {
   ENTITY_KINDS,
   isEntityKind,
   type AnnotateResult,
-} from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
-import type { Link, ResolveResult } from "@dark-factory/resolve";
+  type Link,
+  type ParsedDocument,
+  type ResolveResult,
+} from "@dark-factory/contracts";
 import {
   readDocument,
   readEntities,

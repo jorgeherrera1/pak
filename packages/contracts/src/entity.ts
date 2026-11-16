@@ -1,7 +1,7 @@
-/** Output shape of the resolve module. The entity kinds are seven of annotate's types. */
+/** Output shape of the resolve step. The entity kinds are seven of the classification types. */
 
-import type { EntityKind } from "@dark-factory/annotate";
-import type { Span } from "@dark-factory/parse";
+import type { EntityKind } from "./classification.ts";
+import type { Span } from "./document.ts";
 
 /** One place an entity is named. `text` is the source's, at `span`. */
 export type Mention = { elementId: string; span: Span; text: string };

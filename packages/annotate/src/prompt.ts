@@ -1,5 +1,4 @@
-import { GUIDELINES } from "./guidelines.ts";
-import { TYPES } from "./types.ts";
+import { GUIDELINES, TYPES } from "@dark-factory/contracts";
 
 export default `You label statements in a software requirements document (an RFP or similar) with what they are evidence of.
 

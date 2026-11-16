@@ -1,5 +1,4 @@
-import type { Classification } from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { Classification, ParsedDocument } from "@dark-factory/contracts";
 import { childrenOf, DOCUMENT, label } from "./parse-tree";
 import { owner } from "./vocabulary";
 

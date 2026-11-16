@@ -1,4 +1,4 @@
-import type { Element, ParsedDocument } from "@dark-factory/parse";
+import type { Element, ParsedDocument } from "@dark-factory/contracts";
 
 /** The Document node's id; element ids all contain a "/", so it cannot clash. */
 export const DOCUMENT = "document";

@@ -4,18 +4,15 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./src/index.ts"
   },
   "scripts": {
-    "build": "tsc",
     "check-types": "tsc -p tsconfig.test.json",
     "lint": "biome check --error-on-warnings .",
     "test:integration": "vitest run test/round-trip.integration.test.ts"
   },
   "dependencies": {
-    "@dark-factory/annotate": "workspace:*",
-    "@dark-factory/parse": "workspace:*",
-    "@dark-factory/resolve": "workspace:*",
+    "@dark-factory/contracts": "workspace:*",
     "pg": "^8.23.1"
   },
   "devDependencies": {

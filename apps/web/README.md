@@ -51,8 +51,6 @@ search_path from the `psql` line above.
 
 ## Run
 
-Run `pnpm run build` from the repo root once first, so `@dark-factory/parse` has a `dist/` to resolve.
-
 ```bash
 pnpm --filter web dev
 ```

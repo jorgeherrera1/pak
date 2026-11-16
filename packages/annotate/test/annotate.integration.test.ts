@@ -8,7 +8,7 @@ import { existsSync, readFileSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vitest";
 import { annotate } from "../src/annotate.ts";
-import type { ClassificationType } from "../src/types.ts";
+import type { ClassificationType } from "@dark-factory/contracts";
 import { doc } from "./doc.ts";
 
 const env = fileURLToPath(new URL("../../../.env", import.meta.url));

@@ -1,0 +1,12 @@
+{
+  "extends": "@dark-factory/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": ["es2024"],
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true
+  },
+  "include": ["src"]
+}

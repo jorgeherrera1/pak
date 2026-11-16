@@ -1,7 +1,14 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { anchors, type Classification, runModel } from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
+import {
+  anchors,
+  type Classification,
+  type Entity,
+  type Link,
+  type LinkResult,
+  type ParsedDocument,
+  type ResolveResult,
+} from "@dark-factory/contracts";
 import {
   type EntityRow,
   entitySchema,
@@ -11,8 +18,8 @@ import {
   linkSchema,
 } from "./ground.ts";
 import { linkInputs, resolveInput } from "./inputs.ts";
+import { runModel } from "./model.ts";
 import { linkPrompt, resolvePrompt } from "./prompts.ts";
-import type { Entity, Link, LinkResult, ResolveResult } from "./types.ts";
 
 /** Operation `resolve`: the document in, grounded entities out, with the model's raw rows. */
 export async function resolveEntities(

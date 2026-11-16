@@ -1,4 +1,4 @@
-import { fold } from "@dark-factory/annotate";
+import { fold } from "@dark-factory/contracts";
 
 /** An entity as the answer key writes it, and as a run is reduced to for scoring. */
 export type Named = { kind: string; names: string[] };

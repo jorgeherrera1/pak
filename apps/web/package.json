@@ -17,6 +17,7 @@
   "dependencies": {
     "@azure/storage-blob": "^12.34.0",
     "@dark-factory/annotate": "workspace:*",
+    "@dark-factory/contracts": "workspace:*",
     "@dark-factory/knowledge-graph": "workspace:*",
     "@dark-factory/parse": "workspace:*",
     "@dark-factory/resolve": "workspace:*",

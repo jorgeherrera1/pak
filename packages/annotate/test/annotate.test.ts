@@ -6,7 +6,7 @@
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { expect, test } from "vitest";
-import { anchors } from "../src/chunk.ts";
+import { anchors } from "@dark-factory/contracts";
 import { ground, type ClassificationRow } from "../src/ground.ts";
 import { doc } from "./doc.ts";
 

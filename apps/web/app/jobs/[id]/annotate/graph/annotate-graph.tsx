@@ -1,7 +1,6 @@
 "use client";
 
-import type { Classification } from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { Classification, ParsedDocument } from "@dark-factory/contracts";
 import { cn } from "@dark-factory/ui/lib/utils";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";

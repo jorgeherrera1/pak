@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vitest";
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { ParsedDocument } from "@dark-factory/contracts";
 import {
   readDocument,
   readEntities,

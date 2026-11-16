@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test } from "vitest";
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { ParsedDocument } from "@dark-factory/contracts";
 import { CARD, DOCUMENT, toTree } from "@/lib/parse-tree";
 
 const parsed: ParsedDocument = JSON.parse(

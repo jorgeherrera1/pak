@@ -1,4 +1,4 @@
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { ParsedDocument } from "@dark-factory/contracts";
 import Link from "next/link";
 import { ViewSwitch } from "../view-switch";
 

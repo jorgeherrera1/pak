@@ -1,4 +1,4 @@
-import type { Span } from "@dark-factory/parse";
+import type { Span } from "@dark-factory/contracts";
 
 export type Segment<T> = { text: string; marks: T[] };
 

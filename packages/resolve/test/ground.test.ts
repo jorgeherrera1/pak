@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { groundEntities, type EntityRow } from "../src/ground.ts";
-import type { Entity } from "../src/types.ts";
+import type { Entity } from "@dark-factory/contracts";
 
 const lines = [
   "Accounts",

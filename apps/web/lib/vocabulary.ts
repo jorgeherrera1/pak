@@ -1,4 +1,4 @@
-import type { Category, ClassificationType } from "@dark-factory/annotate";
+import type { Category, ClassificationType } from "@dark-factory/contracts";
 
 /** The vocabulary in its own order. Client components cannot import the package at runtime (its entry pulls in the model SDK), so the list is repeated here. */
 export const ORDER: ClassificationType[] = [

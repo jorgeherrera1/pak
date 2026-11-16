@@ -32,6 +32,4 @@ Run these from the repo root:
 - `pnpm run pipeline <file.pdf> <outDir>` — parse, then annotate, then resolve
 - `pnpm --filter web db:migrate` — apply SQL migrations
 
-`pnpm run resolve` and `pnpm run pipeline` build `@dark-factory/annotate` first.
-
-Packages: `packages/parse`, `packages/annotate`, `packages/resolve`, `packages/knowledge-graph`, and `apps/web`.
+Packages: `packages/contracts`, `packages/parse`, `packages/annotate`, `packages/resolve`, `packages/knowledge-graph`, and `apps/web`. Steps share data through `packages/contracts` and export TypeScript source, so the commands above run without a prior build.

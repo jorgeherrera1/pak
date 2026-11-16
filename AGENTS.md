@@ -25,13 +25,17 @@ Later stations (design, implementation, …) are not yet defined. Don't build fo
 
 Turborepo monorepo, pnpm workspaces (`apps/*`, `packages/*`), 100% TypeScript. Node 26.x (`.nvmrc`), pnpm as package manager (`packageManager`).
 
-`packages/parse` is station 1, step 1 (Parse): PDF in, `ParsedDocument` out, via Azure Document Intelligence. It is real code, not scaffold.
+`packages/contracts` holds the data that crosses a step boundary. It depends on nothing. That is the document (`ParsedDocument` and its elements), the IEEE 29148 classification vocabulary and the grounded classifications, the entities and links Resolve emits, and the dependency-free text operations both AI steps use to address that document (`fold`, `find`, `anchors`, `chunk`). The model client stays in the step that calls it, because that client depends on the AI SDK.
 
-`packages/annotate` is station 1, step 2 (Annotate): `ParsedDocument` in, grounded classifications out, via a `gpt-4o` deployment on Azure AI Foundry through the Vercel AI SDK. The vocabulary follows the IEEE 29148 SRS template. Every annotation is grounded in code against the source text before it is emitted.
+`packages/parse` is station 1, step 1 (Parse): PDF in, `ParsedDocument` out, via Azure Document Intelligence. It depends only on contracts and the Document Intelligence client. It is real code, not scaffold.
 
-`packages/resolve` is station 1, step 3 (Resolve): a `ParsedDocument` and its classifications in, entities with their mentions and classification-to-entity links out, via the same `gpt-4o` deployment. The seven entity kinds are a subset of annotate's types. The model supplies names and judgments; code locates every mention and validates every link before it is emitted.
+`packages/annotate` is station 1, step 2 (Annotate): `ParsedDocument` in, grounded classifications out, via a `gpt-4o` deployment on Azure AI Foundry through the Vercel AI SDK. The vocabulary lives in contracts. Every annotation is grounded in code against the source text before it is emitted. It depends only on contracts and its own libraries.
 
-`packages/knowledge-graph` is where the steps store their results: an Apache AGE graph `knowledge_graph` in the same Postgres. `ParsedDocument` is the in-memory form; `writeDocument`/`readDocument` map it to structure nodes (`Document`, `Section`, `Paragraph`, `Table`, `Cell`, `Figure`) with `IN` edges, and `writeRequirements`/`readRequirements` map grounded classifications to nodes with a `FROM` edge to the element they quote, labeled by the IEEE 29148 type (`FunctionalRequirement`, `Assumption`, ...), or `Description` (with the type as its `kind`) when the type is one of the seven entity kinds: a sentence about a user class is not a user class. `writeEntities`/`readEntities` map entities to nodes labeled by their kind (`UserClass`, `DataEntity`, ...) with a `MENTIONED_IN` edge to each element that names them and `POSSIBLY_SAME_AS` edges between entities that may be one thing; `writeLinks`/`readLinks` map links to `ABOUT` edges from a requirement node to an entity. Nothing is labeled by the process that produced it. AGE is loaded by the database, never by app code.
+`packages/resolve` is station 1, step 3 (Resolve): a `ParsedDocument` and its classifications in, entities with their mentions and classification-to-entity links out, via the same `gpt-4o` deployment. The seven entity kinds are the entity subset of the classification vocabulary in contracts. The model supplies names and judgments; code locates every mention and validates every link before it is emitted. It depends only on contracts and its own libraries.
+
+`packages/knowledge-graph` depends only on contracts and `pg`. It is where the steps store their results: an Apache AGE graph `knowledge_graph` in the same Postgres. `ParsedDocument` is the in-memory form; `writeDocument`/`readDocument` map it to structure nodes (`Document`, `Section`, `Paragraph`, `Table`, `Cell`, `Figure`) with `IN` edges, and `writeRequirements`/`readRequirements` map grounded classifications to nodes with a `FROM` edge to the element they quote, labeled by the IEEE 29148 type (`FunctionalRequirement`, `Assumption`, ...), or `Description` (with the type as its `kind`) when the type is one of the seven entity kinds: a sentence about a user class is not a user class. `writeEntities`/`readEntities` map entities to nodes labeled by their kind (`UserClass`, `DataEntity`, ...) with a `MENTIONED_IN` edge to each element that names them and `POSSIBLY_SAME_AS` edges between entities that may be one thing; `writeLinks`/`readLinks` map links to `ABOUT` edges from a requirement node to an entity. Nothing is labeled by the process that produced it. AGE is loaded by the database, never by app code.
+
+These packages export their TypeScript source, which dependents run and typecheck directly.
 
 `apps/web` is Station 1's host: the Next.js app that receives a job (one requirements PDF), runs its Parse, Annotate and Resolve operations durably on the Vercel Workflow SDK with a Postgres world, stores the PDF and figure images in Azure Blob and the results in the knowledge graph, and exposes `/api/jobs`. `packages/ui` and the Tailwind and TypeScript config packages are scaffold inherited from the Turborepo starter — do not invest effort in them beyond keeping the build green.
 
@@ -51,7 +55,6 @@ Run from the repo root:
 - `pnpm run annotate <parsed.json> <outDir>` — run the annotate step on a parsed document
 - `pnpm run resolve <parsed.json> <annotate.json> <outDir>` — run the resolve step on a parsed document and its classifications
 - `pnpm run pipeline <file.pdf> <outDir>` — parse, annotate, then resolve
-- `pnpm run resolve` and `pnpm run pipeline` first build `packages/annotate`, because Resolve imports it at runtime through its `dist/`
 - `pnpm --filter web db:migrate` — apply our SQL migrations (`db:generate` after a schema change)
 
 ## Definition of done

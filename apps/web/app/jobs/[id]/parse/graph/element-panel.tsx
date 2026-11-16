@@ -1,6 +1,6 @@
 "use client";
 
-import type { Element, ParsedDocument } from "@dark-factory/parse";
+import type { Element, ParsedDocument } from "@dark-factory/contracts";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { type ReactNode, useMemo } from "react";

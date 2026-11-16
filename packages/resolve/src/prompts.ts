@@ -1,4 +1,4 @@
-import { ENTITY_KINDS, GUIDELINES } from "@dark-factory/annotate";
+import { ENTITY_KINDS, GUIDELINES } from "@dark-factory/contracts";
 
 /** Instructions for `resolve`: the whole document in, one row per entity out. */
 export const resolvePrompt = `You list the entities in a software requirements document (an RFP or similar): the things the document refers to by name, so that everything it says about one thing can later be found together.
