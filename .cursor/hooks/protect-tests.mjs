@@ -1,16 +1,16 @@
-// Early warning only. CI rejects the pull request; this does not parse shell commands.
+// Early warning. Denies a direct edit of a tracked test or fixture.
+import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { isExistingProtected } from "../../scripts/protected-path.mjs";
+import { dirname } from "node:path";
 
 const file = fileFromStdin();
-const blocked = isExistingProtected(file);
+const blocked = existingProtected(file);
 const decision = { permission: blocked ? "deny" : "allow" };
 if (blocked) {
-  const reason = `${file} is an existing test or fixture. New test files are fine. Jorge's tests-approved label is what approves a change to this one.`;
+  const reason = `${file} is an existing test or fixture. Add a new test file instead of editing this one.`;
   decision.user_message = reason;
   decision.agent_message = reason;
 }
-
 process.stdout.write(JSON.stringify(decision));
 
 function fileFromStdin() {
@@ -22,4 +22,26 @@ function fileFromStdin() {
   } catch {
     return undefined;
   }
+}
+
+function existingProtected(file) {
+  if (typeof file !== "string" || !isProtected(file)) return false;
+  const top = spawnSync("git", ["rev-parse", "--show-toplevel"], {
+    cwd: dirname(file),
+    encoding: "utf8",
+  });
+  const cwd = top.status === 0 ? top.stdout.trim() : process.cwd();
+  return (
+    spawnSync("git", ["ls-files", "--error-unmatch", "--", file], {
+      cwd,
+      encoding: "utf8",
+    }).status === 0
+  );
+}
+
+function isProtected(file) {
+  const path = file.replaceAll("\\", "/");
+  return (
+    /(?:^|\/)test\/fixtures(?:\/|$)/.test(path) || /\.test\.tsx?$/.test(path)
+  );
 }

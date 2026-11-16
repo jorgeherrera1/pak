@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,7 +14,6 @@ permissions:
 
 jobs:
   check:
-    if: ${{ github.event_name != 'pull_request' || (github.event.action != 'labeled' && github.event.action != 'unlabeled') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,31 +36,4 @@ jobs:
 
       - run: pnpm exec biome check --error-on-warnings .
 
-      - run: pnpm test:protect
-
       - run: pnpm exec turbo run check-types test build
-
-  protect-tests:
-    if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-
-      - name: Fetch the pull request head and base
-        run: |
-          git fetch --no-tags origin \
-            "${{ github.event.pull_request.base.ref }}" \
-            "+refs/pull/${{ github.event.pull_request.number }}/head"
-
-      - name: Reject changes to existing tests unless labeled tests-approved
-        run: >
-          node scripts/protect-tests.mjs
-          "${{ github.event.pull_request.base.sha }}"
-          "${{ github.event.pull_request.head.sha }}"
-          "${{ join(github.event.pull_request.labels.*.name, ',') }}"

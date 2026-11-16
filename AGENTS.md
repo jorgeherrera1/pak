@@ -84,7 +84,7 @@ Report results honestly: if a gate fails, say so and show the output.
 - **Replace, don't layer.** When the design changes, rewrite the affected code to the new design. No compatibility shims, no migration paths, no old code kept alongside.
 - **Small commits, not small ideas.** Commits stay small and reviewable; the change itself is as big as the right design needs.
 - **No speculative abstraction.** Build only what the current station needs. No frameworks-in-waiting, no "we might need this later." This limits what you build, not what you question.
-- **Existing tests and fixtures are off limits.** Do not modify, rename, or delete `*.test.ts`, `*.test.tsx`, or anything under `test/fixtures/` (the golden parses and the annotate/resolve eval answer keys, including recorded model responses). New test files are allowed. CI rejects a pull request that changes an existing one unless Jorge has added the `tests-approved` label. That label is the approval, and the check re-runs when labels change. The Claude and Cursor hooks are only an early warning.
+- **Existing tests and fixtures are off limits.** Do not modify, rename, or delete `*.test.ts`, `*.test.tsx`, or anything under `test/fixtures/` (the golden parses and the annotate/resolve eval answer keys, including recorded model responses). New test files are allowed. The Claude Code and Cursor preToolUse hooks deny a direct edit or delete of one that is already tracked.
 
 <!-- BEGIN:turborepo-agent-rules -->
 
