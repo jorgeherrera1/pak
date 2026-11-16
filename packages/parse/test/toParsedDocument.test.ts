@@ -3,7 +3,7 @@ import { hash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { expect, test } from "vitest";
 import { toParsedDocument } from "../src/toParsedDocument.ts";
-import type { ParsedDocument, Span } from "../src/types.ts";
+import type { ParsedDocument, Span } from "@dark-factory/contracts";
 
 // Inputs are a real Azure response, never hand-written. To re-record: run test:integration, then
 // copy test/out/<sha256>/{analysis,parsed}.json into fixtures/ and review the diff.

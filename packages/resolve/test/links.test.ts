@@ -1,7 +1,6 @@
-import type { Classification } from "@dark-factory/annotate";
+import type { Classification, Entity } from "@dark-factory/contracts";
 import { expect, test } from "vitest";
 import { groundLinks, type LinkAnswer } from "../src/ground.ts";
-import type { Entity } from "../src/types.ts";
 
 const entities = [
   { id: "e1", kind: "user-class", name: "account holder", mentions: [] },

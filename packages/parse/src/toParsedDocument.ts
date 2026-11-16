@@ -3,7 +3,12 @@ import type {
   BoundingRegionOutput,
   DocumentSpanOutput,
 } from "@azure-rest/ai-document-intelligence";
-import type { Element, ParsedDocument, Region, Span } from "./types.ts";
+import type {
+  Element,
+  ParsedDocument,
+  Region,
+  Span,
+} from "@dark-factory/contracts";
 
 const regions = (r: BoundingRegionOutput[] = []): Region[] =>
   r.map(({ pageNumber, polygon }) => ({ page: pageNumber, polygon }));

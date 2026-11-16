@@ -1,6 +1,6 @@
 "use client";
 
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { ParsedDocument } from "@dark-factory/contracts";
 import { Canvas } from "@dark-factory/ui/components/canvas";
 import { Controls, type Edge, MarkerType, useReactFlow } from "@xyflow/react";
 import { useMemo, useState } from "react";

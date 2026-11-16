@@ -1,6 +1,6 @@
 /** Output shape of the annotate module. Vocabulary follows the IEEE 29148 SRS template. */
 
-import type { Span } from "@dark-factory/parse";
+import type { Span } from "./document.ts";
 
 export const TYPES = [
   "product",

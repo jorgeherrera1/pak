@@ -1,4 +1,4 @@
-import type { Element, ParsedDocument } from "@dark-factory/parse";
+import type { Element, ParsedDocument } from "@dark-factory/contracts";
 import type { ReactNode } from "react";
 import { anchor, Figure, PageDivider, Table } from "../reader-parts";
 import { FlashTarget } from "./flash-target";

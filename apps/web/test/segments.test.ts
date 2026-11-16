@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test } from "vitest";
-import type { AnnotateResult } from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { AnnotateResult, ParsedDocument } from "@dark-factory/contracts";
 import { segments } from "@/lib/segments";
 
 const mark = (id: string, offset: number, length: number) => ({

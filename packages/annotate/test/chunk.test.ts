@@ -1,6 +1,10 @@
-import type { ParsedDocument } from "@dark-factory/parse";
+import {
+  MAX,
+  anchors,
+  chunk,
+  type ParsedDocument,
+} from "@dark-factory/contracts";
 import { expect, test } from "vitest";
-import { MAX, anchors, chunk } from "../src/chunk.ts";
 import { doc } from "./doc.ts";
 
 const chunks = chunk(doc);

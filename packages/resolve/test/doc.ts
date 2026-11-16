@@ -1,5 +1,4 @@
-import type { AnnotateResult } from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { AnnotateResult, ParsedDocument } from "@dark-factory/contracts";
 import { readFileSync } from "node:fs";
 
 const fixture = (path: string) =>

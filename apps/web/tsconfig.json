@@ -1,6 +1,8 @@
 {
   "extends": "@dark-factory/typescript-config/nextjs.json",
   "compilerOptions": {
+    "lib": ["es2024", "DOM", "DOM.Iterable"],
+    "allowImportingTsExtensions": true,
     "paths": {
       "@/*": ["./*"]
     }

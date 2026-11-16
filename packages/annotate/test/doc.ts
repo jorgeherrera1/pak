@@ -1,4 +1,4 @@
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { ParsedDocument } from "@dark-factory/contracts";
 import { readFileSync } from "node:fs";
 
 /** Parse's recorded output, the only ParsedDocument fixture there is. Re-record via parse's test:integration. */

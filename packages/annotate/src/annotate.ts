@@ -1,22 +1,25 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { createAzure } from "@ai-sdk/azure";
-import type { ParsedDocument } from "@dark-factory/parse";
+import {
+  type AnnotateResult,
+  anchors,
+  chunk,
+  type ParsedDocument,
+} from "@dark-factory/contracts";
 import { generateText, Output } from "ai";
 import type { z } from "zod";
-import { anchors, chunk } from "./chunk.ts";
 import {
   type ClassificationRow,
   classificationSchema,
   ground,
 } from "./ground.ts";
 import prompt from "./prompt.ts";
-import type { AnnotateResult } from "./types.ts";
 
 /** Azure AI Foundry deployment name. */
 const MODEL = "gpt-4o";
 
-/** Instructions and text in, the model's rows of `element` out. Calls the model every time. Resolve uses it too. */
+/** Instructions and text in, the model's rows of `element` out. Calls the model every time. */
 export async function runModel<T>(
   instructions: string,
   text: string,

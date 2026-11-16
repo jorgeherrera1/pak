@@ -1,4 +1,4 @@
-import type { ParsedDocument, Span } from "@dark-factory/parse";
+import type { ParsedDocument, Span } from "./document.ts";
 
 // ponytail: fixed char budget per model call; switch to token counting if a real RFP blows it.
 export const MAX = 8000;

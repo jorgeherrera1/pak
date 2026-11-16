@@ -1,4 +1,4 @@
-import type { ClassificationType } from "./types.ts";
+import type { ClassificationType } from "./classification.ts";
 
 /**
  * One labeling guideline per type: definition, when to label, what it is not,

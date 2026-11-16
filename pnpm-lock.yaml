@@ -193,6 +193,9 @@ importers:
       '@dark-factory/annotate':
         specifier: workspace:*
         version: link:../../packages/annotate
+      '@dark-factory/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
       '@dark-factory/knowledge-graph':
         specifier: workspace:*
         version: link:../../packages/knowledge-graph
@@ -284,9 +287,9 @@ importers:
       '@ai-sdk/azure':
         specifier: ^4.0.126
         version: 4.0.126(zod@4.6.7)
-      '@dark-factory/parse':
+      '@dark-factory/contracts':
         specifier: workspace:*
-        version: link:../parse
+        version: link:../contracts
       ai:
         specifier: ^7.0.173
         version: 7.0.173(zod@4.6.7)
@@ -313,17 +316,23 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@26.6.6)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0))
 
+  packages/contracts:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 2.6.8
+        version: 2.6.8
+      '@dark-factory/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: 7.0.2
+        version: 7.0.2
+
   packages/knowledge-graph:
     dependencies:
-      '@dark-factory/annotate':
+      '@dark-factory/contracts':
         specifier: workspace:*
-        version: link:../annotate
-      '@dark-factory/parse':
-        specifier: workspace:*
-        version: link:../parse
-      '@dark-factory/resolve':
-        specifier: workspace:*
-        version: link:../resolve
+        version: link:../contracts
       pg:
         specifier: ^8.23.1
         version: 8.23.1
@@ -355,6 +364,9 @@ importers:
       '@azure-rest/ai-document-intelligence':
         specifier: ^1.1.0
         version: 1.1.0(supports-color@10.2.2)
+      '@dark-factory/contracts':
+        specifier: workspace:*
+        version: link:../contracts
     devDependencies:
       '@biomejs/biome':
         specifier: 2.6.8
@@ -377,12 +389,15 @@ importers:
 
   packages/resolve:
     dependencies:
-      '@dark-factory/annotate':
+      '@ai-sdk/azure':
+        specifier: ^4.0.126
+        version: 4.0.126(zod@4.6.7)
+      '@dark-factory/contracts':
         specifier: workspace:*
-        version: link:../annotate
-      '@dark-factory/parse':
-        specifier: workspace:*
-        version: link:../parse
+        version: link:../contracts
+      ai:
+        specifier: ^7.0.173
+        version: 7.0.173(zod@4.6.7)
       zod:
         specifier: ^4.6.7
         version: 4.6.7

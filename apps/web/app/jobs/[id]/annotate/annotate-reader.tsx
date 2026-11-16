@@ -1,7 +1,11 @@
 "use client";
 
-import type { AnnotateResult, Classification } from "@dark-factory/annotate";
-import type { Element, ParsedDocument } from "@dark-factory/parse";
+import type {
+  AnnotateResult,
+  Classification,
+  Element,
+  ParsedDocument,
+} from "@dark-factory/contracts";
 import { type ReactNode, useMemo, useState } from "react";
 import { segments } from "@/lib/segments";
 import { CATEGORY, familyOf, ORDER, owner } from "@/lib/vocabulary";

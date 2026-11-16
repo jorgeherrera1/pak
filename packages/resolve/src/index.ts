@@ -1,10 +1,8 @@
 import { readFile } from "node:fs/promises";
-import type { AnnotateResult } from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
+import type { AnnotateResult, ParsedDocument } from "@dark-factory/contracts";
 import { resolve } from "./resolve.ts";
 
 export { link, resolve, resolveEntities } from "./resolve.ts";
-export type * from "./types.ts";
 
 if (import.meta.main) {
   const [parsedPath, annotatePath, outDir] = process.argv.slice(2);

@@ -1,13 +1,12 @@
 import { hash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import type { ParsedDocument } from "@dark-factory/contracts";
 import { analyze } from "./analyze.ts";
 import { toParsedDocument } from "./toParsedDocument.ts";
-import type { ParsedDocument } from "./types.ts";
 
 export { type Analysis, analyze } from "./analyze.ts";
 export { toParsedDocument } from "./toParsedDocument.ts";
-export type * from "./types.ts";
 
 /**
  * PDF in, ParsedDocument out. Every run calls Azure; nothing is reused between

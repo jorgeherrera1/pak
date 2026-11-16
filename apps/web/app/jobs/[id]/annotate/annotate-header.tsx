@@ -1,4 +1,4 @@
-import type { AnnotateResult } from "@dark-factory/annotate";
+import type { AnnotateResult } from "@dark-factory/contracts";
 import Link from "next/link";
 import { ViewSwitch } from "../view-switch";
 

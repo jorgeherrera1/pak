@@ -1,19 +1,17 @@
 import {
   type Classification,
   ENTITY_KINDS,
+  type Entity,
   find,
   fold,
   isEntityKind,
-} from "@dark-factory/annotate";
-import type { Span } from "@dark-factory/parse";
+  type Link,
+  type LinkResult,
+  type Mention,
+  type ResolveResult,
+  type Span,
+} from "@dark-factory/contracts";
 import { z } from "zod";
-import type {
-  Entity,
-  Link,
-  LinkResult,
-  Mention,
-  ResolveResult,
-} from "./types.ts";
 
 /** What the model returns for `resolve`. Names, never offsets. */
 export const entitySchema = z.object({

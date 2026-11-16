@@ -1,12 +1,16 @@
-// The vocabulary alone: the package's entry loads the model SDK.
 import {
+  type Cell,
   type Classification,
   type ClassificationType,
+  type Element,
+  type Entity,
   type EntityKind,
   isEntityKind,
-} from "@dark-factory/annotate/types";
-import type { Cell, Element, ParsedDocument, Span } from "@dark-factory/parse";
-import type { Entity, Link, ResolveResult } from "@dark-factory/resolve";
+  type Link,
+  type ParsedDocument,
+  type ResolveResult,
+  type Span,
+} from "@dark-factory/contracts";
 import pg from "pg";
 
 /** The one AGE graph; created by apps/web's migration. */

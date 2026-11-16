@@ -1,4 +1,4 @@
-import type { Cell, Element } from "@dark-factory/parse";
+import type { Cell, Element } from "@dark-factory/contracts";
 import type { ReactNode } from "react";
 
 // No "use client" and no hooks: the Parse reader is a server component and hands `Table` a function.

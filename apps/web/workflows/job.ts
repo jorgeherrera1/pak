@@ -1,4 +1,5 @@
-import { anchors, chunk, ground, runAnnotate } from "@dark-factory/annotate";
+import { ground, runAnnotate } from "@dark-factory/annotate";
+import { anchors, chunk } from "@dark-factory/contracts";
 import {
   readDocument,
   readEntities,
