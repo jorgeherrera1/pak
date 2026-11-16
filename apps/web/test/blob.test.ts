@@ -1,4 +1,3 @@
-// Temporary edit so the test-protection job can fail, then be reverted.
 import { Readable } from "node:stream";
 import { RestError } from "@azure/storage-blob";
 import { expect, test, vi } from "vitest";
