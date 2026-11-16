@@ -40,7 +40,7 @@ export async function setOperation(
   name: OperationName,
   patch: OperationPatch,
 ) {
-  await db
+  await db()
     .update(operations)
     .set(patch)
     .where(
