@@ -1,13 +1,12 @@
-import type { ParsedDocument } from "@dark-factory/parse";
 import { readFile } from "node:fs/promises";
+import type { ParsedDocument } from "@dark-factory/parse";
 import { annotate } from "./annotate.ts";
 
-export * from "./types.ts";
-export { annotate, runAnnotate } from "./annotate.ts";
-export { runModel } from "./annotate.ts";
+export { annotate, runAnnotate, runModel } from "./annotate.ts";
 export { anchors, chunk } from "./chunk.ts";
-export { find, fold, ground, type ClassificationRow } from "./ground.ts";
+export { type ClassificationRow, find, fold, ground } from "./ground.ts";
 export { GUIDELINES } from "./guidelines.ts";
+export * from "./types.ts";
 
 if (import.meta.main) {
   const [parsedPath, outDir] = process.argv.slice(2);

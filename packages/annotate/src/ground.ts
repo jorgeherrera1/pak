@@ -1,6 +1,6 @@
 import type { Span } from "@dark-factory/parse";
 import { z } from "zod";
-import { CATEGORIES, TYPES, type AnnotateResult } from "./types.ts";
+import { type AnnotateResult, CATEGORIES, TYPES } from "./types.ts";
 
 /** What the model returns. Quotes, never offsets. */
 export const classificationSchema = z.object({
@@ -31,7 +31,7 @@ const PUNCT: Record<string, string> = {
 export function fold(text: string, base = 0): { folded: string; at: number[] } {
   let folded = "";
   const at: number[] = [];
-  for (let i = 0; i < text.length;) {
+  for (let i = 0; i < text.length; ) {
     MARK.lastIndex = i;
     const mark = MARK.exec(text)?.[0];
     const ch = text[i]!;

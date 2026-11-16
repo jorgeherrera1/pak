@@ -1,15 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
-import type { NodeProps, Node as FlowNode } from "@xyflow/react";
-import Link from "next/link";
-import {
-  Check,
-  ChevronRight,
-  CircleDashed,
-  LoaderCircle,
-  X,
-} from "lucide-react";
 import {
   Node,
   NodeContent,
@@ -18,6 +8,16 @@ import {
   NodeHeader,
   NodeTitle,
 } from "@dark-factory/ui/components/node";
+import type { Node as FlowNode, NodeProps } from "@xyflow/react";
+import {
+  Check,
+  ChevronRight,
+  CircleDashed,
+  LoaderCircle,
+  X,
+} from "lucide-react";
+import Link from "next/link";
+import type { ReactNode } from "react";
 import type { OperationStatus, StepNodeData } from "@/lib/canvas";
 
 const ICON: Record<OperationStatus, ReactNode> = {

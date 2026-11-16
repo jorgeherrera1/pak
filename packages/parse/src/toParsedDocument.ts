@@ -144,9 +144,15 @@ export function toParsedDocument(
       warnings.push(`${path.slice(1)} is not inside any section`);
     walk(path, null);
   };
-  (a.paragraphs ?? []).forEach((p, i) => orphan(`/paragraphs/${i}`, p.role));
-  (a.tables ?? []).forEach((_, i) => orphan(`/tables/${i}`));
-  (a.figures ?? []).forEach((_, i) => orphan(`/figures/${i}`));
+  (a.paragraphs ?? []).forEach((p, i) => {
+    orphan(`/paragraphs/${i}`, p.role);
+  });
+  (a.tables ?? []).forEach((_, i) => {
+    orphan(`/tables/${i}`);
+  });
+  (a.figures ?? []).forEach((_, i) => {
+    orphan(`/figures/${i}`);
+  });
 
   return {
     source: { sha256, pages: a.pages.length },

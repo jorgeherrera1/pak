@@ -1,10 +1,10 @@
 import DocumentIntelligence, {
+  type AnalyzeOperationOutput,
+  type AnalyzeResultOutput,
   getLongRunningPoller,
   isUnexpected,
   parseResultIdFromResponse,
   streamToUint8Array,
-  type AnalyzeOperationOutput,
-  type AnalyzeResultOutput,
 } from "@azure-rest/ai-document-intelligence";
 import { STRING_INDEX_TYPE } from "./toParsedDocument.ts";
 

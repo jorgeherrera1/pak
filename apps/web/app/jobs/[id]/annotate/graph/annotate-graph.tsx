@@ -6,7 +6,7 @@ import { cn } from "@dark-factory/ui/lib/utils";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { HEIGHT, toOutline, type OutlineCard } from "@/lib/outline";
+import { HEIGHT, type OutlineCard, toOutline } from "@/lib/outline";
 import { DOCUMENT } from "@/lib/parse-tree";
 import { CATEGORY, familyOf, ORDER, owner } from "@/lib/vocabulary";
 import { anchor, flip } from "../../reader-parts";

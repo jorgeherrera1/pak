@@ -1,6 +1,6 @@
+import { readDocument } from "@dark-factory/knowledge-graph";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
-import { readDocument } from "@dark-factory/knowledge-graph";
 import { db, isUuid, jobs } from "@/lib/db";
 import { ParseHeader } from "./parse-header";
 import { ParseReader } from "./parse-reader";

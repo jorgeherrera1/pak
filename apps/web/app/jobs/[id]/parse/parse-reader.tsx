@@ -2,6 +2,7 @@ import type { Element, ParsedDocument } from "@dark-factory/parse";
 import type { ReactNode } from "react";
 import { anchor, Figure, PageDivider, Table } from "../reader-parts";
 import { FlashTarget } from "./flash-target";
+
 const page = (e: Element) => e.region[0]?.page;
 
 /** Depth of a section under the root, for outline indentation. */

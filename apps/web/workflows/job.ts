@@ -1,6 +1,4 @@
-import { analyze, toParsedDocument } from "@dark-factory/parse";
 import { anchors, chunk, ground, runAnnotate } from "@dark-factory/annotate";
-import { link, resolveEntities } from "@dark-factory/resolve";
 import {
   readDocument,
   readEntities,
@@ -10,6 +8,8 @@ import {
   writeLinks,
   writeRequirements,
 } from "@dark-factory/knowledge-graph";
+import { analyze, toParsedDocument } from "@dark-factory/parse";
+import { link, resolveEntities } from "@dark-factory/resolve";
 import { eq } from "drizzle-orm";
 import { FatalError } from "workflow";
 import { getBlob, putBlob } from "@/lib/blob";

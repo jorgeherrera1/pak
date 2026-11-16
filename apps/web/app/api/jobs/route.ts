@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     await tx.insert(operations).values(initialOperations(id, now));
   });
 
-  let run;
+  let run: { runId: string };
   try {
     run = await start(runJob, [id]);
   } catch (err) {

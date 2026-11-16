@@ -37,12 +37,12 @@ and restart before the steps below.
 createdb motivus_dev
 psql motivus_dev -c 'CREATE EXTENSION IF NOT EXISTS age' -c 'ALTER DATABASE motivus_dev SET search_path = ag_catalog, "$user", public'
 az storage container create --name jobs --connection-string "$AZURE_STORAGE_CONNECTION_STRING"
-npx --package=@workflow/world-postgres bootstrap
-npm run db:migrate -w apps/web
+pnpm dlx @workflow/world-postgres bootstrap
+pnpm --filter web db:migrate
 ```
 
 Our tables live in schema `dark_factory` of the `motivus_dev` database, created by the SQL
-migrations in `apps/web/drizzle/` (after a schema change: `npm run db:generate -w apps/web`,
+migrations in `apps/web/drizzle/` (after a schema change: `pnpm --filter web db:generate`,
 commit the new folder, then `db:migrate`). The SDK's bootstrap creates its
 own schemas there too: `workflow`, `workflow_drizzle`, and `graphile_worker`.
 
@@ -51,10 +51,10 @@ search_path from the `psql` line above.
 
 ## Run
 
-Run `npm run build` from the repo root once first, so `@dark-factory/parse` has a `dist/` to resolve.
+Run `pnpm run build` from the repo root once first, so `@dark-factory/parse` has a `dist/` to resolve.
 
 ```bash
-npm run dev -w apps/web
+pnpm --filter web dev
 ```
 
 Serves on [http://localhost:3001](http://localhost:3001).
@@ -72,4 +72,4 @@ Expect 202 with an id; the job is done only once Resolve finishes too, so expect
 
 ## Integration test
 
-`npm run test:integration -w apps/web` needs the dev server running on port 3001, plus Postgres, the storage account, and Azure credentials in `.env`; the root `npm run test:integration` now runs it too. `npm run test:integration -w packages/knowledge-graph` needs only Postgres: it round-trips the recorded fixtures through the graph.
+`pnpm --filter web test:integration` needs the dev server running on port 3001, plus Postgres, the storage account, and Azure credentials in `.env`; the root `pnpm run test:integration` now runs it too. `pnpm --filter @dark-factory/knowledge-graph test:integration` needs only Postgres: it round-trips the recorded fixtures through the graph.

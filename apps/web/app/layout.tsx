@@ -1,7 +1,7 @@
 import "./globals.css";
+import { ThemeProvider } from "@dark-factory/ui/components/theme-provider";
 import type { Metadata } from "next";
 import { DM_Sans, Lato } from "next/font/google";
-import { ThemeProvider } from "@dark-factory/ui/components/theme-provider";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],

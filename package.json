@@ -7,7 +7,7 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "check-types": "turbo run check-types",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "biome check --write .",
     "parse": "node --env-file-if-exists=.env packages/parse/src/index.ts",
     "test:integration": "turbo run test:integration",
     "annotate": "node --env-file-if-exists=.env packages/annotate/src/index.ts",
@@ -17,22 +17,12 @@
     "pipeline": "node --env-file-if-exists=.env scripts/pipeline.mts"
   },
   "devDependencies": {
-    "prettier": "3.9.6",
-    "prettier-plugin-tailwindcss": "0.8.1",
-    "turbo": "^2.10.12",
-    "typescript": "6.0.3"
+    "@biomejs/biome": "2.6.8",
+    "turbo": "2.11.11",
+    "typescript": "7.0.2"
   },
   "engines": {
-    "node": ">=24"
+    "node": "^26.13.1"
   },
-  "devEngines": {
-    "packageManager": {
-      "name": "npm",
-      "version": "11.19.1"
-    }
-  },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "packageManager": "pnpm@12.21.0"
 }

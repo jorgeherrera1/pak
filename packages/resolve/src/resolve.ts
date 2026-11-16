@@ -1,14 +1,14 @@
-import { anchors, runModel, type Classification } from "@dark-factory/annotate";
-import type { ParsedDocument } from "@dark-factory/parse";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { anchors, type Classification, runModel } from "@dark-factory/annotate";
+import type { ParsedDocument } from "@dark-factory/parse";
 import {
+  type EntityRow,
   entitySchema,
   groundEntities,
   groundLinks,
-  linkSchema,
-  type EntityRow,
   type LinkAnswer,
+  linkSchema,
 } from "./ground.ts";
 import { linkInputs, resolveInput } from "./inputs.ts";
 import { linkPrompt, resolvePrompt } from "./prompts.ts";

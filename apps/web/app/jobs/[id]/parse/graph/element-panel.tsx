@@ -3,7 +3,7 @@
 import type { Element, ParsedDocument } from "@dark-factory/parse";
 import { X } from "lucide-react";
 import Link from "next/link";
-import { useMemo, type ReactNode } from "react";
+import { type ReactNode, useMemo } from "react";
 import { childrenOf, DOCUMENT, label, plural } from "@/lib/parse-tree";
 import { anchor, Figure, Table } from "../../reader-parts";
 
@@ -100,8 +100,11 @@ export function ElementPanel({
             </Fact>
             {e.region.length > 0 && (
               <Fact term="Region">
-                {e.region.map((r, i) => (
-                  <code key={i} className="block text-[13px]">
+                {e.region.map((r) => (
+                  <code
+                    key={`${r.page}:${r.polygon.join(",")}`}
+                    className="block text-[13px]"
+                  >
                     page {r.page} · {corners(r.polygon)}
                   </code>
                 ))}

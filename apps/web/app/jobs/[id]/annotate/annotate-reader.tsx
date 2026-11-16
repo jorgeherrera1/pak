@@ -2,7 +2,7 @@
 
 import type { AnnotateResult, Classification } from "@dark-factory/annotate";
 import type { Element, ParsedDocument } from "@dark-factory/parse";
-import { useMemo, useState, type ReactNode } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 import { segments } from "@/lib/segments";
 import { CATEGORY, familyOf, ORDER, owner } from "@/lib/vocabulary";
 import { anchor, Figure, flip, PageDivider, Table } from "../reader-parts";
@@ -331,16 +331,21 @@ function Text({
 }) {
   const drawn = marks.filter((m) => m !== skip);
   if (!drawn.length || base === undefined) return text;
-  return segments(text, base, drawn).map((s, i) => {
+  let cursor = base;
+  return segments(text, base, drawn).map((s) => {
+    const from = cursor;
+    cursor += s.text.length;
     const cls = s.marks[0];
     if (!cls) return s.text;
-    const on = cls?.id === ctx.selected;
+    const on = cls.id === ctx.selected;
     return (
+      // The margin chip is the keyboard path to the same selection.
+      // biome-ignore lint/a11y/noStaticElementInteractions: margin chip is the keyboard path
+      // biome-ignore lint/a11y/useKeyWithClickEvents: margin chip is the keyboard path
       <span
-        key={i}
+        key={from}
         data-marks={s.marks.map((m) => m.id).join(" ")}
         title={s.marks.map((m) => `${m.id} ${m.type}`).join("\n")}
-        // The margin chip is the keyboard path to the same selection.
         onClick={() => ctx.select(cls.id)}
         className={[
           "box-decoration-clone py-[3px]",
@@ -400,6 +405,8 @@ function Body({
       const on = whole.id === ctx.selected;
       const f = familyOf(whole.type);
       return (
+        // The margin chip is the keyboard path to the same selection.
+        // biome-ignore lint/a11y/useKeyWithClickEvents: margin chip is the keyboard path
         <p
           data-marks={whole.id}
           onClick={() => ctx.select(whole.id)}
