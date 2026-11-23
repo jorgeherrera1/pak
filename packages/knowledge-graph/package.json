@@ -10,12 +10,11 @@
     "build": "tsc",
     "check-types": "tsc -p tsconfig.test.json",
     "lint": "biome check --error-on-warnings .",
-    "test:integration": "vitest run test/round-trip.integration.test.ts"
+    "test:integration": "vitest run test/graph.integration.test.ts"
   },
   "dependencies": {
-    "@dark-factory/annotate": "workspace:*",
     "@dark-factory/parse": "workspace:*",
-    "@dark-factory/resolve": "workspace:*",
+    "@dark-factory/srs": "workspace:*",
     "pg": "^8.23.1"
   },
   "devDependencies": {

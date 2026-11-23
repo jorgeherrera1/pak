@@ -1,0 +1,26 @@
+{
+  "name": "@dark-factory/srs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "check-types": "tsc -p tsconfig.test.json",
+    "lint": "biome check --error-on-warnings .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@dark-factory/parse": "workspace:*",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.8",
+    "@dark-factory/typescript-config": "workspace:*",
+    "@types/node": "26.6.6",
+    "typescript": "7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

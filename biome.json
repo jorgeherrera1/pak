@@ -19,7 +19,8 @@
       "!**/drizzle",
       "!**/next-env.d.ts",
       "!**/.well-known",
-      "!pnpm-lock.yaml"
+      "!pnpm-lock.yaml",
+      "!docs/srs-template.html"
     ]
   },
   "formatter": {

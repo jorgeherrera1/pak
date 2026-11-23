@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRS — {Product Name}</title>
+<!--
+================================================================================
+ SOFTWARE REQUIREMENTS SPECIFICATION TEMPLATE · 2026 EDITION
+ Tailored from ISO/IEC/IEEE 29148:2018 §9 (SRS) for AI-assisted,
+ spec-driven development.
+
+ ── AGENT CONTRACT (read this before touching anything) ────────────────────────
+
+ WHO USES THIS FILE
+ 1. An AUTHORING agent (or human) converts an RFP / requirements source into an
+    SRS instance by filling this template.
+ 2. A CODING agent consumes the finished SRS instance to produce architecture,
+    code, and automated tests.
+
+ AUTHORING PROTOCOL (RFP → SRS)
+ A1. Read ALL source documents (RFP, BRS, workshop notes…) before writing
+     anything. Inventory every clause that states or implies a requirement;
+     when you finish, every clause must be either cited by at least one
+     requirement's Source field or listed in §2 Out of Scope with the
+     clause reference and a reason. The full source→requirement matrix is never
+     written by hand — it is derivable from data-source attributes, so keep
+     every citation clause-granular.
+ A2. Fill sections in order: Part 0 and Part I (context) before Part II
+     (requirements). Context sections exist to make requirements unambiguous.
+ A3. TRACEABILITY IS NON-NEGOTIABLE. Every requirement carries a Source field:
+       "{DOC} §x.y" | "{DOC} p.NN" | "STAKEHOLDER: name, date" | "INFERRED ← IDs"
+     where {DOC} is a source-document handle registered in §0.1 (RFP, BRS…).
+     INFERRED is the hallucination gate. An inferred requirement is permitted
+     ONLY as gap-filling: deleting it would leave a SOURCED requirement
+     unimplementable or untestable. It must name the sourced requirement(s)
+     it enables ("INFERRED ← FR-012 — {the gap}"), is capped at Priority
+     Should, and enters at Status Review — a human must move it to Approved
+     before any agent may implement it. Net-new capability is NEVER inferred:
+     invented scope inflates estimates and loses bids. When in doubt, ask —
+     do not infer.
+ A4. Never delete a template section. If a section does not apply, keep the
+     heading and write: "Not applicable — {reason}." Absence is ambiguous;
+     explicit N/A is information.
+ A5. Copy the requirement-card markup EXACTLY as given (article.req + data-*
+     attributes). Downstream tooling parses those attributes.
+ A6. IDs are permanent. Never renumber. A dropped requirement keeps its ID with
+     Status: Withdrawn. New requirements take the next free number.
+ A7. Every {curly placeholder} must be replaced or its section marked N/A.
+     Search for "{" before declaring the document done.
+ A8. Before finishing, run the self-check in Appendix B and fix every failure.
+ A9. In the FINAL SRS instance, DELETE all AUTHORING comment blocks
+     (they are template scaffolding). KEEP §0.2 Conventions — that section is
+     the reading contract for the coding agent. Keep this AGENT CONTRACT only
+     if the document will be re-edited later; delete it for a frozen release.
+
+ CODING-AGENT PROTOCOL (SRS → code + tests)
+ C1. Parse §0.2 first: ID scheme, EARS grammar, priorities, statuses,
+     verification methods.
+ C2. Requirements are the article.req elements. Machine-readable fields are in
+     data-* attributes: data-id, data-priority, data-status, data-verification,
+     data-feature, data-source.
+ C3. Each requirement's Gherkin block is the executable test specification.
+     verification="TEST" | "E2E" ⇒ generate automated tests from it, 1:1
+     (TEST = unit/integration; E2E = Playwright-style flow tests).
+     "MEASURE" | "AUDIT" ⇒ produce the artifact defined in §13.
+ C4. Respect Priority: implement Must before Should before Could. Never
+     implement Status: Withdrawn, Priority: Wont, or an INFERRED requirement
+     that a human has not moved past Status: Review.
+ C5. Requirements whose Source cites a regulation, standard, or contract
+     clause are non-negotiable design boundaries. Violating one is a defect
+     even if every test passes.
+================================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Design tokens — neutral palette */
+:root{
+  --accent:#2563EB; --accent-dark:#1D4ED8; --info:#38BDF8;
+  --tint:#EFF6FF; --soft:#F8FAFC; --bg:#FFFFFF;
+  --ok-tint:#A7F3D0; --warm:#FCD34D;
+  --dark:#0F172A; --ink:#111827;
+  --success:#16A34A; --error:#DC2626;
+  --gray-100:#F4F6F8; --gray-200:#E9EDF1; --gray-300:#E2E8F0;
+  --gray-400:#94A3B8; --gray-500:#64748B; --gray-700:#475569;
+  --accent-strong:#1E40AF; --accent-deep:#1E3A8A;
+  --font-display:'Inter',-apple-system,'Segoe UI',sans-serif;
+  --font-body:'Inter',-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono',Consolas,monospace;
+  --r-xs:4px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:9999px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth;scroll-padding-top:24px}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);line-height:1.55}
+h1,h2,h3,h4,h5{font-family:var(--font-display);font-weight:700;color:var(--ink)}
+code,pre{font-family:var(--font-mono);font-size:.85rem}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark);text-decoration:underline}
+
+/* ── Layout ─────────────────────────────────────────────── */
+.app{display:flex;min-height:100vh}
+.sidebar{width:304px;min-width:304px;background:var(--dark);color:#fff;position:fixed;inset:0 auto 0 0;overflow-y:auto;z-index:100;transition:transform .3s ease}
+.main{flex:1;margin-left:304px;min-width:0}
+.content{max-width:960px;margin:0 auto;padding:0 48px 96px}
+
+/* ── Sidebar ────────────────────────────────────────────── */
+.sb-head{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.12);position:sticky;top:0;background:var(--dark);z-index:2}
+.sb-doctitle{font-family:var(--font-display);font-weight:600;font-size:.82rem;color:rgba(255,255,255,.85);line-height:1.35}
+.sb-meta{font-size:.72rem;color:rgba(255,255,255,.45);margin-top:6px;font-family:var(--font-mono)}
+.sb-tools{padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.12)}
+.sb-filter{width:100%;padding:7px 12px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:#fff;font-family:var(--font-body);font-size:.82rem;outline:none}
+.sb-filter::placeholder{color:rgba(255,255,255,.4)}
+.sb-filter:focus{border-color:var(--info)}
+.sb-actions{display:flex;gap:8px;margin-top:10px}
+.sb-btn{flex:1;padding:5px 0;font-size:.7rem;font-family:var(--font-display);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.65);background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:var(--r-pill);cursor:pointer}
+.sb-btn:hover{color:#fff;border-color:var(--info)}
+nav.toc{padding:10px 0 40px}
+.toc a{display:flex;gap:8px;align-items:baseline;padding:6px 20px;color:rgba(255,255,255,.62);font-size:.82rem;border-left:3px solid transparent;text-decoration:none}
+.toc a:hover{background:rgba(255,255,255,.06);color:#fff}
+.toc a.active{border-left-color:var(--warm);color:#fff;background:rgba(255,255,255,.05)}
+.toc a.lvl-1{font-family:var(--font-display);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.85);margin-top:10px}
+.toc a.lvl-3{padding-left:38px;font-size:.78rem}
+.toc .tnum{font-family:var(--font-mono);font-size:.72rem;color:var(--info);min-width:30px;flex-shrink:0}
+
+/* ── Document header ────────────────────────────────────── */
+.doc-hero{background:linear-gradient(135deg,var(--dark) 0%,#16233A 70%,#1E3A5F 100%);color:#fff;padding:56px 48px 44px;margin:0 -48px 40px}
+.eyebrow{font-family:var(--font-display);font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--info);display:block;margin-bottom:12px}
+.doc-hero h1{color:#fff;font-size:2.1rem;line-height:1.15;margin-bottom:10px}
+.doc-hero .subtitle{color:rgba(255,255,255,.75);font-size:1rem;max-width:640px}
+.doc-hero .chips{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.chip{font-family:var(--font-display);font-weight:700;font-size:.69rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:var(--r-pill);background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.18)}
+.chip.hl{background:var(--warm);color:var(--dark);border:none}
+
+/* ── Sections ───────────────────────────────────────────── */
+section.part-band{margin:56px -48px 8px;padding:18px 48px;background:var(--tint);border-left:6px solid var(--accent)}
+section.part-band h1{font-size:1.15rem;letter-spacing:.02em;color:var(--accent-deep)}
+section.part-band p{font-size:.85rem;color:var(--gray-700);margin-top:2px}
+section.sec{margin-top:44px}
+.sec>h2{font-size:1.45rem;padding-bottom:8px;border-bottom:2px solid var(--gray-300);display:flex;align-items:baseline;gap:10px;cursor:pointer}
+.sec>h2 .snum,.sec h3 .snum{font-family:var(--font-mono);font-weight:500;font-size:.95rem;color:var(--accent)}
+.sec>h2 .twirl{margin-left:auto;font-size:.8rem;color:var(--gray-400);transition:transform .2s}
+.sec.collapsed>h2 .twirl{transform:rotate(-90deg)}
+.sec.collapsed .sec-body{display:none}
+.sec h3{font-size:1.08rem;margin:28px 0 10px;display:flex;gap:8px;align-items:baseline}
+.sec h4{font-size:.95rem;margin:20px 0 8px}
+.sec p{margin:10px 0;max-width:76ch}
+.sec ul,.sec ol{margin:10px 0 10px 26px;max-width:74ch}
+.sec li{margin:4px 0}
+.ph{color:var(--accent-strong);background:var(--tint);border-radius:var(--r-xs);padding:0 5px;font-style:italic}
+
+/* ── Tables ─────────────────────────────────────────────── */
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.86rem}
+th{font-family:var(--font-display);font-weight:600;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;text-align:left;color:#fff;background:var(--dark);padding:9px 12px}
+td{padding:8px 12px;border-bottom:1px solid var(--gray-300);vertical-align:top}
+tbody tr:nth-child(even){background:var(--soft)}
+td code{background:var(--gray-100);padding:1px 5px;border-radius:var(--r-xs)}
+
+/* ── Requirement cards ──────────────────────────────────── */
+article.req{border:1px solid var(--gray-300);border-left:4px solid var(--accent);border-radius:var(--r-md);margin:18px 0;background:var(--bg);overflow:hidden;page-break-inside:avoid}
+article.req.hit-hidden{display:none}
+.req-head{display:flex;align-items:center;gap:10px;padding:12px 18px;background:var(--soft);flex-wrap:wrap}
+.req-id{font-family:var(--font-mono);font-weight:700;font-size:.82rem;color:var(--accent);background:var(--tint);padding:2px 9px;border-radius:var(--r-xs)}
+.req-title{font-family:var(--font-display);font-weight:600;font-size:.95rem;flex:1;min-width:180px}
+.badge{font-family:var(--font-display);font-weight:700;font-size:.63rem;letter-spacing:.09em;text-transform:uppercase;padding:3px 10px;border-radius:var(--r-pill)}
+.badge.must{background:var(--dark);color:#fff}
+.badge.should{background:var(--accent);color:#fff}
+.badge.could{background:var(--tint);color:var(--accent-deep)}
+.badge.wont{background:var(--gray-200);color:var(--gray-500);text-decoration:line-through}
+.badge.vm{background:var(--ok-tint);color:var(--dark)}
+.badge.status{background:#fff;color:var(--gray-700);border:1px solid var(--gray-300)}
+.req-body{padding:14px 18px 18px}
+.req-field{margin:9px 0}
+.req-label{font-family:var(--font-display);font-weight:600;font-size:.67rem;letter-spacing:.09em;text-transform:uppercase;color:var(--gray-500);margin-bottom:3px}
+.req-value{font-size:.9rem}
+.ears{background:var(--tint);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 var(--r-sm) var(--r-sm) 0;font-size:.92rem}
+.ears .kw{font-weight:700;color:var(--accent-deep)}
+pre.gherkin{background:var(--dark);color:#DCE7F5;padding:14px 18px;border-radius:var(--r-sm);overflow-x:auto;line-height:1.6;margin-top:4px;white-space:pre}
+pre.gherkin .gk{color:var(--ok-tint);font-weight:700}
+
+/* ── Callouts / misc ────────────────────────────────────── */
+.callout{border-left:4px solid var(--info);background:var(--soft);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 18px;margin:16px 0;font-size:.9rem}
+.callout b:first-child{font-family:var(--font-display)}
+.diagram{background:var(--soft);border:1px dashed var(--gray-300);border-radius:var(--r-md);padding:18px;margin:16px 0;text-align:center}
+.diagram .mermaid{display:flex;justify-content:center}
+figure.exhibit{background:var(--soft);border:1px solid var(--gray-300);border-radius:var(--r-md);padding:14px;margin:16px 0;text-align:center;page-break-inside:avoid}
+figure.exhibit img{max-width:100%;border-radius:var(--r-sm);border:1px solid var(--gray-300)}
+figure.exhibit figcaption{font-size:.8rem;color:var(--gray-700);margin-top:8px;text-align:left}
+figure.exhibit[data-disposition="Binding"]{border-left:4px solid var(--dark)}
+figure.exhibit[data-disposition="Illustrative"]{border-left:4px solid var(--gray-400)}
+.na{color:var(--gray-400);font-style:italic}
+.kbd-hint{font-size:.72rem;color:var(--gray-400);margin-top:8px}
+#match-count{font-size:.7rem;color:var(--warm);margin-top:6px;font-family:var(--font-mono);display:none}
+
+/* ── Mobile & print ─────────────────────────────────────── */
+.menu-btn{display:none;position:fixed;top:14px;left:14px;z-index:200;width:42px;height:42px;border-radius:var(--r-sm);border:1px solid var(--gray-300);background:#fff;color:var(--dark);font-size:1.15rem;cursor:pointer;box-shadow:0 2px 10px rgba(3,6,25,.12)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(3,6,25,.5);z-index:99}
+@media(max-width:960px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .overlay.open{display:block}
+  .main{margin-left:0}
+  .content{padding:0 20px 80px}
+  .doc-hero,section.part-band{margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px}
+  .menu-btn{display:block}
+}
+@media print{
+  .sidebar,.menu-btn,.overlay,.sb-tools{display:none}
+  .main{margin-left:0}
+  .content{max-width:none;padding:0}
+  .doc-hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  article.req,pre.gherkin,table{page-break-inside:avoid}
+  .sec.collapsed .sec-body{display:block}
+}
+</style>
+</head>
+<body>
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
+<div class="overlay" onclick="toggleSidebar()"></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-doctitle">Software Requirements Specification<br>{Product Name}</div>
+    <div class="sb-meta">{YYYY-MM-DD} · {Draft}</div>
+  </div>
+  <div class="sb-tools">
+    <input class="sb-filter" id="req-filter" type="search" placeholder="Filter requirements (ID or text)…" oninput="filterReqs(this.value)">
+    <div id="match-count"></div>
+    <div class="sb-actions">
+      <button class="sb-btn" onclick="setAllSections(false)">Expand all</button>
+      <button class="sb-btn" onclick="setAllSections(true)">Collapse all</button>
+    </div>
+  </div>
+  <nav class="toc" id="toc"></nav>
+</aside>
+<main class="main"><div class="content">
+
+<header class="doc-hero">
+  <span class="eyebrow">Software Requirements Specification</span>
+  <h1>{Product Name}</h1>
+  <p class="subtitle">{One-sentence description of the system. What it is, for whom.}</p>
+  <div class="chips">
+    <span class="chip hl">Status: {Draft}</span>
+    <span class="chip">Source: {source document id}</span>
+    <span class="chip">IEEE 29148-tailored</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════ PART 0 · DOCUMENT CONTROL ═══════════════════════ -->
+<section class="part-band" id="part-0" data-toc="1" data-num="Part 0">
+  <h1>Part 0 · Document Control</h1>
+  <p>Metadata, reading conventions, and vocabulary. Everything an agent or reviewer needs before interpreting a single requirement.</p>
+</section>
+
+<section class="sec" id="sec-metadata" data-toc="2" data-num="0.1">
+<h2><span class="snum">0.1</span> Document Metadata <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.2.1 "Identification", minimized.
+  Deliberately NOT tracked in-document: version numbers, authors, approvers,
+  change logs. File history (git) owns document evolution — recording it
+  here is noise that accretes with every AI edit pass. What a reader or
+  agent needs: which document is this, what state is it in, what was it
+  built from. Keep JSON and table in sync.
+  Source documents get short handles (RFP, INTR, BRS…); Source fields
+  across the SRS cite clauses as "{handle} §x.y".
+  Standards and regulations are NOT registered anywhere: cite them inline,
+  by name + clause ("GDPR Art. 17", "WCAG 2.2 AA"), in the Source field of
+  each requirement they impose. -->
+<script type="application/json" id="doc-meta">
+{
+  "title": "{Product Name} — Software Requirements Specification",
+  "status": "Draft",
+  "date": "{YYYY-MM-DD}",
+  "source_documents": [
+    { "handle": "RFP",  "document": "{e.g. RFP Parma 3.0.pdf, v3, received 2026-06-30}" },
+    { "handle": "INTR", "document": "{e.g. Integration Requirements.pdf, v2}" }
+  ],
+  "organization": "{Your organization}",
+  "template": "SRS Template 2026 (IEEE 29148-tailored)"
+}
+</script>
+<table>
+  <thead><tr><th>Field</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>Document title</td><td>{Product Name} — Software Requirements Specification</td></tr>
+    <tr><td>Status / date</td><td>{Draft} · {YYYY-MM-DD}</td></tr>
+    <tr><td>Source document(s)</td><td><code>{RFP}</code> = {"RFP Parma 3.0.pdf", v3, received 2026-06-30} · <code>{INTR}</code> = {"Integration Requirements.pdf", v2}</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="sec" id="sec-conventions" data-toc="2" data-num="0.2">
+<h2><span class="snum">0.2</span> Conventions &amp; How to Read This Document <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · repurposed from 29148 §9.6.1 "SRS overview"
+  KEEP THIS SECTION VERBATIM in every SRS instance — it is the reading contract
+  for the downstream coding agent. Only edit it if you deliberately change a
+  convention, and then update every affected requirement too. -->
+<p>This SRS follows a fixed contract so that humans and AI agents can parse it deterministically. Part I gives context that makes requirements unambiguous; Part II contains the requirements themselves; appendices carry traceability and supporting material.</p>
+
+<h3>Requirement identifiers</h3>
+<table>
+  <thead><tr><th>Prefix</th><th>Meaning</th><th>Defined in</th></tr></thead>
+  <tbody>
+    <tr><td><code>FEAT-nn</code></td><td>Product feature (capability)</td><td>§5</td></tr>
+    <tr><td><code>ASM-nn</code> / <code>DEP-nn</code></td><td>Assumption / external dependency</td><td>§6</td></tr>
+    <tr><td><code>FR-nnn</code></td><td>Functional requirement</td><td>§7</td></tr>
+    <tr><td><code>IC-nn</code></td><td>Integration contract</td><td>§8</td></tr>
+    <tr><td><code>ENT-nn</code> / <code>DR-nn</code></td><td>Data entity / data requirement</td><td>§9</td></tr>
+    <tr><td><code>UX-nn</code></td><td>UI/UX requirement</td><td>§10</td></tr>
+    <tr><td><code>NFR-CAT-nn</code></td><td>Non-functional requirement; CAT ∈ PER, REL, SEC, PRV, SCA, MNT, CMP</td><td>§11</td></tr>
+    <tr><td><code>OPS-nn</code></td><td>Operational requirement</td><td>§12</td></tr>
+    <tr><td><code>MCK-nn</code></td><td>UI mockup exhibit — embedded in its feature group; Binding or Illustrative</td><td>§7</td></tr>
+  </tbody>
+</table>
+<p>IDs are permanent: they are never renumbered or reused. A withdrawn requirement keeps its ID with <em>Status: Withdrawn</em>.</p>
+
+<h3>Requirement statement grammar — EARS</h3>
+<p>Every requirement statement uses one of the EARS (Easy Approach to Requirements Syntax) patterns. The pattern keyword tells you what kind of behavior is specified:</p>
+<table>
+  <thead><tr><th>Pattern</th><th>Template</th><th>Use for</th></tr></thead>
+  <tbody>
+    <tr><td>Ubiquitous</td><td>The {system} <b>shall</b> {response}.</td><td>Always-true properties</td></tr>
+    <tr><td>Event-driven</td><td><b>When</b> {trigger}, the {system} <b>shall</b> {response}.</td><td>Responses to events</td></tr>
+    <tr><td>State-driven</td><td><b>While</b> {state}, the {system} <b>shall</b> {response}.</td><td>Behavior during a state</td></tr>
+    <tr><td>Unwanted behavior</td><td><b>If</b> {condition}, <b>then</b> the {system} <b>shall</b> {response}.</td><td>Error/failure handling</td></tr>
+    <tr><td>Optional feature</td><td><b>Where</b> {feature is included}, the {system} <b>shall</b> {response}.</td><td>Configurable/optional capability</td></tr>
+  </tbody>
+</table>
+<p>One requirement = one shall. Compound behaviors are split into separate requirements. Vague verbs (<em>support, handle, manage, be user-friendly</em>) are forbidden in the shall-clause.</p>
+
+<h3>Acceptance criteria — Gherkin</h3>
+<p>Every requirement with <em>Verification: TEST or E2E</em> carries at least two Gherkin scenarios: one happy path and one failure/edge path. Scenarios are the executable test specification — the coding agent generates automated tests from them 1:1. Scenario steps reference concrete values, not adjectives.</p>
+
+<h3>Metadata values</h3>
+<table>
+  <thead><tr><th>Field</th><th>Allowed values</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td>Priority</td><td><code>Must</code> · <code>Should</code> · <code>Could</code> · <code>Wont</code></td><td>MoSCoW. <code>Wont</code> = explicitly excluded this release; kept for traceability.</td></tr>
+    <tr><td>Status</td><td><code>Draft</code> · <code>Review</code> · <code>Approved</code> · <code>Implemented</code> · <code>Verified</code> · <code>Withdrawn</code></td><td>Lifecycle of the individual requirement.</td></tr>
+    <tr><td>Verification</td><td><code>TEST</code> · <code>E2E</code> · <code>MEASURE</code> · <code>AUDIT</code></td><td>All four are automated and close in CI. TEST = unit/integration tests from the Gherkin. E2E = end-to-end user-flow tests (Playwright or equivalent). MEASURE = measurement vs. threshold. AUDIT = automated check of the artifacts at rest. Artifacts, pass conditions and examples: §13.</td></tr>
+    <tr><td>Source</td><td><code>{DOC} §x.y</code> · <code>{DOC} p.NN</code> · <code>STAKEHOLDER: name, date</code> · <code>INFERRED</code></td><td>{DOC} = a source-document handle from §0.1 (RFP, BRS…). Cite at clause granularity — the source→requirement index is generated from these fields. INFERRED format: <code>INFERRED ← FR-nnn — {gap}</code>; permitted only as gap-filling for a sourced requirement, capped at Should, enters at Status Review until a human approves.</td></tr>
+  </tbody>
+</table>
+
+<p>Sections that do not apply state <em>“Not applicable — reason”</em>. A missing section is a defect; an explicit N/A is a decision.</p>
+</div>
+</section>
+
+<section class="sec" id="sec-glossary" data-toc="2" data-num="0.3">
+<h2><span class="snum">0.3</span> Glossary <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.2.3 "Definitions"
+  ONLY terms used with a non-default or narrowed meaning in this document
+  (e.g., "User" = authenticated paying subscriber, not any visitor).
+  NOT acronym expansions (→ §0.4). NOT data entities (→ §9 owns entity
+  definitions; you may point a glossary term at its ENT-nn).
+  Write definitions that resolve ambiguity: if two readers could not disagree
+  about a term, it does not belong here. Use the exact capitalized Term
+  consistently everywhere else in the SRS. -->
+<table>
+  <thead><tr><th>Term</th><th>Definition in this document</th></tr></thead>
+  <tbody>
+    <tr><td><b>{Term}</b></td><td>{Precise meaning as used in this SRS. Cross-reference ENT-nn if the term is also a data entity.}</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="sec" id="sec-acronyms" data-toc="2" data-num="0.4">
+<h2><span class="snum">0.4</span> Acronyms <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.2.5. Pure expansions, alphabetical. If an expanded
+  term ALSO carries special meaning, expand it here and define it in §0.3. -->
+<table>
+  <thead><tr><th>Acronym</th><th>Expansion</th></tr></thead>
+  <tbody>
+    <tr><td>{ABC}</td><td>{Expansion}</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+
+<!-- ═══════════════════════ PART I · PRODUCT CONTEXT ═══════════════════════ -->
+<section class="part-band" id="part-1" data-toc="1" data-num="Part I">
+  <h1>Part I · Product Context</h1>
+  <p>Why the product exists, what it is, who uses it, where it sits, and what limits design freedom. Context makes Part II unambiguous.</p>
+</section>
+
+<section class="sec" id="sec-mission" data-toc="2" data-num="1">
+<h2><span class="snum">1</span> Product Mission <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.2 "Purpose"
+  WHY the software exists — 1 to 2 paragraphs, hard cap.
+  Content test: every sentence must name a business problem, outcome, or
+  measurable goal. If a sentence describes what the system DOES, move it to
+  §2. If it describes a capability, move it to §5.
+  Anti-fluff rule: no adjectives without evidence ("innovative", "seamless",
+  "robust" are banned). State the problem in the customer's domain terms and
+  the outcome the product must cause.
+  Source mapping: usually distilled from the source document's background /
+  objectives section; cite it (e.g. "Source: RFP §1.2"). -->
+<p>{Paragraph 1: the business problem and who suffers it, in domain terms.}</p>
+<p>{Paragraph 2: the outcome this product must cause, and how success will be recognized. Source: RFP §x.y}</p>
+</div>
+</section>
+
+<section class="sec" id="sec-definition" data-toc="2" data-num="2">
+<h2><span class="snum">2</span> Product Definition <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.3 "Scope"
+  WHAT the product is and where it ends. Strict separation from §1:
+  §1 = why · §2 = what + boundary · §5 = capability list.
+  The Out-of-Scope list is MANDATORY and is the most valuable part of this
+  section: mine the RFP for everything a reader might assume is included but
+  is not (adjacent systems, migrations, phase-2 items, excluded user groups).
+  Each row needs a reason — "deferred to phase 2 ({DOC} §7)" or "explicitly
+  excluded ({DOC} §3.1)". Coding agents treat this list as a hard
+  DO-NOT-BUILD boundary.
+  This table is ALSO the coverage-exception ledger: any source-document
+  clause deliberately not covered — or only partially covered — gets a row
+  citing the clause. For partial coverage, name the aspect dropped and the
+  IDs covering the remainder. The completeness invariant in Appendix B
+  checks against this table; there is no separate traceability matrix
+  (the source → requirement index is derivable from data-source fields). -->
+<p>{2–4 sentences: what kind of system this is (web app, API platform, batch pipeline…), its primary object of work, and its place in the business process.}</p>
+<h3>In scope</h3>
+<ul>
+  <li>{Included area of responsibility, phrased as a noun phrase, e.g. "Quote generation and approval workflow". Source: RFP §x.y}</li>
+</ul>
+<h3>Out of scope</h3>
+<table>
+  <thead><tr><th>Excluded / reduced item</th><th>Source clause</th><th>Reason · where the remainder lives</th></tr></thead>
+  <tbody>
+    <tr><td>{What is NOT built, or which aspect was reduced}</td><td>{RFP §7.3 | —}</td><td>{Why · for partial coverage: FR-nnn covers the retained part}</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="sec" id="sec-users" data-toc="2" data-num="3">
+<h2><span class="snum">3</span> User Profiles <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.6 "User characteristics"
+  Engineering-relevant facts about each user class — NOT marketing personas.
+  Every row must justify at least one downstream requirement: the
+  "Drives requirements" column is mandatory and must contain real IDs by the
+  time Part II is finished (fill iteratively).
+  Relevant facts: volume of users, frequency of use, domain expertise,
+  technical skill, environment (device, network, locale), accessibility
+  needs, permissions level. If a fact justifies nothing, delete it. -->
+<table>
+  <thead><tr><th>User class</th><th>Engineering-relevant characteristics</th><th>Approx. volume</th><th>Drives requirements</th></tr></thead>
+  <tbody>
+    <tr><td><b>{User class name}</b></td><td>{e.g. non-technical, uses the system daily on mobile, low-bandwidth field conditions, needs WCAG AA}</td><td>{e.g. ~500 daily}</td><td>{UX-nn, NFR-PER-nn, FR-nnn}</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="sec" id="sec-context" data-toc="2" data-num="4">
+<h2><span class="snum">4</span> System Context <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.4 "Product perspective"
+  Where the system sits in the ecosystem: a context diagram plus a short
+  narrative. This section gives the INVENTORY and the map; the detailed
+  per-integration contracts live in §8 — do not duplicate payloads, auth
+  flows, or field lists here.
+  Diagram: Mermaid `graph` (or `C4Context`) with the system in the middle,
+  every external actor/system around it, one labeled arrow per interaction.
+  Every node in the diagram must appear in table 4.1 and vice versa. -->
+<p>{2–4 sentences: is this a new standalone system, a replacement, or a component of a larger platform? What are the most important surrounding systems?}</p>
+<div class="diagram">
+<pre class="mermaid">
+graph LR
+  U["{User class}"] -->|"{uses via web}"| S(("{Product Name}"))
+  S -->|"{sync REST}"| A["{Internal system A}"]
+  S -->|"{events}"| B["{External SaaS B}"]
+</pre>
+</div>
+
+<h3 id="sec-integrations"><span class="snum">4.1</span> System Integrations</h3>
+<!-- AUTHORING · merges 29148 §9.6.4.1 (system), §9.6.4.5 (communications),
+  §9.6.4.9 (services). One inventory for EVERYTHING this system talks to —
+  internal sister systems, external SaaS, third-party APIs. The protocol
+  column absorbs the old "Communications interfaces" section: the protocol is
+  a property of each integration, not a chapter of its own.
+  If a cross-cutting protocol policy exists (e.g. "all internal traffic mTLS"),
+  state it as a single line below the table and back it with an
+  NFR-SEC-nn. Do not write "HTTPS" rows for the obvious — only list policies
+  that constrain design.
+  Every row here gets a full contract in §8 (matching IC-nn). -->
+<table>
+  <thead><tr><th>ID</th><th>System</th><th>Int / Ext</th><th>Direction</th><th>Protocol</th><th>Purpose (one line)</th><th>Criticality</th><th>Contract</th></tr></thead>
+  <tbody>
+    <tr><td><code>SI-01</code></td><td>{System name}</td><td>{Internal}</td><td>{outbound}</td><td>{REST/JSON}</td><td>{Why we talk to it}</td><td>{Hard dependency / degraded-mode possible}</td><td><a href="#IC-01">IC-01</a></td></tr>
+  </tbody>
+</table>
+<p><b>Cross-cutting protocol policy:</b> {e.g. "All service-to-service traffic uses mTLS (NFR-SEC-nn)" — or "None beyond TLS-everywhere."}</p>
+
+<h3 id="sec-stack"><span class="snum">4.2</span> Technology Stack (imposed)</h3>
+<!-- AUTHORING · 29148 §9.6.4.4 "Software interfaces", reframed.
+  ONLY platform elements that are IMPOSED on the project — by the customer,
+  a source document, or the org's platform strategy. Inclusion test: "would
+  the deployer or customer reject a delivery that used something else?" If
+  no, it is a design decision for the architecture phase, NOT a requirement —
+  leave it out. Never list application libraries (npm/pip dependency trees
+  do not belong in an SRS). Each row cites the clause that imposes it and
+  binds the coding agent directly: using anything else is a defect. No
+  separate constraint entry exists or is needed.
+  Discarded 29148 sections folded in here when genuinely relevant:
+  §9.6.4.3 Hardware interfaces and §9.6.4.6 Memory — for cloud/web software
+  these default to omitted; for embedded/POS/mobile-offline products add rows
+  for device targets or resource ceilings. -->
+<table>
+  <thead><tr><th>Layer</th><th>Imposed element</th><th>Version / edition</th><th>Source</th></tr></thead>
+  <tbody>
+    <tr><td>{Runtime / DB / Cloud / Identity…}</td><td>{e.g. PostgreSQL, Azure, Entra ID}</td><td>{e.g. ≥15}</td><td>{RFP §x.y}</td></tr>
+  </tbody>
+</table>
+
+<h3 id="sec-tenancy"><span class="snum">4.3</span> Deployment &amp; Tenant Configuration</h3>
+<!-- AUTHORING · 29148 §9.6.4.8 "Site adaptation requirements", renamed.
+  What must be CONFIGURABLE per deployment, environment, tenant, or customer —
+  without code changes. Typical: branding, locale/timezone, business rules,
+  feature flags, integration endpoints, retention periods.
+  For each item state the axis (per-tenant? per-environment?) and who changes
+  it (operator config, admin UI, contract negotiation). If the product is
+  single-tenant single-deployment, say so explicitly: "Not applicable —
+  single production deployment, no per-customer variation." -->
+<table>
+  <thead><tr><th>Configurable item</th><th>Axis</th><th>Changed by</th><th>Notes / source</th></tr></thead>
+  <tbody>
+    <tr><td>{e.g. Approval thresholds}</td><td>{per tenant}</td><td>{tenant admin UI}</td><td>{RFP §x.y}</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="sec" id="sec-features" data-toc="2" data-num="5">
+<h2><span class="snum">5</span> Product Features <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.5 "Product functions"
+  The capability MENU: 5–15 features, each 1–3 sentences. This section only
+  earns its place through the enforced 1:1 mapping — every FEAT-nn here MUST
+  have exactly one matching subsection in §7, and §7 may contain no group
+  without a FEAT-nn here. (Menu → recipes.)
+  The Release column is the slim survivor of 29148 §9.6.9 "Apportioning of
+  requirements": phase features, not individual requirements. If everything
+  ships at once, put "1.0" everywhere — do not delete the column.
+  Order features by business criticality, not alphabetically. -->
+<table>
+  <thead><tr><th>ID</th><th>Feature</th><th>What it does (1–3 sentences)</th><th>Release</th><th>Requirements</th></tr></thead>
+  <tbody>
+    <tr><td><code>FEAT-01</code></td><td><b>{Feature name}</b></td><td>{Capability summary in outcome terms. Source: RFP §x.y}</td><td>{1.0}</td><td><a href="#g-feat-01">§7.1</a></td></tr>
+    <tr><td><code>FEAT-02</code></td><td><b>{Feature name}</b></td><td>{…}</td><td>{1.1}</td><td><a href="#g-feat-02">§7.2</a></td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="sec" id="sec-assumptions" data-toc="2" data-num="6">
+<h2><span class="snum">6</span> Assumptions &amp; Dependencies <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.8
+  The risk register of this SRS. Two distinct kinds — do not mix:
+  · ASSUMPTION (ASM-nn): something believed true but NOT guaranteed. Litmus:
+    "if this turned out false, would the SRS change?" Yes → assumption.
+    Imposed-and-certain mandates are NOT assumptions — they are requirements:
+    tech mandates → §4.2 rows; regulation- or contract-derived behavior →
+    typed requirements (FR/DR/NFR/OPS) citing the binding clause in Source.
+  · DEPENDENCY (DEP-nn): an external deliverable/event this project needs and
+    does not control (API access, data migration by customer, credentials).
+  The "Affects" column is mandatory — an assumption that affects nothing is
+  not worth recording. The coding agent treats ASM rows as facts it may rely
+  on, and the "If false" column as the blast radius. -->
+<h3>Assumptions</h3>
+<table>
+  <thead><tr><th>ID</th><th>We assume that…</th><th>If false</th><th>Affects</th></tr></thead>
+  <tbody>
+    <tr><td><code>ASM-01</code></td><td>{Belief, stated verifiably. Source: RFP §x.y or STAKEHOLDER}</td><td>{What breaks / what changes}</td><td>{FR-nnn, IC-nn…}</td></tr>
+  </tbody>
+</table>
+<h3>Dependencies</h3>
+<table>
+  <thead><tr><th>ID</th><th>Dependency</th><th>Provider</th><th>Needed by</th><th>Affects</th></tr></thead>
+  <tbody>
+    <tr><td><code>DEP-01</code></td><td>{e.g. Sandbox credentials for X API}</td><td>{who provides}</td><td>{phase/date}</td><td>{IC-nn, FR-nnn}</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+
+<!-- ═══════════════════════ PART II · PRODUCT REQUIREMENTS ═══════════════════════ -->
+<!-- 29148 §9.6.10 "Specified requirements" survives only as this container band. -->
+<section class="part-band" id="part-2" data-toc="1" data-num="Part II">
+  <h1>Part II · Product Requirements</h1>
+  <p>The verifiable specification. Every item below is individually identified, prioritized, traced to its source, and carries its own verification criteria.</p>
+</section>
+
+<section class="sec" id="sec-fr" data-toc="2" data-num="7">
+<h2><span class="snum">7</span> Functional Requirements <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.12 "Functions" + §9.6.19 "Verification" (merged in).
+  STRUCTURE: one subsection per feature, 1:1 with §5 — §7.1 ↔ FEAT-01,
+  §7.2 ↔ FEAT-02. No orphan groups, no featureless requirements.
+  DECOMPOSITION FROM RFP: RFP prose usually bundles many behaviors per
+  paragraph. Split until each card holds exactly ONE shall. Typical yield:
+  a 2-page feature description in the source document becomes 8–20 FR cards.
+  EVERY CARD: EARS statement, rationale (why, not restatement), source,
+  dependencies, and Gherkin acceptance criteria (min. 1 happy + 1 failure
+  path when Verification is TEST). Vague adjectives are defects.
+  UI MOCKUPS: when the source document ships a mockup per feature, give it
+  an MCK-nn id and embed it at the top of its feature group with the
+  figure.exhibit markup below. Co-location is deliberate: the mockup lives
+  WITH the requirements extracted from it, and its figcaption carries
+  disposition, source and derived IDs — there is no separate register to
+  maintain. Images: data URI for a single-file SRS, or a ./mockups/ folder
+  shipped alongside; alt text must enumerate every field, control, state
+  and message — text-only agents read alt, not pixels.
+  Then EXTRACT its behavior into cards:
+  every field → validation FR + ENT attribute · every button/action →
+  event-driven FR · every state/badge → state-driven FR · every error
+  message → unwanted-behavior FR. The image is evidence; the cards are the
+  requirement. Derived cards cite the exhibit in Source ("RFP p.14 · MCK-03").
+  MARKUP CONTRACT: copy article.req exactly; keep data-* in sync with the
+  visible badges. The EXAMPLE card below shows a fully-formed requirement —
+  delete it (and this comment) from the finished SRS. -->
+
+<h3 id="g-feat-01"><span class="snum">7.1</span> {FEAT-01 · Feature name}</h3>
+<p>{One line: what this group of requirements covers. Must match FEAT-01 in §5.}</p>
+
+<figure class="exhibit" id="MCK-01" data-id="MCK-01" data-disposition="{Illustrative}" data-source="{RFP p.NN}">
+  <img src="{mockups/feat-01-screen.png — or data:image/png;base64,…}" alt="{Exhaustive text description: every field, control, state and message visible in the mockup. Text-only agents read this, not the pixels.}">
+  <figcaption><code>MCK-01</code> · {Screen name} · <b>{Illustrative | Binding}</b> · Source: {RFP p.NN} · Derives: {FR-001, FR-002, ENT-01}</figcaption>
+</figure>
+
+<!-- ▼ EXAMPLE requirement · fully worked · DELETE from a real SRS ▼ -->
+<article class="req" id="FR-001" data-id="FR-001" data-feature="FEAT-01" data-priority="Must" data-status="Example" data-verification="TEST" data-source="RFP §4.2.1">
+  <div class="req-head">
+    <span class="req-id">FR-001</span>
+    <span class="req-title">Route above-threshold quotes to approval</span>
+    <span class="badge" style="background:var(--error);color:#fff">Example · delete</span>
+    <span class="badge must">Must</span>
+    <span class="badge vm">TEST</span>
+  </div>
+  <div class="req-body">
+    <div class="req-field"><div class="req-label">Requirement · EARS event-driven</div>
+      <div class="ears"><span class="kw">When</span> a Requester submits a Quote whose total exceeds the tenant's approval threshold, the system <span class="kw">shall</span> set the Quote status to <code>PENDING_APPROVAL</code> and place it in the Approver queue within 5 seconds.</div></div>
+    <div class="req-field"><div class="req-label">Rationale</div>
+      <div class="req-value">Customer's procurement policy requires four-eyes control above delegated spending limits (threshold is per-tenant, see §4.3).</div></div>
+    <div class="req-field"><div class="req-label">Source</div><div class="req-value">RFP §4.2.1</div></div>
+    <div class="req-field"><div class="req-label">Depends on</div><div class="req-value"><a href="#ENT-01">ENT-01 Quote</a> · §4.3 approval-threshold configuration</div></div>
+    <div class="req-field"><div class="req-label">Acceptance criteria</div>
+<pre class="gherkin"><span class="gk">Scenario:</span> Quote above threshold is routed for approval
+  <span class="gk">Given</span> a tenant with an approval threshold of 10000 USD
+  <span class="gk">And</span> a Requester with an active session
+  <span class="gk">When</span> the Requester submits a Quote totaling 12500 USD
+  <span class="gk">Then</span> the Quote status becomes "PENDING_APPROVAL"
+  <span class="gk">And</span> the Quote appears in the Approver queue within 5 seconds
+
+<span class="gk">Scenario:</span> Quote at or below threshold is not routed
+  <span class="gk">Given</span> a tenant with an approval threshold of 10000 USD
+  <span class="gk">When</span> the Requester submits a Quote totaling 9000 USD
+  <span class="gk">Then</span> the Quote status becomes "APPROVED"
+  <span class="gk">And</span> no Approver task is created</pre></div>
+  </div>
+</article>
+<!-- ▲ end EXAMPLE ▲ -->
+
+<!-- Blank card · copy for each new requirement -->
+<article class="req" id="FR-002" data-id="FR-002" data-feature="FEAT-01" data-priority="{Must}" data-status="Draft" data-verification="{TEST}" data-source="{RFP §x.y}">
+  <div class="req-head">
+    <span class="req-id">FR-002</span>
+    <span class="req-title">{Short imperative title}</span>
+    <span class="badge must">{Must}</span>
+    <span class="badge vm">{TEST}</span>
+    <span class="badge status">Draft</span>
+  </div>
+  <div class="req-body">
+    <div class="req-field"><div class="req-label">Requirement · EARS {pattern}</div>
+      <div class="ears">{<span class="kw">When</span> trigger,} the system <span class="kw">shall</span> {single verifiable response}.</div></div>
+    <div class="req-field"><div class="req-label">Rationale</div><div class="req-value">{Why this exists — business or user justification, not a restatement.}</div></div>
+    <div class="req-field"><div class="req-label">Source</div><div class="req-value">{RFP §x.y | STAKEHOLDER: name, date | INFERRED — justification}</div></div>
+    <div class="req-field"><div class="req-label">Depends on</div><div class="req-value">{ENT-nn, IC-nn, FR-nnn — or "None"}</div></div>
+    <div class="req-field"><div class="req-label">Acceptance criteria</div>
+<pre class="gherkin"><span class="gk">Scenario:</span> {happy path}
+  <span class="gk">Given</span> {concrete precondition}
+  <span class="gk">When</span> {action with concrete values}
+  <span class="gk">Then</span> {observable outcome}
+
+<span class="gk">Scenario:</span> {failure or edge path}
+  <span class="gk">Given</span> {precondition}
+  <span class="gk">When</span> {invalid/boundary action}
+  <span class="gk">Then</span> {defined error behavior}</pre></div>
+  </div>
+</article>
+
+<h3 id="g-feat-02"><span class="snum">7.2</span> {FEAT-02 · Feature name}</h3>
+<p>{Repeat the pattern above for each feature group.}</p>
+</div>
+</section>
+
+<section class="sec" id="sec-ic" data-toc="2" data-num="8">
+<h2><span class="snum">8</span> Integration Contracts <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.11 "External interfaces", reframed as contract
+  summaries. One IC-nn card per row of table 4.1 — same order.
+  This is the middle ground between prose and a full OpenAPI file: enough for
+  an architecture/coding agent to design against without opening another
+  document. When a machine-readable spec EXISTS (OpenAPI, AsyncAPI, WSDL),
+  link it in "Spec" and keep only purpose/auth/error semantics here — never
+  hand-copy endpoint lists that will drift.
+  Include per contract: auth mechanism, data classification of the payload,
+  failure semantics (timeouts, retries, idempotency, circuit-breaking
+  expectations) and rate limits. Failure semantics are requirements — the
+  coding agent builds them, so write them precisely. -->
+
+<article class="req" id="IC-01" data-id="IC-01" data-priority="Must" data-status="Draft" data-verification="TEST" data-source="{RFP §x.y}">
+  <div class="req-head">
+    <span class="req-id">IC-01</span>
+    <span class="req-title">{System name} — {purpose in 3–6 words}</span>
+    <span class="badge must">{Must}</span>
+    <span class="badge vm">{TEST}</span>
+    <span class="badge status">Draft</span>
+  </div>
+  <div class="req-body">
+    <table>
+      <tbody>
+        <tr><td style="width:180px"><b>Counterparty</b></td><td>{System, owner team/vendor} · {Internal | External}</td></tr>
+        <tr><td><b>Direction / pattern</b></td><td>{outbound REST | inbound webhook | pub/sub | batch file}</td></tr>
+        <tr><td><b>Protocol / format</b></td><td>{HTTPS + JSON | gRPC | AMQP | SFTP + CSV}</td></tr>
+        <tr><td><b>Auth</b></td><td>{OAuth2 client-credentials | mTLS | API key in header}</td></tr>
+        <tr><td><b>Key operations</b></td><td>{e.g. POST /quotes → create; GET /quotes/id → read. 3–8 bullets max.}</td></tr>
+        <tr><td><b>Payload shape</b></td><td>{Essential fields + types only, or link Appendix A sample}</td></tr>
+        <tr><td><b>Data classification</b></td><td>{PII? financial? per §9 sensitivity classes}</td></tr>
+        <tr><td><b>Failure semantics</b></td><td>{timeout ms; retry policy; idempotency key; behavior when down — queue? degrade? block?}</td></tr>
+        <tr><td><b>Limits</b></td><td>{rate limits, payload size, SLA of counterparty}</td></tr>
+        <tr><td><b>Spec</b></td><td>{link to OpenAPI/AsyncAPI file — or "none exists; this card is the contract"}</td></tr>
+        <tr><td><b>Environments</b></td><td>{sandbox URL / prod URL, credentials owner (DEP-nn)}</td></tr>
+      </tbody>
+    </table>
+  </div>
+</article>
+</div>
+</section>
+
+<section class="sec" id="sec-data" data-toc="2" data-num="9">
+<h2><span class="snum">9</span> Data Requirements <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.15 "Logical database requirements", renamed —
+  this is the INFORMATION model, storage-agnostic. No table names, no index
+  strategy, no engine features: those are architecture decisions (the engine
+  may be imposed in §4.2, the schema never is).
+  Three artifacts, all mandatory:
+  1. ER diagram (Mermaid erDiagram) — every entity + relationships with
+     cardinality. The single most valuable artifact for the coding agent.
+  2. Entity catalog — one ENT-nn per entity: identity, key attributes with
+     types/units, invariants (business rules that must always hold).
+  3. Data policy table — DR-nn rows for retention, sensitivity, residency,
+     volume. Sensitivity classes: Public · Internal · Confidential · PII ·
+     Regulated (tie Regulated rows to their binding clause, e.g. GDPR Art. 17).
+  Entities referenced by FR/IC cards must exist here — run the cross-check
+  in Appendix B. -->
+<h3><span class="snum">9.1</span> Entity-relationship model</h3>
+<div class="diagram">
+<pre class="mermaid">
+erDiagram
+  TENANT ||--o{ USER : "has"
+  USER ||--o{ QUOTE : "creates"
+  QUOTE ||--|{ QUOTE_LINE : "contains"
+  %% {Replace with the real model. Every entity below must appear here.}
+</pre>
+</div>
+<h3><span class="snum">9.2</span> Entity catalog</h3>
+<table>
+  <thead><tr><th>ID</th><th>Entity</th><th>Definition &amp; identity</th><th>Key attributes (type · unit)</th><th>Invariants</th></tr></thead>
+  <tbody>
+    <tr><td><code>ENT-01</code></td><td><b>{Quote}</b></td><td>{What it represents; natural/business key}</td><td>{total: decimal · USD; status: enum[DRAFT, PENDING_APPROVAL, APPROVED, REJECTED]}</td><td>{e.g. total = Σ line amounts; status transitions only per FR-001}</td></tr>
+  </tbody>
+</table>
+<h3><span class="snum">9.3</span> Data policies</h3>
+<table>
+  <thead><tr><th>ID</th><th>Applies to</th><th>Policy</th><th>Sensitivity</th><th>Source</th><th>Verify by</th></tr></thead>
+  <tbody>
+    <tr><td><code>DR-01</code></td><td>{ENT-nn}</td><td>{e.g. Retained 7 years after fiscal-year close, then hard-deleted}</td><td>{Regulated}</td><td>{INTR §5.2 · GDPR Art. 17}</td><td>{TEST}</td></tr>
+    <tr><td><code>DR-02</code></td><td>{ENT-nn.attribute}</td><td>{e.g. Encrypted at rest; masked in logs and non-prod environments}</td><td>{PII}</td><td>{GDPR Art. 32}</td><td>{AUDIT}</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="sec" id="sec-ux" data-toc="2" data-num="10">
+<h2><span class="snum">10</span> UI/UX Requirements <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · merges 29148 §9.6.4.2 "User interfaces" (constraints on the
+  UI) + §9.6.13 "Usability requirements" (measurable targets). Two blocks:
+  11.1 UX CONSTRAINTS — inputs the design must respect: target devices &
+  breakpoints, browser matrix, accessibility level, design system, languages/
+  locales, offline behavior. Do not AUTHOR mockups or screen designs here —
+  this SRS constrains design, it does not do design. Mockups SUPPLIED by a
+  source document are source material, not design output: embed each as an
+  MCK-nn exhibit in its §7 feature group and record their force in the
+  Design-fidelity row below. Binding = layout/flow is
+  contractual, deviation is a defect. Illustrative = only the requirements
+  extracted from the mockup bind; pixels, colors and spacing do not.
+  11.2 USABILITY REQUIREMENTS — measurable UX-nn cards. The failure mode of
+  this section is unmeasurable platitudes ("intuitive", "easy to learn").
+  Litmus test: if you cannot write the Gherkin or the measurement protocol,
+  it is not a requirement yet — sharpen or drop. Tie targets to §3 user
+  classes ("a first-time Requester completes a quote in under 4 minutes
+  without training"). -->
+<h3><span class="snum">10.1</span> UX constraints</h3>
+<table>
+  <thead><tr><th>Aspect</th><th>Constraint</th><th>Source</th></tr></thead>
+  <tbody>
+    <tr><td>Devices / breakpoints</td><td>{e.g. Desktop-first; usable ≥768px; no native app}</td><td>{RFP §x.y}</td></tr>
+    <tr><td>Browser matrix</td><td>{e.g. Last 2 versions of Chrome, Edge, Safari}</td><td>{…}</td></tr>
+    <tr><td>Accessibility</td><td>{e.g. WCAG 2.2 AA — cite the imposing clause in Source}</td><td>{…}</td></tr>
+    <tr><td>Design system</td><td>{e.g. Customer's design system mandatory | none imposed}</td><td>{…}</td></tr>
+    <tr><td>Design fidelity</td><td>{e.g. Mockups MCK-01…MCK-08 are Binding for layout and flow | All RFP mockups are Illustrative — extracted requirements bind, pixels do not}</td><td>{RFP §x.y}</td></tr>
+    <tr><td>Languages / locales</td><td>{e.g. es-MX + en-US at launch; all strings externalized}</td><td>{…}</td></tr>
+  </tbody>
+</table>
+<h3><span class="snum">10.2</span> Usability requirements</h3>
+<article class="req" id="UX-01" data-id="UX-01" data-priority="{Should}" data-status="Draft" data-verification="{E2E}" data-source="{RFP §x.y}">
+  <div class="req-head">
+    <span class="req-id">UX-01</span>
+    <span class="req-title">{Measurable usability target}</span>
+    <span class="badge should">{Should}</span>
+    <span class="badge vm">{E2E}</span>
+    <span class="badge status">Draft</span>
+  </div>
+  <div class="req-body">
+    <div class="req-field"><div class="req-label">Requirement</div>
+      <div class="ears">The {UI area} <span class="kw">shall</span> {measurable target, e.g. allow a {§3 user class} to {task} in ≤ {N} {unit} with ≤ {N} errors}.</div></div>
+    <div class="req-field"><div class="req-label">Measurement protocol</div><div class="req-value">{How it is measured: automated E2E timing, usability session of N users, accessibility scan tool…}</div></div>
+    <div class="req-field"><div class="req-label">Source</div><div class="req-value">{RFP §x.y}</div></div>
+  </div>
+</article>
+</div>
+</section>
+
+<section class="sec" id="sec-nfr" data-toc="2" data-num="11">
+<h2><span class="snum">11</span> Non-Functional Requirements <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.18 "Software system attributes", restructured on
+  an ISO 25010-informed taxonomy; §9.6.14 "Performance requirements" is
+  folded in as category PER (its old standalone slot created the overlap the
+  original standard suffered from).
+  RULES:
+  · Every NFR is a NUMBER or a falsifiable condition. "Fast", "secure",
+    "scalable" are defects. Include measurement context (percentile, load,
+    window): "p95 ≤ 400 ms at 100 concurrent users" not "responds quickly".
+  · Category is encoded in the ID: NFR-PER-01, NFR-SEC-03 …
+  · Boundary with §12: targets/budgets live here; operational FACILITIES
+    (dashboards, runbooks, deployment mechanics) live in §12.
+  · Only write requirements the product actually needs — empty categories get
+    "Not applicable — reason", never invented filler targets.
+  Categories: PER performance & capacity · REL reliability & availability ·
+  SEC security · PRV privacy · SCA scalability · MNT maintainability ·
+  CMP compatibility & portability. -->
+
+<h3><span class="snum">11.1</span> Performance &amp; capacity <code>NFR-PER</code></h3>
+<!-- Latency, throughput, concurrency, data volumes, resource budgets (the
+  modern home of the old "Memory" section when it matters, e.g. mobile). -->
+<article class="req" id="NFR-PER-01" data-id="NFR-PER-01" data-priority="{Must}" data-status="Draft" data-verification="{MEASURE}" data-source="{RFP §x.y}">
+  <div class="req-head">
+    <span class="req-id">NFR-PER-01</span>
+    <span class="req-title">{e.g. Interactive latency under nominal load}</span>
+    <span class="badge must">{Must}</span>
+    <span class="badge vm">{MEASURE}</span>
+    <span class="badge status">Draft</span>
+  </div>
+  <div class="req-body">
+    <div class="req-field"><div class="req-label">Requirement</div>
+      <div class="ears">The system <span class="kw">shall</span> {serve p95 of interactive requests in ≤ {400} ms} <b>while</b> {≤ {N} concurrent users / {N} req/s}.</div></div>
+    <div class="req-field"><div class="req-label">Measurement</div><div class="req-value">{Load-test profile, environment, tool; when in the lifecycle it is checked.}</div></div>
+    <div class="req-field"><div class="req-label">Source</div><div class="req-value">{RFP §x.y | INFERRED — justification}</div></div>
+  </div>
+</article>
+
+<h3><span class="snum">11.2</span> Reliability &amp; availability <code>NFR-REL</code></h3>
+<!-- Availability target (e.g. 99.9% monthly), error budget, RTO/RPO numbers
+  (the mechanics of achieving them → §12.4), graceful-degradation rules. -->
+<p class="na">{NFR-REL-nn cards, or "Not applicable — reason".}</p>
+
+<h3><span class="snum">11.3</span> Security <code>NFR-SEC</code></h3>
+<!-- AuthN/AuthZ model (RBAC roles ↔ §3 user classes), session policy,
+  encryption in transit/at rest, secrets, audit trail, OWASP baseline,
+  pen-test gates. Regulatory security mandates cite their
+  clause in Source; engineering targets live here. -->
+<p class="na">{NFR-SEC-nn cards.}</p>
+
+<h3><span class="snum">11.4</span> Privacy <code>NFR-PRV</code></h3>
+<!-- Data-subject rights mechanics (access, erasure, portability), consent,
+  minimization, anonymization/pseudonymization. Pairs with §9.3 PII rows
+  and privacy clauses cited in Source. -->
+<p class="na">{NFR-PRV-nn cards, or "Not applicable — reason".}</p>
+
+<h3><span class="snum">11.5</span> Scalability <code>NFR-SCA</code></h3>
+<!-- Growth envelope: users/data/tenants over time; horizontal-scaling
+  expectations; multi-tenancy isolation guarantees. -->
+<p class="na">{NFR-SCA-nn cards.}</p>
+
+<h3><span class="snum">11.6</span> Maintainability <code>NFR-MNT</code></h3>
+<!-- Only IMPOSED engineering-quality gates: coverage thresholds, static-
+  analysis gates, documentation deliverables. Do not legislate internal
+  architecture here. -->
+<p class="na">{NFR-MNT-nn cards.}</p>
+
+<h3><span class="snum">11.7</span> Compatibility &amp; portability <code>NFR-CMP</code></h3>
+<!-- Cloud-portability mandates, browser/OS support beyond §10.1, data-export
+  formats, standards-based interop (e.g. must speak FHIR/EDI X12). -->
+<p class="na">{NFR-CMP-nn cards.}</p>
+</div>
+</section>
+
+<section class="sec" id="sec-ops" data-toc="2" data-num="12">
+<h2><span class="snum">12</span> Operational Requirements <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · 29148 §9.6.4.7 "Operations", promoted from a buried sub-
+  clause to a first-class section — the original standard's most underweighted
+  area for cloud software. Requirements about RUNNING the system.
+  Boundary with §11: §11 sets targets (99.9%, RPO ≤ 1h); §12 specifies the
+  operational facilities and behaviors the product must ship with to meet
+  them (health endpoints, structured logs, backup jobs, deployment mode).
+  Use OPS-nn cards in the same article.req format as §7 (copy the blank FR
+  card and change the prefix). Cover every subsection or mark it N/A. -->
+<h3><span class="snum">12.1</span> Environments &amp; deployment</h3>
+<p class="na">{OPS-nn: required environments (dev/test/stage/prod), deployment mode (SaaS? customer VPC? on-prem?), release cadence, zero-downtime expectations, rollback.}</p>
+<h3><span class="snum">12.2</span> Observability &amp; alerting</h3>
+<p class="na">{OPS-nn: structured logging (fields, correlation IDs), metrics, tracing, health/readiness endpoints, alert conditions and destinations, log retention (link DR-nn).}</p>
+<h3><span class="snum">12.3</span> Scheduled &amp; background processing</h3>
+<p class="na">{OPS-nn: batch jobs, schedules, timezone rules, missed-run and overlap behavior, visibility of job status.}</p>
+<h3><span class="snum">12.4</span> Backup, recovery &amp; continuity</h3>
+<p class="na">{OPS-nn: backup scope + frequency, restore procedure and test cadence, DR mechanics that implement §11.2 RTO/RPO.}</p>
+<h3><span class="snum">12.5</span> Operational modes &amp; maintenance</h3>
+<p class="na">{OPS-nn: maintenance mode behavior, read-only mode, feature kill-switches, planned-downtime communication.}</p>
+</div>
+</section>
+
+<section class="sec" id="sec-verification" data-toc="2" data-num="13">
+<h2><span class="snum">13</span> Verification Strategy <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · residue of 29148 §9.6.19 after the per-requirement merge.
+  Verification criteria live ON each card; this section defines the four
+  methods as EXECUTABLE CONTRACTS: what artifact each produces and its
+  deterministic pass condition. All four are automated and close in CI —
+  no verification verdict depends on human interpretation.
+  (Tailoring note: the 29148 method spectrum maps 1:1 — test→TEST,
+  demonstration→E2E, analysis→MEASURE, inspection→AUDIT.)
+  Selection: TEST for logic verifiable at component/service level; E2E for
+  user-visible flows through the real interface; MEASURE when the criterion
+  is a number under load or scan; AUDIT when the property lives in the
+  artifacts at rest (code, config, dependencies, infra definitions), not in
+  runtime behavior. If you cannot name the artifact that would verify a
+  requirement, the requirement is not written precisely enough: fix the
+  card, not the method. -->
+<table>
+  <thead><tr><th>Method</th><th>Verifies</th><th>Required artifact</th><th>Pass condition (deterministic)</th><th>Examples</th></tr></thead>
+  <tbody>
+    <tr><td><code>TEST</code></td><td>Component and service behavior</td><td>Unit + integration tests generated 1:1 from the card's Gherkin; test names embed the requirement ID (<code>FR-001_above_threshold_routes</code>).</td><td>All scenarios green in CI.</td><td>{Vitest / JUnit unit suites; API integration tests against IC-02's contract}</td></tr>
+    <tr><td><code>E2E</code></td><td>User-visible flows, end to end</td><td>End-to-end tests scripted from the Gherkin user flows (Playwright or equivalent) — the automated successor of the scripted demo. Visual requirements: screenshot-diff against the Binding mockup.</td><td>Every flow green in CI; screenshot diffs within the stated tolerance.</td><td>{Playwright: submit quote above threshold → appears in approver queue (FR-001); visual regression vs. MCK-01}</td></tr>
+    <tr><td><code>MEASURE</code></td><td>Quantitative targets</td><td>A measurement run against the number on the card; script + raw results archived with the release.</td><td>Measured value meets the threshold, comparison recorded next to the raw results.</td><td>{k6 run: p95 = 380 ms ≤ 400 ms (NFR-PER-01); ZAP scan: 0 high findings (NFR-SEC-nn)}</td></tr>
+    <tr><td><code>AUDIT</code></td><td>Properties of the artifacts at rest</td><td>An automated artifact check: dependency scan, config/IaC policy, schema diff, lint rule. Only if no tool can express the property (rare): an evidence report countersigned by a human.</td><td>Check green in CI. Evidence-report fallback requires the recorded countersign.</td><td>{IaC policy: all resources in eu-west-1 (OPS-nn); dependency scan: PostgreSQL is the only DB driver (§4.2); lint rule: no ENT PII fields in log statements (DR-02)}</td></tr>
+  </tbody>
+</table>
+<h4>Status rules</h4>
+<ul>
+  <li>All four methods reach <b>Verified</b> autonomously — artifact + pass condition are the whole decision.</li>
+  <li>Human gates live elsewhere by design: INFERRED requirements need human approval before implementation (§0.2), and release-level acceptance (UAT) is a project gate, not a per-requirement verification method.</li>
+  <li>Every <b>Must</b> requirement is Verified before release; every <b>Should</b> is Verified or explicitly deferred with a recorded decision.</li>
+  <li>{Project-specific gates: coverage %, pen-test, UAT window…}</li>
+</ul>
+</div>
+</section>
+
+<!-- ═══════════════════════ APPENDICES ═══════════════════════ -->
+<section class="part-band" id="part-a" data-toc="1" data-num="Appendices">
+  <h1>Appendices</h1>
+  <p>Supporting material and the final quality gate. 29148 §9.6.20's grab-bag is replaced by deliberately named appendices.</p>
+</section>
+
+
+<section class="sec" id="app-a" data-toc="2" data-num="A">
+<h2><span class="snum">A</span> Sample Data &amp; Payloads <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · concrete examples that requirements reference: integration
+  payloads (linked from IC cards), representative entity instances,
+  boundary-value datasets for test generation. Synthetic data only — never
+  real customer data. Every sample states which ID(s) it supports.
+  Mockups do NOT live here: they are embedded in their §7 feature groups
+  (MCK-nn), co-located with the requirements extracted from them.
+  If none are needed: "Not applicable — no samples required." -->
+<p class="na">{Samples, each titled "B.n — supports IC-nn / FR-nnn".}</p>
+</div>
+</section>
+
+
+<section class="sec" id="app-b" data-toc="2" data-num="B">
+<h2><span class="snum">B</span> SRS Quality Checklist <span class="twirl">▼</span></h2>
+<div class="sec-body">
+<!-- AUTHORING · Run before declaring the SRS done (protocol step A8). Every
+  item must pass or carry a written waiver from an approver. These checks are
+  mechanical on purpose — an agent can self-verify each one. -->
+<ol>
+  <li><b>No invented scope (run this first):</b> every requirement cites a source clause that actually says it — spot-check by quoting the clause. Every INFERRED requirement names the sourced requirement(s) it enables, passes the deletion test ("deleting it would leave a sourced requirement unimplementable or untestable"), and sits at Status Review until a human approves it. If more than ~1 in 10 requirements is INFERRED, the conversion has drifted into invention — stop and escalate.</li>
+  <li><b>Coverage:</b> every requirement-bearing clause of every source document is cited by ≥ 1 Source field or has a row in §2 Out of Scope; citations are clause-granular so the source → requirement index can be generated mechanically.</li>
+  <li><b>Placeholders:</b> no <code>{curly}</code> placeholder text remains anywhere.</li>
+  <li><b>Examples:</b> no <code>data-status="Example"</code> cards remain.</li>
+  <li><b>Feature mapping:</b> §5 features ↔ §7 groups are exactly 1:1.</li>
+  <li><b>Testability:</b> every card with Verification TEST or E2E has ≥ 2 Gherkin scenarios (happy + failure) using concrete values.</li>
+  <li><b>Integrations:</b> §4.1 rows ↔ §8 IC cards are 1:1; every IC states failure semantics.</li>
+  <li><b>Mockups:</b> every MCK-nn figure has a disposition (Binding / Illustrative), exhaustive alt text, and ≥ 1 ID in its Derives list — or a §2 row explaining why not; every interactive element visible in a Binding mockup traces to an FR/UX/ENT item.</li>
+  <li><b>Data:</b> every entity referenced by any FR/IC exists in §9.2 and appears in the ER diagram.</li>
+  <li><b>Standards:</b> every standard or regulation the source documents declare binding is cited — by name + clause — in the Source field of ≥ 1 requirement.</li>
+  <li><b>Users:</b> every §3 user class drives ≥ 1 requirement ID.</li>
+  <li><b>Language:</b> no shall-clause contains <em>support, handle, manage, process appropriately, user-friendly, fast, robust, seamless, etc.</em></li>
+  <li><b>NFRs:</b> every NFR states a number or falsifiable condition plus its measurement context.</li>
+  <li><b>Completeness:</b> every template section is filled or explicitly “Not applicable — reason”.</li>
+  <li><b>Machine-consistency:</b> every card’s <code>data-*</code> attributes match its visible badges.</li>
+  <li><b>Scaffolding:</b> AUTHORING comments removed from the final instance; §0.2 retained.</li>
+</ol>
+</div>
+</section>
+
+</div></main>
+</div>
+
+<script type="module">
+try {
+  const m = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+  m.default.initialize({ startOnLoad: true, theme: 'neutral', themeVariables: { fontFamily: 'Inter, sans-serif' } });
+} catch (e) { /* offline: diagrams remain visible as source text */ }
+</script>
+<script>
+/* ── TOC ─────────────────────────────────────────────── */
+function buildToc() {
+  const toc = document.getElementById('toc');
+  const items = [];
+  document.querySelectorAll('section.part-band, section.sec').forEach(sec => {
+    if (sec.classList.contains('part-band')) {
+      items.push({ id: sec.id, num: '', text: sec.querySelector('h1').textContent, lvl: 1 });
+    } else {
+      const h2 = sec.querySelector('h2');
+      const num = h2.querySelector('.snum') ? h2.querySelector('.snum').textContent : '';
+      const text = h2.textContent.replace(num, '').replace('▼', '').trim();
+      items.push({ id: sec.id, num, text, lvl: 2 });
+      sec.querySelectorAll('h3[id]').forEach(h3 => {
+        const n3 = h3.querySelector('.snum') ? h3.querySelector('.snum').textContent : '';
+        items.push({ id: h3.id, num: n3, text: h3.textContent.replace(n3, '').trim(), lvl: 3 });
+      });
+    }
+  });
+  toc.innerHTML = items.map(it =>
+    '<a class="lvl-' + it.lvl + '" href="#' + it.id + '" data-target="' + it.id + '">' +
+    (it.num ? '<span class="tnum">' + it.num + '</span>' : '') +
+    '<span>' + it.text + '</span></a>').join('');
+}
+
+/* ── Scrollspy ───────────────────────────────────────── */
+function initSpy() {
+  const links = {};
+  document.querySelectorAll('.toc a').forEach(a => links[a.dataset.target] = a);
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        document.querySelectorAll('.toc a.active').forEach(a => a.classList.remove('active'));
+        const l = links[en.target.id];
+        if (l) { l.classList.add('active'); }
+      }
+    });
+  }, { rootMargin: '0px 0px -75% 0px' });
+  document.querySelectorAll('section.part-band, section.sec').forEach(s => obs.observe(s));
+}
+
+/* ── Collapse / expand ───────────────────────────────── */
+document.addEventListener('click', ev => {
+  const h2 = ev.target.closest('section.sec > h2');
+  if (h2 && !ev.target.closest('a')) h2.parentElement.classList.toggle('collapsed');
+});
+function setAllSections(collapsed) {
+  document.querySelectorAll('section.sec').forEach(s => s.classList.toggle('collapsed', collapsed));
+}
+function expandTargetOfHash() {
+  const el = document.querySelector(location.hash || '#x-none');
+  if (!el) return;
+  const sec = el.closest('section.sec');
+  if (sec) sec.classList.remove('collapsed');
+}
+window.addEventListener('hashchange', expandTargetOfHash);
+
+/* ── Requirement filter ──────────────────────────────── */
+function filterReqs(q) {
+  q = q.trim().toLowerCase();
+  const reqs = document.querySelectorAll('article.req');
+  const counter = document.getElementById('match-count');
+  if (!q) {
+    reqs.forEach(r => r.classList.remove('hit-hidden'));
+    counter.style.display = 'none';
+    return;
+  }
+  let hits = 0;
+  reqs.forEach(r => {
+    const hay = (r.textContent + ' ' + Object.values(r.dataset).join(' ')).toLowerCase();
+    const hit = hay.indexOf(q) !== -1;
+    r.classList.toggle('hit-hidden', !hit);
+    if (hit) { hits++; const sec = r.closest('section.sec'); if (sec) sec.classList.remove('collapsed'); }
+  });
+  counter.textContent = hits + ' requirement' + (hits === 1 ? '' : 's') + ' match';
+  counter.style.display = 'block';
+}
+
+/* ── Sidebar (mobile) ────────────────────────────────── */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.querySelector('.overlay').classList.toggle('open');
+}
+
+buildToc();
+initSpy();
+expandTargetOfHash();
+</script>
+</body>
+</html>

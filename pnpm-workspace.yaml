@@ -1,15 +1,18 @@
 packages:
   - apps/*
   - packages/*
+  - agents/*
 
 # Fail install on a Node version outside engines.
 engineStrict: true
 
 # Native packages. Without these scripts Next, Vite, and cbor-x do not load.
 allowBuilds:
+  "@grok/agent-sdk": true
   "@swc/core": true
   cbor-extract: true
   esbuild: true
+  protobufjs: true
 
 minimumReleaseAgeExclude:
   - "@xyflow/react@13.0.1"

@@ -1,0 +1,25 @@
+{
+  "name": "@dark-factory/engineer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "biome check --error-on-warnings .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@dark-factory/parse": "workspace:*",
+    "@dark-factory/srs": "workspace:*",
+    "@grok/agent-sdk": "0.7.2",
+    "yaml": "2.9.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.8",
+    "@dark-factory/typescript-config": "workspace:*",
+    "@types/node": "26.6.6",
+    "typescript": "7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

@@ -9,12 +9,7 @@
     "check-types": "turbo run check-types",
     "format": "biome check --write .",
     "parse": "node --env-file-if-exists=.env packages/parse/src/index.ts",
-    "test:integration": "turbo run test:integration",
-    "annotate": "node --env-file-if-exists=.env packages/annotate/src/index.ts",
-    "preresolve": "turbo run build --filter=@dark-factory/annotate",
-    "resolve": "node --env-file-if-exists=.env packages/resolve/src/index.ts",
-    "prepipeline": "turbo run build --filter=@dark-factory/annotate",
-    "pipeline": "node --env-file-if-exists=.env scripts/pipeline.mts"
+    "test:integration": "turbo run test:integration"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.8",

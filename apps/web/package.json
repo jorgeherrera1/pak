@@ -10,16 +10,15 @@
     "lint": "biome check --error-on-warnings .",
     "check-types": "next typegen && tsc --noEmit",
     "test": "vitest run --exclude \"**/*.integration.test.ts\"",
-    "test:integration": "vitest run test/parse-job.integration.test.ts",
+    "test:integration": "vitest run test/job.integration.test.ts",
     "db:migrate": "drizzle-kit migrate",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.34.0",
-    "@dark-factory/annotate": "workspace:*",
     "@dark-factory/knowledge-graph": "workspace:*",
     "@dark-factory/parse": "workspace:*",
-    "@dark-factory/resolve": "workspace:*",
+    "@dark-factory/srs": "workspace:*",
     "@dark-factory/ui": "workspace:*",
     "@workflow/world-postgres": "^5.2.0",
     "@xyflow/react": "^13.0.1",

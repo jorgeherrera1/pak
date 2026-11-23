@@ -1,19 +1,14 @@
-import { anchors, chunk, ground, runAnnotate } from "@dark-factory/annotate";
 import {
   readDocument,
-  readEntities,
-  readRequirements,
   writeDocument,
-  writeEntities,
-  writeLinks,
-  writeRequirements,
+  writeGraph,
 } from "@dark-factory/knowledge-graph";
 import { analyze, toParsedDocument } from "@dark-factory/parse";
-import { link, resolveEntities } from "@dark-factory/resolve";
 import { eq } from "drizzle-orm";
 import { FatalError } from "workflow";
 import { getBlob, putBlob } from "@/lib/blob";
 import { db, jobs } from "@/lib/db";
+import { acceptRun, checkDocument, engineerDocument } from "@/lib/engineer";
 import { runOperation, setOperation } from "@/lib/operations";
 
 async function setJob(jobId: string, patch: Partial<typeof jobs.$inferInsert>) {
@@ -36,60 +31,53 @@ async function parseOperation(jobId: string) {
   });
 }
 
-async function annotateOperation(jobId: string) {
+async function engineerOperation(jobId: string) {
   "use step";
-  return runOperation(jobId, "annotate", "annotate", async () => {
+  return runOperation(jobId, "engineer", "engineer", async () => {
     const doc = await readDocument(jobId);
     if (!doc) throw new FatalError("document missing from the knowledge graph");
-    // ponytail: all chunks in flight at once; add a concurrency cap if Azure rate limits bite.
-    const rows = (await Promise.all(chunk(doc).map(runAnnotate))).flat();
-    const result = ground(rows, anchors(doc), doc.content);
-    await writeRequirements(jobId, result.classifications);
-    // Grounding warnings describe this run, not the document; runOperation's done patch leaves them in place.
-    await setOperation(jobId, "annotate", "annotate", {
-      warnings: result.warnings,
-    });
+    await engineerDocument(jobId, doc);
   });
 }
 
-async function resolveOperation(jobId: string) {
+async function checkOperation(jobId: string) {
   "use step";
-  return runOperation(jobId, "resolve", "resolve", async () => {
+  return runOperation(jobId, "engineer", "check", async () => {
     const doc = await readDocument(jobId);
     if (!doc) throw new FatalError("document missing from the knowledge graph");
-    const result = await resolveEntities(doc);
-    await writeEntities(jobId, result);
-    // Like grounding warnings, these describe this run; runOperation's done patch leaves them in place.
-    await setOperation(jobId, "resolve", "resolve", {
-      warnings: result.warnings,
+    const { graph, result } = await checkDocument(jobId, doc);
+    await setOperation(jobId, "engineer", "check", {
+      warnings: (result.failures.length > 0
+        ? result.failures
+        : result.warnings
+      ).map((issue) => `${issue.code}: ${issue.message}`),
     });
+    if (!graph) {
+      throw new FatalError(
+        `check rejected: ${result.failures
+          .slice(0, 8)
+          .map((issue) => issue.message)
+          .join("; ")}`,
+      );
+    }
+    await writeGraph(jobId, graph);
+    await putBlob(
+      `${jobId}/runs/${graph.runId}/graph.json`,
+      Buffer.from(JSON.stringify(graph)),
+      "application/json",
+    );
+    await acceptRun(jobId);
   });
 }
 
-async function linkOperation(jobId: string) {
-  "use step";
-  return runOperation(jobId, "resolve", "link", async () => {
-    const [doc, classifications, { entities }] = await Promise.all([
-      readDocument(jobId),
-      readRequirements(jobId),
-      readEntities(jobId),
-    ]);
-    if (!doc) throw new FatalError("document missing from the knowledge graph");
-    const result = await link(doc, classifications, entities);
-    await writeLinks(jobId, result.links);
-    await setOperation(jobId, "resolve", "link", { warnings: result.warnings });
-  });
-}
-
-/** One job down Station 1: Parse, Annotate, then Resolve. The knowledge graph is the only thing that crosses a step boundary. */
+/** One job down Station 1: parse the document, then the engineer builds the graph and the check stores it. */
 export async function runJob(jobId: string) {
   "use workflow";
   await setJob(jobId, { status: "running" });
   try {
     await parseOperation(jobId);
-    await annotateOperation(jobId);
-    await resolveOperation(jobId);
-    await linkOperation(jobId);
+    await engineerOperation(jobId);
+    await checkOperation(jobId);
     await setJob(jobId, { status: "done", finishedAt: new Date() });
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
