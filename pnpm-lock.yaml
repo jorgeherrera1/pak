@@ -406,6 +406,31 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@26.6.6)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0))
 
+  packages/srs:
+    dependencies:
+      '@dark-factory/parse':
+        specifier: workspace:*
+        version: link:../parse
+      zod:
+        specifier: 4.6.7
+        version: 4.6.7
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 2.6.8
+        version: 2.6.8
+      '@dark-factory/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: 26.6.6
+        version: 26.6.6
+      typescript:
+        specifier: 7.0.2
+        version: 7.0.2
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@26.6.6)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0))
+
   packages/tailwind-config:
     devDependencies:
       postcss:
@@ -2402,6 +2427,7 @@ packages:
   '@typespec/ts-http-runtime@0.3.10':
     resolution: {integrity: sha512-vddvvtZ7sejSlCv+OIkn2ztjB1O31Fc2JsxI/YK725r3elXXlF/J3o3lbXJFRhoeWRWK1tjdZ+GTi6Fdtrp+EA==}
     engines: {node: '>=22.0.0'}
+    deprecated: A newer version 0.3.11 has been published.
 
   '@vercel/cli-auth@0.0.1':
     resolution: {integrity: sha512-CnqiuMlZ4pjs2LCPYiR6aLKPPd3Xb8SBI1Y7eotXKgpx6qgrGNY+E7EIyUt5ErGHJGIrCZyGG5WEo4bHtVmz2Q==}
