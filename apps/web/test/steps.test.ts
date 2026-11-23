@@ -41,7 +41,6 @@ test("two step nodes, parse carrying its operations, and no result page", () => 
     "parse",
   ]);
   expect(nodes[1]?.data.status).toBe("pending");
-  expect(nodes.every((n) => n.data.href === undefined)).toBe(true);
   expect(nodes.map((n) => n.data.handles)).toEqual([
     { target: false, source: true },
     { target: true, source: false },

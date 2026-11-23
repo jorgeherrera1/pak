@@ -24,8 +24,6 @@ export type StepNodeData = {
   status: StepStatus;
   operations: OperationRow[];
   handles: { target: boolean; source: boolean };
-  // The canvas test reads this and asserts it stays unset.
-  href?: undefined;
 };
 export type StepNode = {
   id: string;
