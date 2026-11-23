@@ -26,7 +26,7 @@ Turborepo monorepo, pnpm workspaces (`apps/*`, `packages/*`, `agents/*`), 100% T
 
 `packages/parse` is station 1, step 1 (Parse): PDF in, `ParsedDocument` out, via Azure Document Intelligence. It is real code, not scaffold.
 
-`packages/srs` is the vocabulary. `docs/srs-template.html` is the source. One file, `packages/srs/src/vocabulary.ts`, holds the node types, id prefixes, fields, which side each type is on, the allowed parent, and the allowed relations. The tools, the instructions, the check, and the graph writer import it.
+`packages/srs` is the vocabulary. `docs/srs-template.html` is the source. One file, `packages/srs/src/vocabulary.ts`, holds the node types, id prefixes, fields, which side each type is on, the allowed parent, and the allowed relations. The tool schemas, the tools, the instructions, the check, and the graph writer import it.
 
 `agents/engineer` is the requirements engineer, a Cursor Agent SDK agent. It reads the parsed document through its own tools and returns the graph as an `srs-graph` artifact. It does not touch Postgres. The model is `grok-4.7` with reasoning effort high, and built-in tools are off.
 

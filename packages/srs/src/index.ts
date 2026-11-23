@@ -5,14 +5,7 @@ export {
   orphans,
   verify,
 } from "./check.ts";
-export {
-  contentIds,
-  type DocElement,
-  elementIds,
-  findText,
-  flatten,
-  page,
-} from "./document.ts";
+export { contentIds, elementIds, findText, page } from "./document.ts";
 export { GraphError } from "./errors.ts";
 export {
   addEntity,
@@ -47,28 +40,16 @@ export {
   statementInput,
   updateInput,
 } from "./schema.ts";
+export { type ScoreGraph, scoreGraphs } from "./score.ts";
 export {
-  matchNodes,
-  type ScoreGraph,
-  type ScoreNode,
-  type ScoreRelation,
-  type Scores,
-  scoreGraphs,
-} from "./score.ts";
-export {
-  CONTENT_KINDS,
+  type EntitySlug,
   entityTypes,
-  type FieldSpec,
-  NFR_CATEGORIES,
-  type NodeType,
-  OPS_AREAS,
-  PRODUCT_FIELDS,
+  isEntitySlug,
+  isStatementSlug,
   PRODUCT_ID,
   prefixCodes,
   RELATIONS,
-  type RelationSpec,
-  relationByName,
+  type StatementSlug,
   statementTypes,
   TYPES,
-  typeBySlug,
 } from "./vocabulary.ts";

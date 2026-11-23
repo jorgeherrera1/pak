@@ -1,4 +1,6 @@
 import {
+  isEntitySlug,
+  isStatementSlug,
   PRODUCT_ID,
   RELATIONS,
   type SrsGraph,
@@ -7,9 +9,13 @@ import {
 } from "@dark-factory/srs";
 import { cypher, type Row, transaction } from "./db.ts";
 
-const LABEL = new Map(TYPES.map((type) => [type.slug, type.label]));
-const SLUG = new Map(TYPES.map((type) => [type.label, type.slug]));
-const RELATION = new Set(RELATIONS.map((relation) => relation.name));
+const LABEL = new Map<string, string>(
+  TYPES.map((type) => [type.slug, type.label]),
+);
+const SLUG = new Map<string, string>(
+  TYPES.map((type) => [type.label, type.slug]),
+);
+const RELATION = new Set<string>(RELATIONS.map((relation) => relation.name));
 
 const labelFor = (slug: string) => {
   const label = LABEL.get(slug);
@@ -259,12 +265,7 @@ export async function readGraph(runId: string): Promise<SrsGraph | null> {
     const statements = nodes
       .flatMap(([label, props]) => {
         const slug = SLUG.get(label);
-        if (
-          !slug ||
-          TYPES.find((type) => type.slug === slug)?.side !== "statement"
-        ) {
-          return [];
-        }
+        if (!slug || !isStatementSlug(slug)) return [];
         return [
           {
             id: text(props.id),
@@ -282,12 +283,7 @@ export async function readGraph(runId: string): Promise<SrsGraph | null> {
     const entities = nodes
       .flatMap(([label, props]) => {
         const slug = SLUG.get(label);
-        if (
-          !slug ||
-          TYPES.find((type) => type.slug === slug)?.side !== "entity"
-        ) {
-          return [];
-        }
+        if (!slug || !isEntitySlug(slug)) return [];
         return [
           {
             id: text(props.id),

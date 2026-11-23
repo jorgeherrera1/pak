@@ -1,18 +1,23 @@
 import { GraphError } from "./errors.ts";
+import { readFields } from "./schema.ts";
 import {
+  type EntitySlug,
   entityTypes,
-  type FieldSpec,
+  isEntitySlug,
+  isStatementSlug,
   type NodeType,
   PRODUCT_FIELDS,
   PRODUCT_ID,
+  RELATIONS,
   relationByName,
+  type StatementSlug,
   statementTypes,
   typeBySlug,
 } from "./vocabulary.ts";
 
 export type Statement = {
   id: string;
-  type: string;
+  type: StatementSlug;
   parentId: string;
   elementIds: string[];
   sourceText: string;
@@ -21,7 +26,7 @@ export type Statement = {
 
 export type Entity = {
   id: string;
-  type: string;
+  type: EntitySlug;
   name: string;
   parentId: string;
   elementIds: string[];
@@ -80,65 +85,45 @@ const requireElements = (known: Set<string>, ids: string[]) => {
 
 const unique = (ids: string[]) => [...new Set(ids)];
 
-const checkFields = (
-  specs: readonly FieldSpec[],
-  fields: Record<string, string> | undefined,
+const fieldsOf = (
+  specs: Parameters<typeof readFields>[0],
+  fields: unknown,
   mode: "create" | "patch",
-): Record<string, string> => {
-  const input = fields ?? {};
-  const byKey = new Map(specs.map((spec) => [spec.key, spec]));
-  for (const [key, value] of Object.entries(input)) {
-    const spec = byKey.get(key);
-    if (!spec) {
-      throw new GraphError(
-        "INVALID_FIELDS",
-        `unknown field ${key}; allowed: ${specs.map((s) => s.key).join(", ")}`,
-      );
-    }
-    if (value.trim() === "") {
-      throw new GraphError("INVALID_FIELDS", `${key} is empty`);
-    }
-    if (spec.values && !spec.values.includes(value)) {
-      throw new GraphError(
-        "INVALID_FIELDS",
-        `${key} must be one of ${spec.values.join(", ")}`,
-      );
-    }
-  }
-  if (mode === "create") {
-    for (const spec of specs) {
-      if (spec.required && !input[spec.key]) {
-        throw new GraphError(
-          "INVALID_FIELDS",
-          `${spec.key} is required${spec.values ? `: ${spec.values.join(", ")}` : ""}`,
-        );
-      }
-    }
-  }
-  return input;
+) => {
+  const read = readFields(specs, fields, mode);
+  if ("error" in read) throw new GraphError("INVALID_FIELDS", read.error);
+  return read.fields;
 };
 
-const requireParent = (graph: SrsGraph, type: NodeType, parentId: string) => {
+/** Whether `parentId` is the parent this type is allowed to hang under. */
+export const parentProblem = (
+  graph: SrsGraph,
+  type: NodeType,
+  parentId: string,
+) => {
   const allowed = type.parent === PRODUCT_ID ? "product" : `a ${type.parent}`;
   if (parentId === PRODUCT_ID) {
-    if (type.parent !== PRODUCT_ID) {
-      throw new GraphError(
-        "PARENT_TYPE_NOT_ALLOWED",
-        `${type.slug} parent must be ${allowed}`,
-      );
-    }
-    return;
+    return type.parent === PRODUCT_ID
+      ? undefined
+      : {
+          code: "PARENT_TYPE_NOT_ALLOWED" as const,
+          detail: `${type.slug} parent must be ${allowed}`,
+        };
   }
   const parent = graph.statements.find((node) => node.id === parentId);
   if (!parent && !graph.entities.some((node) => node.id === parentId)) {
-    throw new GraphError("PARENT_NOT_FOUND", parentId);
+    return { code: "PARENT_NOT_FOUND" as const, detail: parentId };
   }
-  if (!parent || parent.type !== type.parent) {
-    throw new GraphError(
-      "PARENT_TYPE_NOT_ALLOWED",
-      `${type.slug} parent must be ${allowed}`,
-    );
-  }
+  if (parent?.type === type.parent) return undefined;
+  return {
+    code: "PARENT_TYPE_NOT_ALLOWED" as const,
+    detail: `${type.slug} parent must be ${allowed}`,
+  };
+};
+
+const requireParent = (graph: SrsGraph, type: NodeType, parentId: string) => {
+  const problem = parentProblem(graph, type, parentId);
+  if (problem) throw new GraphError(problem.code, problem.detail);
 };
 
 const counterKey = (type: NodeType, fields: Record<string, string>) => {
@@ -181,11 +166,11 @@ export function addStatement(
     parentId: string;
     elementIds: string[];
     sourceText: string;
-    fields?: Record<string, string>;
+    fields?: unknown;
   },
 ): { graph: SrsGraph; id: string } {
   const type = typeBySlug(input.type);
-  if (type?.side !== "statement") {
+  if (!type || !isStatementSlug(type.slug)) {
     throw new GraphError(
       "UNKNOWN_TYPE",
       `${input.type} is not a statement type; expected ${statementTypes()
@@ -196,7 +181,7 @@ export function addStatement(
   requireParent(graph, type, input.parentId);
   const elementIds = unique(input.elementIds);
   requireElements(known, elementIds);
-  const fields = checkFields(type.fields, input.fields, "create");
+  const fields = fieldsOf(type.fields, input.fields, "create");
   const key = counterKey(type, fields);
   const allocated = bump(graph, key);
   const id = formatId(type, allocated.n, fields);
@@ -228,11 +213,11 @@ export function addEntity(
     name: string;
     elementIds: string[];
     sourceText: string;
-    fields?: Record<string, string>;
+    fields?: unknown;
   },
 ): { graph: SrsGraph; id: string } {
   const type = typeBySlug(input.type);
-  if (type?.side !== "entity") {
+  if (!type || !isEntitySlug(type.slug)) {
     throw new GraphError(
       "UNKNOWN_TYPE",
       `${input.type} is not an entity type; expected ${entityTypes()
@@ -248,7 +233,7 @@ export function addEntity(
   if (existing) throw new GraphError("ENTITY_EXISTS", existing.id);
   const elementIds = unique(input.elementIds);
   requireElements(known, elementIds);
-  const fields = checkFields(type.fields, input.fields, "create");
+  const fields = fieldsOf(type.fields, input.fields, "create");
   const key = counterKey(type, fields);
   const allocated = bump(graph, key);
   const id = formatId(type, allocated.n, fields);
@@ -340,7 +325,7 @@ export function relate(
   if (!spec) {
     throw new GraphError(
       "RELATION_NOT_ALLOWED",
-      `unknown relation ${input.relation}; expected ${RELATIONS_HELP()}`,
+      `unknown relation ${input.relation}; expected ${RELATIONS.map((relation) => relation.name).join(", ")}`,
     );
   }
   if (input.fromId === input.toId) {
@@ -399,19 +384,6 @@ export function relate(
   };
 }
 
-const RELATIONS_HELP = () =>
-  [
-    "DEPENDS_ON",
-    "DERIVES",
-    "AFFECTS",
-    "DRIVES",
-    "APPLIES_TO",
-    "CONTRACT",
-    "RELATES_TO",
-    "REFERS_TO",
-    "COVERS",
-  ].join(", ");
-
 export function updateNode(
   graph: SrsGraph,
   input: { id: string; fields: Record<string, string> },
@@ -419,7 +391,7 @@ export function updateNode(
   if (input.id === PRODUCT_ID) {
     const fields = {
       ...graph.product.fields,
-      ...checkFields(PRODUCT_FIELDS, input.fields, "patch"),
+      ...fieldsOf(PRODUCT_FIELDS, input.fields, "patch"),
     };
     return { ...graph, product: { ...graph.product, fields } };
   }
@@ -435,9 +407,8 @@ export function updateNode(
       `${type.prefix.by} is fixed by ${node.id}`,
     );
   }
-  const patch = checkFields(type.fields, input.fields, "patch");
-  const fields = { ...node.fields, ...patch };
-  checkFields(type.fields, fields, "create");
+  const patch = fieldsOf(type.fields, input.fields, "patch");
+  const fields = fieldsOf(type.fields, { ...node.fields, ...patch }, "create");
   if (statement) {
     return {
       ...graph,

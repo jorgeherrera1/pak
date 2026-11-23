@@ -40,12 +40,12 @@ export type RelationSpec = {
   to: readonly string[];
 };
 
-const priority: FieldSpec = {
+const priority = {
   key: "priority",
   template: "Priority",
   values: ["Must", "Should", "Could", "Wont"],
-};
-const status: FieldSpec = {
+} as const satisfies FieldSpec;
+const status = {
   key: "status",
   template: "Status",
   values: [
@@ -56,13 +56,13 @@ const status: FieldSpec = {
     "Verified",
     "Withdrawn",
   ],
-};
-const verification: FieldSpec = {
+} as const satisfies FieldSpec;
+const verification = {
   key: "verification",
   template: "Verification",
   values: ["TEST", "E2E", "MEASURE", "AUDIT"],
-};
-const ears: FieldSpec = {
+} as const satisfies FieldSpec;
+const ears = {
   key: "ears",
   template: "EARS pattern",
   values: [
@@ -72,9 +72,12 @@ const ears: FieldSpec = {
     "Unwanted behavior",
     "Optional feature",
   ],
-};
-const source: FieldSpec = { key: "source", template: "Source" };
-const card = [priority, verification, status];
+} as const satisfies FieldSpec;
+const source = {
+  key: "source",
+  template: "Source",
+} as const satisfies FieldSpec;
+const card = [priority, verification, status] as const;
 
 export const NFR_CATEGORIES = [
   "PER",
@@ -90,15 +93,15 @@ export const OPS_AREAS = ["12.1", "12.2", "12.3", "12.4", "12.5"] as const;
 
 export const PRODUCT_ID = "product";
 
-export const PRODUCT_FIELDS: readonly FieldSpec[] = [
+export const PRODUCT_FIELDS = [
   { key: "name", template: "name" },
   { key: "description", template: "one-sentence description" },
   { key: "mission", template: "mission" },
   { key: "definition", template: "definition" },
   { key: "systemContext", template: "system context" },
-];
+] as const satisfies readonly FieldSpec[];
 
-export const TYPES: readonly NodeType[] = [
+export const TYPES = [
   {
     slug: "in-scope",
     template: "In scope",
@@ -406,13 +409,19 @@ export const TYPES: readonly NodeType[] = [
       { key: "invariants", template: "Invariants" },
     ],
   },
-];
+] as const satisfies readonly NodeType[];
+
+type OfSide<S extends Side> = Extract<(typeof TYPES)[number], { side: S }>;
+
+export type StatementSlug = OfSide<"statement">["slug"];
+
+export type EntitySlug = OfSide<"entity">["slug"];
 
 const statementSlugs = TYPES.filter((t) => t.side === "statement").map(
   (t) => t.slug,
 );
 
-export const RELATIONS: readonly RelationSpec[] = [
+export const RELATIONS = [
   {
     name: "DEPENDS_ON",
     from: ["functional-requirement", "operational"],
@@ -439,20 +448,33 @@ export const RELATIONS: readonly RelationSpec[] = [
   { name: "RELATES_TO", from: ["data-entity"], to: ["data-entity"] },
   { name: "REFERS_TO", from: ["glossary"], to: ["data-entity"] },
   { name: "COVERS", from: ["out-of-scope"], to: ["functional-requirement"] },
-];
+] as const satisfies readonly RelationSpec[];
 
-export const typeBySlug = (slug: string) => TYPES.find((t) => t.slug === slug);
+export const typeBySlug = (slug: string): NodeType | undefined =>
+  TYPES.find((type) => type.slug === slug);
 
-export const relationByName = (name: string) =>
-  RELATIONS.find((r) => r.name === name);
+export const relationByName = (name: string): RelationSpec | undefined =>
+  RELATIONS.find((relation) => relation.name === name);
 
-export const statementTypes = () => TYPES.filter((t) => t.side === "statement");
+export const statementTypes = (): readonly NodeType[] =>
+  TYPES.filter((type) => type.side === "statement");
 
-export const entityTypes = () => TYPES.filter((t) => t.side === "entity");
+export const entityTypes = (): readonly NodeType[] =>
+  TYPES.filter((type) => type.side === "entity");
+
+export const isStatementSlug = (slug: string): slug is StatementSlug =>
+  statementTypes().some((type) => type.slug === slug);
+
+export const isEntitySlug = (slug: string): slug is EntitySlug =>
+  entityTypes().some((type) => type.slug === slug);
 
 /** Prefix codes the tools allocate, including SI (used in §4.1, absent from §0.2). */
-export const prefixCodes = () => [
-  ...new Set(TYPES.flatMap((t) => (t.prefix ? [t.prefix.code] : []))),
+export const prefixCodes = (): string[] => [
+  ...new Set(
+    TYPES.flatMap((type) =>
+      "prefix" in type && type.prefix ? [type.prefix.code] : [],
+    ),
+  ),
 ];
 
 export const CONTENT_KINDS = ["paragraph", "cell", "figure"] as const;

@@ -3,12 +3,12 @@ import { contentIds, elementIds } from "./document.ts";
 import {
   citedIds,
   type Entity,
+  parentProblem,
   type SrsGraph,
   type Statement,
 } from "./graph.ts";
-import { graphSchema } from "./schema.ts";
+import { graphSchema, readFields } from "./schema.ts";
 import {
-  type FieldSpec,
   type NodeType,
   PRODUCT_FIELDS,
   PRODUCT_ID,
@@ -22,22 +22,12 @@ export type Issue = { code: string; message: string };
 
 export type CheckResult = { failures: Issue[]; warnings: Issue[] };
 
-const fieldProblem = (
-  specs: readonly FieldSpec[],
+const fieldsIssue = (
+  specs: Parameters<typeof readFields>[0],
   fields: Record<string, string>,
 ) => {
-  const known = new Map(specs.map((spec) => [spec.key, spec]));
-  for (const [key, value] of Object.entries(fields)) {
-    const spec = known.get(key);
-    if (!spec) return `unknown field ${key}`;
-    if (spec.values && !spec.values.includes(value)) {
-      return `${key} must be one of ${spec.values.join(", ")}`;
-    }
-  }
-  for (const spec of specs) {
-    if (spec.required && !fields[spec.key]) return `${spec.key} is required`;
-  }
-  return undefined;
+  const read = readFields(specs, fields, "create");
+  return "error" in read ? read.error : undefined;
 };
 
 const idProblem = (
@@ -70,20 +60,12 @@ const idProblem = (
     : `${id} must match ${type.prefix.code}-nn`;
 };
 
-const parentProblem = (graph: SrsGraph, type: NodeType, parentId: string) => {
-  const allowed = type.parent === PRODUCT_ID ? "product" : `a ${type.parent}`;
-  if (parentId === PRODUCT_ID) {
-    return type.parent === PRODUCT_ID
-      ? undefined
-      : `${type.slug} parent must be ${allowed}`;
-  }
-  const parent = graph.statements.find((node) => node.id === parentId);
-  if (!parent && !graph.entities.some((node) => node.id === parentId)) {
-    return `parent ${parentId} not found`;
-  }
-  return parent?.type === type.parent
-    ? undefined
-    : `${type.slug} parent must be ${allowed}`;
+const parentIssue = (graph: SrsGraph, type: NodeType, parentId: string) => {
+  const problem = parentProblem(graph, type, parentId);
+  if (!problem) return undefined;
+  return problem.code === "PARENT_NOT_FOUND"
+    ? `parent ${problem.detail} not found`
+    : problem.detail;
 };
 
 const nodeIssues = (
@@ -102,10 +84,10 @@ const nodeIssues = (
   }
   const id = idProblem(type, node.id, node.fields);
   if (id) failures.push({ code: "BAD_ID", message: id });
-  const fields = fieldProblem(type.fields, node.fields);
+  const fields = fieldsIssue(type.fields, node.fields);
   if (fields)
     failures.push({ code: "BAD_ID", message: `${node.id} ${fields}` });
-  const parent = parentProblem(graph, type, node.parentId);
+  const parent = parentIssue(graph, type, node.parentId);
   if (parent)
     failures.push({ code: "BAD_PARENT", message: `${node.id} ${parent}` });
 };
@@ -118,7 +100,7 @@ export function orphans(graph: SrsGraph): { id: string; reason: string }[] {
       rows.push({ id: node.id, reason: `unknown type ${node.type}` });
       continue;
     }
-    const parent = parentProblem(graph, type, node.parentId);
+    const parent = parentIssue(graph, type, node.parentId);
     if (parent) rows.push({ id: node.id, reason: parent });
   }
   return rows;
@@ -143,7 +125,7 @@ export function check(doc: ParsedDocument, graph: SrsGraph): CheckResult {
     ids.add(node.id);
     nodeIssues(graph, node, failures);
   }
-  const productFields = fieldProblem(PRODUCT_FIELDS, graph.product.fields);
+  const productFields = fieldsIssue(PRODUCT_FIELDS, graph.product.fields);
   if (productFields) {
     failures.push({ code: "BAD_ID", message: `product ${productFields}` });
   }
@@ -313,5 +295,5 @@ export function verify(graph: unknown, doc: ParsedDocument): CheckResult {
       .join("; ");
     return { failures: [{ code: "SCHEMA", message }], warnings: [] };
   }
-  return check(doc, parsed.data);
+  return check(doc, parsed.data as SrsGraph);
 }
