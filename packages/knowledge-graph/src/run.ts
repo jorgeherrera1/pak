@@ -135,21 +135,17 @@ export async function writeGraph(
       `MATCH (r:Run {runId: $runId}), (d:Document {jobId: $jobId}) CREATE (r)-[:OF]->(d)`,
       { runId: graph.runId, jobId },
     );
-    await cypher(
-      client,
-      `UNWIND $rows AS row CREATE (p:Product) SET p = row`,
-      {
-        rows: [
-          {
-            id: PRODUCT_ID,
-            runId: graph.runId,
-            jobId,
-            sourceText: graph.product.sourceText,
-            fields: json(graph.product.fields),
-          },
-        ],
-      },
-    );
+    await cypher(client, `UNWIND $rows AS row CREATE (p:Product) SET p = row`, {
+      rows: [
+        {
+          id: PRODUCT_ID,
+          runId: graph.runId,
+          jobId,
+          sourceText: graph.product.sourceText,
+          fields: json(graph.product.fields),
+        },
+      ],
+    });
     await cypher(
       client,
       `MATCH (p:Product {runId: $runId}), (r:Run {runId: $runId}) CREATE (p)-[:PRODUCED_BY]->(r)`,
