@@ -1,8 +1,11 @@
-import { execFileSync } from "node:child_process";
 import { appendFileSync, existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import type { ParsedDocument } from "@dark-factory/parse";
-import { type CheckResult, type SrsGraph, verify } from "@dark-factory/srs";
+import {
+  type CheckResult,
+  parseGraph,
+  type SrsGraph,
+  verify,
+} from "@dark-factory/srs";
 import { getBlob, putBlob } from "./blob";
 
 const origin = () =>
@@ -22,13 +25,8 @@ export type RunRecord = {
   continuationToken?: string;
   streamIndex: number;
   turn: "new" | "running" | "completed" | "failed";
-  followUps: number;
   checkAttempts: number;
   model?: unknown;
-  sdkVersion?: string | null;
-  repoSha?: string | null;
-  engineerSha?: string | null;
-  templateSha?: string | null;
   usage?: unknown;
   cost?: unknown;
   status: "open" | "accepted" | "rejected";
@@ -44,42 +42,6 @@ type StreamEvent = {
 const recordPath = (jobId: string) => `${jobId}/runs/current.json`;
 const eventsPath = (record: RunRecord) =>
   `${record.jobId}/runs/${record.runId}/events.ndjson`;
-
-const repoRoot = () => {
-  const cwd = process.cwd();
-  if (existsSync(join(cwd, "agents", "engineer"))) return cwd;
-  return join(cwd, "..", "..");
-};
-
-const git = (args: string[]) => {
-  try {
-    return execFileSync("git", args, {
-      cwd: repoRoot(),
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
-    }).trim();
-  } catch {
-    return null;
-  }
-};
-
-const sdkVersion = () => {
-  for (const path of [
-    join(
-      repoRoot(),
-      "agents/engineer/node_modules/@grok/agent-sdk/package.json",
-    ),
-    join(repoRoot(), "node_modules/@grok/agent-sdk/package.json"),
-  ]) {
-    if (!existsSync(/*turbopackIgnore: true*/ path)) continue;
-    return (
-      JSON.parse(readFileSync(/*turbopackIgnore: true*/ path, "utf8")) as {
-        version: string;
-      }
-    ).version;
-  }
-  return null;
-};
 
 async function send(
   path: string,
@@ -170,10 +132,6 @@ async function drive(
   if (!record.sessionId) {
     const info = (await readJson("/v1/info")) as { model?: unknown };
     record.model = info.model;
-    record.sdkVersion = sdkVersion();
-    record.repoSha = git(["rev-parse", "HEAD"]);
-    record.engineerSha = git(["rev-parse", "HEAD:agents/engineer"]);
-    record.templateSha = git(["rev-parse", "HEAD:docs/srs-template.html"]);
     const opened = await send("/v1/session", {
       message: message ?? TASK,
       title: record.runId,
@@ -226,19 +184,10 @@ export async function engineerDocument(
       sha256: doc.source.sha256,
       streamIndex: 0,
       turn: "new",
-      followUps: 0,
       checkAttempts: 0,
       status: "open",
     } satisfies RunRecord);
   record = await drive(record, doc);
-  if (record.turn === "failed" && record.followUps < 1) {
-    record.followUps += 1;
-    record = await drive(
-      record,
-      doc,
-      "The turn stopped. Continue from get_progress and call finish when it reports no failures.",
-    );
-  }
   if (record.turn !== "completed") throw new Error("engineer turn failed");
   return record;
 }
@@ -268,6 +217,7 @@ export async function checkDocument(
 ): Promise<{ record: RunRecord; graph: SrsGraph | null; result: CheckResult }> {
   const record = await loadRecord(jobId);
   if (!record?.sessionId) throw new Error("engineer run is missing");
+  if (record.turn === "running") await drive(record, doc);
   let data = await artifact(record);
   let result = verify(data, doc);
   if (result.failures.length > 0 && record.checkAttempts < 1) {
@@ -287,14 +237,16 @@ export async function checkDocument(
     await saveRecord(record);
     return { record, graph: null, result };
   }
-  const graph = data as SrsGraph;
-  record.status = "accepted";
+  const graph = parseGraph(data);
   await saveRecord(record);
-  await putBlob(
-    `${jobId}/runs/${record.runId}/graph.json`,
-    Buffer.from(JSON.stringify(graph)),
-    "application/json",
-  );
   await uploadEvents(record);
   return { record, graph, result };
+}
+
+/** The run is accepted only after the caller has stored the graph. */
+export async function acceptRun(jobId: string) {
+  const record = await loadRecord(jobId);
+  if (!record) throw new Error("engineer run is missing");
+  record.status = "accepted";
+  await saveRecord(record);
 }

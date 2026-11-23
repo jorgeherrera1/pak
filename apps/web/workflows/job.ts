@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 import { FatalError } from "workflow";
 import { getBlob, putBlob } from "@/lib/blob";
 import { db, jobs } from "@/lib/db";
-import { checkDocument, engineerDocument } from "@/lib/engineer";
+import { acceptRun, checkDocument, engineerDocument } from "@/lib/engineer";
 import { runOperation, setOperation } from "@/lib/operations";
 
 async function setJob(jobId: string, patch: Partial<typeof jobs.$inferInsert>) {
@@ -61,6 +61,12 @@ async function checkOperation(jobId: string) {
       );
     }
     await writeGraph(jobId, graph);
+    await putBlob(
+      `${jobId}/runs/${graph.runId}/graph.json`,
+      Buffer.from(JSON.stringify(graph)),
+      "application/json",
+    );
+    await acceptRun(jobId);
   });
 }
 
