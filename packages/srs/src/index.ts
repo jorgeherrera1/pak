@@ -40,7 +40,6 @@ export {
   statementInput,
   updateInput,
 } from "./schema.ts";
-export { type ScoreGraph, scoreGraphs } from "./score.ts";
 export {
   type EntitySlug,
   entityTypes,

@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { scoreGraphs, type ScoreGraph } from "../src/index.ts";
+import { scoreGraphs, type ScoreGraph } from "./score.ts";
 
 const gold: ScoreGraph = {
   statements: [

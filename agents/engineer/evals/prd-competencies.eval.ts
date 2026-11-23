@@ -1,8 +1,9 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { type ScoreGraph, type SrsGraph, scoreGraphs } from "@dark-factory/srs";
+import type { SrsGraph } from "@dark-factory/srs";
 import { defineEval } from "@grok/agent-sdk/evals";
 import { parse } from "yaml";
+import { type ScoreGraph, scoreGraphs } from "./score.ts";
 
 const doc = readFileSync(
   fileURLToPath(
