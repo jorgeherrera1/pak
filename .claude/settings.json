@@ -2,6 +2,20 @@
   "permissions": {
     "deny": ["Read(**/.env)", "Read(**/.env.*)"]
   },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/protect-tests.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {
     "ponytail@ponytail": true,
     "superpowers@claude-plugins-official": true,

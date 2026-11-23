@@ -13,7 +13,7 @@ export default async function Page({
 }) {
   const { id } = await params;
   if (!isUuid(id)) notFound();
-  const [job] = await db.select().from(jobs).where(eq(jobs.id, id));
+  const [job] = await db().select().from(jobs).where(eq(jobs.id, id));
   const doc = job && (await readDocument(id));
   if (!job || !doc) notFound();
   return (

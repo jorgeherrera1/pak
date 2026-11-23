@@ -21,7 +21,7 @@ export async function POST(req: Request) {
   const id = crypto.randomUUID();
   await putBlob(`${id}/source.pdf`, bytes, "application/pdf");
   const now = new Date();
-  await db.transaction(async (tx) => {
+  await db().transaction(async (tx) => {
     await tx.insert(jobs).values({
       id,
       filename: upload.name,
@@ -36,13 +36,13 @@ export async function POST(req: Request) {
     run = await start(runJob, [id]);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    await db
+    await db()
       .update(jobs)
       .set({ status: "failed", error: message, finishedAt: new Date() })
       .where(eq(jobs.id, id));
     return Response.json({ error: "could not start the job" }, { status: 500 });
   }
-  await db
+  await db()
     .update(jobs)
     .set({ workflowRunId: run.runId })
     .where(eq(jobs.id, id));

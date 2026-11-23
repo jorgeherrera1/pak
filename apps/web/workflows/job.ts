@@ -18,13 +18,13 @@ import { runOperation, setOperation } from "@/lib/operations";
 
 async function setJob(jobId: string, patch: Partial<typeof jobs.$inferInsert>) {
   "use step";
-  await db.update(jobs).set(patch).where(eq(jobs.id, jobId));
+  await db().update(jobs).set(patch).where(eq(jobs.id, jobId));
 }
 
 async function parseOperation(jobId: string) {
   "use step";
   return runOperation(jobId, "parse", "parse", async () => {
-    const [job] = await db.select().from(jobs).where(eq(jobs.id, jobId));
+    const [job] = await db().select().from(jobs).where(eq(jobs.id, jobId));
     if (!job) throw new FatalError("job missing");
     const pdf = await getBlob(`${jobId}/source.pdf`);
     if (!pdf) throw new FatalError("source.pdf missing");

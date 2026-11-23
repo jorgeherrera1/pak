@@ -11,9 +11,9 @@ export async function GET(
   const { id } = await ctx.params;
   if (!isUuid(id))
     return Response.json({ error: "not found" }, { status: 404 });
-  const [job] = await db.select().from(jobs).where(eq(jobs.id, id));
+  const [job] = await db().select().from(jobs).where(eq(jobs.id, id));
   if (!job) return Response.json({ error: "not found" }, { status: 404 });
-  const ops = await db
+  const ops = await db()
     .select()
     .from(operations)
     .where(eq(operations.jobId, id));
