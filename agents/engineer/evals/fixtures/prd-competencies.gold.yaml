@@ -1,0 +1,906 @@
+runId: prd-competencies
+counters:
+  in-scope: 3
+  out-of-scope: 3
+  technology-stack: 2
+  FEAT: 3
+  FR: 9
+  MCK: 1
+  ux-constraint: 4
+  NFR-SCA: 1
+  ASM: 2
+  DEP: 2
+  user-class: 1
+  glossary: 4
+  ENT: 5
+  SI: 1
+  IC: 1
+  DR: 1
+product:
+  elementIds:
+    - paragraphs/1
+    - paragraphs/2
+    - paragraphs/4
+    - paragraphs/5
+    - paragraphs/6
+    - paragraphs/136
+    - paragraphs/139
+    - paragraphs/147
+  sourceText: One screen where a consultant tells us what they are good at - and
+    it sticks the moment they click.
+  fields:
+    name: Competencies
+    description: One screen where a consultant tells us what they are good at - and
+      it sticks the moment they click.
+    mission: We cannot answer "who knows Jira?" without asking people. The
+      competency data we do have is stale, and the app that holds it is the
+      reason why.
+    definition: "We are rebuilding it as a small Next.js/React app. The bet is
+      narrow: make recording a level a single click that needs no saving, and
+      people will keep their own profile current."
+    systemContext: The app stands alone. It owns its own PostgreSQL database and has
+      exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC
+      with the authorization-code flow and PKCE. The dashed line is a one-time
+      load of the catalogue and the existing assessments out of the old Power
+      Apps app; after go-live there is no connection between the two.
+statements:
+  - id: in-scope-01
+    type: in-scope
+    parentId: product
+    elementIds:
+      - paragraphs/17
+    sourceText: ":selected: / Browsing the competency catalogue and narrowing it down"
+    fields:
+      item: ":selected: / Browsing the competency catalogue and narrowing it down"
+      source: IN AND OUT
+  - id: in-scope-02
+    type: in-scope
+    parentId: product
+    elementIds:
+      - paragraphs/18
+    sourceText: ":selected: / Recording, changing and clearing your own level"
+    fields:
+      item: ":selected: / Recording, changing and clearing your own level"
+      source: IN AND OUT
+  - id: in-scope-03
+    type: in-scope
+    parentId: product
+    elementIds:
+      - paragraphs/19
+    sourceText: "/ Signing in with corporate SSO :selected:"
+    fields:
+      item: "/ Signing in with corporate SSO :selected:"
+      source: IN AND OUT
+  - id: out-of-scope-01
+    type: out-of-scope
+    parentId: product
+    elementIds:
+      - paragraphs/14
+      - paragraphs/21
+      - paragraphs/22
+    sourceText: x Manager, reviewer or validation views - claims are
+    fields:
+      item: x Manager, reviewer or validation views - claims are
+      sourceClause: WHO THIS IS FOR
+      reason: ":selected: self-declared and unmoderated"
+  - id: out-of-scope-02
+    type: out-of-scope
+    parentId: product
+    elementIds:
+      - paragraphs/23
+      - paragraphs/24
+    sourceText: × Any way to edit the catalogue itself; Types, Areas
+    fields:
+      item: × Any way to edit the catalogue itself; Types, Areas
+      reason: ":selected: and Competencies are maintained elsewhere and this app only
+        reads them"
+  - id: out-of-scope-03
+    type: out-of-scope
+    parentId: product
+    elementIds:
+      - paragraphs/25
+    sourceText: 'x Cross-employee search or reporting - no "who :selected: knows X",
+      no exports, no dashboards'
+    fields:
+      item: 'x Cross-employee search or reporting - no "who :selected: knows X", no
+        exports, no dashboards'
+  - id: technology-stack-01
+    type: technology-stack
+    parentId: product
+    elementIds:
+      - paragraphs/6
+      - paragraphs/139
+    sourceText: "We are rebuilding it as a small Next.js/React app. The bet is
+      narrow: make recording a level a single click that needs no saving, and
+      people will keep their own profile current."
+    fields:
+      layer: Application
+      element: Next.js/React
+      source: "We are rebuilding it as a small Next.js/React app. The bet is narrow:
+        make recording a level a single click that needs no saving, and people
+        will keep their own profile current."
+  - id: technology-stack-02
+    type: technology-stack
+    parentId: product
+    elementIds:
+      - paragraphs/139
+      - paragraphs/147
+    sourceText: The app stands alone. It owns its own PostgreSQL database and has
+      exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC
+      with the authorization-code flow and PKCE. The dashed line is a one-time
+      load of the catalogue and the existing assessments out of the old Power
+      Apps app; after go-live there is no connection between the two.
+    fields:
+      layer: Database
+      element: PostgreSQL
+      source: The app stands alone. It owns its own PostgreSQL database and has
+        exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC
+        with the authorization-code flow and PKCE. The dashed line is a one-time
+        load of the catalogue and the existing assessments out of the old Power
+        Apps app; after go-live there is no connection between the two.
+  - id: FEAT-01
+    type: feature
+    parentId: product
+    elementIds:
+      - paragraphs/17
+      - paragraphs/8
+      - paragraphs/86
+    sourceText: ":selected: / Browsing the competency catalogue and narrowing it down"
+    fields:
+      feature: Browse the catalogue
+      whatItDoes: ":selected: / Browsing the competency catalogue and narrowing it down"
+  - id: FEAT-02
+    type: feature
+    parentId: product
+    elementIds:
+      - paragraphs/18
+      - paragraphs/108
+      - paragraphs/141
+    sourceText: ":selected: / Recording, changing and clearing your own level"
+    fields:
+      feature: Record a level
+      whatItDoes: ":selected: / Recording, changing and clearing your own level"
+  - id: FEAT-03
+    type: feature
+    parentId: product
+    elementIds:
+      - paragraphs/19
+      - paragraphs/130
+    sourceText: "/ Signing in with corporate SSO :selected:"
+    fields:
+      feature: Sign in
+      whatItDoes: As a consultant, I want to just be signed in, because this is an
+        internal tool and I already have a corporate identity.
+  - id: FR-001
+    type: functional-requirement
+    parentId: FEAT-01
+    elementIds:
+      - paragraphs/87
+      - paragraphs/88
+      - paragraphs/89
+      - paragraphs/90
+      - paragraphs/91
+    sourceText: Picking a Type narrows the Area dropdown to that Type's Areas and
+      the grid to that Type's rows. The two dropdowns are a hierarchy, so Areas
+      from other Types never appear.
+    fields:
+      requirement: Picking a Type narrows the Area dropdown to that Type's Areas and
+        the grid to that Type's rows. The two dropdowns are a hierarchy, so
+        Areas from other Types never appear.
+  - id: FR-002
+    type: functional-requirement
+    parentId: FEAT-01
+    elementIds:
+      - paragraphs/92
+      - paragraphs/93
+      - paragraphs/94
+      - paragraphs/95
+      - paragraphs/96
+    sourceText: Typing in the competency box leaves only the rows whose competency
+      name contains what was typed, ignoring case and accents.
+    fields:
+      requirement: Typing in the competency box leaves only the rows whose competency
+        name contains what was typed, ignoring case and accents.
+  - id: FR-003
+    type: functional-requirement
+    parentId: FEAT-01
+    elementIds:
+      - paragraphs/97
+      - paragraphs/98
+      - paragraphs/99
+      - paragraphs/100
+      - paragraphs/101
+    sourceText: With Mine switched on, the grid shows only competencies where this
+      person has a level recorded. Everything else drops away.
+    fields:
+      requirement: With Mine switched on, the grid shows only competencies where this
+        person has a level recorded. Everything else drops away.
+  - id: FR-004
+    type: functional-requirement
+    parentId: FEAT-01
+    elementIds:
+      - paragraphs/10
+      - paragraphs/102
+      - paragraphs/103
+      - paragraphs/104
+      - paragraphs/105
+      - paragraphs/106
+      - paragraphs/107
+    sourceText: With New switched on, the grid shows only competencies that were
+      added to the catalogue after the last time this person changed any of
+      their own levels. "New" is personal and relative - it is not a fixed
+      window like "the last 30 days". Someone who last touched their levels
+      forty-five days ago sees exactly what the catalogue gained in those
+      forty-five days. Someone who has never recorded a level sees everything,
+      because all of it is new to them.
+    fields:
+      requirement: With New switched on, the grid shows only competencies that were
+        added to the catalogue after the last time this person changed any of
+        their own levels. "New" is personal and relative - it is not a fixed
+        window like "the last 30 days". Someone who last touched their levels
+        forty-five days ago sees exactly what the catalogue gained in those
+        forty-five days. Someone who has never recorded a level sees everything,
+        because all of it is new to them.
+  - id: FR-005
+    type: functional-requirement
+    parentId: FEAT-02
+    elementIds:
+      - paragraphs/109
+      - paragraphs/110
+      - paragraphs/111
+      - paragraphs/112
+      - paragraphs/113
+    sourceText: Ticking a level on a row that already holds a different one records
+      the new level and clears the old, leaving exactly one of Learner,
+      Advanced, Expert ticked on that row. Re-ticking the level you already hold
+      is a no-op - it should not generate a second write.
+    fields:
+      requirement: Ticking a level on a row that already holds a different one records
+        the new level and clears the old, leaving exactly one of Learner,
+        Advanced, Expert ticked on that row. Re-ticking the level you already
+        hold is a no-op - it should not generate a second write.
+  - id: FR-006
+    type: functional-requirement
+    parentId: FEAT-02
+    elementIds:
+      - paragraphs/114
+      - paragraphs/115
+      - paragraphs/116
+      - paragraphs/117
+      - paragraphs/118
+    sourceText: Unticking the level a row currently holds deletes the claim outright
+      and returns the row to unrated - which is a real state, distinct from
+      "Learner".
+    fields:
+      requirement: Unticking the level a row currently holds deletes the claim
+        outright and returns the row to unrated - which is a real state,
+        distinct from "Learner".
+  - id: FR-007
+    type: functional-requirement
+    parentId: FEAT-02
+    elementIds:
+      - paragraphs/8
+      - paragraphs/84
+      - paragraphs/119
+      - paragraphs/120
+      - paragraphs/121
+      - paragraphs/122
+      - paragraphs/123
+      - tables/1/cells/5
+    sourceText: Every level change is written as it happens, with no further action
+      from the person. There is no Save button, no counter, no "you have unsaved
+      changes" prompt.
+    fields:
+      requirement: Every level change is written as it happens, with no further action
+        from the person. There is no Save button, no counter, no "you have
+        unsaved changes" prompt.
+  - id: FR-008
+    type: functional-requirement
+    parentId: FEAT-02
+    elementIds:
+      - paragraphs/9
+      - paragraphs/124
+      - paragraphs/125
+      - paragraphs/126
+      - paragraphs/127
+      - paragraphs/128
+    sourceText: If a level change fails to write, the row goes back to its last
+      saved level and a non-blocking message names the competency and says it
+      was not saved. The person is never left looking at a tick that does not
+      exist in the database. A write that is merely slow, but succeeds, is left
+      alone.
+    fields:
+      requirement: If a level change fails to write, the row goes back to its last
+        saved level and a non-blocking message names the competency and says it
+        was not saved. The person is never left looking at a tick that does not
+        exist in the database. A write that is merely slow, but succeeds, is
+        left alone.
+  - id: FR-009
+    type: functional-requirement
+    parentId: FEAT-03
+    elementIds:
+      - paragraphs/130
+      - paragraphs/131
+      - paragraphs/132
+      - paragraphs/133
+      - paragraphs/134
+    sourceText: Opening any page unauthenticated sends the person to Microsoft Entra
+      ID and brings them back to the page they asked for, signed in as their
+      directory identity. Whose assessments are read and written is resolved
+      from that session - never from anything the browser sends.
+    fields:
+      requirement: Opening any page unauthenticated sends the person to Microsoft
+        Entra ID and brings them back to the page they asked for, signed in as
+        their directory identity. Whose assessments are read and written is
+        resolved from that session - never from anything the browser sends.
+  - id: MCK-01
+    type: mockup
+    parentId: FEAT-01
+    elementIds:
+      - figures/0
+      - paragraphs/74
+      - tables/0/cells/0
+      - tables/0/cells/1
+      - tables/0/cells/2
+      - tables/0/cells/3
+      - tables/0/cells/4
+      - tables/0/cells/5
+      - tables/0/cells/6
+      - tables/0/cells/7
+      - tables/0/cells/8
+      - tables/0/cells/9
+      - tables/0/cells/10
+      - tables/0/cells/11
+      - tables/0/cells/12
+      - tables/0/cells/13
+      - tables/0/cells/14
+      - tables/0/cells/15
+      - tables/0/cells/16
+      - tables/0/cells/17
+      - tables/0/cells/18
+      - tables/0/cells/19
+      - tables/0/cells/20
+      - tables/0/cells/21
+      - tables/0/cells/22
+      - tables/0/cells/23
+      - tables/0/cells/24
+      - tables/0/cells/25
+      - tables/0/cells/26
+      - tables/0/cells/27
+      - tables/0/cells/28
+      - tables/0/cells/29
+      - tables/0/cells/30
+      - tables/0/cells/31
+      - tables/0/cells/32
+      - tables/0/cells/33
+      - tables/0/cells/34
+      - tables/0/cells/35
+      - tables/0/cells/36
+      - tables/0/cells/37
+      - tables/0/cells/38
+      - tables/0/cells/39
+      - tables/0/cells/40
+      - tables/0/cells/41
+      - tables/0/cells/42
+      - tables/0/cells/43
+      - tables/0/cells/44
+      - tables/0/cells/45
+      - tables/0/cells/46
+      - tables/0/cells/47
+      - tables/0/cells/48
+      - tables/0/cells/49
+      - tables/0/cells/50
+      - tables/0/cells/51
+      - tables/0/cells/52
+      - tables/0/cells/53
+      - tables/0/cells/54
+    sourceText: Today's Power Apps screen, marked up in red with everything that
+      changes. Treat the picture as a sketch of intent, not a spec of pixels -
+      the wording and the behaviour below are what we are committing to.
+    fields:
+      screenName: Power Apps skills screen
+      disposition: Illustrative
+      source: Today's Power Apps screen, marked up in red with everything that
+        changes. Treat the picture as a sketch of intent, not a spec of pixels -
+        the wording and the behaviour below are what we are committing to.
+  - id: ux-constraint-01
+    type: ux-constraint
+    parentId: product
+    elementIds:
+      - paragraphs/76
+    sourceText: "The shape of the thing is right and we are keeping it: one flat
+      grid, one row per competency, showing its Type, its Area and its name,
+      with three tick columns for the level. Above the grid, a filter row with a
+      Type dropdown, an Area dropdown and a free-text box for the competency
+      name. Rows come out sorted by Type, then Area, then competency name, so
+      the grid reads the same way every time."
+    fields:
+      aspect: Layout
+      constraint: "The shape of the thing is right and we are keeping it: one flat
+        grid, one row per competency, showing its Type, its Area and its name,
+        with three tick columns for the level. Above the grid, a filter row with
+        a Type dropdown, an Area dropdown and a free-text box for the competency
+        name. Rows come out sorted by Type, then Area, then competency name, so
+        the grid reads the same way every time."
+  - id: ux-constraint-02
+    type: ux-constraint
+    parentId: product
+    elementIds:
+      - paragraphs/11
+      - tables/1/cells/0
+      - tables/1/cells/1
+    sourceText: The screen is titled Competencies, not Skills. The third column is
+      Competency, not Skill. The middle level is Advanced, not Practitioner.
+      Learner and Expert keep their names. This is the vocabulary we are
+      standardising on - it should be identical everywhere the app speaks.
+    fields:
+      aspect: Vocabulary
+      constraint: The screen is titled Competencies, not Skills. The third column is
+        Competency, not Skill. The middle level is Advanced, not Practitioner.
+        Learner and Expert keep their names. This is the vocabulary we are
+        standardising on - it should be identical everywhere the app speaks.
+  - id: ux-constraint-03
+    type: ux-constraint
+    parentId: product
+    elementIds:
+      - tables/1/cells/2
+      - tables/1/cells/3
+    sourceText: Mine and New leave the filter row and live in the header bar, where
+      they read as modes of the whole screen rather than one more filter among
+      four.
+    fields:
+      aspect: Header
+      constraint: Mine and New leave the filter row and live in the header bar, where
+        they read as modes of the whole screen rather than one more filter among
+        four.
+  - id: ux-constraint-04
+    type: ux-constraint
+    parentId: product
+    elementIds:
+      - tables/1/cells/4
+      - paragraphs/13
+    sourceText: "One audience, and only one: the consultant assessing themselves.
+      Around a thousand people have accounts; expect fifty or so on the app at
+      the same time on a busy day. They are not administrators. They come in
+      from a desktop browser, occasionally, for a few minutes, looking for the
+      handful of competencies that describe them inside a catalogue of roughly a
+      thousand."
+    fields:
+      aspect: Devices
+      constraint: "One audience, and only one: the consultant assessing themselves.
+        Around a thousand people have accounts; expect fifty or so on the app at
+        the same time on a busy day. They are not administrators. They come in
+        from a desktop browser, occasionally, for a few minutes, looking for the
+        handful of competencies that describe them inside a catalogue of roughly
+        a thousand."
+  - id: NFR-SCA-01
+    type: non-functional
+    parentId: product
+    elementIds:
+      - paragraphs/13
+    sourceText: "One audience, and only one: the consultant assessing themselves.
+      Around a thousand people have accounts; expect fifty or so on the app at
+      the same time on a busy day. They are not administrators. They come in
+      from a desktop browser, occasionally, for a few minutes, looking for the
+      handful of competencies that describe them inside a catalogue of roughly a
+      thousand."
+    fields:
+      category: SCA
+      requirement: "One audience, and only one: the consultant assessing themselves.
+        Around a thousand people have accounts; expect fifty or so on the app at
+        the same time on a busy day. They are not administrators. They come in
+        from a desktop browser, occasionally, for a few minutes, looking for the
+        handful of competencies that describe them inside a catalogue of roughly
+        a thousand."
+  - id: ASM-01
+    type: assumption
+    parentId: product
+    elementIds:
+      - paragraphs/156
+    sourceText: "- The catalogue keeps being maintained outside this app. If that
+      changes, someone has to build an editor and this document grows a
+      section."
+    fields:
+      assumption: "- The catalogue keeps being maintained outside this app. If that
+        changes, someone has to build an editor and this document grows a
+        section."
+      ifFalse: someone has to build an editor
+  - id: ASM-02
+    type: assumption
+    parentId: product
+    elementIds:
+      - paragraphs/157
+    sourceText: "- Everyone who needs the app already has a corporate Entra ID
+      account. There are no local accounts and no invitation flow."
+    fields:
+      assumption: "- Everyone who needs the app already has a corporate Entra ID
+        account. There are no local accounts and no invitation flow."
+  - id: DEP-01
+    type: dependency
+    parentId: product
+    elementIds:
+      - paragraphs/145
+      - paragraphs/146
+      - paragraphs/158
+    sourceText: "- Before launch we need an export of the current catalogue and
+      everyone's existing assessments out of Power Apps, from whoever owns that
+      app. It has to carry each competency's original date of addition - if the
+      migration stamps everything with today's date, the New toggle is wrong for
+      every existing employee from day one."
+    fields:
+      dependency: "- Before launch we need an export of the current catalogue and
+        everyone's existing assessments out of Power Apps, from whoever owns
+        that app. It has to carry each competency's original date of addition -
+        if the migration stamps everything with today's date, the New toggle is
+        wrong for every existing employee from day one."
+      provider: whoever owns the Power Apps app
+      neededBy: before launch
+  - id: DEP-02
+    type: dependency
+    parentId: product
+    elementIds:
+      - paragraphs/159
+    sourceText: "- At the start of the build we need an Entra ID app registration
+      per environment, with redirect URIs and credentials, from the corporate
+      identity team."
+    fields:
+      dependency: "- At the start of the build we need an Entra ID app registration
+        per environment, with redirect URIs and credentials, from the corporate
+        identity team."
+      provider: the corporate identity team
+      neededBy: the start of the build
+  - id: IC-01
+    type: integration-contract
+    parentId: product
+    elementIds:
+      - paragraphs/131
+      - paragraphs/143
+      - paragraphs/144
+      - paragraphs/147
+    sourceText: The app stands alone. It owns its own PostgreSQL database and has
+      exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC
+      with the authorization-code flow and PKCE. The dashed line is a one-time
+      load of the catalogue and the existing assessments out of the old Power
+      Apps app; after go-live there is no connection between the two.
+    fields:
+      title: Microsoft Entra ID sign-in
+      counterparty: Microsoft Entra ID, external
+      direction: authorization-code redirect
+      protocol: OIDC over HTTPS
+      auth: authorization-code flow with PKCE
+  - id: DR-01
+    type: data-requirement
+    parentId: product
+    elementIds:
+      - tables/2/cells/5
+    sourceText: "One person, one competency, one level: Learner, Advanced or Expert.
+      At most one of these per person per competency - the storage itself should
+      make two impossible, rather than relying on the screen to prevent it. No
+      record at all means unrated. This is personal data: we keep it until
+      twelve months after the person's account is disabled, and it never goes
+      into logs."
+    fields:
+      policy: "One person, one competency, one level: Learner, Advanced or Expert. At
+        most one of these per person per competency - the storage itself should
+        make two impossible, rather than relying on the screen to prevent it. No
+        record at all means unrated. This is personal data: we keep it until
+        twelve months after the person's account is disabled, and it never goes
+        into logs."
+entities:
+  - id: user-class-01
+    type: user-class
+    name: Consultant
+    parentId: product
+    elementIds:
+      - paragraphs/13
+      - paragraphs/137
+    sourceText: "One audience, and only one: the consultant assessing themselves.
+      Around a thousand people have accounts; expect fifty or so on the app at
+      the same time on a busy day. They are not administrators. They come in
+      from a desktop browser, occasionally, for a few minutes, looking for the
+      handful of competencies that describe them inside a catalogue of roughly a
+      thousand."
+    fields:
+      characteristics: "One audience, and only one: the consultant assessing
+        themselves. Around a thousand people have accounts; expect fifty or so
+        on the app at the same time on a busy day. They are not administrators.
+        They come in from a desktop browser, occasionally, for a few minutes,
+        looking for the handful of competencies that describe them inside a
+        catalogue of roughly a thousand."
+      volume: Around a thousand people have accounts; expect fifty or so on the app at
+        the same time.
+  - id: glossary-01
+    type: glossary
+    name: New
+    parentId: product
+    elementIds:
+      - paragraphs/103
+    sourceText: With New switched on, the grid shows only competencies that were
+      added to the catalogue after the last time this person changed any of
+      their own levels. "New" is personal and relative - it is not a fixed
+      window like "the last 30 days". Someone who last touched their levels
+      forty-five days ago sees exactly what the catalogue gained in those
+      forty-five days. Someone who has never recorded a level sees everything,
+      because all of it is new to them.
+    fields:
+      definition: With New switched on, the grid shows only competencies that were
+        added to the catalogue after the last time this person changed any of
+        their own levels. "New" is personal and relative - it is not a fixed
+        window like "the last 30 days". Someone who last touched their levels
+        forty-five days ago sees exactly what the catalogue gained in those
+        forty-five days. Someone who has never recorded a level sees everything,
+        because all of it is new to them.
+  - id: glossary-02
+    type: glossary
+    name: Mine
+    parentId: product
+    elementIds:
+      - paragraphs/98
+    sourceText: With Mine switched on, the grid shows only competencies where this
+      person has a level recorded. Everything else drops away.
+    fields:
+      definition: With Mine switched on, the grid shows only competencies where this
+        person has a level recorded. Everything else drops away.
+  - id: glossary-03
+    type: glossary
+    name: Unrated
+    parentId: product
+    elementIds:
+      - paragraphs/115
+    sourceText: Unticking the level a row currently holds deletes the claim outright
+      and returns the row to unrated - which is a real state, distinct from
+      "Learner".
+    fields:
+      definition: Unticking the level a row currently holds deletes the claim outright
+        and returns the row to unrated - which is a real state, distinct from
+        "Learner".
+  - id: glossary-04
+    type: glossary
+    name: Advanced
+    parentId: product
+    elementIds:
+      - tables/1/cells/1
+    sourceText: The screen is titled Competencies, not Skills. The third column is
+      Competency, not Skill. The middle level is Advanced, not Practitioner.
+      Learner and Expert keep their names. This is the vocabulary we are
+      standardising on - it should be identical everywhere the app speaks.
+    fields:
+      definition: The middle level is Advanced, not Practitioner.
+  - id: ENT-01
+    type: data-entity
+    name: Type
+    parentId: product
+    elementIds:
+      - tables/2/cells/0
+      - tables/2/cells/1
+      - paragraphs/88
+    sourceText: Read-only to this app - it is maintained elsewhere and loaded in.
+      Each competency carries the date it was added to the catalogue, which is
+      what the New toggle compares against.
+    fields:
+      definition: Read-only to this app - it is maintained elsewhere and loaded in.
+        Each competency carries the date it was added to the catalogue, which is
+        what the New toggle compares against.
+  - id: ENT-02
+    type: data-entity
+    name: Area
+    parentId: product
+    elementIds:
+      - tables/2/cells/0
+      - tables/2/cells/1
+      - paragraphs/88
+    sourceText: The catalogue Type - Area - Competency
+    fields:
+      definition: The catalogue Type - Area - Competency
+  - id: ENT-03
+    type: data-entity
+    name: Competency
+    parentId: product
+    elementIds:
+      - tables/2/cells/0
+      - tables/2/cells/1
+      - paragraphs/24
+    sourceText: Read-only to this app - it is maintained elsewhere and loaded in.
+      Each competency carries the date it was added to the catalogue, which is
+      what the New toggle compares against.
+    fields:
+      definition: Read-only to this app - it is maintained elsewhere and loaded in.
+        Each competency carries the date it was added to the catalogue, which is
+        what the New toggle compares against.
+      attributes: name; date added to the catalogue
+  - id: ENT-04
+    type: data-entity
+    name: Person
+    parentId: product
+    elementIds:
+      - tables/2/cells/2
+      - tables/2/cells/3
+      - paragraphs/138
+    sourceText: A directory identity, keyed on their Entra object id, created the
+      first time they sign in. It also carries the moment they last changed any
+      level. That timestamp is the other half of the New toggle, and it has to
+      survive them clearing every level they hold - so it belongs on the person,
+      not derived from their claims.
+    fields:
+      definition: A directory identity, keyed on their Entra object id, created the
+        first time they sign in. It also carries the moment they last changed
+        any level. That timestamp is the other half of the New toggle, and it
+        has to survive them clearing every level they hold - so it belongs on
+        the person, not derived from their claims.
+      attributes: Entra object id; moment they last changed any level
+  - id: ENT-05
+    type: data-entity
+    name: Claim
+    parentId: product
+    elementIds:
+      - tables/2/cells/4
+      - tables/2/cells/5
+    sourceText: "One person, one competency, one level: Learner, Advanced or Expert.
+      At most one of these per person per competency - the storage itself should
+      make two impossible, rather than relying on the screen to prevent it. No
+      record at all means unrated. This is personal data: we keep it until
+      twelve months after the person's account is disabled, and it never goes
+      into logs."
+    fields:
+      definition: "One person, one competency, one level: Learner, Advanced or Expert.
+        At most one of these per person per competency - the storage itself
+        should make two impossible, rather than relying on the screen to prevent
+        it. No record at all means unrated. This is personal data: we keep it
+        until twelve months after the person's account is disabled, and it never
+        goes into logs."
+      attributes: "one person, one competency, one level: Learner, Advanced or Expert"
+      invariants: At most one claim per person per competency. No record means unrated.
+  - id: SI-01
+    type: system-integration
+    name: Microsoft Entra ID
+    parentId: product
+    elementIds:
+      - paragraphs/140
+      - paragraphs/142
+      - paragraphs/147
+    sourceText: The app stands alone. It owns its own PostgreSQL database and has
+      exactly one live dependency - Microsoft Entra ID, for sign- in over OIDC
+      with the authorization-code flow and PKCE. The dashed line is a one-time
+      load of the catalogue and the existing assessments out of the old Power
+      Apps app; after go-live there is no connection between the two.
+    fields:
+      boundary: External
+      direction: outbound
+      protocol: OIDC
+      purpose: sign-in
+      criticality: exactly one live dependency
+relations:
+  - fromId: ENT-01
+    relation: RELATES_TO
+    toId: ENT-02
+    label: has
+    cardinality: one to many
+  - fromId: ENT-02
+    relation: RELATES_TO
+    toId: ENT-03
+    label: groups
+    cardinality: one to many
+  - fromId: ENT-01
+    relation: RELATES_TO
+    toId: ENT-03
+    label: classifies
+    cardinality: one to many
+  - fromId: ENT-04
+    relation: RELATES_TO
+    toId: ENT-05
+    label: records
+    cardinality: one to many
+  - fromId: ENT-03
+    relation: RELATES_TO
+    toId: ENT-05
+    label: is rated in
+    cardinality: one to many
+  - fromId: DR-01
+    relation: APPLIES_TO
+    toId: ENT-05
+  - fromId: SI-01
+    relation: CONTRACT
+    toId: IC-01
+  - fromId: user-class-01
+    relation: DRIVES
+    toId: FR-001
+  - fromId: user-class-01
+    relation: DRIVES
+    toId: FR-002
+  - fromId: user-class-01
+    relation: DRIVES
+    toId: FR-003
+  - fromId: user-class-01
+    relation: DRIVES
+    toId: FR-004
+  - fromId: user-class-01
+    relation: DRIVES
+    toId: FR-005
+  - fromId: user-class-01
+    relation: DRIVES
+    toId: FR-006
+  - fromId: user-class-01
+    relation: DRIVES
+    toId: FR-007
+  - fromId: user-class-01
+    relation: DRIVES
+    toId: FR-008
+  - fromId: user-class-01
+    relation: DRIVES
+    toId: FR-009
+  - fromId: MCK-01
+    relation: DERIVES
+    toId: FR-001
+  - fromId: MCK-01
+    relation: DERIVES
+    toId: FR-002
+  - fromId: MCK-01
+    relation: DERIVES
+    toId: FR-003
+  - fromId: MCK-01
+    relation: DERIVES
+    toId: FR-004
+  - fromId: MCK-01
+    relation: DERIVES
+    toId: FR-005
+  - fromId: MCK-01
+    relation: DERIVES
+    toId: FR-006
+  - fromId: MCK-01
+    relation: DERIVES
+    toId: FR-007
+  - fromId: MCK-01
+    relation: DERIVES
+    toId: FR-008
+  - fromId: MCK-01
+    relation: DERIVES
+    toId: ENT-03
+  - fromId: ASM-01
+    relation: AFFECTS
+    toId: FR-001
+  - fromId: ASM-02
+    relation: AFFECTS
+    toId: FR-009
+  - fromId: DEP-01
+    relation: AFFECTS
+    toId: FR-004
+  - fromId: DEP-02
+    relation: AFFECTS
+    toId: FR-009
+skipped:
+  - elementId: paragraphs/0
+    reason: section heading
+  - elementId: paragraphs/3
+    reason: section heading
+  - elementId: paragraphs/7
+    reason: section heading
+  - elementId: paragraphs/12
+    reason: section heading
+  - elementId: paragraphs/15
+    reason: section heading
+  - elementId: paragraphs/16
+    reason: section heading
+  - elementId: paragraphs/20
+    reason: section heading
+  - elementId: paragraphs/26
+    reason: section heading
+  - elementId: paragraphs/75
+    reason: section heading
+  - elementId: paragraphs/77
+    reason: section heading
+  - elementId: paragraphs/85
+    reason: section heading
+  - elementId: paragraphs/129
+    reason: section heading
+  - elementId: paragraphs/135
+    reason: section heading
+  - elementId: paragraphs/148
+    reason: section heading
+  - elementId: paragraphs/155
+    reason: section heading
+  - elementId: paragraphs/160
+    reason: section heading
+  - elementId: paragraphs/161
+    reason: open question, not a committed requirement
+  - elementId: paragraphs/162
+    reason: open question, not a committed requirement

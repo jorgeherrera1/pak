@@ -1,6 +1,6 @@
 ## Vocabulary
 
-A **job** moves through the **station** (Requirements engineering), which runs in **steps** (Parse, Annotate, Resolve); each step is a sequence of **operations**: Parse: upload, parse; Annotate: annotate; Resolve: resolve, link.
+A **job** moves through the **station** (Requirements engineering), which runs in **steps** (Parse, Engineer); each step is a sequence of **operations**: Parse: upload, parse; Engineer: engineer, check.
 
 ## Environment
 
@@ -11,17 +11,16 @@ WORKFLOW_TARGET_WORLD=@workflow/world-postgres
 WORKFLOW_POSTGRES_URL=postgres://localhost:5432/motivus_dev
 AZURE_STORAGE_CONNECTION_STRING=<from the storage account>
 AZURE_DI_ENDPOINT=https://<resource>.cognitiveservices.azure.com/
-AZURE_FOUNDRY_ENDPOINT=https://<resource>.services.ai.azure.com/openai/v1
-AZURE_API_KEY=<from AI Foundry>
+AZURE_API_KEY=<from the Document Intelligence resource>
+AGENT_SDK_URL=http://127.0.0.1:3000
 ```
 
 `WORKFLOW_TARGET_WORLD` tells the Workflow SDK to keep run state in Postgres instead of local
 files; `WORKFLOW_POSTGRES_URL` is the connection string, read by both the SDK and Drizzle. The
 worker dispatches work back to the app over HTTP and finds the app's port by itself. Files go
-to the `jobs` container. `AZURE_API_KEY` is the one key of the AI Foundry resource, read by
-both the parse step's Document Intelligence calls and the annotate and resolve steps' model calls;
-`AZURE_DI_ENDPOINT` is the URL the parse step calls and `AZURE_FOUNDRY_ENDPOINT` the URL the
-annotate and resolve steps call.
+to the `jobs` container. `AZURE_API_KEY` and `AZURE_DI_ENDPOINT` are the parse step's Document
+Intelligence credentials. `AGENT_SDK_URL` is the engineer process. The engineer also needs
+`CURSOR_API_KEY` in the environment of `agent-sdk dev`.
 
 Next.js loads `.env` from `apps/web`, so for local dev symlink the root file:
 `ln -s ../../.env apps/web/.env` (it is gitignored).
@@ -51,13 +50,14 @@ search_path from the `psql` line above.
 
 ## Run
 
-Run `pnpm run build` from the repo root once first, so `@dark-factory/parse` has a `dist/` to resolve.
+Run `pnpm run build` from the repo root once first, so the workspace packages have a `dist/` to resolve.
 
 ```bash
+agent-sdk dev agents/engineer --port 3000
 pnpm --filter web dev
 ```
 
-Serves on [http://localhost:3001](http://localhost:3001).
+The app serves on [http://localhost:3001](http://localhost:3001). The engineer serves on port 3000.
 
 ## Smoke test
 
@@ -68,7 +68,7 @@ curl -s -F file=@packages/parse/test/fixtures/prd-competencies.pdf http://localh
 curl -s http://localhost:3001/api/jobs/<id> | jq '.status, [.operations[] | {name, status}]'
 ```
 
-Expect 202 with an id; the job is done only once Resolve finishes too, so expect status `done` and all five operations `done` after a couple of minutes. Open `/jobs/<id>/parse` and `/jobs/<id>/annotate` to read the results.
+Expect 202 with an id. The job is done when parse, engineer, and check are done. The graph is in AGE; there is no result page yet.
 
 ## Integration test
 

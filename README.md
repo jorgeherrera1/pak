@@ -1,6 +1,6 @@
 # Pak
 
-Pak (`@dark-factory/*`) is a software factory. A requirements PDF goes in, and verified software comes out, with every fact traced through a knowledge graph stored in Apache AGE on Postgres. The station that exists today is requirements engineering: parse the document, annotate what each span is, then resolve the things it names.
+Pak (`@dark-factory/*`) is a software factory. A requirements PDF goes in, and verified software comes out, with every fact traced through a knowledge graph stored in Apache AGE on Postgres. The station that exists today is requirements engineering: parse the document, then an engineer builds the SRS graph from what the source states.
 
 The app is hosted on Azure. The graph stays in Postgres.
 
@@ -25,13 +25,10 @@ Run these from the repo root:
 - `pnpm run lint` — Biome
 - `pnpm run check-types` — TypeScript
 - `pnpm test` — unit tests, no network
-- `pnpm run test:integration` — integration tests (Azure and Postgres)
+- `pnpm run test:integration` — integration tests (Azure, Postgres, and the local engineer)
 - `pnpm run parse <file.pdf> <outDir>`
-- `pnpm run annotate <parsed.json> <outDir>`
-- `pnpm run resolve <parsed.json> <annotate.json> <outDir>`
-- `pnpm run pipeline <file.pdf> <outDir>` — parse, then annotate, then resolve
 - `pnpm --filter web db:migrate` — apply SQL migrations
 
-`pnpm run resolve` and `pnpm run pipeline` build `@dark-factory/annotate` first.
+The web app also needs the engineer process: `agent-sdk dev agents/engineer --port 3000`.
 
-Packages: `packages/parse`, `packages/annotate`, `packages/resolve`, `packages/knowledge-graph`, and `apps/web`.
+Packages: `packages/parse`, `packages/srs`, `packages/knowledge-graph`, `agents/engineer`, and `apps/web`.

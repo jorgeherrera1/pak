@@ -9,9 +9,8 @@ export default function Page() {
         </span>
         <h1 className="font-display text-h3">New job</h1>
         <p className="max-w-[60ch] text-pretty text-muted-foreground">
-          Drop the source document — an RFP, a PRD, a spec. It goes down the
-          line: parsed into structure, then annotated with what every passage
-          is.
+          Drop the source document. It is parsed into a document tree, then the
+          engineer builds the requirements graph from what the source states.
         </p>
       </div>
       <Intake />

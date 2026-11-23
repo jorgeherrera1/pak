@@ -40,11 +40,10 @@ export type StepEdge = {
   type?: "animated";
 };
 
-/** Station 1's steps, in assembly-line order. Nothing else knows these names. A step's node links to its page only when it has one. */
+/** Station 1's steps, in assembly-line order. Nothing else knows these names. */
 export const STEPS = [
-  { id: "parse", label: "Parse", page: true },
-  { id: "annotate", label: "Annotate", page: true },
-  { id: "resolve", label: "Resolve", page: false },
+  { id: "parse", label: "Parse" },
+  { id: "engineer", label: "Engineer" },
 ] as const;
 
 const NODE_GAP = 420;
@@ -73,10 +72,6 @@ export function toCanvas(job: JobResponse): {
         status: stepStatus(operations),
         operations,
         handles: { target: i > 0, source: i < STEPS.length - 1 },
-        ...(step.page &&
-          stepStatus(operations) === "done" && {
-            href: `/jobs/${job.id}/${step.id}`,
-          }),
       },
     };
   });
