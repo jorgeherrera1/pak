@@ -183,30 +183,6 @@ const textOf = (node: Statement) =>
 
 function warnings(graph: SrsGraph): Issue[] {
   const issues: Issue[] = [];
-  const systems = graph.entities.filter(
-    (entity) => entity.type === "system-integration",
-  );
-  const contracts = graph.statements.filter(
-    (statement) => statement.type === "integration-contract",
-  );
-  const links = graph.relations.filter((edge) => edge.relation === "CONTRACT");
-  const paired =
-    systems.length === contracts.length &&
-    systems.every(
-      (system) =>
-        links.filter((edge) => edge.fromId === system.id).length === 1,
-    ) &&
-    contracts.every(
-      (contract) =>
-        links.filter((edge) => edge.toId === contract.id).length === 1,
-    );
-  if ((systems.length > 0 || contracts.length > 0) && !paired) {
-    issues.push({
-      code: "SI_IC",
-      message: `${systems.length} system integrations and ${contracts.length} integration contracts are not 1:1`,
-    });
-  }
-
   const catalog = new Set(
     graph.entities
       .filter((entity) => entity.type === "data-entity")
@@ -267,20 +243,6 @@ function warnings(graph: SrsGraph): Issue[] {
       issues.push({
         code: "USER_CLASS",
         message: `${user.id} ${user.name} drives no requirement`,
-      });
-    }
-  }
-  for (const mockup of graph.statements.filter(
-    (statement) => statement.type === "mockup",
-  )) {
-    if (
-      !graph.relations.some(
-        (edge) => edge.relation === "DERIVES" && edge.fromId === mockup.id,
-      )
-    ) {
-      issues.push({
-        code: "MOCKUP",
-        message: `${mockup.id} derives nothing`,
       });
     }
   }

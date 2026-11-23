@@ -33,19 +33,14 @@ Entities. Each one is added with add_entity. The name is unique for that type. E
 - system-integration (System Integration). Id: SI-nn. Name is the source's name for it. Fields: boundary (Int / Ext: Internal | External); direction (Direction); protocol (Protocol); purpose (Purpose); criticality (Criticality).
 - data-entity (Data entity). Id: ENT-nn. Name is the source's name for it. Fields: definition (Definition & identity); attributes (Key attributes); invariants (Invariants).
 
-Relations. Use relate. These are the only edges, and only between the types named. RELATES_TO also takes label and cardinality, the words the source uses for the relationship.
+Relations. Use relate. These are the only edges, and only between the types named. A user class drives each functional requirement stated for that user. A mockup derives each functional requirement whose behavior the exhibit shows. An assumption or dependency affects the functional requirement that changes if it is false. Do not draw DEPENDS_ON. RELATES_TO also takes label and cardinality, the words the source uses for the relationship.
 
-- DEPENDS_ON: functional-requirement or operational -> data-entity or integration-contract or functional-requirement or configurable.
 - DERIVES: mockup -> functional-requirement or usability or data-entity.
-- AFFECTS: assumption or dependency -> in-scope or out-of-scope or technology-stack or configurable or feature or mockup or functional-requirement or scenario or assumption or dependency or integration-contract or data-requirement or ux-constraint or usability or non-functional or operational.
-- DRIVES: user-class -> in-scope or out-of-scope or technology-stack or configurable or feature or mockup or functional-requirement or scenario or assumption or dependency or integration-contract or data-requirement or ux-constraint or usability or non-functional or operational.
+- AFFECTS: assumption or dependency -> functional-requirement.
+- DRIVES: user-class -> functional-requirement.
 - APPLIES_TO: data-requirement -> data-entity.
 - CONTRACT: system-integration -> integration-contract.
 - RELATES_TO: data-entity -> data-entity.
-- REFERS_TO: glossary -> data-entity.
-- COVERS: out-of-scope -> functional-requirement.
-
-A column that names another node is a relation, not a sentence in a field. dependsOn may repeat the source's wording; the edge is the link.
 
 Grounding. Every statement and entity cites at least one element id that read_document or find_text returned, and carries sourceText in the source's words. The tools reject an element id that is not in the document. There is no separate exact-match check.
 

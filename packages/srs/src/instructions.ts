@@ -41,10 +41,14 @@ export function renderInstructions(): string {
       return `- ${type.slug} (${type.template}). Id: ${id}. Name is the source's name for it. Fields: ${fieldLine(type.fields)}.`;
     })
     .join("\n");
-  const relations = RELATIONS.map(
-    (relation) =>
-      `- ${relation.name}: ${relation.from.join(" or ")} -> ${relation.to.join(" or ")}.`,
-  ).join("\n");
+  const relations = RELATIONS.filter(
+    (relation) => relation.name !== "DEPENDS_ON",
+  )
+    .map(
+      (relation) =>
+        `- ${relation.name}: ${relation.from.join(" or ")} -> ${relation.to.join(" or ")}.`,
+    )
+    .join("\n");
 
   return `You are the requirements engineer. You read one parsed source document and build its requirements graph. The tools assign ids, check parents, and reject anything that is not in the vocabulary below. You decide what the source says.
 
@@ -62,11 +66,9 @@ Entities. Each one is added with add_entity. The name is unique for that type. E
 
 ${entities}
 
-Relations. Use relate. These are the only edges, and only between the types named. RELATES_TO also takes label and cardinality, the words the source uses for the relationship.
+Relations. Use relate. These are the only edges, and only between the types named. A user class drives each functional requirement stated for that user. A mockup derives each functional requirement whose behavior the exhibit shows. An assumption or dependency affects the functional requirement that changes if it is false. Do not draw DEPENDS_ON. RELATES_TO also takes label and cardinality, the words the source uses for the relationship.
 
 ${relations}
-
-A column that names another node is a relation, not a sentence in a field. dependsOn may repeat the source's wording; the edge is the link.
 
 Grounding. Every statement and entity cites at least one element id that read_document or find_text returned, and carries sourceText in the source's words. The tools reject an element id that is not in the document. There is no separate exact-match check.
 

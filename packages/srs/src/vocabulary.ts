@@ -417,10 +417,6 @@ export type StatementSlug = OfSide<"statement">["slug"];
 
 export type EntitySlug = OfSide<"entity">["slug"];
 
-const statementSlugs = TYPES.filter((t) => t.side === "statement").map(
-  (t) => t.slug,
-);
-
 export const RELATIONS = [
   {
     name: "DEPENDS_ON",
@@ -437,8 +433,12 @@ export const RELATIONS = [
     from: ["mockup"],
     to: ["functional-requirement", "usability", "data-entity"],
   },
-  { name: "AFFECTS", from: ["assumption", "dependency"], to: statementSlugs },
-  { name: "DRIVES", from: ["user-class"], to: statementSlugs },
+  {
+    name: "AFFECTS",
+    from: ["assumption", "dependency"],
+    to: ["functional-requirement"],
+  },
+  { name: "DRIVES", from: ["user-class"], to: ["functional-requirement"] },
   { name: "APPLIES_TO", from: ["data-requirement"], to: ["data-entity"] },
   {
     name: "CONTRACT",
@@ -446,8 +446,6 @@ export const RELATIONS = [
     to: ["integration-contract"],
   },
   { name: "RELATES_TO", from: ["data-entity"], to: ["data-entity"] },
-  { name: "REFERS_TO", from: ["glossary"], to: ["data-entity"] },
-  { name: "COVERS", from: ["out-of-scope"], to: ["functional-requirement"] },
 ] as const satisfies readonly RelationSpec[];
 
 export const typeBySlug = (slug: string): NodeType | undefined =>
